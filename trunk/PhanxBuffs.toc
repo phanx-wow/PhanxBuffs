@@ -1,0 +1,15 @@
+## Interface: 30300
+## Version: 1
+
+## Title: PhanxBuffs
+## Notes: Basic replacement for player buff, debuff, and temporary enchant frames.
+## Author: Phanx
+
+## OptionalDependencies: LibAboutPanel, LibSharedMedia-3.0, PhanxConfigWidgets
+## SavedVariables: PhanxBuffsDB
+
+PhanxBuffs.lua
+
+Buffs.lua
+Debuffs.lua
+Enchants.lua
