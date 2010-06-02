@@ -1,5 +1,5 @@
 ## Interface: 30300
-## Version: 1
+## Version: 3.3.3.wowi:revision-beta
 
 ## Title: PhanxBuffs
 ## Notes: Basic replacement for player buff, debuff, and temporary enchant frames.
@@ -7,6 +7,15 @@
 
 ## OptionalDependencies: LibAboutPanel, LibSharedMedia-3.0, PhanxConfigWidgets
 ## SavedVariables: PhanxBuffsDB
+
+Libs\LibStub\LibStub.lua
+Libs\CallbackHandler-1.0\CallbackHandler-1.0.lua
+Libs\LibSharedMedia-3.0\LibSharedMedia-3.0.lua
+Libs\PhanxConfig-Checkbox\PhanxConfig-Checkbox.lua
+Libs\PhanxConfig-Dropdown\PhanxConfig-Dropdown.lua
+Libs\PhanxConfig-ScrollingDropdown\PhanxConfig-ScrollingDropdown.lua
+Libs\PhanxConfig-Slider\PhanxConfig-Slider.lua
+Libs\LibAboutPanel\LibAboutPanel.lua
 
 PhanxBuffs.lua
 
