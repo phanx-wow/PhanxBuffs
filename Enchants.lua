@@ -19,20 +19,32 @@ local GetFontFile = ns.GetFontFile
 
 local function button_OnEnter(self)
 	GameTooltip:SetOwner(self, "ANCHOR_BOTTOMLEFT")
+	local addTime
 	if self.arg1 and self.arg2 then
 		if bagsDirty then
 			PhanxTempEnchantFrame:UpdateTempEnchants()
 			bagsDirty = nil
 		end
 		GameTooltip:SetBagItem(self.arg1, self.arg2)
+		addTime = true
 	elseif self.arg1 then
 		if spellsDirty then
 			PhanxTempEnchantFrame:UpdateTempEnchants()
 			spellsDirty = nil
 		end
 		GameTooltip:SetSpell(self.arg1, BOOKTYPE_SPELL)
+		addTime = true
 	else
 		GameTooltip:SetInventoryItem("player", self:GetID())
+	end
+	if addTime then
+		local remaining = button.expires - GetTime()
+		if remaining > 59 then
+			GameTooltip:AddLine(math.floor((remaining / 60) + 0.5) .. " minutes remaining")
+		else
+			GameTooltip:AddLine(math.floor(remaining + 0.5) .. " seconds remaining")
+		end
+		GameTooltip:Show()
 	end
 end
 
@@ -191,6 +203,7 @@ function PhanxTempEnchantFrame:UpdateTempEnchants()
 
 		b.icon:SetTexture(GetInventoryItemTexture("player", MAIN_HAND_SLOT))
 		b.arg1, b.arg2, b.tempEnchantString = nil, nil, nil
+		b.expires = mainHandExpiration
 
 		if db.showTempEnchantSources then
 			self.tooltip:SetInventoryItem("player", MAIN_HAND_SLOT)
@@ -219,6 +232,7 @@ function PhanxTempEnchantFrame:UpdateTempEnchants()
 
 		self.tooltip:SetInventoryItem("player", OFF_HAND_SLOT)
 		b.arg1, b.arg2, b.tempEnchantString = nil, nil, nil
+		b.expires = mainHandExpiration
 
 		self.tooltip:SetInventoryItem("player", OFF_HAND_SLOT)
 		local tempEnchantString, tempEnchantFindFunc = FindTempEnchantString()
