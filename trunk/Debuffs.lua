@@ -6,6 +6,16 @@ PhanxDebuffFrame = CreateFrame("Frame")
 
 local db
 local ignore = {
+	["Bested Darnassus"] = true,
+	["Bested Gnomeregan"] = true,
+	["Bested Ironforge"] = true,
+	["Bested Orgrimmar"] = true,
+	["Bested Sen'jin"] = true,
+	["Bested Silvermoon"] = true,
+	["Bested Stormwind"] = true,
+	["Bested the Exodar"] = true,
+	["Bested the Undercity"] = true,
+	["Bested Thunder Bluff"] = true,
 	["Chill of the Throne"] = true,
 	["Weakened Soul"] = true,
 }
