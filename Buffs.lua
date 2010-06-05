@@ -1,11 +1,19 @@
 --[[--------------------------------------------------------------------
-	PhanxBuffs - Buffs
+	PhanxBuffs
+	Replaces default player buff, debuff, and temporary enchant frames.
+	by Phanx < addons@phanx.net >
+	http://www.wowinterface.com/downloads/info-PhanxBuffs.html
+	http://wow.curse.com/downloads/wow-addons/details/phanxbuffs.aspx
+	Copyright © 2010 Alyssa "Phanx" Kinley
+	See README for license terms and other information.
 ----------------------------------------------------------------------]]
 
 PhanxBuffFrame = CreateFrame("Frame")
 
 local db
-local ignoreBuffs = { }
+local ignoreBuffs = {
+	["Fake Buff"] = true,
+}
 
 local buffs = { }
 local buffUnit = "player"
