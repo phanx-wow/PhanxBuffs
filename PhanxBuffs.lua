@@ -246,6 +246,27 @@ optionsPanel:SetScript("OnShow", function(self)
 
 	-------------------------------------------------------------------
 
+	local showBuffSources = self:CreateCheckbox(L["Show buff casters"])
+	showBuffSources.desc = L["Buff tooltips show the name of the party or raid member who cast the buff on you."]
+	showBuffSources:SetPoint("TOPLEFT", debuffSpacing.container, "BOTTOMLEFT", 2, -8)
+	showBuffSources:SetChecked(db.showBuffSources)
+	function showBuffSources:OnClick(checked)
+		db.showBuffSources = checked
+	end
+
+	-------------------------------------------------------------------
+
+	local showTempEnchantSources = self:CreateCheckbox(L["Show weapon buff sources"])
+	showTempEnchantSources.desc = L["Weapon buff icons and tooltips show the spell or item that buffed your weapon, instead of the weapon itself."]
+	showTempEnchantSources:SetPoint("TOPLEFT", showBuffSources, "BOTTOMLEFT", 0, -8)
+	showTempEnchantSources:SetChecked(db.showTempEnchantSources)
+	function showTempEnchantSources:OnClick(checked)
+		db.showTempEnchantSources = checked
+		PhanxTempEnchantFrame:UpdateTempEnchants()
+	end
+
+	-------------------------------------------------------------------
+
 	local fontFace = self:CreateScrollingDropdown(L["Font Face"], fonts)
 	fontFace.container.desc = L["Change the font face for stack count and timer text."]
 	fontFace.container:SetPoint("TOPLEFT", notes, "BOTTOM", 8, -8)
@@ -355,27 +376,6 @@ optionsPanel:SetScript("OnShow", function(self)
 
 	-------------------------------------------------------------------
 
-	local showBuffSources = self:CreateCheckbox(L["Buff Sources"])
-	showBuffSources.desc = L["Show the name of the player who cast buffs in their tooltips."]
-	showBuffSources:SetPoint("TOPLEFT", fontOutline.container, "BOTTOMLEFT", 0, -24)
-	showBuffSources:SetChecked(db.showBuffSources)
-	function showBuffSources:OnClick(checked)
-		db.showBuffSources = checked
-	end
-
-	-------------------------------------------------------------------
-
-	local showTempEnchantSources = self:CreateCheckbox(L["Weapon Buff Sources"])
-	showTempEnchantSources.desc = L["Show weapon buffs as the buffing spell or item, instead of the buffed weapon."]
-	showTempEnchantSources:SetPoint("TOPLEFT", showBuffSources, "BOTTOMLEFT", 0, -28)
-	showTempEnchantSources:SetChecked(db.showTempEnchantSources)
-	function showTempEnchantSources:OnClick(checked)
-		db.showTempEnchantSources = checked
-		PhanxTempEnchantFrame:UpdateTempEnchants()
-	end
-
-	-------------------------------------------------------------------
-
 	self:SetScript("OnShow", nil)
 end)
 
@@ -386,8 +386,8 @@ if AboutPanel then
 	AboutPanel.new("PhanxBuffs", "PhanxBuffs")
 end
 
-SLASH_PhanxBuffs1 = "/pbuff"
-SlashCmdList.PhanxBuffs = function() InterfaceOptionsFrame_OpenToCategory(optionsPanel) end
+SLASH_PHANXBUFFS1 = "/pbuff"
+SlashCmdList.PHANXBUFFS = function() InterfaceOptionsFrame_OpenToCategory(optionsPanel) end
 
 ------------------------------------------------------------------------
 
