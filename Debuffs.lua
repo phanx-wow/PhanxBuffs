@@ -129,12 +129,12 @@ end
 local tablePool = { }
 
 local function newTable()
-	local t = next(tablePool) or {}
+	local t = next(tablePool) or { }
 	tablePool[t] = nil
 	return t
 end
 
-local function delTable(t)
+local function remTable(t)
 	if type(t) == "table" then
 		for k, v in pairs(t) do
 			t[k] = nil
@@ -146,9 +146,11 @@ local function delTable(t)
 	return nil
 end
 
+------------------------------------------------------------------------
+
 function PhanxDebuffFrame:UpdateDebuffs()
 	for i, t in ipairs(debuffs) do
-		debuffs[i] = delTable(t)
+		debuffs[i] = remTable(t)
 	end
 
 	local i = 1
@@ -233,8 +235,7 @@ function PhanxDebuffFrame:OnUpdate(elapsed)
 					local remaining = debuff.expires - GetTime()
 					if remaining < 0 then
 						-- bugged out, kill it
-						local t = table.remove(debuffs, button:GetID())
-						delTable(t)
+						remTable( table.remove(debuffs, button:GetID()) )
 						dirty = true
 					elseif remaining <= 30.5 then
 						button.timer:SetText( math.floor(remaining + 0.5) )

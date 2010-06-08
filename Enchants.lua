@@ -289,7 +289,9 @@ function PhanxTempEnchantFrame:OnUpdate(elapsed)
 
 			if button.expires and button.expires > 0 then
 				local remaining = button.expires - GetTime()
-				if remaining <= 30.5 then
+				if remaining < 0 then
+					dirty = true
+				elseif remaining <= 30.5 then
 					button.timer:SetText( math.floor(remaining + 0.5) )
 				else
 					button.timer:SetText()
