@@ -232,7 +232,7 @@ function PhanxBuffFrame:OnUpdate(elapsed)
 					local remaining = buff.expires - GetTime()
 					if remaining < 0 then
 						-- bugged out, kill it
-						remTable( table.remove(debuffs, button:GetID()) )
+						remTable( table.remove(buffs, button:GetID()) )
 						dirty = true
 					elseif remaining <= 30.5 then
 						button.timer:SetText( math.floor(remaining + 0.5) )
