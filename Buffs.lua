@@ -139,7 +139,7 @@ local function newTable()
 	return t
 end
 
-local function delTable(t)
+local function remTable(t)
 	if type(t) == "table" then
 		for k, v in pairs(t) do
 			t[k] = nil
@@ -151,9 +151,11 @@ local function delTable(t)
 	return nil
 end
 
+------------------------------------------------------------------------
+
 function PhanxBuffFrame:UpdateBuffs()
 	for i, t in ipairs(buffs) do
-		buffs[i] = delTable(t)
+		buffs[i] = remTable(t)
 	end
 
 	local i = 1
@@ -230,8 +232,7 @@ function PhanxBuffFrame:OnUpdate(elapsed)
 					local remaining = buff.expires - GetTime()
 					if remaining < 0 then
 						-- bugged out, kill it
-						local t = table.remove(buffs, button:GetID())
-						delTable(t)
+						remTable( table.remove(debuffs, button:GetID()) )
 						dirty = true
 					elseif remaining <= 30.5 then
 						button.timer:SetText( math.floor(remaining + 0.5) )
