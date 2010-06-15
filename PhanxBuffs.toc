@@ -25,8 +25,15 @@ Libs\PhanxConfig-Slider\PhanxConfig-Slider.lua
 Libs\LibAboutPanel\LibAboutPanel.lua
 
 PhanxBuffs.lua
-Localization.lua
 
 Buffs.lua
 Debuffs.lua
 Enchants.lua
+
+Localization\deDE.lua
+Localization\esES.lua
+Localization\frFR.lua
+Localization\ruRU.lua
+Localization\koKR.lua
+Localization\zhCN.lua
+Localization\zhTW.lua
