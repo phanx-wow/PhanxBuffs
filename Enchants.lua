@@ -19,6 +19,7 @@ local OFF_HAND_SLOT = GetInventorySlotInfo("SecondaryHandSlot")
 
 local _, ns = ...
 local GetFontFile = ns.GetFontFile
+local L = ns.L
 
 ------------------------------------------------------------------------
 
