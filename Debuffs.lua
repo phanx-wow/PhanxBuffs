@@ -2,10 +2,9 @@
 	PhanxBuffs
 	Replaces default player buff, debuff, and temporary enchant frames.
 	by Phanx < addons@phanx.net >
-	http://www.wowinterface.com/downloads/info-PhanxBuffs.html
+	http://www.wowinterface.com/downloads/info16874-PhanxBuffs.html
 	http://wow.curse.com/downloads/wow-addons/details/phanxbuffs.aspx
-	Copyright © 2010 Alyssa "Phanx" Kinley
-	See README for license terms and other information.
+	Copyright © 2010 Phanx. See README for license terms.
 ----------------------------------------------------------------------]]
 
 PhanxDebuffFrame = CreateFrame("Frame")
@@ -38,6 +37,8 @@ local DebuffTypeColor = {
 
 local _, ns = ...
 local GetFontFile = ns.GetFontFile
+
+local ButtonFacade
 
 ------------------------------------------------------------------------
 
@@ -81,7 +82,9 @@ local buttons = setmetatable({ }, { __index = function(t, i)
 	f.timer:SetPoint("TOP", f, "BOTTOM")
 	f.timer:SetFont(GetFontFile(db.fontFace), 12, "OUTLINE")
 
-	if PhanxBorder then
+	if ButtonFacade then
+		ButtonFacade:Group("PhanxBuffs"):AddButton(f)
+	elseif PhanxBorder then
 		PhanxBorder.AddBorder(f, 10)
 		f.icon:SetTexCoord(0.07, 0.93, 0.07, 0.93)
 	else
@@ -191,7 +194,12 @@ function PhanxDebuffFrame:UpdateDebuffs()
 
 		local debuffTypeColor = DebuffTypeColor[debuff.kind]
 		if debuffTypeColor then
-			f:SetBorderColor(unpack(debuffTypeColor))
+			if ButtonFacade then
+				local r, g, b = unpack(debuffTypeColor)
+				ButtonFacade:SetBorderColor(f, r, g, b, (db.skin and db.skin.Colors and db.skin.Colors.Normal) and db.skin.Colors.Normal.a or 1)
+			else
+				f:SetBorderColor(unpack(debuffTypeColor))
+			end
 			if ENABLE_COLORBLIND_MODE == "1" then
 				f.symbol:Show()
 				f.symbol:SetText(DebuffTypeSymbol[debuff.kind])
@@ -199,7 +207,13 @@ function PhanxDebuffFrame:UpdateDebuffs()
 				f.symbol:Hide()
 			end
 		else
-			f:SetBorderColor(1, 0, 0, 1)
+			if ButtonFacade then
+				local color = db.skin and db.skin.Colors and db.skin.Colors.Normal
+				local r, g, b, a = color and color.r or 1, color and color.g or 0, color and color.b or 0, color and color.a or 1
+				ButtonFacade:SetBorderColor(f, 1, 0, 0, 1)
+			else
+				f:SetBorderColor(1, 0, 0)
+			end
 			f.symbol:Hide()
 		end
 
@@ -258,6 +272,7 @@ PhanxDebuffFrame:SetScript("OnEvent", function(self, event, unit)
 		end
 	return end
 	if event == "PLAYER_ENTERING_WORLD" then
+		debuffUnit = UnitInVehicle("player") and "vehicle" or "player"
 		dirty = true
 	return end
 	if event == "UNIT_ENTERING_VEHICLE" then
@@ -283,6 +298,8 @@ function PhanxDebuffFrame:Load()
 	for k, v in pairs(ignore) do
 		db.ignoreDebuffs[k] = v
 	end
+
+	ButtonFacade = LibStub("LibButtonFacade", true)
 
 	self:SetPoint("BOTTOMRIGHT", Minimap, "BOTTOMLEFT", -6, -2)
 	self:SetWidth(UIParent:GetWidth() - Minimap:GetWidth() - 45)

@@ -55,7 +55,7 @@ Feedback
 
 License
 
-	Copyright ©2006–2010 Alyssa "Phanx" Kinley.
+	Copyright © 2010 Phanx
 
 	The contents of this addon, excluding third-party resources, are
 	copyrighted to its author with all rights reserved, under United

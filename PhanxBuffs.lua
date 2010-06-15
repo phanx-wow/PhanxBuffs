@@ -2,10 +2,9 @@
 	PhanxBuffs
 	Replaces default player buff, debuff, and temporary enchant frames.
 	by Phanx < addons@phanx.net >
-	http://www.wowinterface.com/downloads/info-PhanxBuffs.html
+	http://www.wowinterface.com/downloads/info16874-PhanxBuffs.html
 	http://wow.curse.com/downloads/wow-addons/details/phanxbuffs.aspx
-	Copyright © 2010 Alyssa "Phanx" Kinley
-	See README for license terms and other information.
+	Copyright © 2010 Phanx. See README for license terms.
 ----------------------------------------------------------------------]]
 
 local db
@@ -33,6 +32,8 @@ end })
 
 ------------------------------------------------------------------------
 
+local ButtonFacade, SharedMedia
+
 local fonts = { }
 
 local defaultFonts = {
@@ -41,8 +42,6 @@ local defaultFonts = {
 	["Morpheus"] = [[Fonts\MORPHEUS.ttf]],
 	["Skurri"] = [[Fonts\skurri.ttf]],
 }
-
-local SharedMedia
 
 ------------------------------------------------------------------------
 
@@ -107,6 +106,21 @@ optionsPanel:SetScript("OnEvent", function(self)
 		if type(db[k]) ~= type(v) then
 			db[k] = v
 		end
+	end
+
+	ButtonFacade = LibStub("LibButtonFacade", true)
+
+	if ButtonFacade then
+		ButtonFacade:Group("PhanxBuffs")
+		ButtonFacade:RegisterSkinCallback("PhanxBuffs", function(SkinID, Gloss, Backdrop, _, Button, Colors)
+			if not PhanxBuffsDB.skin then
+				PhanxBuffsDB.skin = { }
+			end
+			PhanxBuffsDB.skin.SkinID = SkinID
+			PhanxBuffsDB.skin.Gloss = Gloss
+			PhanxBuffsDB.skin.Backdrop = Backdrop
+			PhanxBuffsDB.skin.Colors = Colors
+		end)
 	end
 
 	SharedMedia = LibStub("LibSharedMedia-3.0", true)
