@@ -5,11 +5,12 @@
 ## Notes: Basic replacement for player buff, debuff, and temporary enchant frames.
 ## Author: Phanx
 ## X-Email: addons@phanx.net
-## X-Copyright: Copyright 2010 Alyssa "Phanx" Kinley
-## X-License: Do not redistribute. Some code reuse permitted. See README.
-## X-Website: http://www.wowinterface.com/downloads/info8243-PhanxChat.html
+## X-Copyright: Copyright © 2010 Phanx
+## X-License: See README for license terms.
 ## X-CompatibleLocales: enUS, deDE, esES, esMX, frFR, koKR, ruRU, zhCN, zhTW
 ## X-Localizations: enUS
+## X-Website: http://www.wowinterface.com/downloads/info16874-PhanxBuffs.html
+## X-WoWI-ID: 16874
 
 ## OptionalDependencies: LibAboutPanel, LibSharedMedia-3.0, PhanxConfigWidgets
 ## SavedVariables: PhanxBuffsDB
@@ -23,9 +24,8 @@ Libs\PhanxConfig-ScrollingDropdown\PhanxConfig-ScrollingDropdown.lua
 Libs\PhanxConfig-Slider\PhanxConfig-Slider.lua
 Libs\LibAboutPanel\LibAboutPanel.lua
 
-# Localization.lua
-
 PhanxBuffs.lua
+Localization.lua
 
 Buffs.lua
 Debuffs.lua
