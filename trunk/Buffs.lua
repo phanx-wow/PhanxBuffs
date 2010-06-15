@@ -65,6 +65,8 @@ local function button_OnClick(self)
 end
 
 local buttons = setmetatable({ }, { __index = function(t, i)
+	if type(i) ~= "number" then return print("NON-NUMERIC INDEX " .. tostring(i) .. " SPECIFIED WTF") end
+
 	local f = CreateFrame("Button", nil, PhanxBuffFrame)
 	f:SetID(i)
 	f:SetWidth(db.buffSize)
