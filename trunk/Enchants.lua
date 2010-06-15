@@ -2,10 +2,9 @@
 	PhanxBuffs
 	Replaces default player buff, debuff, and temporary enchant frames.
 	by Phanx < addons@phanx.net >
-	http://www.wowinterface.com/downloads/info-PhanxBuffs.html
+	http://www.wowinterface.com/downloads/info16874-PhanxBuffs.html
 	http://wow.curse.com/downloads/wow-addons/details/phanxbuffs.aspx
-	Copyright © 2010 Alyssa "Phanx" Kinley
-	See README for license terms and other information.
+	Copyright © 2010 Phanx. See README for license terms.
 ----------------------------------------------------------------------]]
 
 PhanxTempEnchantFrame = CreateFrame("Frame")
@@ -20,6 +19,8 @@ local OFF_HAND_SLOT = GetInventorySlotInfo("SecondaryHandSlot")
 
 local _, ns = ...
 local GetFontFile = ns.GetFontFile
+
+local ButtonFacade
 
 ------------------------------------------------------------------------
 
@@ -95,7 +96,10 @@ local buttons = setmetatable({ }, { __index = function(t, i)
 	f.timer:SetPoint("TOP", f, "BOTTOM")
 	f.timer:SetFont(GetFontFile(db.fontFace), 12, "OUTLINE")
 
-	if PhanxBorder then
+	if ButtonFacade then
+		ButtonFacade:Group("PhanxBuffs"):AddButton(f)
+		ButtonFacade:SetBorderColor(f, 180 / 255, 76 / 255, (db.skin and db.skin.Colors and db.skin.Colors.Normal) and db.skin.Colors.Normal.a or 1)
+	elseif PhanxBorder then
 		PhanxBorder.AddBorder(f, 8)
 		f.icon:SetTexCoord(0.07, 0.93, 0.07, 0.93)
 		f:SetBorderColor(180 / 255, 76 / 255, 1) -- 118 / 255, 47 / 255, 170 / 255)
@@ -304,35 +308,50 @@ function PhanxTempEnchantFrame:OnUpdate(elapsed)
 	end
 end
 
-PhanxTempEnchantFrame:SetScript("OnEvent", function(self, event, unit)
-	if event == "BAG_UPDATE" then
-		bagsDirty = true
-	return end
-	if event == "SPELLS_CHANGED" then
-		spellsDirty = true
-	return end
-	if event == "UNIT_INVENTORY_CHANGED" then
-		if unit == "player" then
-			dirty = true
-		end
-	return end
-	if event == "PLAYER_ENTERING_WORLD" then
+------------------------------------------------------------------------
+
+function PhanxTempEnchantFrame:BAG_UPDATE()
+	bagsDirty = true
+end
+
+function PhanxTempEnchantFrame:SPELLS_CHANGED()
+	spellsDirty = true
+end
+
+function PhanxTempEnchantFrame:UNIT_INVENTORY_CHANGED(unit)
+	if unit == "player" then
 		dirty = true
-	return end
-	if event == "UNIT_ENTERING_VEHICLE" then
-		if unit == "player" then
-			inVehicle = true
-			self:Hide()
-			PhanxBuffFrame:SetPoint("TOPRIGHT", Minimap, "TOPLEFT", -5, PhanxBorder and 1 or 0)
-		end
-	return end
-	if event == "UNIT_EXITING_VEHICLE" then
-		if unit == "player" then
-			inVehicle = nil
-			dirty = true
-			self:Show()
-		end
-	return end
+	end
+end
+
+function PhanxTempEnchantFrame:UNIT_ENTERING_VEHICLE(unit)
+	if unit == "player" then
+		inVehicle = true
+		self:Hide()
+		PhanxBuffFrame:SetPoint("TOPRIGHT", Minimap, "TOPLEFT", -5, PhanxBorder and 1 or 0)
+	end
+end
+
+function PhanxTempEnchantFrame:UNIT_EXITING_VEHICLE(unit)
+	if unit == "player" then
+		inVehicle = nil
+		dirty = true
+		self:Show()
+	end
+end
+
+function PhanxTempEnchantFrame:PLAYER_ENTERING_WORLD()
+	local inVehicleNow = UnitInVehicle("player")
+	if inVehicle and not inVehicleNow then
+		return self:UNIT_EXITING_VEHICLE("player")
+	elseif inVehicleNow and not inVehicle then
+		return self:UNIT_ENTERING_VEHICLE("player")
+	end
+	dirty = true
+end
+
+PhanxTempEnchantFrame:SetScript("OnEvent", function(self, event, unit)
+	return self[event] and self[event](self, unit)
 end)
 
 ------------------------------------------------------------------------
@@ -390,6 +409,8 @@ function PhanxTempEnchantFrame:Load()
 	if db then return end
 
 	db = PhanxBuffsDB
+
+	ButtonFacade = LibStub("LibButtonFacade", true)
 
 	self:SetPoint("TOPRIGHT", Minimap, "TOPLEFT", -5, PhanxBorder and 1 or 0)
 	self:SetWidth(db.buffSize * 2 + db.buffSpacing)

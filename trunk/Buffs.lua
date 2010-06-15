@@ -2,10 +2,9 @@
 	PhanxBuffs
 	Replaces default player buff, debuff, and temporary enchant frames.
 	by Phanx < addons@phanx.net >
-	http://www.wowinterface.com/downloads/info-PhanxBuffs.html
+	http://www.wowinterface.com/downloads/info16874-PhanxBuffs.html
 	http://wow.curse.com/downloads/wow-addons/details/phanxbuffs.aspx
-	Copyright © 2010 Alyssa "Phanx" Kinley
-	See README for license terms and other information.
+	Copyright © 2010 Phanx. See README for license terms.
 ----------------------------------------------------------------------]]
 
 PhanxBuffFrame = CreateFrame("Frame")
@@ -96,7 +95,10 @@ local buttons = setmetatable({ }, { __index = function(t, i)
 	f.timer:SetPoint("TOP", f, "BOTTOM")
 	f.timer:SetFont(GetFontFile(db.fontFace), db.buffSize * 0.5, "OUTLINE")
 
-	if PhanxBorder then
+	local ButtonFacade = LibStub("LibButtonFacade", true)
+	if ButtonFacade then
+		ButtonFacade:Group("PhanxBuffs"):AddButton(f)
+	elseif PhanxBorder then
 		PhanxBorder.AddBorder(f, 8)
 		f.icon:SetTexCoord(0.07, 0.93, 0.07, 0.93)
 	end
@@ -257,6 +259,7 @@ PhanxBuffFrame:SetScript("OnEvent", function(self, event, unit)
 		end
 	return end
 	if event == "PLAYER_ENTERING_WORLD" then
+		buffUnit = UnitInVehicle("player") and "vehicle" or "player"
 		dirty = true
 	return end
 	if event == "UNIT_ENTERING_VEHICLE" then
