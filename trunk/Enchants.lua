@@ -113,6 +113,7 @@ PhanxTempEnchantFrame.buttons = buttons
 ------------------------------------------------------------------------
 
 local function FindTempEnchantItem(findString)
+	findString = findString:gsub("%(.-%)", ""):trim()
 	for bag = 0, 4 do
 		for slot = 1, GetContainerNumSlots(bag) do
 			PhanxTempEnchantFrame.tooltip:SetBagItem(bag, slot)
@@ -146,7 +147,7 @@ local function FindTempEnchantSpell(findString)
 				end
 			else
 				local _, _, icon = GetSpellInfo(spellName)
-				return i, icon
+				return icon, i
 			end
 		end
 		i = i + 1
@@ -156,32 +157,32 @@ end
 local tempEnchantKeywords = { }
 
 if select(2, UnitClass("player")) == "SHAMAN" then
-	tempEnchantKeywords["Earthliving"] = FindTempEnchantSpell
-	tempEnchantKeywords["Flametongue"] = FindTempEnchantSpell
-	tempEnchantKeywords["Frostbrand"] = FindTempEnchantSpell
-	tempEnchantKeywords["Windfury"] = FindTempEnchantSpell
+	tempEnchantKeywords[L["Earthliving"]] = FindTempEnchantSpell
+	tempEnchantKeywords[L["Flametongue"]] = FindTempEnchantSpell
+	tempEnchantKeywords[L["Frostbrand"]] = FindTempEnchantSpell
+	tempEnchantKeywords[L["Windfury"]] = FindTempEnchantSpell
 end
 
 if select(2, UnitClass("player")) == "ROGUE" then
-	tempEnchantKeywords["Anesthetic Poison"] = FindTempEnchantItem
-	tempEnchantKeywords["Crippling Poison"] = FindTempEnchantItem
-	tempEnchantKeywords["Deadly Poison"] = FindTempEnchantItem
-	tempEnchantKeywords["Insant Poison"] = FindTempEnchantItem
-	tempEnchantKeywords["Mind-Numbing Poison"] = FindTempEnchantItem
-	tempEnchantKeywords["Wound Poison"] = FindTempEnchantItem
+	tempEnchantKeywords[L["Anesthetic Poison"]] = FindTempEnchantItem
+	tempEnchantKeywords[L["Crippling Poison"]] = FindTempEnchantItem
+	tempEnchantKeywords[L["Deadly Poison"]] = FindTempEnchantItem
+	tempEnchantKeywords[L["Instant Poison"]] = FindTempEnchantItem
+	tempEnchantKeywords[L["Mind-Numbing Poison"]] = FindTempEnchantItem
+	tempEnchantKeywords[L["Wound Poison"]] = FindTempEnchantItem
 end
 
 if select(2, UnitClass("player")) == "WARLOCK" then
-	tempEnchantKeywords["Firestone"] = FindTempEnchantItem
-	tempEnchantKeywords["Spellstone"] = FindTempEnchantItem
+	tempEnchantKeywords[L["Firestone"]] = FindTempEnchantItem
+	tempEnchantKeywords[L["Spellstone"]] = FindTempEnchantItem
 end
 
 if UnitLevel("player") < 71 then
-	tempEnchantKeywords["Blessed Weapon Coating"] = FindTempEnchantItem
-	tempEnchantKeywords["Mana Oil"] = FindTempEnchantItem
-	tempEnchantKeywords["Sharpening Stone"] = FindTempEnchantItem
-	tempEnchantKeywords["Weightstone"] = FindTempEnchantItem
-	tempEnchantKeywords["Wizard Oil"] = FindTempEnchantItem
+	tempEnchantKeywords[L["Blessed Weapon Coating"]] = FindTempEnchantItem
+	tempEnchantKeywords[L["Mana Oil"]] = FindTempEnchantItem
+	tempEnchantKeywords[L["Sharpening Stone"]] = FindTempEnchantItem
+	tempEnchantKeywords[L["Weightstone"]] = FindTempEnchantItem
+	tempEnchantKeywords[L["Wizard Oil"]] = FindTempEnchantItem
 end
 
 local function FindTempEnchantString()
@@ -205,16 +206,16 @@ function PhanxTempEnchantFrame:UpdateTempEnchants()
 	if hasMainHandEnchant then
 		local b = buttons[1]
 
-		b.icon:SetTexture(GetInventoryItemTexture("player", MAIN_HAND_SLOT))
-		b.arg1, b.arg2, b.tempEnchantString = nil, nil, nil, nil
 		b.expires = GetTime() + (mainHandExpiration / 1000)
+		b.icon:SetTexture(GetInventoryItemTexture("player", MAIN_HAND_SLOT))
 
+		b.arg1, b.arg2, b.tempEnchantString = nil, nil, nil, nil
 		if db.showTempEnchantSources then
 			self.tooltip:SetInventoryItem("player", MAIN_HAND_SLOT)
 			local tempEnchantString, tempEnchantFindFunc = FindTempEnchantString()
 			if tempEnchantString then
 				local icon, arg1, arg2 = tempEnchantFindFunc(tempEnchantString)
-				if icon then
+				if icon and icon ~= "" then
 					b.icon:SetTexture(icon)
 					b.arg1 = arg1
 					b.arg2 = arg2
