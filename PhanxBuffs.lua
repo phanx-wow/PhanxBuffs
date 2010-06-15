@@ -184,7 +184,7 @@ optionsPanel:SetScript("OnShow", function(self)
 	-------------------------------------------------------------------
 
 	local buffSize = self:CreateSlider(L["Buff Size"], 12, 48, 2)
-	buffSize.desc = L["Increase or decrese the size of buff icons."]
+	buffSize.desc = L["Adjust the icon size for buffs."]
 	buffSize.container:SetPoint("TOPLEFT", notes, "BOTTOMLEFT", -4, -8)
 	buffSize.container:SetPoint("TOPRIGHT", notes, "BOTTOM", -8, -8)
 	buffSize.valueText:SetText(db.buffSize)
@@ -200,7 +200,7 @@ optionsPanel:SetScript("OnShow", function(self)
 	-------------------------------------------------------------------
 
 	local buffSpacing = self:CreateSlider(L["Buff Spacing"], 0, 8, 1)
-	buffSpacing.desc = L["Increase or decrese the spacing between buff icons."]
+	buffSpacing.desc = L["Adjust the space between icons for buffs."]
 	buffSpacing.container:SetPoint("TOPLEFT", buffSize.container, "BOTTOMLEFT", 0, -12)
 	buffSpacing.container:SetPoint("TOPRIGHT", buffSize.container, "BOTTOMRIGHT", 0, -12)
 	buffSpacing.valueText:SetText(db.buffSpacing)
@@ -216,7 +216,7 @@ optionsPanel:SetScript("OnShow", function(self)
 	-------------------------------------------------------------------
 
 	local debuffSize = self:CreateSlider(L["Debuff Size"], 12, 48, 2)
-	debuffSize.desc = L["Increase or decrese the size of debuff icons."]
+	debuffSize.desc = L["Adjust the icon size for debuffs."]
 	debuffSize.container:SetPoint("TOPLEFT", buffSpacing.container, "BOTTOMLEFT", 0, -12)
 	debuffSize.container:SetPoint("TOPRIGHT", buffSpacing.container, "BOTTOMRIGHT", 0, -12)
 	debuffSize.valueText:SetText(db.debuffSize)
@@ -231,7 +231,7 @@ optionsPanel:SetScript("OnShow", function(self)
 	-------------------------------------------------------------------
 
 	local debuffSpacing = self:CreateSlider(L["Debuff Spacing"], 0, 8, 1)
-	debuffSpacing.desc = L["Increase or decrese the spacing between debuff icons."]
+	debuffSpacing.desc = L["Adjust the space between icons for debuffs."]
 	debuffSpacing.container:SetPoint("TOPLEFT", debuffSize.container, "BOTTOMLEFT", 0, -12)
 	debuffSpacing.container:SetPoint("TOPRIGHT", debuffSize.container, "BOTTOMRIGHT", 0, -12)
 	debuffSpacing.valueText:SetText(db.debuffSpacing)
@@ -245,8 +245,8 @@ optionsPanel:SetScript("OnShow", function(self)
 
 	-------------------------------------------------------------------
 
-	local showBuffSources = self:CreateCheckbox(L["Show buff casters"])
-	showBuffSources.desc = L["Buff tooltips show the name of the party or raid member who cast the buff on you."]
+	local showBuffSources = self:CreateCheckbox(L["Buff Sources"])
+	showBuffSources.desc = L["Show the name of the party or raid member who cast a buff on you in its tooltip."]
 	showBuffSources:SetPoint("TOPLEFT", debuffSpacing.container, "BOTTOMLEFT", 2, -8)
 	showBuffSources:SetChecked(db.showBuffSources)
 	function showBuffSources:OnClick(checked)
@@ -255,8 +255,8 @@ optionsPanel:SetScript("OnShow", function(self)
 
 	-------------------------------------------------------------------
 
-	local showTempEnchantSources = self:CreateCheckbox(L["Show weapon buff sources"])
-	showTempEnchantSources.desc = L["Weapon buff icons and tooltips show the spell or item that buffed your weapon, instead of the weapon itself."]
+	local showTempEnchantSources = self:CreateCheckbox(L["Weapon Buff Sources"])
+	showTempEnchantSources.desc = L["Show weapon buffs as the spell or item that buffed the weapon, instead of the weapon itself."]
 	showTempEnchantSources:SetPoint("TOPLEFT", showBuffSources, "BOTTOMLEFT", 0, -8)
 	showTempEnchantSources:SetChecked(db.showTempEnchantSources)
 	function showTempEnchantSources:OnClick(checked)
@@ -266,8 +266,8 @@ optionsPanel:SetScript("OnShow", function(self)
 
 	-------------------------------------------------------------------
 
-	local fontFace = self:CreateScrollingDropdown(L["Font Face"], fonts)
-	fontFace.container.desc = L["Change the font face for stack count and timer text."]
+	local fontFace = self:CreateScrollingDropdown(L["Typeface"], fonts)
+	fontFace.container.desc = L["Change the typeface for stack count and timer text."]
 	fontFace.container:SetPoint("TOPLEFT", notes, "BOTTOM", 8, -8)
 	fontFace.container:SetPoint("TOPRIGHT", notes, "BOTTOMRIGHT", 0, -8)
 	fontFace.valueText:SetText(db.font)
@@ -326,8 +326,8 @@ optionsPanel:SetScript("OnShow", function(self)
 
 	-------------------------------------------------------------------
 
-	local fontOutline = self:CreateDropdown(L["Outline"])
-	fontOutline.container.desc = L["Change the outline for stack count and timer text."]
+	local fontOutline = self:CreateDropdown(L["Text Outline"])
+	fontOutline.container.desc = L["Change the outline weight for stack count and timer text."]
 	fontOutline.container:SetPoint("TOPLEFT", fontFace.container, "BOTTOMLEFT", 0, -12)
 	fontOutline.container:SetPoint("TOPRIGHT", fontFace.container, "BOTTOMRIGHT", 0, -12)
 	do
