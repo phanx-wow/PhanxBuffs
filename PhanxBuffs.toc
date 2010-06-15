@@ -26,10 +26,6 @@ Libs\LibAboutPanel\LibAboutPanel.lua
 
 PhanxBuffs.lua
 
-Buffs.lua
-Debuffs.lua
-Enchants.lua
-
 Localization\deDE.lua
 Localization\esES.lua
 Localization\frFR.lua
@@ -37,3 +33,7 @@ Localization\ruRU.lua
 Localization\koKR.lua
 Localization\zhCN.lua
 Localization\zhTW.lua
+
+Buffs.lua
+Debuffs.lua
+Enchants.lua
