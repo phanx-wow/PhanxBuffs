@@ -95,10 +95,7 @@ local buttons = setmetatable({ }, { __index = function(t, i)
 	f.timer:SetPoint("TOP", f, "BOTTOM")
 	f.timer:SetFont(GetFontFile(db.fontFace), db.buffSize * 0.5, "OUTLINE")
 
-	local ButtonFacade = LibStub("LibButtonFacade", true)
-	if ButtonFacade then
-		ButtonFacade:Group("PhanxBuffs"):AddButton(f)
-	elseif PhanxBorder then
+	if PhanxBorder then
 		PhanxBorder.AddBorder(f, 8)
 		f.icon:SetTexCoord(0.07, 0.93, 0.07, 0.93)
 	end

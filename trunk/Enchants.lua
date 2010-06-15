@@ -20,8 +20,6 @@ local OFF_HAND_SLOT = GetInventorySlotInfo("SecondaryHandSlot")
 local _, ns = ...
 local GetFontFile = ns.GetFontFile
 
-local ButtonFacade
-
 ------------------------------------------------------------------------
 
 local function button_OnEnter(self)
@@ -96,10 +94,7 @@ local buttons = setmetatable({ }, { __index = function(t, i)
 	f.timer:SetPoint("TOP", f, "BOTTOM")
 	f.timer:SetFont(GetFontFile(db.fontFace), 12, "OUTLINE")
 
-	if ButtonFacade then
-		ButtonFacade:Group("PhanxBuffs"):AddButton(f)
-		ButtonFacade:SetBorderColor(f, 180 / 255, 76 / 255, (db.skin and db.skin.Colors and db.skin.Colors.Normal) and db.skin.Colors.Normal.a or 1)
-	elseif PhanxBorder then
+	if PhanxBorder then
 		PhanxBorder.AddBorder(f, 8)
 		f.icon:SetTexCoord(0.07, 0.93, 0.07, 0.93)
 		f:SetBorderColor(180 / 255, 76 / 255, 1) -- 118 / 255, 47 / 255, 170 / 255)
@@ -409,8 +404,6 @@ function PhanxTempEnchantFrame:Load()
 	if db then return end
 
 	db = PhanxBuffsDB
-
-	ButtonFacade = LibStub("LibButtonFacade", true)
 
 	self:SetPoint("TOPRIGHT", Minimap, "TOPLEFT", -5, PhanxBorder and 1 or 0)
 	self:SetWidth(db.buffSize * 2 + db.buffSpacing)
