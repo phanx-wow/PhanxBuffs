@@ -32,7 +32,7 @@ end })
 
 ------------------------------------------------------------------------
 
-local ButtonFacade, SharedMedia
+local SharedMedia
 
 local fonts = { }
 
@@ -106,21 +106,6 @@ optionsPanel:SetScript("OnEvent", function(self)
 		if type(db[k]) ~= type(v) then
 			db[k] = v
 		end
-	end
-
-	ButtonFacade = LibStub("LibButtonFacade", true)
-
-	if ButtonFacade then
-		ButtonFacade:Group("PhanxBuffs")
-		ButtonFacade:RegisterSkinCallback("PhanxBuffs", function(SkinID, Gloss, Backdrop, _, Button, Colors)
-			if not PhanxBuffsDB.skin then
-				PhanxBuffsDB.skin = { }
-			end
-			PhanxBuffsDB.skin.SkinID = SkinID
-			PhanxBuffsDB.skin.Gloss = Gloss
-			PhanxBuffsDB.skin.Backdrop = Backdrop
-			PhanxBuffsDB.skin.Colors = Colors
-		end)
 	end
 
 	SharedMedia = LibStub("LibSharedMedia-3.0", true)
@@ -397,11 +382,14 @@ InterfaceOptions_AddCategory(optionsPanel)
 
 local AboutPanel = LibStub("LibAboutPanel", true)
 if AboutPanel then
-	AboutPanel.new("PhanxBuffs", "PhanxBuffs")
+	optionsPanel.aboutPanel = AboutPanel.new("PhanxBuffs", "PhanxBuffs")
 end
 
 SLASH_PHANXBUFFS1 = "/pbuff"
-SlashCmdList.PHANXBUFFS = function() InterfaceOptionsFrame_OpenToCategory(optionsPanel) end
+SlashCmdList.PHANXBUFFS = function()
+	InterfaceOptionsFrame_OpenToCategory(optionsPanel.aboutPanel)
+	InterfaceOptionsFrame_OpenToCategory(optionsPanel)
+end
 
 ------------------------------------------------------------------------
 
