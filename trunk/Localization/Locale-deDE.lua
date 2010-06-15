@@ -16,32 +16,24 @@ local L = ns.L
 
 -- Shaman weapon enchant keywords
 
--- L["Earthliving"] = ""
--- L["Flametongue"] = ""
--- L["Frostbrand"] = ""
--- L["Windfury"] = ""
+L["Earthliving"] = "Lebensgeister"
+L["Flametongue"] = "Flammenzunge"
+L["Frostbrand"] = "Frostbrand"
+L["Windfury"] = "Windzorn"
 
 -- Rogue weapon enchant keywords
 
--- L["Anesthetic Poison"] = ""
--- L["Crippling Poison"] = ""
--- L["Deadly Poison"] = ""
--- L["Instant Poison"] = ""
--- L["Mind-Numbing Poison"] = ""
--- L["Wound Poison"] = ""
+L["Anesthetic Poison"] = "Beruhigendes Gift"
+L["Crippling Poison"] = "Verkrüppel" -- item: Verkrüppelndes Gift, enchant: Verkrüppelungsgift
+L["Deadly Poison"] = "Tödliches Gift"
+L["Instant Poison"] = "Sofort wirkendes Gift"
+L["Mind-Numbing Poison"] = "Gedankenbenebelndes Gift"
+L["Wound Poison"] = "Wundgift"
 
 -- Warlock weapon enchant keywords
 
--- L["Firestone"] = ""
--- L["Spellstone"] = ""
-
--- Low-level weapon enchant keywords
-
--- L["Blessed Weapon Coating"] = ""
--- L["Mana Oil"] = ""
--- L["Sharpening Stone"] = ""
--- L["Weightstone"] = ""
--- L["Wizard Oil"] = ""
+L["Firestone"] = "Feuerstein"
+L["Spellstone"] = "Zauberstein"
 
 -- Configuration panel
 
