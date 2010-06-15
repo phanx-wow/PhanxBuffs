@@ -35,14 +35,6 @@ local L = ns.L
 -- L["Firestone"] = ""
 -- L["Spellstone"] = ""
 
--- Low-level weapon enchant keywords
-
--- L["Blessed Weapon Coating"] = ""
--- L["Mana Oil"] = ""
--- L["Sharpening Stone"] = ""
--- L["Weightstone"] = ""
--- L["Wizard Oil"] = ""
-
 -- Configuration panel
 
 -- L["Use this panel to adjust some basic settings for buff, debuff, and weapon buff icons."] = ""

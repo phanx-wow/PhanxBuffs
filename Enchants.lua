@@ -115,12 +115,14 @@ PhanxTempEnchantFrame.buttons = buttons
 
 local function FindTempEnchantItem(findString)
 	findString = findString:gsub("%(.-%)", ""):trim()
+	--print("Searching for temp enchant item '" .. findString .. "'")
 	for bag = 0, 4 do
 		for slot = 1, GetContainerNumSlots(bag) do
-			PhanxTempEnchantFrame.tooltip:SetBagItem(bag, slot)
-			for i = 1, PhanxTempEnchantFrame.tooltip:NumLines() do
-				if PhanxTempEnchantFrame.tooltip.L[i] == findString then
-					local icon = GetContainerItemInfo(bag, slot)
+			local icon, _, _, _, _, _, link = GetContainerItemInfo(bag, slot)
+			if link then
+				local name = link:match("%[(.+)%]")
+				if name:match(findString) then
+					--print("Found item: '" .. name .. "'")
 					return icon, bag, slot
 				end
 			end
@@ -155,35 +157,28 @@ local function FindTempEnchantSpell(findString)
 	end
 end
 
-local tempEnchantKeywords = { }
-
+local tempEnchantKeywords
 if select(2, UnitClass("player")) == "SHAMAN" then
-	tempEnchantKeywords[L["Earthliving"]] = FindTempEnchantSpell
-	tempEnchantKeywords[L["Flametongue"]] = FindTempEnchantSpell
-	tempEnchantKeywords[L["Frostbrand"]] = FindTempEnchantSpell
-	tempEnchantKeywords[L["Windfury"]] = FindTempEnchantSpell
-end
-
-if select(2, UnitClass("player")) == "ROGUE" then
-	tempEnchantKeywords[L["Anesthetic Poison"]] = FindTempEnchantItem
-	tempEnchantKeywords[L["Crippling Poison"]] = FindTempEnchantItem
-	tempEnchantKeywords[L["Deadly Poison"]] = FindTempEnchantItem
-	tempEnchantKeywords[L["Instant Poison"]] = FindTempEnchantItem
-	tempEnchantKeywords[L["Mind-Numbing Poison"]] = FindTempEnchantItem
-	tempEnchantKeywords[L["Wound Poison"]] = FindTempEnchantItem
-end
-
-if select(2, UnitClass("player")) == "WARLOCK" then
-	tempEnchantKeywords[L["Firestone"]] = FindTempEnchantItem
-	tempEnchantKeywords[L["Spellstone"]] = FindTempEnchantItem
-end
-
-if UnitLevel("player") < 71 then
-	tempEnchantKeywords[L["Blessed Weapon Coating"]] = FindTempEnchantItem
-	tempEnchantKeywords[L["Mana Oil"]] = FindTempEnchantItem
-	tempEnchantKeywords[L["Sharpening Stone"]] = FindTempEnchantItem
-	tempEnchantKeywords[L["Weightstone"]] = FindTempEnchantItem
-	tempEnchantKeywords[L["Wizard Oil"]] = FindTempEnchantItem
+	tempEnchantKeywords = {
+		[L["Earthliving"]] = FindTempEnchantSpell,
+		[L["Flametongue"]] = FindTempEnchantSpell,
+		[L["Frostbrand"]] = FindTempEnchantSpell,
+		[L["Windfury"]] = FindTempEnchantSpell,
+	}
+else select(2, UnitClass("player")) == "ROGUE" then
+	tempEnchantKeywords = {
+		[L["Anesthetic Poison"]] = FindTempEnchantItem,
+		[L["Crippling Poison"]] = FindTempEnchantItem,
+		[L["Deadly Poison"]] = FindTempEnchantItem,
+		[L["Instant Poison"]] = FindTempEnchantItem,
+		[L["Mind-Numbing Poison"]] = FindTempEnchantItem,
+		[L["Wound Poison"]] = FindTempEnchantItem,
+	}
+elseif select(2, UnitClass("player")) == "WARLOCK" then
+	tempEnchantKeywords = {
+		[L["Firestone"]] = FindTempEnchantItem,
+		[L["Spellstone"]] = FindTempEnchantItem,
+	}
 end
 
 local function FindTempEnchantString()
@@ -191,7 +186,8 @@ local function FindTempEnchantString()
 		local line = PhanxTempEnchantFrame.tooltip.L[i]
 		for k, v in pairs(tempEnchantKeywords) do
 			if line:find(k) then
-				return line, v
+				--print("Found temp enchant string: '" .. k .. "' (" .. (v == FindTempEnchantItem and "item" or "spell") .. ")")
+				return k, v
 			end
 		end
 	end
@@ -211,7 +207,7 @@ function PhanxTempEnchantFrame:UpdateTempEnchants()
 		b.icon:SetTexture(GetInventoryItemTexture("player", MAIN_HAND_SLOT))
 
 		b.arg1, b.arg2, b.tempEnchantString = nil, nil, nil, nil
-		if db.showTempEnchantSources then
+		if tempEnchantKeywords and db.showTempEnchantSources then
 			self.tooltip:SetInventoryItem("player", MAIN_HAND_SLOT)
 			local tempEnchantString, tempEnchantFindFunc = FindTempEnchantString()
 			if tempEnchantString then
@@ -235,19 +231,23 @@ function PhanxTempEnchantFrame:UpdateTempEnchants()
 	if hasOffHandEnchant then
 		local b = buttons[hasMainHandEnchant and 2 or 1]
 
-		self.tooltip:SetInventoryItem("player", OFF_HAND_SLOT)
-		b.arg1, b.arg2, b.tempEnchantString = nil, nil, nil
 		b.expires = GetTime() + (offHandExpiration / 1000)
+		b.icon:SetTexture(GetInventoryItemTexture("player", OFF_HAND_SLOT))
 
-		self.tooltip:SetInventoryItem("player", OFF_HAND_SLOT)
-		local tempEnchantString, tempEnchantFindFunc = FindTempEnchantString()
-		if tempEnchantString then
-			local icon, arg1, arg2 = tempEnchantFindFunc(tempEnchantString)
-			if icon then
-				b.icon:SetTexture(icon)
-				b.arg1 = arg1
-				b.arg2 = arg2
-				b.tempEnchantString = tempEnchantString
+		b.arg1, b.arg2, b.tempEnchantString = nil, nil, nil
+
+		b.arg1, b.arg2, b.tempEnchantString = nil, nil, nil, nil
+		if tempEnchantKeywords and db.showTempEnchantSources then
+			self.tooltip:SetInventoryItem("player", OFF_HAND_SLOT)
+			local tempEnchantString, tempEnchantFindFunc = FindTempEnchantString()
+			if tempEnchantString then
+				local icon, arg1, arg2 = tempEnchantFindFunc(tempEnchantString)
+				if icon and icon ~= "" then
+					b.icon:SetTexture(icon)
+					b.arg1 = arg1
+					b.arg2 = arg2
+					b.tempEnchantString = tempEnchantString
+				end
 			end
 		end
 
@@ -354,50 +354,52 @@ end)
 ------------------------------------------------------------------------
 --	TinyGratuity, ripped from CrowBar by Ammo
 
-PhanxTempEnchantFrame.tooltip = CreateFrame("GameTooltip")
-PhanxTempEnchantFrame.tooltip:SetOwner(WorldFrame, "ANCHOR_NONE")
+if tempEnchantKeywords then
+	PhanxTempEnchantFrame.tooltip = CreateFrame("GameTooltip")
+	PhanxTempEnchantFrame.tooltip:SetOwner(WorldFrame, "ANCHOR_NONE")
 
-local lcache, rcache = { }, { }
-for i = 1, 30 do
-	lcache[i], rcache[i] = PhanxTempEnchantFrame.tooltip:CreateFontString(), PhanxTempEnchantFrame.tooltip:CreateFontString()
-	lcache[i]:SetFontObject(GameFontNormal)
-	rcache[i]:SetFontObject(GameFontNormal)
-	PhanxTempEnchantFrame.tooltip:AddFontStrings(lcache[i], rcache[i])
-end
+	local lcache, rcache = { }, { }
+	for i = 1, 30 do
+		lcache[i], rcache[i] = PhanxTempEnchantFrame.tooltip:CreateFontString(), PhanxTempEnchantFrame.tooltip:CreateFontString()
+		lcache[i]:SetFontObject(GameFontNormal)
+		rcache[i]:SetFontObject(GameFontNormal)
+		PhanxTempEnchantFrame.tooltip:AddFontStrings(lcache[i], rcache[i])
+	end
 
-PhanxTempEnchantFrame.tooltip.L = setmetatable({ }, {
-	__index = function(t, key)
-		if PhanxTempEnchantFrame.tooltip:NumLines() >= key and lcache[key] then
-			local v = lcache[key]:GetText()
-			t[key] = v
-			return v
+	PhanxTempEnchantFrame.tooltip.L = setmetatable({ }, {
+		__index = function(t, key)
+			if PhanxTempEnchantFrame.tooltip:NumLines() >= key and lcache[key] then
+				local v = lcache[key]:GetText()
+				t[key] = v
+				return v
+			end
+			return nil
+		end,
+	})
+
+	local origSetBagItem = PhanxTempEnchantFrame.tooltip.SetBagItem
+	PhanxTempEnchantFrame.tooltip.SetBagItem = function(self, ...)
+		self:ClearLines()
+		for i in pairs(self.L) do
+			self.L[i] = nil
 		end
-		return nil
-	end,
-})
+		if not self:IsOwned(WorldFrame) then
+			self:SetOwner(WorldFrame, "ANCHOR_NONE")
+		end
+		return origSetBagItem(self, ...)
+	end
 
-local origSetBagItem = PhanxTempEnchantFrame.tooltip.SetBagItem
-PhanxTempEnchantFrame.tooltip.SetBagItem = function(self, ...)
-	self:ClearLines()
-	for i in pairs(self.L) do
-		self.L[i] = nil
+	local origSetInventoryItem = PhanxTempEnchantFrame.tooltip.SetInventoryItem
+	PhanxTempEnchantFrame.tooltip.SetInventoryItem = function(self, ...)
+		self:ClearLines()
+		for i in pairs(self.L) do
+			self.L[i] = nil
+		end
+		if not self:IsOwned(WorldFrame) then
+			self:SetOwner(WorldFrame, "ANCHOR_NONE")
+		end
+		return origSetInventoryItem(self, ...)
 	end
-	if not self:IsOwned(WorldFrame) then
-		self:SetOwner(WorldFrame, "ANCHOR_NONE")
-	end
-	return origSetBagItem(self, ...)
-end
-
-local origSetInventoryItem = PhanxTempEnchantFrame.tooltip.SetInventoryItem
-PhanxTempEnchantFrame.tooltip.SetInventoryItem = function(self, ...)
-	self:ClearLines()
-	for i in pairs(self.L) do
-		self.L[i] = nil
-	end
-	if not self:IsOwned(WorldFrame) then
-		self:SetOwner(WorldFrame, "ANCHOR_NONE")
-	end
-	return origSetInventoryItem(self, ...)
 end
 
 ------------------------------------------------------------------------
