@@ -7,7 +7,7 @@
 	Copyright © 2010 Phanx. See README for license terms.
 ----------------------------------------------------------------------]]
 
-PhanxDebuffFrame = CreateFrame("Frame")
+local PhanxDebuffFrame = CreateFrame("Frame", "PhanxDebuffFrame", UIParent)
 
 local db
 local ignore = {
@@ -37,8 +37,6 @@ local DebuffTypeColor = {
 
 local _, ns = ...
 local GetFontFile = ns.GetFontFile
-
-local LibButtonFacade
 
 ------------------------------------------------------------------------
 
@@ -82,24 +80,8 @@ local buttons = setmetatable({ }, { __index = function(t, i)
 	f.timer:SetPoint("TOP", f, "BOTTOM")
 	f.timer:SetFont(GetFontFile(db.fontFace), 12, "OUTLINE")
 
-	if LibButtonFacade then
-		LibButtonFacade:Group("PhanxBuffs"):AddButton(f, {
-			Count = f.count,
-			HotKey = f.timer,
-			Icon = f.icon,
-			AutoCast = false,
-			AutoCastable = false,
-			Border = fake,
-			Checked = false,
-			Cooldown = false,
-			Flash = false,
-			Disabled = false,
-			Highlight = false,
-			Name = false,
-			Pushed = false,
-		})
-	elseif PhanxBorder then
-		PhanxBorder.AddBorder(f, 10)
+	if PhanxBorder then
+		PhanxBorder.AddBorder(f, 11)
 		f.icon:SetTexCoord(0.07, 0.93, 0.07, 0.93)
 	else
 		f.border = f:CreateTexture(nil, "BORDER")
@@ -208,11 +190,7 @@ function PhanxDebuffFrame:UpdateDebuffs()
 
 		local debuffTypeColor = DebuffTypeColor[debuff.kind]
 		if debuffTypeColor then
-			if LibButtonFacade then
-				LibButtonFacade:SetBorderColor(f, unpack(debuffTypeColor))
-			else
-				f:SetBorderColor(unpack(debuffTypeColor))
-			end
+			f:SetBorderColor(unpack(debuffTypeColor))
 			if ENABLE_COLORBLIND_MODE == "1" then
 				f.symbol:Show()
 				f.symbol:SetText(DebuffTypeSymbol[debuff.kind])
@@ -220,11 +198,7 @@ function PhanxDebuffFrame:UpdateDebuffs()
 				f.symbol:Hide()
 			end
 		else
-			if LibButtonFacade then
-				LibButtonFacade:SetBorderColor(f, 1, 0, 0)
-			else
-				f:SetBorderColor(1, 0, 0)
-			end
+			f:SetBorderColor(1, 0, 0)
 			f.symbol:Hide()
 		end
 
@@ -304,14 +278,11 @@ end)
 
 function PhanxDebuffFrame:Load()
 	if db then return end
-	do return end
 
 	db = PhanxBuffsDB
 	for k, v in pairs(ignore) do
 		db.ignoreDebuffs[k] = v
 	end
-
-	LibButtonFacade = LibStub("LibButtonFacade", true)
 
 	self:SetPoint("BOTTOMRIGHT", Minimap, "BOTTOMLEFT", -6, -2)
 	self:SetWidth(UIParent:GetWidth() - Minimap:GetWidth() - 45)

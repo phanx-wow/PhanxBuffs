@@ -35,7 +35,7 @@ end })
 
 ------------------------------------------------------------------------
 
-local LibButtonFacade, LibSharedMedia
+local LibSharedMedia
 
 local fonts = { }
 
@@ -49,16 +49,7 @@ local defaultFonts = {
 ------------------------------------------------------------------------
 
 function SetButtonSize(parent, size)
-	print("SetButtonSize")
 	for i, button in ipairs(parent.buttons) do
-		if LibButtonFacade then
-			local x = button.icon:GetWidth() / button:GetWidth()
-			print(string.format("old icon size: %.02f, old button size: %.02f, size factor: %.02f, new size: %.02f, new final size: %.02f", button.icon:GetWidth(), button:GetWidth(), x, size, size * x))
-			button.icon:ClearAllPoints()
-			button.icon:SetPoint("CENTER")
-			button.icon:SetWidth(size * x)
-			button.icon:SetHeight(size * x)
-		end
 		button:SetWidth(size)
 		button:SetHeight(size)
 	end
@@ -111,47 +102,13 @@ optionsPanel:Hide()
 
 optionsPanel:RegisterEvent("PLAYER_LOGIN")
 optionsPanel:SetScript("OnEvent", function(self)
-	PhanxBuffsDB = PhanxBuffsDB or { }
+	if not PhanxBuffsDB then PhanxBuffsDB = { } end
 	db = PhanxBuffsDB
 
 	for k, v in pairs(defaultDB) do
 		if type(db[k]) ~= type(v) then
 			db[k] = v
 		end
-	end
-
-	LibButtonFacade = LibStub("LibButtonFacade-1.0", true)
-
-	if LibButtonFacade then
-		local defaultSkin = {
-			SkinID = "Blizzard",
-			Gloss = false,
-			Backdrop = true,
-			Colors = { },
-		}
-		if not db.skin then db.skin = { } end
-		for k, v in pairs(defaultSkin) do
-			if type(db.skin[k]) ~= type(v) then
-				db.skin[k] = v
-			end
-		end
-
-		function self:LibButtonFacade_SkinChanged(SkinID, Gloss, Backdrop, _, _, Colors)
-			print(string.format("New skin: %s, Gloss: %s, Backdrop: %s", SkinID, tostring(Gloss), tostring(Backdrop)))
-			
-			db.skin.SkinID = SkinID
-			db.skin.Gloss = Gloss
-			db.skin.Backdrop = Backdrop
-			db.skin.Colors = Colors
-
-			if PhanxBuffFrame then PhanxBuffFrame:UpdateBuffs() end
-			if PhanxDebuffFrame then PhanxDebuffFrame:UpdateDebuffs() end
-			if PhanxTempEnchantFrame then PhanxTempEnchantFrame:UpdateTempEnchants() end
-		end
-
-		LibButtonFacade:RegisterSkinCallback("PhanxBuffs", self.LibButtonFacade_SkinChanged, self)
-
-		LibButtonFacade:Group("PhanxBuffs"):Skin(db.skin.SkinID, db.skin.Gloss, db.skin.Backdrop, db.skin.Colors)
 	end
 
 	LibSharedMedia = LibStub("LibSharedMedia-3.0", true)
@@ -195,6 +152,10 @@ optionsPanel:SetScript("OnEvent", function(self)
 		end
 		table.sort(fonts)
 	end
+
+	BuffFrame:Hide()
+	TemporaryEnchantFrame:Hide()
+	BuffFrame:UnregisterAllEvents()
 
 	PhanxBuffFrame:Load()
 	PhanxDebuffFrame:Load()
@@ -438,10 +399,6 @@ SlashCmdList.PHANXBUFFS = function()
 end
 
 ------------------------------------------------------------------------
-
-BuffFrame:Hide()
-TemporaryEnchantFrame:Hide()
-BuffFrame:UnregisterAllEvents()
 
 ns.GetFontFile = GetFontFile
 ns.optionsPanel = optionsPanel
