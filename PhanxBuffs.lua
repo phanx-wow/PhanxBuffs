@@ -23,7 +23,10 @@ local defaultDB = {
 
 ------------------------------------------------------------------------
 
-local L = setmetatable({ }, { __index = function(t, k)
+local _, ns = ...
+if not ns.L then ns.L = { } end
+
+local L = setmetatable(ns.L, { __index = function(t, k)
 	if not k then return "" end
 	local v = tostring(k)
 	t[k] = v
@@ -32,7 +35,7 @@ end })
 
 ------------------------------------------------------------------------
 
-local SharedMedia
+local LibButtonFacade, LibSharedMedia
 
 local fonts = { }
 
@@ -46,7 +49,16 @@ local defaultFonts = {
 ------------------------------------------------------------------------
 
 function SetButtonSize(parent, size)
+	print("SetButtonSize")
 	for i, button in ipairs(parent.buttons) do
+		if LibButtonFacade then
+			local x = button.icon:GetWidth() / button:GetWidth()
+			print(string.format("old icon size: %.02f, old button size: %.02f, size factor: %.02f, new size: %.02f, new final size: %.02f", button.icon:GetWidth(), button:GetWidth(), x, size, size * x))
+			button.icon:ClearAllPoints()
+			button.icon:SetPoint("CENTER")
+			button.icon:SetWidth(size * x)
+			button.icon:SetHeight(size * x)
+		end
 		button:SetWidth(size)
 		button:SetHeight(size)
 	end
@@ -66,7 +78,7 @@ end
 ------------------------------------------------------------------------
 
 local function GetFontFile(name)
-	local file = SharedMedia and SharedMedia:Fetch("font", name) or defaultFonts[name]
+	local file = LibSharedMedia and LibSharedMedia:Fetch("font", name) or defaultFonts[name]
 	return file or [[Fonts\FRIZQT__.TTF]]
 end
 
@@ -108,20 +120,54 @@ optionsPanel:SetScript("OnEvent", function(self)
 		end
 	end
 
-	SharedMedia = LibStub("LibSharedMedia-3.0", true)
+	LibButtonFacade = LibStub("LibButtonFacade-1.0", true)
 
-	if SharedMedia then
-		for name, file in pairs(defaultFonts) do
-			if file:match("^Interface\\AddOns") then
-				SharedMedia:Register("font", name, file)
+	if LibButtonFacade then
+		local defaultSkin = {
+			SkinID = "Blizzard",
+			Gloss = false,
+			Backdrop = true,
+			Colors = { },
+		}
+		if not db.skin then db.skin = { } end
+		for k, v in pairs(defaultSkin) do
+			if type(db.skin[k]) ~= type(v) then
+				db.skin[k] = v
 			end
 		end
-		for i, v in pairs(SharedMedia:List("font")) do
+
+		function self:LibButtonFacade_SkinChanged(SkinID, Gloss, Backdrop, _, _, Colors)
+			print(string.format("New skin: %s, Gloss: %s, Backdrop: %s", SkinID, tostring(Gloss), tostring(Backdrop)))
+			
+			db.skin.SkinID = SkinID
+			db.skin.Gloss = Gloss
+			db.skin.Backdrop = Backdrop
+			db.skin.Colors = Colors
+
+			if PhanxBuffFrame then PhanxBuffFrame:UpdateBuffs() end
+			if PhanxDebuffFrame then PhanxDebuffFrame:UpdateDebuffs() end
+			if PhanxTempEnchantFrame then PhanxTempEnchantFrame:UpdateTempEnchants() end
+		end
+
+		LibButtonFacade:RegisterSkinCallback("PhanxBuffs", self.LibButtonFacade_SkinChanged, self)
+
+		LibButtonFacade:Group("PhanxBuffs"):Skin(db.skin.SkinID, db.skin.Gloss, db.skin.Backdrop, db.skin.Colors)
+	end
+
+	LibSharedMedia = LibStub("LibSharedMedia-3.0", true)
+
+	if LibSharedMedia then
+		for name, file in pairs(defaultFonts) do
+			if file:match("^Interface\\AddOns") then
+				LibSharedMedia:Register("font", name, file)
+			end
+		end
+		for i, v in pairs(LibSharedMedia:List("font")) do
 			table.insert(fonts, v)
 		end
 		table.sort(fonts)
 
-		function self:SharedMedia_Registered(_, mediaType, mediaName)
+		function self:LibSharedMedia_Registered(_, mediaType, mediaName)
 			if mediaType == "font" then
 				table.insert(fonts, mediaName)
 				table.sort(fonts)
@@ -132,9 +178,9 @@ optionsPanel:SetScript("OnEvent", function(self)
 			end
 		end
 
-		SharedMedia.RegisterCallback(self, "LibSharedMedia_Registered", "SharedMedia_Registered")
+		LibSharedMedia.RegisterCallback(self, "LibSharedMedia_Registered", "LibSharedMedia_Registered")
 
-		function self:SharedMedia_SetGlobal(_, mediaType)
+		function self:LibSharedMedia_SetGlobal(_, mediaType)
 			if mediaType == "font" then
 				SetButtonFonts(PhanxBuffFrame)
 				SetButtonFonts(PhanxDebuffFrame)
@@ -142,7 +188,7 @@ optionsPanel:SetScript("OnEvent", function(self)
 			end
 		end
 
-		SharedMedia.RegisterCallback(self, "LibSharedMedia_SetGlobal",  "SharedMedia_SetGlobal")
+		LibSharedMedia.RegisterCallback(self, "LibSharedMedia_SetGlobal",  "LibSharedMedia_SetGlobal")
 	else
 		for name in pairs(defaultFonts) do
 			table.insert(fonts, name)
@@ -397,7 +443,5 @@ BuffFrame:Hide()
 TemporaryEnchantFrame:Hide()
 BuffFrame:UnregisterAllEvents()
 
-local _, ns = ...
-ns.L = L
 ns.GetFontFile = GetFontFile
 ns.optionsPanel = optionsPanel
