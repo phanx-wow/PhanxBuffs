@@ -11,13 +11,13 @@
 ----------------------------------------------------------------------]]
 
 if GetLocale() ~= "esES" and GetLocale() ~= "esMX" then return end
-local _, ns = ...
-local L = ns.L
+local L, _, ns = { }, ...
+ns.L = L
 
 -- Shaman weapon enchant keywords
 
--- L["Earthliving"] = ""
--- L["Flametongue"] = ""
+L["Earthliving"] = "Vida terrestre"
+L["Flametongue"] = "Lengua de Fuego"
 -- L["Frostbrand"] = ""
 -- L["Windfury"] = ""
 
@@ -35,7 +35,7 @@ local L = ns.L
 -- L["Firestone"] = ""
 -- L["Spellstone"] = ""
 
--- Configuration panel
+-- Configuration panel text
 
 -- L["Use this panel to adjust some basic settings for buff, debuff, and weapon buff icons."] = ""
 -- L["Buff Size"] = ""
@@ -46,10 +46,10 @@ local L = ns.L
 -- L["Show the name of the party or raid member who cast a buff on you in its tooltip."] = ""
 -- L["Weapon Buff Sources"] = ""
 -- L["Show weapon buffs as the spell or item that buffed the weapon, instead of the weapon itself."] = ""
--- L["Typeface"] = ""
--- L["Change the typeface for stack count and timer text."] = ""
--- L["Text Outline"] = ""
--- L["Change the outline weight for stack count and timer text."] = ""
--- L["None"] = ""
--- L["Thin"] = ""
--- L["Thick"] = ""
+L["Typeface"] = "Tipo de letra"
+L["Change the typeface for stack count and timer text."] = "Cambiar el tipa de letra a utilizar para el texto."
+L["Text Outline"] = "Frontera de letra"
+L["Change the outline weight for stack count and timer text."] = "Cambiar el grosor de borde para el texto."
+L["None"] = "Ninguno"
+L["Thin"] = "Fino"
+L["Thick"] = "Grueso"

@@ -11,15 +11,15 @@
 ----------------------------------------------------------------------]]
 
 if GetLocale() ~= "frFR" then return end
-local _, ns = ...
-local L = ns.L
+local L, _, ns = { }, ...
+ns.L = L
 
 -- Shaman weapon enchant keywords
 
--- L["Earthliving"] = ""
--- L["Flametongue"] = ""
--- L["Frostbrand"] = ""
--- L["Windfury"] = ""
+L["Earthliving"] = "Viveterre"
+L["Flametongue"] = "Langue de feu"
+-- L["Frostbrand"] = "givre"
+L["Windfury"] = "Furie-des-vents"
 
 -- Rogue weapon enchant keywords
 

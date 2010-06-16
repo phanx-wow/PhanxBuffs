@@ -21,6 +21,8 @@ local _, ns = ...
 local GetFontFile = ns.GetFontFile
 local L = ns.L
 
+local LibButtonFacade
+
 ------------------------------------------------------------------------
 
 local function button_OnEnter(self)
@@ -95,7 +97,24 @@ local buttons = setmetatable({ }, { __index = function(t, i)
 	f.timer:SetPoint("TOP", f, "BOTTOM")
 	f.timer:SetFont(GetFontFile(db.fontFace), 12, "OUTLINE")
 
-	if PhanxBorder then
+	if LibButtonFacade then
+		print("Adding skin to button " .. i)
+		LibButtonFacade:Group("PhanxBuffs"):AddButton(f, {
+			Count = f.count,
+			HotKey = f.timer,
+			Icon = f.icon,
+			AutoCast = false,
+			AutoCastable = false,
+			Border = false,
+			Checked = false,
+			Cooldown = false,
+			Flash = false,
+			Disabled = false,
+			Highlight = false,
+			Name = false,
+			Pushed = false,
+		})
+	elseif PhanxBorder then
 		PhanxBorder.AddBorder(f, 8)
 		f.icon:SetTexCoord(0.07, 0.93, 0.07, 0.93)
 		f:SetBorderColor(180 / 255, 76 / 255, 1) -- 118 / 255, 47 / 255, 170 / 255)
@@ -165,7 +184,7 @@ if select(2, UnitClass("player")) == "SHAMAN" then
 		[L["Frostbrand"]] = FindTempEnchantSpell,
 		[L["Windfury"]] = FindTempEnchantSpell,
 	}
-else select(2, UnitClass("player")) == "ROGUE" then
+elseif select(2, UnitClass("player")) == "ROGUE" then
 	tempEnchantKeywords = {
 		[L["Anesthetic Poison"]] = FindTempEnchantItem,
 		[L["Crippling Poison"]] = FindTempEnchantItem,
@@ -224,6 +243,10 @@ function PhanxTempEnchantFrame:UpdateTempEnchants()
 		b.count:SetText(mainHandCharges > 0 and mainHandCharges or nil)
 		b:SetID(MAIN_HAND_SLOT)
 		b:Show()
+		
+		if LibButtonFacade then
+			LibButtonFacade:SetBorderColor(b, 180 / 255, 76 / 255, 1)
+		end
 
 		numEnchants = numEnchants + 1
 	end
@@ -254,6 +277,10 @@ function PhanxTempEnchantFrame:UpdateTempEnchants()
 		b.count:SetText(offHandCharges > 0 and offHandCharges or nil)
 		b:SetID(OFF_HAND_SLOT)
 		b:Show()
+		
+		if LibButtonFacade then
+			LibButtonFacade:SetBorderColor(b, 180 / 255, 76 / 255, 1)
+		end
 
 		numEnchants = numEnchants + 1
 	end
@@ -269,9 +296,9 @@ function PhanxTempEnchantFrame:UpdateTempEnchants()
 	end
 
 	if numEnchants > 0 then
-		PhanxBuffFrame:SetPoint("TOPRIGHT", buttons[numEnchants], "TOPLEFT", -db.buffSpacing, 0)
+		PhanxBuffFrame.buttons[1]:SetPoint("TOPRIGHT", buttons[numEnchants], "TOPLEFT", -db.buffSpacing, 0)
 	else
-		PhanxBuffFrame:SetPoint("TOPRIGHT", Minimap, "TOPLEFT", -5, PhanxBorder and 1 or 0)
+		PhanxBuffFrame.buttons[1]:SetPoint("TOPRIGHT", PhanxBuffFrame)
 	end
 end
 
@@ -406,16 +433,15 @@ end
 
 function PhanxTempEnchantFrame:Load()
 	if db then return end
+	do return end
 
 	db = PhanxBuffsDB
 
-	self:SetPoint("TOPRIGHT", Minimap, "TOPLEFT", -5, PhanxBorder and 1 or 0)
+	LibButtonFacade = LibStub("LibButtonFacade", true)
+
+	self:SetPoint("TOPLEFT", PhanxBuffFrame)
 	self:SetWidth(db.buffSize * 2 + db.buffSpacing)
 	self:SetHeight(db.buffSize)
-
-	self:SetPoint("BOTTOMRIGHT", Minimap, "BOTTOMLEFT", -6, -2)
-	self:SetWidth(UIParent:GetWidth() - Minimap:GetWidth() - 45)
-	self:SetHeight(db.debuffSize)
 
 	dirty = true
 	self:SetScript("OnUpdate", self.OnUpdate)
