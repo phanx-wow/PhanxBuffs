@@ -18,12 +18,12 @@ ns.L = L
 
 L["Earthliving"] = "Vida terrestre"
 L["Flametongue"] = "Lengua de Fuego"
--- L["Frostbrand"] = ""
--- L["Windfury"] = ""
+L["Frostbrand"] = "Estigma de Escarcha"
+L["Windfury"] = "Viento Furioso"
 
 -- Rogue weapon enchant keywords
 
--- L["Anesthetic Poison"] = ""
+L["Anesthetic Poison"] = "Veneno anestésico"
 -- L["Crippling Poison"] = ""
 -- L["Deadly Poison"] = ""
 -- L["Instant Poison"] = ""

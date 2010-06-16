@@ -7,7 +7,7 @@
 	Copyright © 2010 Phanx. See README for license terms.
 ----------------------------------------------------------------------]]
 
-PhanxTempEnchantFrame = CreateFrame("Frame")
+local PhanxTempEnchantFrame = CreateFrame("Frame", "PhanxTempEnchantFrame", UIParent)
 
 local db
 
@@ -20,8 +20,6 @@ local OFF_HAND_SLOT = GetInventorySlotInfo("SecondaryHandSlot")
 local _, ns = ...
 local GetFontFile = ns.GetFontFile
 local L = ns.L
-
-local LibButtonFacade
 
 ------------------------------------------------------------------------
 
@@ -73,10 +71,10 @@ local buttons = setmetatable({ }, { __index = function(t, i)
 	f:SetHeight(db.buffSize)
 	f:Show()
 
-	if i == 1 then
-		f:SetPoint("TOPRIGHT")
-	else
+	if i > 1 then
 		f:SetPoint("TOPRIGHT", t[i - 1], "TOPLEFT", -db.buffSpacing, 0)
+	else
+		f:SetPoint("TOPRIGHT", PhanxTempEnchantFrame, "TOPRIGHT", 0, 0)
 	end
 
 	f:EnableMouse(true)
@@ -97,25 +95,8 @@ local buttons = setmetatable({ }, { __index = function(t, i)
 	f.timer:SetPoint("TOP", f, "BOTTOM")
 	f.timer:SetFont(GetFontFile(db.fontFace), 12, "OUTLINE")
 
-	if LibButtonFacade then
-		print("Adding skin to button " .. i)
-		LibButtonFacade:Group("PhanxBuffs"):AddButton(f, {
-			Count = f.count,
-			HotKey = f.timer,
-			Icon = f.icon,
-			AutoCast = false,
-			AutoCastable = false,
-			Border = false,
-			Checked = false,
-			Cooldown = false,
-			Flash = false,
-			Disabled = false,
-			Highlight = false,
-			Name = false,
-			Pushed = false,
-		})
-	elseif PhanxBorder then
-		PhanxBorder.AddBorder(f, 8)
+	if PhanxBorder then
+		PhanxBorder.AddBorder(f, 9)
 		f.icon:SetTexCoord(0.07, 0.93, 0.07, 0.93)
 		f:SetBorderColor(180 / 255, 76 / 255, 1) -- 118 / 255, 47 / 255, 170 / 255)
 	else
@@ -179,24 +160,24 @@ end
 local tempEnchantKeywords
 if select(2, UnitClass("player")) == "SHAMAN" then
 	tempEnchantKeywords = {
-		[L["Earthliving"]] = FindTempEnchantSpell,
-		[L["Flametongue"]] = FindTempEnchantSpell,
-		[L["Frostbrand"]] = FindTempEnchantSpell,
-		[L["Windfury"]] = FindTempEnchantSpell,
+		[L["Earthliving"]] = GetSpellInfo(51994),
+		[L["Flametongue"]] = GetSpellInfo(58790),
+		[L["Frostbrand"]]  = GetSpellInfo(58796),
+		[L["Windfury"]]    = GetSpellInfo(58804),
 	}
 elseif select(2, UnitClass("player")) == "ROGUE" then
 	tempEnchantKeywords = {
-		[L["Anesthetic Poison"]] = FindTempEnchantItem,
-		[L["Crippling Poison"]] = FindTempEnchantItem,
-		[L["Deadly Poison"]] = FindTempEnchantItem,
-		[L["Instant Poison"]] = FindTempEnchantItem,
-		[L["Mind-Numbing Poison"]] = FindTempEnchantItem,
-		[L["Wound Poison"]] = FindTempEnchantItem,
+		[L["Anesthetic Poison"]] = true,
+		[L["Crippling Poison"]] = true,
+		[L["Deadly Poison"]] = true,
+		[L["Instant Poison"]] = true,
+		[L["Mind-Numbing Poison"]] = true,
+		[L["Wound Poison"]] = true,
 	}
 elseif select(2, UnitClass("player")) == "WARLOCK" then
 	tempEnchantKeywords = {
-		[L["Firestone"]] = FindTempEnchantItem,
-		[L["Spellstone"]] = FindTempEnchantItem,
+		[L["Firestone"]] = true,
+		[L["Spellstone"]] = true,
 	}
 end
 
@@ -205,8 +186,13 @@ local function FindTempEnchantString()
 		local line = PhanxTempEnchantFrame.tooltip.L[i]
 		for k, v in pairs(tempEnchantKeywords) do
 			if line:find(k) then
-				--print("Found temp enchant string: '" .. k .. "' (" .. (v == FindTempEnchantItem and "item" or "spell") .. ")")
-				return k, v
+				if type(v) == "string" then
+					-- print("Found temp enchant string " .. k .. " (spell " .. v .. ")")
+					return v, FindTempEnchantSpell
+				else
+					-- print("Found temp enchant string " .. k .. " (item)")
+					return k, FindTempEnchantItem
+				end
 			end
 		end
 	end
@@ -225,7 +211,7 @@ function PhanxTempEnchantFrame:UpdateTempEnchants()
 		b.expires = GetTime() + (mainHandExpiration / 1000)
 		b.icon:SetTexture(GetInventoryItemTexture("player", MAIN_HAND_SLOT))
 
-		b.arg1, b.arg2, b.tempEnchantString = nil, nil, nil, nil
+		b.arg1, b.arg2 = nil, nil
 		if tempEnchantKeywords and db.showTempEnchantSources then
 			self.tooltip:SetInventoryItem("player", MAIN_HAND_SLOT)
 			local tempEnchantString, tempEnchantFindFunc = FindTempEnchantString()
@@ -235,7 +221,6 @@ function PhanxTempEnchantFrame:UpdateTempEnchants()
 					b.icon:SetTexture(icon)
 					b.arg1 = arg1
 					b.arg2 = arg2
-					b.tempEnchantString = tempEnchantString
 				end
 			end
 		end
@@ -243,10 +228,6 @@ function PhanxTempEnchantFrame:UpdateTempEnchants()
 		b.count:SetText(mainHandCharges > 0 and mainHandCharges or nil)
 		b:SetID(MAIN_HAND_SLOT)
 		b:Show()
-		
-		if LibButtonFacade then
-			LibButtonFacade:SetBorderColor(b, 180 / 255, 76 / 255, 1)
-		end
 
 		numEnchants = numEnchants + 1
 	end
@@ -257,9 +238,7 @@ function PhanxTempEnchantFrame:UpdateTempEnchants()
 		b.expires = GetTime() + (offHandExpiration / 1000)
 		b.icon:SetTexture(GetInventoryItemTexture("player", OFF_HAND_SLOT))
 
-		b.arg1, b.arg2, b.tempEnchantString = nil, nil, nil
-
-		b.arg1, b.arg2, b.tempEnchantString = nil, nil, nil, nil
+		b.arg1, b.arg2 = nil, nil
 		if tempEnchantKeywords and db.showTempEnchantSources then
 			self.tooltip:SetInventoryItem("player", OFF_HAND_SLOT)
 			local tempEnchantString, tempEnchantFindFunc = FindTempEnchantString()
@@ -269,7 +248,6 @@ function PhanxTempEnchantFrame:UpdateTempEnchants()
 					b.icon:SetTexture(icon)
 					b.arg1 = arg1
 					b.arg2 = arg2
-					b.tempEnchantString = tempEnchantString
 				end
 			end
 		end
@@ -277,10 +255,6 @@ function PhanxTempEnchantFrame:UpdateTempEnchants()
 		b.count:SetText(offHandCharges > 0 and offHandCharges or nil)
 		b:SetID(OFF_HAND_SLOT)
 		b:Show()
-		
-		if LibButtonFacade then
-			LibButtonFacade:SetBorderColor(b, 180 / 255, 76 / 255, 1)
-		end
 
 		numEnchants = numEnchants + 1
 	end
@@ -352,7 +326,7 @@ function PhanxTempEnchantFrame:UNIT_ENTERING_VEHICLE(unit)
 	if unit == "player" then
 		inVehicle = true
 		self:Hide()
-		PhanxBuffFrame:SetPoint("TOPRIGHT", Minimap, "TOPLEFT", -5, PhanxBorder and 1 or 0)
+		PhanxBuffFrame.buttons[1]:SetPoint("TOPRIGHT", PhanxBuffFrame)
 	end
 end
 
@@ -433,13 +407,10 @@ end
 
 function PhanxTempEnchantFrame:Load()
 	if db then return end
-	do return end
 
 	db = PhanxBuffsDB
 
-	LibButtonFacade = LibStub("LibButtonFacade", true)
-
-	self:SetPoint("TOPLEFT", PhanxBuffFrame)
+	self:SetPoint("TOPRIGHT", PhanxBuffFrame)
 	self:SetWidth(db.buffSize * 2 + db.buffSpacing)
 	self:SetHeight(db.buffSize)
 
