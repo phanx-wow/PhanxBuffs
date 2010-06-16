@@ -7,7 +7,7 @@
 	Copyright © 2010 Phanx. See README for license terms.
 ----------------------------------------------------------------------]]
 
-PhanxBuffFrame = CreateFrame("Frame")
+local PhanxBuffFrame = CreateFrame("Frame", "PhanxBuffFrame", UIParent)
 
 local db
 local ignoreBuffs = {
@@ -19,8 +19,6 @@ local buffUnit = "player"
 
 local _, ns = ...
 local GetFontFile = ns.GetFontFile
-
-local LibButtonFacade
 
 ------------------------------------------------------------------------
 
@@ -99,41 +97,8 @@ local buttons = setmetatable({ }, { __index = function(t, i)
 	f.timer:SetPoint("TOP", f, "BOTTOM")
 	f.timer:SetFont(GetFontFile(db.fontFace), db.buffSize * 0.5, "OUTLINE")
 
-	if LibButtonFacade then
-		local noop = function() return end
-		local fake = {
-			ClearAllPoints = noop,
-			GetFrameLevel = noop,
-			GetTextColor = noop,
-			Hide = noop,
-			SetDrawLayer = noop,
-			SetFrameLevel = noop,
-			SetHeight = noop,
-			SetParent = noop,
-			SetPoint = noop,
-			SetTextColor = noop,
-			SetTexture = noop,
-			SetVertexColor = noop,
-			SetWidth = noop,
-			Show = noop,
-		}
-		LibButtonFacade:Group("PhanxBuffs"):AddButton(f, {
-			Count = f.count,
-			HotKey = f.timer,
-			Icon = f.icon,
-			AutoCast = fake,
-			AutoCastable = false,
-			Border = fake,
-			Checked = false,
-			Cooldown = fake,
-			Flash = false,
-			Disabled = false,
-			Highlight = false,
-			Name = false,
-			Pushed = false,
-		})
-	elseif PhanxBorder then
-		PhanxBorder.AddBorder(f, 8)
+	if PhanxBorder then
+		PhanxBorder.AddBorder(f, 9)
 		f.icon:SetTexCoord(0.07, 0.93, 0.07, 0.93)
 	end
 
