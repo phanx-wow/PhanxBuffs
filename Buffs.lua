@@ -20,6 +20,8 @@ local buffUnit = "player"
 local _, ns = ...
 local GetFontFile = ns.GetFontFile
 
+local LibButtonFacade
+
 ------------------------------------------------------------------------
 
 local unitNames = setmetatable({ }, { __index = function(t, unit)
@@ -97,7 +99,40 @@ local buttons = setmetatable({ }, { __index = function(t, i)
 	f.timer:SetPoint("TOP", f, "BOTTOM")
 	f.timer:SetFont(GetFontFile(db.fontFace), db.buffSize * 0.5, "OUTLINE")
 
-	if PhanxBorder then
+	if LibButtonFacade then
+		local noop = function() return end
+		local fake = {
+			ClearAllPoints = noop,
+			GetFrameLevel = noop,
+			GetTextColor = noop,
+			Hide = noop,
+			SetDrawLayer = noop,
+			SetFrameLevel = noop,
+			SetHeight = noop,
+			SetParent = noop,
+			SetPoint = noop,
+			SetTextColor = noop,
+			SetTexture = noop,
+			SetVertexColor = noop,
+			SetWidth = noop,
+			Show = noop,
+		}
+		LibButtonFacade:Group("PhanxBuffs"):AddButton(f, {
+			Count = f.count,
+			HotKey = f.timer,
+			Icon = f.icon,
+			AutoCast = fake,
+			AutoCastable = false,
+			Border = fake,
+			Checked = false,
+			Cooldown = fake,
+			Flash = false,
+			Disabled = false,
+			Highlight = false,
+			Name = false,
+			Pushed = false,
+		})
+	elseif PhanxBorder then
 		PhanxBorder.AddBorder(f, 8)
 		f.icon:SetTexCoord(0.07, 0.93, 0.07, 0.93)
 	end
@@ -284,6 +319,8 @@ function PhanxBuffFrame:Load()
 	for k, v in pairs(ignoreBuffs) do
 		db.ignoreBuffs[k] = v
 	end
+
+	LibButtonFacade = LibStub("LibButtonFacade", true)
 
 	self:SetPoint("TOPRIGHT", Minimap, "TOPLEFT", -5, PhanxBorder and 1 or 0)
 	self:SetWidth(UIParent:GetWidth() - Minimap:GetWidth() - 45)

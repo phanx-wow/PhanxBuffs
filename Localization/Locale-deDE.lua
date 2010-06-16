@@ -11,8 +11,8 @@
 ----------------------------------------------------------------------]]
 
 if GetLocale() ~= "deDE" then return end
-local _, ns = ...
-local L = ns.L
+local L, _, ns = { }, ...
+ns.L = L
 
 -- Shaman weapon enchant keywords
 
