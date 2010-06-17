@@ -10,13 +10,12 @@
 local LibButtonFacade = LibStub("LibButtonFacade", true)
 if not LibButtonFacade then return end
 
-local bfrev = GetAddOnMetadata("ButtonFacade", "Version") or ""
-if tonumber(bfrev:match("%.(%d+)$")) < 311 then return end
+if tonumber((GetAddOnMetadata("ButtonFacade", "Version") or ""):match("%.(%d+)$") or 0) < 311 then return end
 
 local db
 local _, ns = ...
 
-local buttonDataLayers = { "AutoCast", "AutoCastable", "Checked", "Cooldown", "Count", "Disabled", "Flash", "Highlight", "HotKey", "Name", "Pushed" } --, "Border" }
+local buttonDataLayers = { "AutoCast", "AutoCastable", "Backdrop", "Checked", "Cooldown", "Count", "Disabled", "Flash", "Highlight", "HotKey", "Name", "Pushed" } --, "Border" }
 
 local function SkinButton(f)
 	-- print("Skinning button in frame " .. f:GetParent():GetName() .. "...")
@@ -89,7 +88,7 @@ hooksecurefunc(PhanxTempEnchantFrame, "Load", function(self)
 
 	local defaultSkin = {
 		skin = "Blizzard",
-		gloss = false,
+		gloss = 0,
 		backdrop = true,
 		colors = { },
 	}
@@ -125,8 +124,26 @@ hooksecurefunc(PhanxTempEnchantFrame, "Load", function(self)
 	SkinFrame(PhanxDebuffFrame)
 	SkinFrame(PhanxTempEnchantFrame)
 
-	local optionsPanel = ns.optionsPanel
-	_G.PhanxBuffsOptions = ns.optionsPanel
+	ns.optionsPanel:HookScript("OnShow", function(panel)
+		if panel.hookedForButtonFacade then return end
 
---	LibButtonFacade:Group("PhanxBuffs"):Skin(db.skin.skin, db.skin.gloss, db.skin.backdrop, db.skin.colors)
+		local L = ns.L
+
+		for i = 1, panel:GetNumChildren() do
+			local child = select(i, panel:GetChildren())
+			if child and not child.desc then
+				local grandchild = child.GetChildren and child:GetChildren()
+				if type(grandchild) == "table" and grandchild.OnValueChanged and (grandchild.desc == L["Adjust the icon size for buffs."] or grandchild.desc == L["Adjust the icon size for debuffs."]) then
+					local OnValueChanged = grandchild.OnValueChanged
+					grandchild.OnValueChanged = function(...)
+						OnValueChanged(...)
+						LibButtonFacade:Group("PhanxBuffs"):Skin(db.skin.skin, db.skin.gloss, db.skin.backdrop, db.skin.colors)
+						-- print("Reskinned PhanxBuffs because buff/debuff size changed.")
+					end
+				end
+			end
+		end
+
+		panel.hookedForButtonFacade = true
+	end)
 end)
