@@ -18,22 +18,22 @@ ns.L = L
 
 L["Earthliving"] = "Viveterre"
 L["Flametongue"] = "Langue de feu"
--- L["Frostbrand"] = "givre"
+L["Frostbrand"] = "Arme de givre"
 L["Windfury"] = "Furie-des-vents"
 
 -- Rogue weapon enchant keywords
 
--- L["Anesthetic Poison"] = ""
--- L["Crippling Poison"] = ""
--- L["Deadly Poison"] = ""
--- L["Instant Poison"] = ""
--- L["Mind-Numbing Poison"] = ""
--- L["Wound Poison"] = ""
+L["Anesthetic Poison"] = "Poison anesthésiant"
+L["Crippling Poison"] = "Poison affaiblissant"
+L["Deadly Poison"] = "Poison mortel"
+L["Instant Poison"] = "Poison instantané"
+L["Mind-Numbing Poison"] = "Poison de Distraction mentale" -- item name has lowercase d
+L["Wound Poison"] = "Poison douloureux"
 
 -- Warlock weapon enchant keywords
 
--- L["Firestone"] = ""
--- L["Spellstone"] = ""
+L["Firestone"] = "Pierre de feu"
+L["Spellstone"] = "Pierre de sort"
 
 -- Configuration panel
 

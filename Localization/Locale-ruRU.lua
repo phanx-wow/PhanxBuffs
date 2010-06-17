@@ -16,24 +16,24 @@ ns.L = L
 
 -- Shaman weapon enchant keywords
 
--- L["Earthliving"] = ""
--- L["Flametongue"] = ""
--- L["Frostbrand"] = ""
--- L["Windfury"] = ""
+L["Earthliving"] = "Жизнь Земли"
+L["Flametongue"] = "Язык пламени"
+L["Frostbrand"] = "Ледяное клеймо"
+L["Windfury"] = "Неистовство ветра"
 
 -- Rogue weapon enchant keywords
 
--- L["Anesthetic Poison"] = ""
--- L["Crippling Poison"] = ""
--- L["Deadly Poison"] = ""
--- L["Instant Poison"] = ""
--- L["Mind-Numbing Poison"] = ""
--- L["Wound Poison"] = ""
+L["Anesthetic Poison"] = "Анестезирующий яд"
+L["Crippling Poison"] = "Калечащий яд"
+L["Deadly Poison"] = "Смертельный яд"
+L["Instant Poison"] = "Быстродействующий яд"
+L["Mind-Numbing Poison"] = "Дурманящий яд"
+L["Wound Poison"] = "Нейтрализующий яд"
 
 -- Warlock weapon enchant keywords
 
--- L["Firestone"] = ""
--- L["Spellstone"] = ""
+L["Firestone"] = "камень огня"
+L["Spellstone"] = "камень чар"
 
 -- Configuration panel
 
