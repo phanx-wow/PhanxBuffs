@@ -195,7 +195,7 @@ function PhanxBuffFrame:UpdateBuffs()
 		local f = buttons[i]
 		f.icon:SetTexture(buff.icon)
 
-		if buff.count > 0 then
+		if buff.count > 1 then
 			f.count:SetText(buff.count)
 		else
 			f.count:SetText()
