@@ -289,13 +289,13 @@ optionsPanel:SetScript("OnShow", function(self)
 	fontFace.container.desc = L["Change the typeface for stack count and timer text."]
 	fontFace.container:SetPoint("TOPLEFT", notes, "BOTTOM", 8, -8)
 	fontFace.container:SetPoint("TOPRIGHT", notes, "BOTTOMRIGHT", 0, -8)
-	fontFace.valueText:SetText(db.font)
+	fontFace.valueText:SetText(db.fontFace)
 	do
 		local _, height, flags = fontFace.valueText:GetFont()
-		fontFace.valueText:SetFont(GetFontFile(db.font), height, flags)
+		fontFace.valueText:SetFont(GetFontFile(db.fontFace), height, flags)
 
 		function fontFace:OnValueChanged(value)
-			db.font = value
+			db.fontFace = value
 
 			SetButtonFonts(PhanxBuffFrame, value)
 			SetButtonFonts(PhanxDebuffFrame, value)
