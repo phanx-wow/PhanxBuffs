@@ -61,8 +61,20 @@ function SetButtonSpacing(parent, spacing)
 	for i, button in ipairs(parent.buttons) do
 		if i > 1 then
 			button:ClearAllPoints()
-			button:SetPoint("RIGHT", parent.buttons[i - 1], "LEFT", -spacing, 0)
+			button:SetPoint("TOPRIGHT", parent.buttons[i - 1], "TOPLEFT", -spacing, 0)
 		end
+	end
+
+	local numEnchants = 0
+	for i = 1, #PhanxTempEnchantFrame.buttons do
+		if PhanxTempEnchantFrame.buttons[i]:IsShown() then
+			numEnchants = numEnchants + 1
+		end
+	end
+	if numEnchants > 0 then
+		PhanxBuffFrame.buttons[1]:SetPoint("TOPRIGHT", PhanxTempEnchantFrame.buttons[numEnchants], "TOPLEFT", -spacing, 0)
+	else
+		PhanxBuffFrame.buttons[1]:SetPoint("TOPRIGHT", PhanxBuffFrame)
 	end
 end
 
@@ -401,4 +413,5 @@ end
 ------------------------------------------------------------------------
 
 ns.GetFontFile = GetFontFile
+ns.SetButtonSize = SetButtonSize
 ns.optionsPanel = optionsPanel
