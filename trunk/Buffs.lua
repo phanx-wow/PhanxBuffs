@@ -76,7 +76,7 @@ local buttons = setmetatable({ }, { __index = function(t, i)
 	if i == 1 then
 		f:SetPoint("TOPRIGHT")
 	else
-		f:SetPoint("RIGHT", t[i - 1], "LEFT", -db.buffSpacing, 0)
+		f:SetPoint("TOPRIGHT", t[i - 1], "TOPLEFT", -db.buffSpacing, 0)
 	end
 
 	f:EnableMouse(true)
