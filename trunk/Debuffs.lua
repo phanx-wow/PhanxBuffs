@@ -182,7 +182,7 @@ function PhanxDebuffFrame:UpdateDebuffs()
 		local f = buttons[i]
 		f.icon:SetTexture(debuff.icon)
 
-		if debuff.count > 0 then
+		if debuff.count > 1 then
 			f.count:SetText(debuff.count)
 		else
 			f.count:SetText()
