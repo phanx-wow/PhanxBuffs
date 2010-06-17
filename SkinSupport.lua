@@ -1,17 +1,25 @@
-
-do return end
+--[[--------------------------------------------------------------------
+	PhanxBuffs
+	Replaces default player buff, debuff, and temporary enchant frames.
+	by Phanx < addons@phanx.net >
+	http://www.wowinterface.com/downloads/info16874-PhanxBuffs.html
+	http://wow.curse.com/downloads/wow-addons/details/phanxbuffs.aspx
+	Copyright © 2010 Phanx. See README for license terms.
+----------------------------------------------------------------------]]
 
 local LibButtonFacade = LibStub("LibButtonFacade", true)
 if not LibButtonFacade then return end
 
-local db
+local bfrev = GetAddOnMetadata("ButtonFacade", "Version") or ""
+if tonumber(bfrev:match("%.(%d+)$")) < 311 then return end
 
-local dummyFunction = function() return end
-local methods = { "ClearAllPoints", "GetFrameLevel", "GetTextColor","Hide", "SetBlendMode", "SetDrawLayer", "SetFrameLevel", "SetHeight", "SetParent", "SetPoint", "SetTexCoord", "SetTextColor", "SetTexture", "SetVertexColor", "SetWidth", "Show" }
-local layers = { "AutoCast", "AutoCastable", "Checked", "Cooldown", "Count", "Disabled", "Flash", "Highlight", "HotKey", "Name", "Pushed" } --, "Border" }
+local db
+local _, ns = ...
+
+local buttonDataLayers = { "AutoCast", "AutoCastable", "Checked", "Cooldown", "Count", "Disabled", "Flash", "Highlight", "HotKey", "Name", "Pushed" } --, "Border" }
 
 local function SkinButton(f)
-	print("Skinning button for " .. f:GetParent():GetName() .. "...")
+	-- print("Skinning button in frame " .. f:GetParent():GetName() .. "...")
 
 	if PhanxBorder then
 		f.icon:SetTexCoord(0, 1, 0, 1)
@@ -41,15 +49,11 @@ local function SkinButton(f)
 		end
 	end
 
-	f.GetName = function() return "" end
+	-- f.GetName = function() return "" end
 
 	f.buttonData = { Icon = f.icon }
-
-	for i, layer in ipairs(layers) do
-		f.buttonData[layer] = { }
-		for i, method in ipairs(methods) do
-			f.buttonData[layer][method] = dummyFunction
-		end
+	for i, layer in ipairs(buttonDataLayers) do
+		f.buttonData[layer] = false -- { }
 	end
 
 	LibButtonFacade:Group("PhanxBuffs"):AddButton(f, f.buttonData)
@@ -59,16 +63,10 @@ local function SkinButton(f)
 			LibButtonFacade:SetBorderColor(buttons[i], 180 / 255, 76 / 255, 1)
 		end
 	end
-
-	local oSetWidth = button.SetWidth
-	button.SetWidth = function(button, width)
-		oSetWidth(button, width)
-		LibButtonFacade:Group("PhanxBuffs"):Skin(db.skin.skin, db.skin.gloss, db.skin.backdrop, db.skin.colors)
-	end
 end
 
 local function SkinFrame(frame)
-	print("Skinning frame " .. frame:GetName() .. "...")
+	-- print("Skinning frame " .. frame:GetName() .. "...")
 	local buttons = frame.buttons
 
 	for i = 1, #buttons do
@@ -78,13 +76,14 @@ local function SkinFrame(frame)
 	local oldmetatable = getmetatable(buttons).__index
 	setmetatable(buttons, { __index = function(t, i)
 		local f = oldmetatable(t, i)
+		-- print("Creating skinned button in frame " .. f:GetParent():GetName() .. "...")
 		SkinButton(f)
 		return f
 	end })
 end
 
 hooksecurefunc(PhanxTempEnchantFrame, "Load", function(self)
-	print("Initializing skin support...")
+	-- print("Initializing skin support...")
 
 	db = PhanxBuffsDB
 
@@ -102,7 +101,7 @@ hooksecurefunc(PhanxTempEnchantFrame, "Load", function(self)
 	end
 
 	function self:LibButtonFacade_SkinChanged(skin, gloss, backdrop, _, _, colors)
-		print(string.format("New skin: %s, Gloss: %s, Backdrop: %s", skin, tostring(gloss), tostring(backdrop)))
+		-- print(string.format("New skin: %s, Gloss: %s, Backdrop: %s", skin, tostring(gloss), tostring(backdrop)))
 
 		db.skin.skin = skin
 		db.skin.gloss = gloss
@@ -125,4 +124,9 @@ hooksecurefunc(PhanxTempEnchantFrame, "Load", function(self)
 	SkinFrame(PhanxBuffFrame)
 	SkinFrame(PhanxDebuffFrame)
 	SkinFrame(PhanxTempEnchantFrame)
+
+	local optionsPanel = ns.optionsPanel
+	_G.PhanxBuffsOptions = ns.optionsPanel
+
+--	LibButtonFacade:Group("PhanxBuffs"):Skin(db.skin.skin, db.skin.gloss, db.skin.backdrop, db.skin.colors)
 end)
