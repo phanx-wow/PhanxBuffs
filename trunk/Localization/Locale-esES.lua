@@ -24,16 +24,16 @@ L["Windfury"] = "Viento Furioso"
 -- Rogue weapon enchant keywords
 
 L["Anesthetic Poison"] = "Veneno anestésico"
--- L["Crippling Poison"] = ""
--- L["Deadly Poison"] = ""
--- L["Instant Poison"] = ""
--- L["Mind-Numbing Poison"] = ""
--- L["Wound Poison"] = ""
+L["Crippling Poison"] = "Veneno entorpecedor"
+L["Deadly Poison"] = "Veneno mortal"
+L["Instant Poison"] = "Veneno instantáneo"
+L["Mind-Numbing Poison"] = "Veneno de aturdimiento mental"
+L["Wound Poison"] = "Veneno hiriente"
 
 -- Warlock weapon enchant keywords
 
--- L["Firestone"] = ""
--- L["Spellstone"] = ""
+L["Firestone"] = "Piedra de fuego"
+L["Spellstone"] = "Piedra de hechizo"
 
 -- Configuration panel text
 
