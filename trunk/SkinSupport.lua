@@ -44,7 +44,13 @@ local function SkinButton(f)
 	end
 	if f.SetBorderColor then
 		f.SetBorderColor = function(f, r, g, b, a)
-			LibButtonFacade:SetBorderColor(f, r, g, b, a)
+			if a == 0 then
+				LibButtonFacade:SetBorderColor(f, 1, 1, 1, 0)
+				LibButtonFacade:SetNormalVertexColor(f, 1, 1, 1, 1)
+			else
+				LibButtonFacade:SetBorderColor(f, r, g, b, a)
+				LibButtonFacade:SetNormalVertexColor(f, r, g, b, a)
+			end
 		end
 	end
 
@@ -61,7 +67,8 @@ local function SkinButton(f)
 	LibButtonFacade:Group("PhanxBuffs"):AddButton(f, f.buttonData)
 
 	if f:GetParent() == PhanxTempEnchantFrame then
-		LibButtonFacade:SetBorderColor(f, 180 / 255, 76 / 255, 1, 1) -- 118 / 255, 47 / 255, 170 / 255, 1)
+		LibButtonFacade:SetBorderColor(f, 0.46, 0.18, 0.67, 1)
+		LibButtonFacade:SetNormalVertexColor(f, 0.46, 0.18, 0.67, 1)
 	end
 end
 
@@ -110,7 +117,8 @@ hooksecurefunc(PhanxTempEnchantFrame, "Load", function(self)
 		db.skin.colors = colors
 
 		for i = 1, #PhanxTempEnchantFrame.buttons do
-			LibButtonFacade:SetBorderColor(PhanxTempEnchantFrame.buttons[i], 118 / 255, 47 / 255, 170 / 255, 1)
+			LibButtonFacade:SetBorderColor(PhanxTempEnchantFrame.buttons[i], 0.46, 0.18, 0.67, 1)
+			LibButtonFacade:SetNormalVertexColor(PhanxTempEnchantFrame.buttons[i], 0.46, 0.18, 0.67, 1)
 		end
 
 		PhanxBuffFrame:UpdateBuffs()
