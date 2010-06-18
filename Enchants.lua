@@ -96,7 +96,7 @@ local buttons = setmetatable({ }, { __index = function(t, i)
 	f.timer:SetFont(GetFontFile(db.fontFace), 12, "OUTLINE")
 
 	if PhanxBorder then
-		PhanxBorder.AddBorder(f, 9)
+		PhanxBorder.AddBorder(f)
 		f.icon:SetTexCoord(0.07, 0.93, 0.07, 0.93)
 		f:SetBorderColor(180 / 255, 76 / 255, 1) -- 118 / 255, 47 / 255, 170 / 255)
 	else

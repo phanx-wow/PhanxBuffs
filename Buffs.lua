@@ -98,7 +98,7 @@ local buttons = setmetatable({ }, { __index = function(t, i)
 	f.timer:SetFont(GetFontFile(db.fontFace), db.buffSize * 0.5, "OUTLINE")
 
 	if PhanxBorder then
-		PhanxBorder.AddBorder(f, 9)
+		PhanxBorder.AddBorder(f)
 		f.icon:SetTexCoord(0.07, 0.93, 0.07, 0.93)
 	end
 
@@ -287,8 +287,8 @@ function PhanxBuffFrame:Load()
 
 	LibButtonFacade = LibStub("LibButtonFacade", true)
 
-	self:SetPoint("TOPRIGHT", Minimap, "TOPLEFT", -5, PhanxBorder and 1 or 0)
-	self:SetWidth(UIParent:GetWidth() - Minimap:GetWidth() - 45)
+	self:SetPoint("TOPRIGHT", Minimap, "TOPLEFT", -8, 0)
+	self:SetPoint("LEFT", UIParent, db.buffSize, 0)
 	self:SetHeight(db.buffSize)
 
 	dirty = true
