@@ -81,7 +81,7 @@ local buttons = setmetatable({ }, { __index = function(t, i)
 	f.timer:SetFont(GetFontFile(db.fontFace), db.debuffSize * 0.5, "OUTLINE")
 
 	if PhanxBorder then
-		PhanxBorder.AddBorder(f, 11)
+		PhanxBorder.AddBorder(f)
 		f.icon:SetTexCoord(0.07, 0.93, 0.07, 0.93)
 	else
 		f.border = f:CreateTexture(nil, "BORDER")
@@ -284,8 +284,8 @@ function PhanxDebuffFrame:Load()
 		db.ignoreDebuffs[k] = v
 	end
 
-	self:SetPoint("BOTTOMRIGHT", Minimap, "BOTTOMLEFT", -6, -2)
-	self:SetWidth(UIParent:GetWidth() - Minimap:GetWidth() - 45)
+	self:SetPoint("BOTTOMRIGHT", Minimap, "BOTTOMLEFT", -8, 0)
+	self:SetPoint("LEFT", UIParent, db.buffSize, 0)
 	self:SetHeight(db.debuffSize)
 
 	dirty = true
