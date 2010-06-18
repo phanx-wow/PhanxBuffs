@@ -12,88 +12,15 @@ if not LibButtonFacade then return end
 
 if tonumber((GetAddOnMetadata("ButtonFacade", "Version") or ""):match("%.(%d+)$") or 0) < 311 then return end
 
-local db
+local done
 local _, ns = ...
-
-local buttonDataLayers = { "AutoCast", "AutoCastable", "Backdrop", "Checked", "Cooldown", "Count", "Disabled", "Flash", "Highlight", "HotKey", "Name", "Pushed" } --, "Border" }
-
-local function SkinButton(f)
-	-- print("Skinning button in frame " .. f:GetParent():GetName() .. "...")
-
-	if PhanxBorder then
-		f.icon:SetTexCoord(0, 1, 0, 1)
-		if f.BorderTextures then
-			for i, tex in ipairs(f.BorderTextures) do
-				tex:SetTexture(nil)
-				tex:Hide()
-			end
-			f.BorderTextures = nil
-		end
-		if f.ShadowTextures then
-			for i, tex in ipairs(f.ShadowTextures) do
-				tex:SetTexture(nil)
-				tex:Hide()
-			end
-			f.ShadowTextures = nil
-		end
-		f.SetBorderSize = nil
-	elseif f.border then
-		f.border:SetTexture(nil)
-		f.border:Hide()
-		f.border = nil
-	end
-	if f.SetBorderColor then
-		f.SetBorderColor = function(f, r, g, b, a)
-			if a == 0 then
-				LibButtonFacade:SetBorderColor(f, 1, 1, 1, 0)
-				LibButtonFacade:SetNormalVertexColor(f, 1, 1, 1, 1)
-			else
-				LibButtonFacade:SetBorderColor(f, r, g, b, a)
-				LibButtonFacade:SetNormalVertexColor(f, r, g, b, a)
-			end
-		end
-	end
-
-	f.buttonData = { Icon = f.icon }
-	for i, layer in ipairs(buttonDataLayers) do
-		f.buttonData[layer] = false
-	end
-	if f:GetParent() == PhanxBuffFrame then
-		f.buttonData.Border = false
-	else
-		f.buttonData.Border = f:CreateTexture()
-	end
-
-	LibButtonFacade:Group("PhanxBuffs"):AddButton(f, f.buttonData)
-
-	if f:GetParent() == PhanxTempEnchantFrame then
-		LibButtonFacade:SetBorderColor(f, 0.46, 0.18, 0.67, 1)
-		LibButtonFacade:SetNormalVertexColor(f, 0.46, 0.18, 0.67, 1)
-	end
-end
-
-local function SkinFrame(frame)
-	-- print("Skinning frame " .. frame:GetName() .. "...")
-	local buttons = frame.buttons
-
-	for i = 1, #buttons do
-		-- print("Skinning button " .. i .. " in frame " .. frame:GetName() .. "...")
-		SkinButton(buttons[i])
-	end
-
-	local oldmetatable = getmetatable(buttons).__index
-	setmetatable(buttons, { __index = function(t, i)
-		local f = oldmetatable(t, i)
-		-- print("Creating skinned button in frame " .. f:GetParent():GetName() .. "...")
-		SkinButton(f)
-		return f
-	end })
-end
 
 hooksecurefunc(PhanxTempEnchantFrame, "Load", function(self)
 	-- print("Initializing skin support...")
+	if done then return end
 
-	db = PhanxBuffsDB
+	local db = PhanxBuffsDB
+	if db.noButtonFacade then return end
 
 	local defaultSkin = {
 		skin = "Blizzard",
@@ -108,7 +35,82 @@ hooksecurefunc(PhanxTempEnchantFrame, "Load", function(self)
 		end
 	end
 
-	function self:LibButtonFacade_SkinChanged(skin, gloss, backdrop, _, _, colors)
+	local buttonDataLayers = { "AutoCast", "AutoCastable", "Backdrop", "Checked", "Cooldown", "Count", "Disabled", "Flash", "Highlight", "HotKey", "Name", "Pushed" }
+
+	local function SkinButton(f)
+		-- print("Skinning button in frame " .. f:GetParent():GetName() .. "...")
+
+		if PhanxBorder then
+			f.icon:SetTexCoord(0, 1, 0, 1)
+			if f.BorderTextures then
+				for i, tex in ipairs(f.BorderTextures) do
+					tex:SetTexture(nil)
+					tex:Hide()
+				end
+				f.BorderTextures = nil
+			end
+			if f.ShadowTextures then
+				for i, tex in ipairs(f.ShadowTextures) do
+					tex:SetTexture(nil)
+					tex:Hide()
+				end
+				f.ShadowTextures = nil
+			end
+			f.SetBorderSize = nil
+		elseif f.border then
+			f.border:SetTexture(nil)
+			f.border:Hide()
+			f.border = nil
+		end
+		if f.SetBorderColor then
+			f.SetBorderColor = function(f, r, g, b, a)
+				if a == 0 then
+					LibButtonFacade:SetBorderColor(f, 1, 1, 1, 0)
+					LibButtonFacade:SetNormalVertexColor(f, 1, 1, 1, 1)
+				else
+					LibButtonFacade:SetBorderColor(f, r, g, b, a)
+					LibButtonFacade:SetNormalVertexColor(f, r, g, b, a)
+				end
+			end
+		end
+
+		f.buttonData = { Icon = f.icon }
+		for i, layer in ipairs(buttonDataLayers) do
+			f.buttonData[layer] = false
+		end
+		if f:GetParent() == PhanxBuffFrame then
+			f.buttonData.Border = false
+		else
+			f.buttonData.Border = f:CreateTexture()
+		end
+
+		LibButtonFacade:Group("PhanxBuffs"):AddButton(f, f.buttonData)
+
+		if f:GetParent() == PhanxTempEnchantFrame then
+			LibButtonFacade:SetBorderColor(f, 0.46, 0.18, 0.67, 1)
+			LibButtonFacade:SetNormalVertexColor(f, 0.46, 0.18, 0.67, 1)
+		end
+	end
+
+	local function SkinFrame(frame)
+		-- print("Skinning frame " .. frame:GetName() .. "...")
+		local buttons = frame.buttons
+
+		for i = 1, #buttons do
+			-- print("Skinning button " .. i .. " in frame " .. frame:GetName() .. "...")
+			SkinButton(buttons[i])
+		end
+
+		local oldmetatable = getmetatable(buttons).__index
+		setmetatable(buttons, { __index = function(t, i)
+			local f = oldmetatable(t, i)
+			-- print("Creating skinned button in frame " .. f:GetParent():GetName() .. "...")
+			SkinButton(f)
+			return f
+		end })
+	end
+
+	local function OnSkinChanged(_, skin, gloss, backdrop, _, _, colors)
 		-- print(string.format("New skin: %s, Gloss: %s, Backdrop: %s", skin, tostring(gloss), tostring(backdrop)))
 
 		db.skin.skin = skin
@@ -126,7 +128,7 @@ hooksecurefunc(PhanxTempEnchantFrame, "Load", function(self)
 		PhanxTempEnchantFrame:UpdateTempEnchants()
 	end
 
-	LibButtonFacade:RegisterSkinCallback("PhanxBuffs", self.LibButtonFacade_SkinChanged, self)
+	LibButtonFacade:RegisterSkinCallback("PhanxBuffs", OnSkinChanged)
 
 	LibButtonFacade:Group("PhanxBuffs"):Skin(db.skin.skin, db.skin.gloss, db.skin.backdrop, db.skin.colors)
 
@@ -135,7 +137,7 @@ hooksecurefunc(PhanxTempEnchantFrame, "Load", function(self)
 	SkinFrame(PhanxTempEnchantFrame)
 
 	ns.optionsPanel:HookScript("OnShow", function(panel)
-		if panel.hookedForButtonFacade then return end
+		if done then return end
 
 		local L = ns.L
 
@@ -153,7 +155,7 @@ hooksecurefunc(PhanxTempEnchantFrame, "Load", function(self)
 				end
 			end
 		end
-
-		panel.hookedForButtonFacade = true
 	end)
+
+	done = true
 end)
