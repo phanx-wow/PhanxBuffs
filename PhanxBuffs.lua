@@ -285,6 +285,70 @@ optionsPanel:SetScript("OnShow", function(self)
 
 	-------------------------------------------------------------------
 
+	local dragBackdrop = { bgFile="Interface\\Tooltips\\UI-Tooltip-Background" }
+	local function OnDragStart(self)
+		self:StartMoving()
+	end
+	local function OnDragStop(self)
+		self:StopMovingOrSizing()
+
+		local w, h, x, y = UIParent:GetWidth(), UIParent:GetHeight(), self:GetCenter()
+		local hhalf, vhalf = (x > w/2) and "RIGHT" or "LEFT", (y > h/2) and "TOP" or "BOTTOM"
+		local dx = hhalf == "RIGHT" and math.floor(self:GetRight() + 0.5) - w or math.floor(self:GetLeft() + 0.5)
+		local dy = vhalf == "TOP" and math.floor(self:GetTop() + 0.5) - h or math.floor(self:GetBottom() + 0.5)
+
+		if self:GetName() == "PhanxDebuffFrame" then
+			db.debuffPoint, db.debuffX, db.debuffY = vhalf..hhalf, dx, dy
+		else
+			db.buffPoint, db.buffX, db.buffY = vhalf..hhalf, dx, dy
+		end
+
+		self:ClearAllPoints()
+		self:SetPoint(vhalf..hhalf, UIParent, dx, dy)
+	end
+
+	local lockFrames = self:CreateCheckbox(L["Lock Frames"])
+	lockFrames.desc = L["Lock the buff and debuff frames in place, hiding the backdrop and preventing them from being moved."]
+	lockFrames:SetPoint("TOPLEFT", showTempEnchantSources, "BOTTOMLEFT", 0, -8)
+	lockFrames:SetChecked(true)
+	function lockFrames:OnClick(checked)
+		if checked then
+			PhanxBuffFrame:SetBackdrop(nil)
+			PhanxBuffFrame:SetMovable(false)
+			PhanxBuffFrame:SetScript("OnDragStart", nil)
+			PhanxBuffFrame:SetScript("OnDragStop", nil)
+			PhanxBuffFrame:EnableMouse(false)
+			PhanxBuffFrame:RegisterForDrag(nil)
+
+			PhanxDebuffFrame:SetBackdrop(nil)
+			PhanxDebuffFrame:SetMovable(false)
+			PhanxDebuffFrame:SetScript("OnDragStart", nil)
+			PhanxDebuffFrame:SetScript("OnDragStop", nil)
+			PhanxDebuffFrame:EnableMouse(false)
+			PhanxDebuffFrame:RegisterForDrag(nil)
+		else
+			PhanxBuffFrame:SetBackdrop(dragBackdrop)
+			PhanxBuffFrame:SetBackdropColor(1, 1, 1, 1)
+			PhanxBuffFrame:SetClampedToScreen(true)
+			PhanxBuffFrame:SetMovable(true)
+			PhanxBuffFrame:SetScript("OnDragStart", OnDragStart)
+			PhanxBuffFrame:SetScript("OnDragStop", OnDragStop)
+			PhanxBuffFrame:EnableMouse(true)
+			PhanxBuffFrame:RegisterForDrag("LeftButton")
+
+			PhanxDebuffFrame:SetBackdrop(dragBackdrop)
+			PhanxDebuffFrame:SetBackdropColor(1, 1, 1, 1)
+			PhanxDebuffFrame:SetClampedToScreen(true)
+			PhanxDebuffFrame:SetMovable(true)
+			PhanxDebuffFrame:SetScript("OnDragStart", OnDragStart)
+			PhanxDebuffFrame:SetScript("OnDragStop", OnDragStop)
+			PhanxDebuffFrame:EnableMouse(true)
+			PhanxDebuffFrame:RegisterForDrag("LeftButton")
+		end
+	end
+
+	-------------------------------------------------------------------
+
 	local fontFace = self:CreateScrollingDropdown(L["Typeface"], fonts)
 	fontFace.container.desc = L["Change the typeface for stack count and timer text."]
 	fontFace.container:SetPoint("TOPLEFT", notes, "BOTTOM", 8, -8)
