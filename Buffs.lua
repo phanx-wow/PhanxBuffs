@@ -287,8 +287,12 @@ function PhanxBuffFrame:Load()
 
 	LibButtonFacade = LibStub("LibButtonFacade", true)
 
-	self:SetPoint("TOPRIGHT", Minimap, "TOPLEFT", -8, 0)
-	self:SetPoint("LEFT", UIParent, db.buffSize, 0)
+	if db.buffPoint and db.buffX and db.buffY then
+		self:SetPoint(db.buffPoint, UIParent, db.buffX, db.buffY)
+	else
+		self:SetPoint("TOPRIGHT", UIParent, -70 - Minimap:GetWidth(), -30)
+	end
+	self:SetWidth(UIParent:GetWidth() - 100 - Minimap:GetWidth())
 	self:SetHeight(db.buffSize)
 
 	dirty = true

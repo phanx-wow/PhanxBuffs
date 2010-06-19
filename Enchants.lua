@@ -131,7 +131,6 @@ local function FindTempEnchantItem(findString)
 end
 
 local function FindTempEnchantSpell(findString)
-	findString = findString:gsub("%(.-%)", "")
 	local findRank = findString:match("%d+")
 	findString = findString:gsub("%d+", ""):trim()
 
@@ -187,8 +186,9 @@ local function FindTempEnchantString()
 		for k, v in pairs(tempEnchantKeywords) do
 			if line:find(k) then
 				if type(v) == "string" then
-					-- print("Found temp enchant string " .. k .. " (spell " .. v .. ")")
-					return v, FindTempEnchantSpell
+					local rank = line:match("( %d+)") or ""
+					-- print("Found temp enchant string " .. k .. " (spell " .. v .. ") rank " .. rank)
+					return v .. rank, FindTempEnchantSpell
 				else
 					-- print("Found temp enchant string " .. k .. " (item)")
 					return k, FindTempEnchantItem
