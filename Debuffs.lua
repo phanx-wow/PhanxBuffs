@@ -60,7 +60,7 @@ local buttons = setmetatable({ }, { __index = function(t, i)
 	f:Show()
 
 	if i == 1 then
-		f:SetPoint("BOTTOMRIGHT", PhanxDebuffFrame, 0, PhanxBorder and 1 or 0)
+		f:SetPoint("BOTTOMRIGHT", PhanxDebuffFrame, 0, 0)
 	else
 		f:SetPoint("BOTTOMRIGHT", t[i - 1], "BOTTOMLEFT", -db.debuffSpacing, 0)
 	end
@@ -92,8 +92,8 @@ local buttons = setmetatable({ }, { __index = function(t, i)
 	end
 
 	f.symbol = f:CreateFontString(nil, "OVERLAY")
-	f.symbol:SetPoint("TOPLEFT", 2, -2)
-	f.symbol:SetFont(GetFontFile(db.fontFace), 10, "OUTLINE")
+	f.symbol:SetPoint("BOTTOM", f, 0, 2)
+	f.symbol:SetFont(GetFontFile(db.fontFace), db.debuffSize * 0.5, "OUTLINE")
 
 	t[i] = f
 	return f
@@ -287,7 +287,7 @@ function PhanxDebuffFrame:Load()
 	if db.debuffPoint and db.debuffX and db.debuffY then
 		self:SetPoint(db.debuffPoint, UIParent, db.debuffX, db.debuffY)
 	else
-		self:SetPoint("BOTTOMRIGHT", UIParent, -70 - Minimap:GetWidth(), UIParent:GetHeight() - Minimap:GetHeight() - 63)
+		self:SetPoint("BOTTOMRIGHT", UIParent, -70 - Minimap:GetWidth(), UIParent:GetHeight() - Minimap:GetHeight() - 64)
 	end
 	self:SetWidth(UIParent:GetWidth() - 100 - Minimap:GetWidth())
 	self:SetHeight(db.debuffSize)
