@@ -92,12 +92,15 @@ function SetButtonSpacing(parent, spacing)
 	local v = parent == PhanxDebuffFrame and "BOTTOM" or "TOP"
 	local h = db.growthAnchor
 
+	spacing = db.growthAnchor == "RIGHT" and -spacing or spacing
+
 	for i, button in ipairs(parent.buttons) do
 		if i > 1 then
 			button:ClearAllPoints()
-			button:SetPoint(v .. h, parent.buttons[i - 1], v .. opp[h], -spacing, 0)
+			button:SetPoint(v .. h, parent.buttons[i - 1], v .. opp[h], spacing, 0)
 			-- print(i, v .. h, v .. opp[h])
 		else
+			button:ClearAllPoints()
 			button:SetPoint(v .. h, parent, v .. h, 0, 0)
 			-- print(i, v .. h)
 		end
@@ -110,8 +113,10 @@ function SetButtonSpacing(parent, spacing)
 		end
 	end
 	if numEnchants > 0 then
-		PhanxBuffFrame.buttons[1]:SetPoint(v .. h, PhanxTempEnchantFrame.buttons[numEnchants], v .. opp[h], -spacing, 0)
+		PhanxBuffFrame.buttons[1]:ClearAllPoints()
+		PhanxBuffFrame.buttons[1]:SetPoint(v .. h, PhanxTempEnchantFrame.buttons[numEnchants], v .. opp[h], spacing, 0)
 	else
+		PhanxBuffFrame.buttons[1]:ClearAllPoints()
 		PhanxBuffFrame.buttons[1]:SetPoint(v .. h, PhanxBuffFrame)
 	end
 end

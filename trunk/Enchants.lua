@@ -72,9 +72,9 @@ local buttons = setmetatable({ }, { __index = function(t, i)
 	f:Show()
 
 	if i > 1 then
-		f:SetPoint("TOPRIGHT", t[i - 1], "TOPLEFT", -db.buffSpacing, 0)
+		f:SetPoint("TOP" .. db.growthAnchor, t[i - 1], "TOP" .. (db.growthAnchor == "RIGHT" and "LEFT" or "RIGHT"), (db.growthAnchor == "RIGHT" and  -db.buffSpacing or db.buffSpacing), 0)
 	else
-		f:SetPoint("TOPRIGHT", PhanxTempEnchantFrame, "TOPRIGHT", 0, 0)
+		f:SetPoint("TOP" .. db.growthAnchor, PhanxTempEnchantFrame, "TOP" .. db.growthAnchor, 0, 0)
 	end
 
 	f:EnableMouse(true)
@@ -270,9 +270,9 @@ function PhanxTempEnchantFrame:UpdateTempEnchants()
 	end
 
 	if numEnchants > 0 then
-		PhanxBuffFrame.buttons[1]:SetPoint("TOPRIGHT", buttons[numEnchants], "TOPLEFT", -db.buffSpacing, 0)
+		PhanxBuffFrame.buttons[1]:SetPoint("TOP" .. db.growthAnchor, buttons[numEnchants], "TOP" .. (db.growthAnchor == "RIGHT" and "LEFT" or "RIGHT"), (db.growthAnchor == "RIGHT" and  -db.buffSpacing or db.buffSpacing), 0)
 	else
-		PhanxBuffFrame.buttons[1]:SetPoint("TOPRIGHT", PhanxBuffFrame)
+		PhanxBuffFrame.buttons[1]:SetPoint("TOP" .. db.growthAnchor, PhanxBuffFrame, "TOP" .. db.growthAnchor, 0, 0)
 	end
 end
 
