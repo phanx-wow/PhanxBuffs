@@ -15,6 +15,7 @@ local defaultDB = {
 	debuffSpacing = 3,
 	fontFace = "Friz Quadrata TT",
 	fontOutline = "OUTLINE",
+	growthAnchor = "RIGHT",
 	ignoreBuffs = { },
 	ignoreDebuffs = { },
 	showBuffSources = true,
@@ -48,38 +49,6 @@ local defaultFonts = {
 
 ------------------------------------------------------------------------
 
-function SetButtonSize(parent, size)
-	for i, button in ipairs(parent.buttons) do
-		button:SetWidth(size)
-		button:SetHeight(size)
-	end
-end
-
-------------------------------------------------------------------------
-
-function SetButtonSpacing(parent, spacing)
-	for i, button in ipairs(parent.buttons) do
-		if i > 1 then
-			button:ClearAllPoints()
-			button:SetPoint("TOPRIGHT", parent.buttons[i - 1], "TOPLEFT", -spacing, 0)
-		end
-	end
-
-	local numEnchants = 0
-	for i = 1, #PhanxTempEnchantFrame.buttons do
-		if PhanxTempEnchantFrame.buttons[i]:IsShown() then
-			numEnchants = numEnchants + 1
-		end
-	end
-	if numEnchants > 0 then
-		PhanxBuffFrame.buttons[1]:SetPoint("TOPRIGHT", PhanxTempEnchantFrame.buttons[numEnchants], "TOPLEFT", -spacing, 0)
-	else
-		PhanxBuffFrame.buttons[1]:SetPoint("TOPRIGHT", PhanxBuffFrame)
-	end
-end
-
-------------------------------------------------------------------------
-
 local function GetFontFile(name)
 	local file = LibSharedMedia and LibSharedMedia:Fetch("font", name) or defaultFonts[name]
 	return file or [[Fonts\FRIZQT__.TTF]]
@@ -91,18 +60,59 @@ local function SetButtonFonts(parent, face, outline)
 
 	local file = GetFontFile(face)
 
-	local size, _
+	local baseSize = parent == PhanxDebuffFrame and db.debuffSize or db.buffSize
 	for i, button in ipairs(parent.buttons) do
-		_, size, _ = button.count:GetFont()
-		button.count:SetFont(file, size, outline)
-
-		_, size, _ = button.timer:GetFont()
-		button.timer:SetFont(file, size, outline)
-
+		button.count:SetFont(file, baseSize * 0.6, outline)
+		button.timer:SetFont(file, baseSize * 0.5, outline)
 		if button.symbol then
-			_, size, _ = button.symbol:GetFont()
-			button.symbol:SetFont(file, size, outline)
+			button.symbol:SetFont(file, baseSize * 0.6, outline)
 		end
+	end
+end
+
+------------------------------------------------------------------------
+
+function SetButtonSize(parent, size)
+	-- print("SetButtonSize", parent:GetName(), size)
+	for i, button in ipairs(parent.buttons) do
+		button:SetWidth(size)
+		button:SetHeight(size)
+	end
+end
+
+------------------------------------------------------------------------
+
+local opp = {
+	["LEFT"] = "RIGHT",
+	["RIGHT"] = "LEFT",
+}
+
+function SetButtonSpacing(parent, spacing)
+	-- print("SetButtonSpacing", parent:GetName(), spacing)
+	local v = parent == PhanxDebuffFrame and "BOTTOM" or "TOP"
+	local h = db.growthAnchor
+
+	for i, button in ipairs(parent.buttons) do
+		if i > 1 then
+			button:ClearAllPoints()
+			button:SetPoint(v .. h, parent.buttons[i - 1], v .. opp[h], -spacing, 0)
+			-- print(i, v .. h, v .. opp[h])
+		else
+			button:SetPoint(v .. h, parent, v .. h, 0, 0)
+			-- print(i, v .. h)
+		end
+	end
+
+	local numEnchants = 0
+	for i = 1, #PhanxTempEnchantFrame.buttons do
+		if PhanxTempEnchantFrame.buttons[i]:IsShown() then
+			numEnchants = numEnchants + 1
+		end
+	end
+	if numEnchants > 0 then
+		PhanxBuffFrame.buttons[1]:SetPoint(v .. h, PhanxTempEnchantFrame.buttons[numEnchants], v .. opp[h], -spacing, 0)
+	else
+		PhanxBuffFrame.buttons[1]:SetPoint(v .. h, PhanxBuffFrame)
 	end
 end
 
@@ -234,7 +244,7 @@ optionsPanel:SetScript("OnShow", function(self)
 
 	-------------------------------------------------------------------
 
-	local debuffSize = self:CreateSlider(L["Debuff Size"], 12, 48, 2)
+	local debuffSize = self:CreateSlider(L["Debuff Size"], 12, 64, 2)
 	debuffSize.desc = L["Adjust the icon size for debuffs."]
 	debuffSize.container:SetPoint("TOPLEFT", buffSpacing.container, "BOTTOMLEFT", 0, -12)
 	debuffSize.container:SetPoint("TOPRIGHT", buffSpacing.container, "BOTTOMRIGHT", 0, -12)
@@ -255,7 +265,7 @@ optionsPanel:SetScript("OnShow", function(self)
 	debuffSpacing.container:SetPoint("TOPRIGHT", debuffSize.container, "BOTTOMRIGHT", 0, -12)
 	debuffSpacing.valueText:SetText(db.debuffSpacing)
 	debuffSpacing:SetValue(db.debuffSpacing)
-	function debuffSize:OnValueChanged(value)
+	function debuffSpacing:OnValueChanged(value)
 		value = math.floor(value + 0.5)
 		db.debuffSpacing = value
 		SetButtonSpacing(PhanxDebuffFrame, value)
@@ -454,6 +464,49 @@ optionsPanel:SetScript("OnShow", function(self)
 
 		fontOutline.valueText:SetText(outlines[db.fontOutline] or L["None"])
 		UIDropDownMenu_SetSelectedValue(fontOutline, db.fontOutline or L["None"])
+	end
+
+	-------------------------------------------------------------------
+
+	local growthAnchor = self:CreateDropdown(L["Growth Anchor"])
+	growthAnchor.container.desc = L["Change the side of the screen from which buffs and debuffs grow."]
+	growthAnchor.container:SetPoint("TOPLEFT", fontOutline.container, "BOTTOMLEFT", 0, -12)
+	growthAnchor.container:SetPoint("TOPRIGHT", fontOutline.container, "BOTTOMRIGHT", 0, -12)
+	do
+		local anchors = { ["LEFT"] = L["Left"], ["RIGHT"] = L["Right"] }
+
+		local function OnClick(self)
+			local value = self.value
+
+			db.growthAnchor = value
+
+			SetButtonSpacing(PhanxBuffFrame, db.buffSpacing)
+			SetButtonSpacing(PhanxDebuffFrame, db.debuffSpacing)
+			SetButtonSpacing(PhanxTempEnchantFrame, db.buffSpacing)
+
+			growthAnchor.valueText:SetText(self.text)
+			UIDropDownMenu_SetSelectedValue(growthAnchor, self.value)
+		end
+
+		local info = { } -- UIDropDownMenu_CreateInfo()
+		UIDropDownMenu_Initialize(growthAnchor, function(self)
+			local selected = anchors[UIDropDownMenu_GetSelectedValue(growthAnchor)] or self.valueText:GetText()
+
+			info.text = L["Right"]
+			info.value = "RIGHT"
+			info.func = OnClick
+			info.checked = L["Right"] == selected
+			UIDropDownMenu_AddButton(info)
+
+			info.text = L["Left"]
+			info.value = "LEFT"
+			info.func = OnClick
+			info.checked = L["Left"] == selected
+			UIDropDownMenu_AddButton(info)
+		end)
+
+		growthAnchor.valueText:SetText(anchors[db.growthAnchor])
+		UIDropDownMenu_SetSelectedValue(growthAnchor, db.growthAnchor)
 	end
 
 	-------------------------------------------------------------------
