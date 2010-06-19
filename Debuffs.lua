@@ -60,9 +60,9 @@ local buttons = setmetatable({ }, { __index = function(t, i)
 	f:Show()
 
 	if i == 1 then
-		f:SetPoint("BOTTOMRIGHT", PhanxDebuffFrame, 0, 0)
+		f:SetPoint("BOTTOM" .. db.growthAnchor, PhanxDebuffFrame, "BOTTOM" .. db.growthAnchor, 0, 0)
 	else
-		f:SetPoint("BOTTOMRIGHT", t[i - 1], "BOTTOMLEFT", -db.debuffSpacing, 0)
+		f:SetPoint("BOTTOM" .. db.growthAnchor, t[i - 1], "BOTTOM" .. (db.growthAnchor == "RIGHT" and "LEFT" or "RIGHT"), (db.growthAnchor == "RIGHT" and  -db.buffSpacing or db.buffSpacing), 0)
 	end
 
 	f:EnableMouse(true)
@@ -287,7 +287,7 @@ function PhanxDebuffFrame:Load()
 	if db.debuffPoint and db.debuffX and db.debuffY then
 		self:SetPoint(db.debuffPoint, UIParent, db.debuffX, db.debuffY)
 	else
-		self:SetPoint("BOTTOMRIGHT", UIParent, -70 - Minimap:GetWidth(), UIParent:GetHeight() - Minimap:GetHeight() - 64)
+		self:SetPoint("BOTTOMRIGHT", UIParent, -70 - Minimap:GetWidth(), UIParent:GetHeight() - Minimap:GetHeight() - 62)
 	end
 	self:SetWidth(UIParent:GetWidth() - 100 - Minimap:GetWidth())
 	self:SetHeight(db.debuffSize)
