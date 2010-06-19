@@ -284,8 +284,12 @@ function PhanxDebuffFrame:Load()
 		db.ignoreDebuffs[k] = v
 	end
 
-	self:SetPoint("BOTTOMRIGHT", Minimap, "BOTTOMLEFT", -8, 0)
-	self:SetPoint("LEFT", UIParent, db.buffSize, 0)
+	if db.debuffPoint and db.debuffX and db.debuffY then
+		self:SetPoint(db.debuffPoint, UIParent, db.debuffX, db.debuffY)
+	else
+		self:SetPoint("BOTTOMRIGHT", UIParent, -70 - Minimap:GetWidth(), UIParent:GetHeight() - Minimap:GetHeight() - 63)
+	end
+	self:SetWidth(UIParent:GetWidth() - 100 - Minimap:GetWidth())
 	self:SetHeight(db.debuffSize)
 
 	dirty = true
