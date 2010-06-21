@@ -66,10 +66,14 @@ hooksecurefunc(PhanxTempEnchantFrame, "Load", function(self)
 			f.SetBorderColor = function(f, r, g, b, a)
 				if a == 0 then
 					LibButtonFacade:SetBorderColor(f, 1, 1, 1, 0)
-					LibButtonFacade:SetNormalVertexColor(f, 1, 1, 1, 1)
+					if LibButtonFacade:GetNormalTexture(f) then
+						LibButtonFacade:SetNormalVertexColor(f, 1, 1, 1, 1)
+					end
 				else
 					LibButtonFacade:SetBorderColor(f, r, g, b, a)
-					LibButtonFacade:SetNormalVertexColor(f, r, g, b, a)
+					if LibButtonFacade:GetNormalTexture(f) then
+						LibButtonFacade:SetNormalVertexColor(f, r, g, b, a)
+					end
 				end
 			end
 		end
@@ -88,7 +92,9 @@ hooksecurefunc(PhanxTempEnchantFrame, "Load", function(self)
 
 		if f:GetParent() == PhanxTempEnchantFrame then
 			LibButtonFacade:SetBorderColor(f, 0.46, 0.18, 0.67, 1)
-			LibButtonFacade:SetNormalVertexColor(f, 0.46, 0.18, 0.67, 1)
+			if LibButtonFacade:GetNormalTexture(f) then
+				LibButtonFacade:SetNormalVertexColor(f, 0.46, 0.18, 0.67, 1)
+			end
 		end
 	end
 
@@ -120,7 +126,9 @@ hooksecurefunc(PhanxTempEnchantFrame, "Load", function(self)
 
 		for i = 1, #PhanxTempEnchantFrame.buttons do
 			LibButtonFacade:SetBorderColor(PhanxTempEnchantFrame.buttons[i], 0.46, 0.18, 0.67, 1)
-			LibButtonFacade:SetNormalVertexColor(PhanxTempEnchantFrame.buttons[i], 0.46, 0.18, 0.67, 1)
+			if LibButtonFacade:GetNormalTexture(PhanxTempEnchantFrame.buttons[i]) then
+				LibButtonFacade:SetNormalVertexColor(PhanxTempEnchantFrame.buttons[i], 0.46, 0.18, 0.67, 1)
+			end
 		end
 
 		PhanxBuffFrame:UpdateBuffs()
@@ -136,16 +144,18 @@ hooksecurefunc(PhanxTempEnchantFrame, "Load", function(self)
 	SkinFrame(PhanxDebuffFrame)
 	SkinFrame(PhanxTempEnchantFrame)
 
+	local hookedOptionsPanel
 	ns.optionsPanel:HookScript("OnShow", function(panel)
-		if done then return end
+		if hookedOptionsPanel then return end
 
 		local L = ns.L
-
 		for i = 1, panel:GetNumChildren() do
 			local child = select(i, panel:GetChildren())
 			if child and not child.desc then
 				local grandchild = child.GetChildren and child:GetChildren()
+				-- print("Inspecting object", grandchild.OnValueChanged and "has OnValueChanged" or "noOnValueChanged", grandchild.desc)
 				if type(grandchild) == "table" and grandchild.OnValueChanged and (grandchild.desc == L["Adjust the icon size for buffs."] or grandchild.desc == L["Adjust the icon size for debuffs."]) then
+					-- print("Hooking slider", grandchild.desc)
 					local OnValueChanged = grandchild.OnValueChanged
 					grandchild.OnValueChanged = function(...)
 						OnValueChanged(...)
@@ -155,6 +165,8 @@ hooksecurefunc(PhanxTempEnchantFrame, "Load", function(self)
 				end
 			end
 		end
+
+		hookedOptionsPanel = true
 	end)
 
 	done = true
