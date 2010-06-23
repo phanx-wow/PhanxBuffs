@@ -101,8 +101,9 @@ local buttons = setmetatable({ }, { __index = function(t, i)
 		f:SetBorderColor(180 / 255, 76 / 255, 1) -- 118 / 255, 47 / 255, 170 / 255)
 	else
 		f.border = f:CreateTexture(nil, "OVERLAY")
+		f.border:SetPoint("TOPLEFT", f, -2, 2)
+		f.border:SetPoint("BOTTOMRIGHT", f, 2, -2)
 		f.border:SetTexture("Interface\\Buttons\\UI-TempEnchant-Border")
-		f.border:SetAllPoints(f)
 	end
 
 	t[i] = f
