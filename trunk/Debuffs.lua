@@ -85,10 +85,11 @@ local buttons = setmetatable({ }, { __index = function(t, i)
 		f.icon:SetTexCoord(0.07, 0.93, 0.07, 0.93)
 	else
 		f.border = f:CreateTexture(nil, "BORDER")
+		f.border:SetPoint("TOPLEFT", f, -3, 2)
+		f.border:SetPoint("BOTTOMRIGHT", f, 2, -2)
 		f.border:SetTexture("Interface\\Buttons\\UI-Debuff-Overlays")
-		f.border:SetAllPoints(f)
 		f.border:SetTexCoord(0.296875, 0.5703125, 0, 0.515625)
-		f.SetBorderColor = function(...) return f.border:SetVertexColor(...) end
+		f.SetBorderColor = function(f, ...) return f.border:SetVertexColor(...) end
 	end
 
 	f.symbol = f:CreateFontString(nil, "OVERLAY")
@@ -190,7 +191,8 @@ function PhanxDebuffFrame:UpdateDebuffs()
 
 		local debuffTypeColor = DebuffTypeColor[debuff.kind]
 		if debuffTypeColor then
-			f:SetBorderColor(unpack(debuffTypeColor))
+			local r, g, b = unpack(debuffTypeColor)
+			f:SetBorderColor(r, g, b, 1)
 			if ENABLE_COLORBLIND_MODE == "1" then
 				f.symbol:Show()
 				f.symbol:SetText(DebuffTypeSymbol[debuff.kind])
@@ -198,7 +200,7 @@ function PhanxDebuffFrame:UpdateDebuffs()
 				f.symbol:Hide()
 			end
 		else
-			f:SetBorderColor(1, 0, 0)
+			f:SetBorderColor(1, 0, 0, 1)
 			f.symbol:Hide()
 		end
 
