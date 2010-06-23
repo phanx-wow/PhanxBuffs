@@ -66,14 +66,10 @@ hooksecurefunc(PhanxTempEnchantFrame, "Load", function(self)
 			f.SetBorderColor = function(f, r, g, b, a)
 				if a == 0 then
 					LibButtonFacade:SetBorderColor(f, 1, 1, 1, 0)
-					if LibButtonFacade:GetNormalTexture(f) then
-						LibButtonFacade:SetNormalVertexColor(f, 1, 1, 1, 1)
-					end
+					LibButtonFacade:SetNormalVertexColor(f, 1, 1, 1, 1)
 				else
 					LibButtonFacade:SetBorderColor(f, r, g, b, a)
-					if LibButtonFacade:GetNormalTexture(f) then
-						LibButtonFacade:SetNormalVertexColor(f, r, g, b, a)
-					end
+					LibButtonFacade:SetNormalVertexColor(f, r, g, b, a)
 				end
 			end
 		end
@@ -91,10 +87,9 @@ hooksecurefunc(PhanxTempEnchantFrame, "Load", function(self)
 		LibButtonFacade:Group("PhanxBuffs"):AddButton(f, f.buttonData)
 
 		if f:GetParent() == PhanxTempEnchantFrame then
+			-- print("Recoloring temp enchant button")
 			LibButtonFacade:SetBorderColor(f, 0.46, 0.18, 0.67, 1)
-			if LibButtonFacade:GetNormalTexture(f) then
-				LibButtonFacade:SetNormalVertexColor(f, 0.46, 0.18, 0.67, 1)
-			end
+			LibButtonFacade:SetNormalVertexColor(f, 0.46, 0.18, 0.67, 1)
 		end
 	end
 
@@ -125,10 +120,9 @@ hooksecurefunc(PhanxTempEnchantFrame, "Load", function(self)
 		db.skin.colors = colors
 
 		for i = 1, #PhanxTempEnchantFrame.buttons do
+			-- print("Recoloring temp enchant button", i)
 			LibButtonFacade:SetBorderColor(PhanxTempEnchantFrame.buttons[i], 0.46, 0.18, 0.67, 1)
-			if LibButtonFacade:GetNormalTexture(PhanxTempEnchantFrame.buttons[i]) then
-				LibButtonFacade:SetNormalVertexColor(PhanxTempEnchantFrame.buttons[i], 0.46, 0.18, 0.67, 1)
-			end
+			LibButtonFacade:SetNormalVertexColor(PhanxTempEnchantFrame.buttons[i], 0.46, 0.18, 0.67, 1)
 		end
 
 		PhanxBuffFrame:UpdateBuffs()
@@ -153,9 +147,7 @@ hooksecurefunc(PhanxTempEnchantFrame, "Load", function(self)
 			local child = select(i, panel:GetChildren())
 			if child and not child.desc then
 				local grandchild = child.GetChildren and child:GetChildren()
-				-- print("Inspecting object", grandchild.OnValueChanged and "has OnValueChanged" or "noOnValueChanged", grandchild.desc)
 				if type(grandchild) == "table" and grandchild.OnValueChanged and (grandchild.desc == L["Adjust the icon size for buffs."] or grandchild.desc == L["Adjust the icon size for debuffs."]) then
-					-- print("Hooking slider", grandchild.desc)
 					local OnValueChanged = grandchild.OnValueChanged
 					grandchild.OnValueChanged = function(...)
 						OnValueChanged(...)
