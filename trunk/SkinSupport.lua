@@ -64,12 +64,12 @@ hooksecurefunc(PhanxTempEnchantFrame, "Load", function(self)
 		end
 		if f.SetBorderColor then
 			f.SetBorderColor = function(f, r, g, b, a)
-				if a == 0 then
-					LibButtonFacade:SetBorderColor(f, 1, 1, 1, 0)
-					LibButtonFacade:SetNormalVertexColor(f, 1, 1, 1, 1)
-				else
+				if a and a > 0 then
 					LibButtonFacade:SetBorderColor(f, r, g, b, a)
 					LibButtonFacade:SetNormalVertexColor(f, r, g, b, a)
+				else
+					LibButtonFacade:SetBorderColor(f, 1, 1, 1, 0)
+					LibButtonFacade:SetNormalVertexColor(f, 1, 1, 1, 1)
 				end
 			end
 		end
