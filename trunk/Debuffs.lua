@@ -38,6 +38,8 @@ local DebuffTypeColor = {
 local _, ns = ...
 local GetFontFile = ns.GetFontFile
 
+local MAX_DEBUFFS = 20
+
 ------------------------------------------------------------------------
 
 local function button_OnEnter(self)
@@ -58,12 +60,6 @@ local buttons = setmetatable({ }, { __index = function(t, i)
 	f:SetWidth(db.debuffSize)
 	f:SetHeight(db.debuffSize)
 	f:Show()
-
-	if i == 1 then
-		f:SetPoint("BOTTOM" .. db.growthAnchor, PhanxDebuffFrame, "BOTTOM" .. db.growthAnchor, 0, 0)
-	else
-		f:SetPoint("BOTTOM" .. db.growthAnchor, t[i - 1], "BOTTOM" .. (db.growthAnchor == "RIGHT" and "LEFT" or "RIGHT"), (db.growthAnchor == "RIGHT" and  -db.buffSpacing or db.buffSpacing), 0)
-	end
 
 	f:EnableMouse(true)
 	f:SetScript("OnEnter", button_OnEnter)
@@ -97,10 +93,44 @@ local buttons = setmetatable({ }, { __index = function(t, i)
 	f.symbol:SetFont(GetFontFile(db.fontFace), db.debuffSize * 0.5, "OUTLINE")
 
 	t[i] = f
+
+	PhanxDebuffFrame:UpdateLayout()
+
 	return f
 end })
 
 PhanxDebuffFrame.buttons = buttons
+
+------------------------------------------------------------------------
+
+function PhanxDebuffFrame:UpdateLayout()
+	local anchor = db.growthAnchor
+	local size = db.debuffSize
+	local spacing = db.debuffSpacing
+	local cols = db.debuffColumns
+
+	for i, button in ipairs(buttons) do
+		local col = (i - 1) % cols
+		local row = math.ceil(i / cols) - 1
+
+		local x = col * (spacing + size) * (anchor == "LEFT" and 1 or -1)
+		local y = row * (spacing + (size * 1.5))
+
+		button:ClearAllPoints()
+		button:SetWidth(size)
+		button:SetHeight(size)
+		button:SetPoint("TOP" .. anchor, self, "TOP" .. anchor, x, -y)
+	end
+
+	self:ClearAllPoints()
+	if db.debuffPoint and db.debuffX and db.debuffY then
+		self:SetPoint(db.debuffPoint, UIParent, db.debuffX, db.debuffY)
+	else
+		self:SetPoint("BOTTOMRIGHT", UIParent, -70 - Minimap:GetWidth(), UIParent:GetHeight() - Minimap:GetHeight() - 62)
+	end
+	self:SetWidth((size * cols) + (spacing * (cols - 1)))
+	self:SetHeight(size)
+end
 
 ------------------------------------------------------------------------
 
@@ -158,7 +188,7 @@ function PhanxDebuffFrame:Update()
 		local name, _, icon, count, kind, duration, expires, caster, _, _, spellID = UnitAura(debuffUnit, i, "HARMFUL")
 		if not icon or icon == "" then break end
 
-		if not db.ignoreDebuffs[name] then
+		if not ignore[name] then
 			local t = newTable()
 
 			t.name = name
@@ -282,17 +312,6 @@ function PhanxDebuffFrame:Load()
 	if db then return end
 
 	db = PhanxBuffsDB
-	for k, v in pairs(ignore) do
-		db.ignoreDebuffs[k] = v
-	end
-
-	if db.debuffPoint and db.debuffX and db.debuffY then
-		self:SetPoint(db.debuffPoint, UIParent, db.debuffX, db.debuffY)
-	else
-		self:SetPoint("BOTTOMRIGHT", UIParent, -70 - Minimap:GetWidth(), UIParent:GetHeight() - Minimap:GetHeight() - 62)
-	end
-	self:SetWidth(UIParent:GetWidth() - 100 - Minimap:GetWidth())
-	self:SetHeight(db.debuffSize)
 
 	dirty = true
 	self:SetScript("OnUpdate", self.OnUpdate)
