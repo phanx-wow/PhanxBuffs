@@ -71,12 +71,6 @@ local buttons = setmetatable({ }, { __index = function(t, i)
 	f:SetHeight(db.buffSize)
 	f:Show()
 
-	if i > 1 then
-		f:SetPoint("TOP" .. db.growthAnchor, t[i - 1], "TOP" .. (db.growthAnchor == "RIGHT" and "LEFT" or "RIGHT"), (db.growthAnchor == "RIGHT" and  -db.buffSpacing or db.buffSpacing), 0)
-	else
-		f:SetPoint("TOP" .. db.growthAnchor, PhanxTempEnchantFrame, "TOP" .. db.growthAnchor, 0, 0)
-	end
-
 	f:EnableMouse(true)
 	f:SetScript("OnEnter", button_OnEnter)
 	f:SetScript("OnLeave", button_OnLeave)
@@ -107,10 +101,35 @@ local buttons = setmetatable({ }, { __index = function(t, i)
 	end
 
 	t[i] = f
+
+	PhanxTempEnchantFrame:UpdateLayout()
+
 	return f
 end })
 
 PhanxTempEnchantFrame.buttons = buttons
+
+------------------------------------------------------------------------
+
+function PhanxTempEnchantFrame:UpdateLayout()
+	local size = db.buffSize
+	local spacing = db.buffSpacing
+	local anchor = db.growthAnchor
+
+	for i, button in ipairs(buttons) do
+		local x = (spacing + size) * (i - 1) * (anchor == "LEFT" and 1 or -1)
+
+		button:ClearAllPoints()
+		button:SetPoint("TOP" .. anchor, self, "TOP" .. anchor, x, 0)
+		button:SetWidth(size)
+		button:SetHeight(size)
+	end
+
+	self:ClearAllPoints()
+	self:SetPoint("TOP" .. anchor, PhanxBuffFrame, "TOP" .. anchor, 0, 0)
+	self:SetWidth((db.buffSize * 2) + db.buffSpacing)
+	self:SetHeight(db.buffSize)
+end
 
 ------------------------------------------------------------------------
 
@@ -270,11 +289,7 @@ function PhanxTempEnchantFrame:Update()
 		end
 	end
 
-	if numEnchants > 0 then
-		PhanxBuffFrame.buttons[1]:SetPoint("TOP" .. db.growthAnchor, buttons[numEnchants], "TOP" .. (db.growthAnchor == "RIGHT" and "LEFT" or "RIGHT"), (db.growthAnchor == "RIGHT" and  -db.buffSpacing or db.buffSpacing), 0)
-	else
-		PhanxBuffFrame.buttons[1]:SetPoint("TOP" .. db.growthAnchor, PhanxBuffFrame, "TOP" .. db.growthAnchor, 0, 0)
-	end
+	PhanxBuffFrame:UpdateLayout()
 end
 
 ------------------------------------------------------------------------
@@ -410,10 +425,6 @@ function PhanxTempEnchantFrame:Load()
 	if db then return end
 
 	db = PhanxBuffsDB
-
-	self:SetPoint("TOP" .. db.growthAnchor, PhanxBuffFrame)
-	self:SetWidth(db.buffSize * 2 + db.buffSpacing)
-	self:SetHeight(db.buffSize)
 
 	dirty = true
 	self:SetScript("OnUpdate", self.OnUpdate)
