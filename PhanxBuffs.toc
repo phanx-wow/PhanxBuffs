@@ -24,13 +24,13 @@ Libs\PhanxConfig-ScrollingDropdown\PhanxConfig-ScrollingDropdown.lua
 Libs\PhanxConfig-Slider\PhanxConfig-Slider.lua
 Libs\LibAboutPanel\LibAboutPanel.lua
 
-Localization\deDE.lua
-Localization\esES.lua
-Localization\frFR.lua
-Localization\ruRU.lua
-Localization\koKR.lua
-Localization\zhCN.lua
-Localization\zhTW.lua
+Localization\Locale-deDE.lua
+Localization\Locale-esES.lua
+Localization\Locale-frFR.lua
+Localization\Locale-ruRU.lua
+Localization\Locale-koKR.lua
+Localization\Locale-zhCN.lua
+Localization\Locale-zhTW.lua
 
 PhanxBuffs.lua
 

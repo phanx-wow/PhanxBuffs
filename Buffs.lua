@@ -10,7 +10,7 @@
 local PhanxBuffFrame = CreateFrame("Frame", "PhanxBuffFrame", UIParent)
 
 local db
-local ignoreBuffs = {
+local ignore = {
 	["Fake Buff"] = true,
 }
 
@@ -19,6 +19,8 @@ local buffUnit = "player"
 
 local _, ns = ...
 local GetFontFile = ns.GetFontFile
+
+local MAX_BUFFS = 40
 
 ------------------------------------------------------------------------
 
@@ -65,19 +67,13 @@ local function button_OnClick(self)
 end
 
 local buttons = setmetatable({ }, { __index = function(t, i)
-	if type(i) ~= "number" then return print("NON-NUMERIC INDEX " .. tostring(i) .. " SPECIFIED WTF") end
+	if type(i) ~= "number" then return end
 
 	local f = CreateFrame("Button", nil, PhanxBuffFrame)
 	f:SetID(i)
 	f:SetWidth(db.buffSize)
 	f:SetHeight(db.buffSize)
 	f:Show()
-
-	if i == 1 then
-		f:SetPoint("TOP" .. db.growthAnchor, PhanxBuffFrame, "TOP" .. db.growthAnchor, 0, 0)
-	else
-		f:SetPoint("TOP" .. db.growthAnchor, t[i - 1], "TOP" .. (db.growthAnchor == "RIGHT" and "LEFT" or "RIGHT"), (db.growthAnchor == "RIGHT" and  -db.buffSpacing or db.buffSpacing), 0)
-	end
 
 	f:EnableMouse(true)
 	f:SetScript("OnEnter", button_OnEnter)
@@ -103,10 +99,55 @@ local buttons = setmetatable({ }, { __index = function(t, i)
 	end
 
 	t[i] = f
+
+	PhanxBuffFrame:UpdateLayout()
+
 	return f
 end })
 
 PhanxBuffFrame.buttons = buttons
+
+------------------------------------------------------------------------
+
+function PhanxBuffFrame:UpdateLayout()
+	local tempEnchants = 0
+
+	for _, button in ipairs(PhanxTempEnchantFrame.buttons) do
+		if button:IsShown() then
+			tempEnchants = tempEnchants + 1
+		end
+	end
+
+	local anchor = db.growthAnchor
+	local size = db.buffSize
+	local spacing = db.buffSpacing
+	local cols = db.buffColumns
+	local rows = math.ceil(MAX_BUFFS / cols)
+
+	for i, button in ipairs(buttons) do
+		local j = i + tempEnchants
+
+		local col = (j - 1) % cols
+		local row = math.ceil(j / cols) - 1
+
+		local x = col * (spacing + size) * (anchor == "LEFT" and 1 or -1)
+		local y = row * (spacing + (size * 1.5))
+
+		button:ClearAllPoints()
+		button:SetWidth(size)
+		button:SetHeight(size)
+		button:SetPoint("TOP" .. anchor, self, "TOP" .. anchor, x, -y)
+	end
+
+	self:ClearAllPoints()
+	if db.buffPoint and db.buffX and db.buffY then
+		self:SetPoint(db.buffPoint, UIParent, db.buffX, db.buffY)
+	else
+		self:SetPoint("TOPRIGHT", UIParent, -70 - Minimap:GetWidth(), -30)
+	end
+	self:SetWidth((size * cols) + (spacing * (cols - 1)))
+	self:SetHeight((size * rows) + (spacing * (rows - 1)))
+end
 
 ------------------------------------------------------------------------
 
@@ -164,7 +205,7 @@ function PhanxBuffFrame:Update()
 		local name, _, icon, count, kind, duration, expires, caster, _, _, spellID = UnitAura(buffUnit, i, "HELPFUL")
 		if not icon or icon == "" then break end
 
-		if not db.ignoreBuffs[name] then
+		if not ignore[name] then
 			local t = newTable()
 
 			t.name = name
@@ -275,19 +316,8 @@ function PhanxBuffFrame:Load()
 	if db then return end
 
 	db = PhanxBuffsDB
-	for k, v in pairs(ignoreBuffs) do
-		db.ignoreBuffs[k] = v
-	end
 
 	LibButtonFacade = LibStub("LibButtonFacade", true)
-
-	if db.buffPoint and db.buffX and db.buffY then
-		self:SetPoint(db.buffPoint, UIParent, db.buffX, db.buffY)
-	else
-		self:SetPoint("TOPRIGHT", UIParent, -70 - Minimap:GetWidth(), -30)
-	end
-	self:SetWidth(UIParent:GetWidth() - 100 - Minimap:GetWidth())
-	self:SetHeight(db.buffSize)
 
 	dirty = true
 	self:SetScript("OnUpdate", self.OnUpdate)

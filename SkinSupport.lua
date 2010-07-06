@@ -97,9 +97,9 @@ hooksecurefunc(PhanxTempEnchantFrame, "Load", function(self)
 		-- print("Skinning frame " .. frame:GetName() .. "...")
 		local buttons = frame.buttons
 
-		for i = 1, #buttons do
+		for i, button in ipairs(buttons) do
 			-- print("Skinning button " .. i .. " in frame " .. frame:GetName() .. "...")
-			SkinButton(buttons[i])
+			SkinButton(button)
 		end
 
 		local oldmetatable = getmetatable(buttons).__index
@@ -125,9 +125,9 @@ hooksecurefunc(PhanxTempEnchantFrame, "Load", function(self)
 			LibButtonFacade:SetNormalVertexColor(PhanxTempEnchantFrame.buttons[i], 0.46, 0.18, 0.67, 1)
 		end
 
-		PhanxBuffFrame:UpdateBuffs()
-		PhanxDebuffFrame:UpdateDebuffs()
-		PhanxTempEnchantFrame:UpdateTempEnchants()
+		PhanxBuffFrame:Update()
+		PhanxDebuffFrame:Update()
+		PhanxTempEnchantFrame:Update()
 	end
 
 	LibButtonFacade:RegisterSkinCallback("PhanxBuffs", OnSkinChanged)
@@ -147,7 +147,7 @@ hooksecurefunc(PhanxTempEnchantFrame, "Load", function(self)
 			local child = select(i, panel:GetChildren())
 			if child and not child.desc then
 				local grandchild = child.GetChildren and child:GetChildren()
-				if type(grandchild) == "table" and grandchild.OnValueChanged and (grandchild.desc == L["Adjust the icon size for buffs."] or grandchild.desc == L["Adjust the icon size for debuffs."]) then
+				if type(grandchild) == "table" and grandchild.OnValueChanged and (grandchild.desc == L["Set the size of each buff icon."] or grandchild.desc == L["Set the size of each debuff icon."]) then
 					local OnValueChanged = grandchild.OnValueChanged
 					grandchild.OnValueChanged = function(...)
 						OnValueChanged(...)
