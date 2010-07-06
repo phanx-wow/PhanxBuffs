@@ -154,7 +154,7 @@ end
 
 ------------------------------------------------------------------------
 
-function PhanxBuffFrame:UpdateBuffs()
+function PhanxBuffFrame:Update()
 	for i, t in ipairs(buffs) do
 		buffs[i] = remTable(t)
 	end
@@ -162,12 +162,10 @@ function PhanxBuffFrame:UpdateBuffs()
 	local i = 1
 	while true do
 		local name, _, icon, count, kind, duration, expires, caster, _, _, spellID = UnitAura(buffUnit, i, "HELPFUL")
-		if not name then break end
+		if not icon or icon == "" then break end
 
 		if not db.ignoreBuffs[name] then
-			local n = #buffs + 1
-			buffs[n] = newTable()
-			local t = buffs[n]
+			local t = newTable()
 
 			t.name = name
 			t.icon = icon
@@ -178,15 +176,11 @@ function PhanxBuffFrame:UpdateBuffs()
 			t.caster = caster
 			t.spellID = spellID
 			t.index = i
+
+			buffs[#buffs + 1] = t
 		end
 
 		i = i + 1
-	end
-
-	if #buffs > (i - 1) then
-		for j = i, #buffs do
-			buffs[j] = nil
-		end
 	end
 
 	table.sort(buffs, BuffSort)
@@ -221,7 +215,7 @@ function PhanxBuffFrame:OnUpdate(elapsed)
 	counter = counter + elapsed
 	if counter > 0.1 then
 		if dirty then
-			self:UpdateBuffs()
+			self:Update()
 			dirty = false
 		end
 		for i, button in ipairs(buttons) do

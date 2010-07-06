@@ -106,6 +106,11 @@ function SetButtonSpacing(parent, spacing)
 		end
 	end
 
+	if parent == PhanxTempEnchantFrame then
+		parent:ClearAllPoints()
+		parent:SetPoint("TOP" .. db.growthAnchor, PhanxBuffFrame)
+	end
+
 	local numEnchants = 0
 	for i = 1, #PhanxTempEnchantFrame.buttons do
 		if PhanxTempEnchantFrame.buttons[i]:IsShown() then
@@ -193,12 +198,12 @@ optionsPanel:SetScript("OnEvent", function(self)
 end)
 
 optionsPanel:SetScript("OnShow", function(self)
---	self.CreatePanel = LibStub("PhanxConfig-Panel").CreatePanel
-	self.CreateCheckbox = LibStub("PhanxConfig-Checkbox").CreateCheckbox
---	self.CreateColorPicker = LibStub("PhanxConfig-ColorPicker").CreateColorPicker
-	self.CreateDropdown = LibStub("PhanxConfig-Dropdown").CreateDropdown
-	self.CreateScrollingDropdown = LibStub("PhanxConfig-ScrollingDropdown").CreateScrollingDropdown
-	self.CreateSlider = LibStub("PhanxConfig-Slider").CreateSlider
+	local CreateCheckbox = LibStub("PhanxConfig-Checkbox").CreateCheckbox
+	local CreateDropdown = LibStub("PhanxConfig-Dropdown").CreateDropdown
+	local CreateScrollingDropdown = LibStub("PhanxConfig-ScrollingDropdown").CreateScrollingDropdown
+	local CreateSlider = LibStub("PhanxConfig-Slider").CreateSlider
+
+	-------------------------------------------------------------------
 
 	local title = self:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
 	title:SetPoint("TOPLEFT", 16, -16)
@@ -217,13 +222,13 @@ optionsPanel:SetScript("OnShow", function(self)
 
 	-------------------------------------------------------------------
 
-	local buffSize = self:CreateSlider(L["Buff Size"], 12, 48, 2)
+	local buffSize = CreateSlider(self, L["Buff Size"], 12, 48, 2)
 	buffSize.desc = L["Adjust the icon size for buffs."]
-	buffSize.container:SetPoint("TOPLEFT", notes, "BOTTOMLEFT", -4, -8)
-	buffSize.container:SetPoint("TOPRIGHT", notes, "BOTTOM", -8, -8)
-	buffSize.valueText:SetText(db.buffSize)
+	buffSize:SetPoint("TOPLEFT", notes, "BOTTOMLEFT", -4, -8)
+	buffSize:SetPoint("TOPRIGHT", notes, "BOTTOM", -8, -8)
 	buffSize:SetValue(db.buffSize)
-	function buffSize:OnValueChanged(value)
+
+	buffSize.OnValueChanged = function(self, value)
 		value = math.floor((value / 2) + 0.5) * 2
 		db.buffSize = value
 		SetButtonSize(PhanxBuffFrame, value)
@@ -233,13 +238,13 @@ optionsPanel:SetScript("OnShow", function(self)
 
 	-------------------------------------------------------------------
 
-	local buffSpacing = self:CreateSlider(L["Buff Spacing"], 0, 8, 1)
+	local buffSpacing = CreateSlider(self, L["Buff Spacing"], 0, 8, 1)
 	buffSpacing.desc = L["Adjust the space between icons for buffs."]
-	buffSpacing.container:SetPoint("TOPLEFT", buffSize.container, "BOTTOMLEFT", 0, -12)
-	buffSpacing.container:SetPoint("TOPRIGHT", buffSize.container, "BOTTOMRIGHT", 0, -12)
-	buffSpacing.valueText:SetText(db.buffSpacing)
+	buffSpacing:SetPoint("TOPLEFT", buffSize, "BOTTOMLEFT", 0, -12)
+	buffSpacing:SetPoint("TOPRIGHT", buffSize, "BOTTOMRIGHT", 0, -12)
 	buffSpacing:SetValue(db.buffSpacing)
-	function buffSpacing:OnValueChanged(value)
+
+	buffSpacing.OnValueChanged = function(self, value)
 		value = math.floor(value + 0.5)
 		db.buffSpacing = value
 		SetButtonSpacing(PhanxBuffFrame, value)
@@ -249,13 +254,13 @@ optionsPanel:SetScript("OnShow", function(self)
 
 	-------------------------------------------------------------------
 
-	local debuffSize = self:CreateSlider(L["Debuff Size"], 12, 64, 2)
+	local debuffSize = CreateSlider(self, L["Debuff Size"], 12, 64, 2)
 	debuffSize.desc = L["Adjust the icon size for debuffs."]
-	debuffSize.container:SetPoint("TOPLEFT", buffSpacing.container, "BOTTOMLEFT", 0, -12)
-	debuffSize.container:SetPoint("TOPRIGHT", buffSpacing.container, "BOTTOMRIGHT", 0, -12)
-	debuffSize.valueText:SetText(db.debuffSize)
+	debuffSize:SetPoint("TOPLEFT", buffSpacing, "BOTTOMLEFT", 0, -12)
+	debuffSize:SetPoint("TOPRIGHT", buffSpacing, "BOTTOMRIGHT", 0, -12)
 	debuffSize:SetValue(db.debuffSize)
-	function debuffSize:OnValueChanged(value)
+
+	debuffSize.OnValueChanged = function(self, value)
 		value = math.floor((value / 2) + 0.5) * 2
 		db.debuffSize = value
 		SetButtonSize(PhanxDebuffFrame, value)
@@ -264,13 +269,13 @@ optionsPanel:SetScript("OnShow", function(self)
 
 	-------------------------------------------------------------------
 
-	local debuffSpacing = self:CreateSlider(L["Debuff Spacing"], 0, 8, 1)
+	local debuffSpacing = CreateSlider(self, L["Debuff Spacing"], 0, 8, 1)
 	debuffSpacing.desc = L["Adjust the space between icons for debuffs."]
-	debuffSpacing.container:SetPoint("TOPLEFT", debuffSize.container, "BOTTOMLEFT", 0, -12)
-	debuffSpacing.container:SetPoint("TOPRIGHT", debuffSize.container, "BOTTOMRIGHT", 0, -12)
-	debuffSpacing.valueText:SetText(db.debuffSpacing)
+	debuffSpacing:SetPoint("TOPLEFT", debuffSize, "BOTTOMLEFT", 0, -12)
+	debuffSpacing:SetPoint("TOPRIGHT", debuffSize, "BOTTOMRIGHT", 0, -12)
 	debuffSpacing:SetValue(db.debuffSpacing)
-	function debuffSpacing:OnValueChanged(value)
+
+	debuffSpacing.OnValueChanged = function(self, value)
 		value = math.floor(value + 0.5)
 		db.debuffSpacing = value
 		SetButtonSpacing(PhanxDebuffFrame, value)
@@ -279,31 +284,42 @@ optionsPanel:SetScript("OnShow", function(self)
 
 	-------------------------------------------------------------------
 
-	local showBuffSources = self:CreateCheckbox(L["Buff Sources"])
+	local showBuffSources = CreateCheckbox(self, L["Buff Sources"])
 	showBuffSources.desc = L["Show the name of the party or raid member who cast a buff on you in its tooltip."]
-	showBuffSources:SetPoint("TOPLEFT", debuffSpacing.container, "BOTTOMLEFT", 2, -8)
+	showBuffSources:SetPoint("TOPLEFT", debuffSpacing, "BOTTOMLEFT", 2, -8)
 	showBuffSources:SetChecked(db.showBuffSources)
-	function showBuffSources:OnClick(checked)
+
+	showBuffSources.OnClick = function(self, checked)
 		db.showBuffSources = checked
 	end
 
 	-------------------------------------------------------------------
 
-	local showTempEnchantSources = self:CreateCheckbox(L["Weapon Buff Sources"])
+	local showTempEnchantSources = CreateCheckbox(self, L["Weapon Buff Sources"])
 	showTempEnchantSources.desc = L["Show weapon buffs as the spell or item that buffed the weapon, instead of the weapon itself."]
 	showTempEnchantSources:SetPoint("TOPLEFT", showBuffSources, "BOTTOMLEFT", 0, -8)
 	showTempEnchantSources:SetChecked(db.showTempEnchantSources)
-	function showTempEnchantSources:OnClick(checked)
+
+	showTempEnchantSources.OnClick = function(self, checked)
 		db.showTempEnchantSources = checked
 		PhanxTempEnchantFrame:UpdateTempEnchants()
 	end
 
 	-------------------------------------------------------------------
 
-	local dragBackdrop = { bgFile="Interface\\Tooltips\\UI-Tooltip-Background" }
+	local lockFrames = CreateCheckbox(self, L["Lock Frames"])
+	lockFrames.desc = L["Lock the buff and debuff frames in place, hiding the backdrop and preventing them from being moved."]
+	lockFrames:SetPoint("TOPLEFT", showTempEnchantSources, "BOTTOMLEFT", 0, -8)
+	lockFrames:SetChecked(true)
+
+	local dragBackdrop = {
+		bgFile="Interface\\Tooltips\\UI-Tooltip-Background"
+	}
+
 	local function OnDragStart(self)
 		self:StartMoving()
 	end
+
 	local function OnDragStop(self)
 		self:StopMovingOrSizing()
 
@@ -322,11 +338,7 @@ optionsPanel:SetScript("OnShow", function(self)
 		self:SetPoint(vhalf..hhalf, UIParent, dx, dy)
 	end
 
-	local lockFrames = self:CreateCheckbox(L["Lock Frames"])
-	lockFrames.desc = L["Lock the buff and debuff frames in place, hiding the backdrop and preventing them from being moved."]
-	lockFrames:SetPoint("TOPLEFT", showTempEnchantSources, "BOTTOMLEFT", 0, -8)
-	lockFrames:SetChecked(true)
-	function lockFrames:OnClick(checked)
+	lockFrames.OnClick = function(self, checked)
 		if checked then
 			PhanxBuffFrame:SetBackdrop(nil)
 			PhanxBuffFrame:SetMovable(false)
@@ -364,11 +376,11 @@ optionsPanel:SetScript("OnShow", function(self)
 
 	-------------------------------------------------------------------
 
-	local fontFace = self:CreateScrollingDropdown(L["Typeface"], fonts)
-	fontFace.container.desc = L["Change the typeface for stack count and timer text."]
-	fontFace.container:SetPoint("TOPLEFT", notes, "BOTTOM", 8, -8)
-	fontFace.container:SetPoint("TOPRIGHT", notes, "BOTTOMRIGHT", 0, -8)
-	fontFace.valueText:SetText(db.fontFace)
+	local fontFace = CreateScrollingDropdown(self, L["Typeface"], fonts)
+	fontFace.desc = L["Change the typeface for stack count and timer text."]
+	fontFace:SetPoint("TOPLEFT", notes, "BOTTOM", 8, -8)
+	fontFace:SetPoint("TOPRIGHT", notes, "BOTTOMRIGHT", 0, -8)
+	fontFace:SetValue(db.fontFace)
 	do
 		local _, height, flags = fontFace.valueText:GetFont()
 		fontFace.valueText:SetFont(GetFontFile(db.fontFace), height, flags)
@@ -387,10 +399,10 @@ optionsPanel:SetScript("OnShow", function(self)
 		local button_OnClick = fontFace.button:GetScript("OnClick")
 		fontFace.button:SetScript("OnClick", function(self)
 			button_OnClick(self)
-			fontFace.list:Hide()
+			fontFace.dropdown.list:Hide()
 
 			local function SetButtonFonts(self)
-				local buttons = fontFace.list.buttons
+				local buttons = fontFace.dropdown.list.buttons
 				for i = 1, #buttons do
 					local button = buttons[i]
 					if button.value and button:IsShown() then
@@ -399,20 +411,20 @@ optionsPanel:SetScript("OnShow", function(self)
 				end
 			end
 
-			local OnShow = fontFace.list:GetScript("OnShow")
-			fontFace.list:SetScript("OnShow", function(self)
+			local OnShow = fontFace.dropdown.list:GetScript("OnShow")
+			fontFace.dropdown.list:SetScript("OnShow", function(self)
 				OnShow(self)
 				SetButtonFonts(self)
 			end)
 
-			local OnVerticalScroll = fontFace.list.scrollFrame:GetScript("OnVerticalScroll")
-			fontFace.list.scrollFrame:SetScript("OnVerticalScroll", function(self, delta)
+			local OnVerticalScroll = fontFace.dropdown.list.scrollFrame:GetScript("OnVerticalScroll")
+			fontFace.dropdown.list.scrollFrame:SetScript("OnVerticalScroll", function(self, delta)
 				OnVerticalScroll(self, delta)
 				SetButtonFonts(self)
 			end)
 
-			local SetText = fontFace.list.text.SetText
-			fontFace.list.text.SetText = function(self, text)
+			local SetText = fontFace.dropdown.list.text.SetText
+			fontFace.dropdown.list.text.SetText = function(self, text)
 				self:SetFont(GetFontFile(text), UIDROPDOWNMENU_DEFAULT_TEXT_HEIGHT + 1)
 				SetText(self, text)
 			end
@@ -424,13 +436,14 @@ optionsPanel:SetScript("OnShow", function(self)
 
 	-------------------------------------------------------------------
 
-	local fontOutline = self:CreateDropdown(L["Text Outline"])
-	fontOutline.container.desc = L["Change the outline weight for stack count and timer text."]
-	fontOutline.container:SetPoint("TOPLEFT", fontFace.container, "BOTTOMLEFT", 0, -12)
-	fontOutline.container:SetPoint("TOPRIGHT", fontFace.container, "BOTTOMRIGHT", 0, -12)
-	do
-		local outlines = { ["NONE"] = L["None"], ["OUTLINE"] = L["Thin"], ["THICKOUTLINE"] = L["Thick"] }
+	local outlines = {
+		["NONE"] = L["None"],
+		["OUTLINE"] = L["Thin"],
+		["THICKOUTLINE"] = L["Thick"],
+	}
 
+	local fontOutline
+	do
 		local function OnClick(self)
 			local value = self.value
 
@@ -440,46 +453,47 @@ optionsPanel:SetScript("OnShow", function(self)
 			SetButtonFonts(PhanxDebuffFrame, nil, value)
 			SetButtonFonts(PhanxTempEnchantFrame, nil, value)
 
-			fontOutline.valueText:SetText(self.text)
-			UIDropDownMenu_SetSelectedValue(fontOutline, self.value)
+			fontOutline:SetValue(self.value, self.text)
 		end
 
 		local info = { } -- UIDropDownMenu_CreateInfo()
-		UIDropDownMenu_Initialize(fontOutline, function(self)
-			local selected = outlines[UIDropDownMenu_GetSelectedValue(fontOutline)] or self.valueText:GetText()
+
+		fontOutline = CreateDropdown(self, L["Text Outline"], function()
+			local selected = db.fontOutline
 
 			info.text = L["None"]
 			info.value = "NONE"
 			info.func = OnClick
-			info.checked = L["None"] == selected
+			info.checked = "NONE" == selected
 			UIDropDownMenu_AddButton(info)
 
 			info.text = L["Thin"]
 			info.value = "OUTLINE"
 			info.func = OnClick
-			info.checked = L["Thin"] == selected
+			info.checked = "OUTLINE" == selected
 			UIDropDownMenu_AddButton(info)
 
 			info.text = L["Thick"]
 			info.value = "THICKOUTLINE"
 			info.func = OnClick
-			info.checked = L["Thick"] == selected
+			info.checked = "THICKOUTLINE" == selected
 			UIDropDownMenu_AddButton(info)
 		end)
-
-		fontOutline.valueText:SetText(outlines[db.fontOutline] or L["None"])
-		UIDropDownMenu_SetSelectedValue(fontOutline, db.fontOutline or L["None"])
 	end
+	fontOutline.desc = L["Change the outline weight for stack count and timer text."]
+	fontOutline:SetPoint("TOPLEFT", fontFace, "BOTTOMLEFT", 0, -12)
+	fontOutline:SetPoint("TOPRIGHT", fontFace, "BOTTOMRIGHT", 0, -12)
+	fontOutline:SetValue(db.fontOutline, outlines[db.fontOutline])
 
 	-------------------------------------------------------------------
 
-	local growthAnchor = self:CreateDropdown(L["Growth Anchor"])
-	growthAnchor.container.desc = L["Change the side of the screen from which buffs and debuffs grow."]
-	growthAnchor.container:SetPoint("TOPLEFT", fontOutline.container, "BOTTOMLEFT", 0, -12)
-	growthAnchor.container:SetPoint("TOPRIGHT", fontOutline.container, "BOTTOMRIGHT", 0, -12)
-	do
-		local anchors = { ["LEFT"] = L["Left"], ["RIGHT"] = L["Right"] }
+	local anchors = {
+		["LEFT"] = L["Left"],
+		["RIGHT"] = L["Right"],
+	}
 
+	local growthAnchor
+	do
 		local function OnClick(self)
 			local value = self.value
 
@@ -489,30 +503,31 @@ optionsPanel:SetScript("OnShow", function(self)
 			SetButtonSpacing(PhanxDebuffFrame, db.debuffSpacing)
 			SetButtonSpacing(PhanxTempEnchantFrame, db.buffSpacing)
 
-			growthAnchor.valueText:SetText(self.text)
-			UIDropDownMenu_SetSelectedValue(growthAnchor, self.value)
+			growthAnchor:SetValue(self.value, self.text)
 		end
 
 		local info = { } -- UIDropDownMenu_CreateInfo()
-		UIDropDownMenu_Initialize(growthAnchor, function(self)
-			local selected = anchors[UIDropDownMenu_GetSelectedValue(growthAnchor)] or self.valueText:GetText()
+
+		growthAnchor = CreateDropdown(self, L["Growth Anchor"], function()
+			local selected = db.growthAnchor
 
 			info.text = L["Right"]
 			info.value = "RIGHT"
 			info.func = OnClick
-			info.checked = L["Right"] == selected
+			info.checked = "RIGHT" == selected
 			UIDropDownMenu_AddButton(info)
 
 			info.text = L["Left"]
 			info.value = "LEFT"
 			info.func = OnClick
-			info.checked = L["Left"] == selected
+			info.checked = "LEFT" == selected
 			UIDropDownMenu_AddButton(info)
 		end)
-
-		growthAnchor.valueText:SetText(anchors[db.growthAnchor])
-		UIDropDownMenu_SetSelectedValue(growthAnchor, db.growthAnchor)
 	end
+	growthAnchor.desc = L["Change the side of the screen from which buffs and debuffs grow."]
+	growthAnchor:SetPoint("TOPLEFT", fontOutline, "BOTTOMLEFT", 0, -12)
+	growthAnchor:SetPoint("TOPRIGHT", fontOutline, "BOTTOMRIGHT", 0, -12)
+	growthAnchor:SetValue(db.growthAnchor, anchors[db.growthAnchor])
 
 	-------------------------------------------------------------------
 
@@ -521,14 +536,11 @@ end)
 
 InterfaceOptions_AddCategory(optionsPanel)
 
-local AboutPanel = LibStub("LibAboutPanel", true)
-if AboutPanel then
-	optionsPanel.aboutPanel = AboutPanel.new("PhanxBuffs", "PhanxBuffs")
-end
+local aboutPanel = LibStub("LibAboutPanel").new("PhanxBuffs", "PhanxBuffs")
 
 SLASH_PHANXBUFFS1 = "/pbuff"
 SlashCmdList.PHANXBUFFS = function()
-	InterfaceOptionsFrame_OpenToCategory(optionsPanel.aboutPanel)
+	InterfaceOptionsFrame_OpenToCategory(aboutPanel)
 	InterfaceOptionsFrame_OpenToCategory(optionsPanel)
 end
 
@@ -537,3 +549,4 @@ end
 ns.GetFontFile = GetFontFile
 ns.SetButtonSize = SetButtonSize
 ns.optionsPanel = optionsPanel
+ns.aboutPanel = aboutPanel

@@ -28,14 +28,14 @@ local function button_OnEnter(self)
 	local remaining
 	if self.arg1 and self.arg2 then
 		if bagsDirty then
-			PhanxTempEnchantFrame:UpdateTempEnchants()
+			PhanxTempEnchantFrame:Update()
 			bagsDirty = nil
 		end
 		GameTooltip:SetBagItem(self.arg1, self.arg2)
 		remaining = self.expires - GetTime()
 	elseif self.arg1 then
 		if spellsDirty then
-			PhanxTempEnchantFrame:UpdateTempEnchants()
+			PhanxTempEnchantFrame:Update()
 			spellsDirty = nil
 		end
 		GameTooltip:SetSpell(self.arg1, BOOKTYPE_SPELL)
@@ -201,7 +201,7 @@ end
 
 ------------------------------------------------------------------------
 
-function PhanxTempEnchantFrame:UpdateTempEnchants()
+function PhanxTempEnchantFrame:Update()
 	local hasMainHandEnchant, mainHandExpiration, mainHandCharges, hasOffHandEnchant, offHandExpiration, offHandCharges = GetWeaponEnchantInfo()
 
 	local numEnchants = 0
@@ -284,7 +284,7 @@ function PhanxTempEnchantFrame:OnUpdate(elapsed)
 	counter = counter + elapsed
 	if counter > 0.1 then
 		if dirty then
-			self:UpdateTempEnchants()
+			self:Update()
 			dirty = false
 		end
 		for i, button in ipairs(buttons) do
@@ -327,7 +327,7 @@ function PhanxTempEnchantFrame:UNIT_ENTERING_VEHICLE(unit)
 	if unit == "player" then
 		inVehicle = true
 		self:Hide()
-		PhanxBuffFrame.buttons[1]:SetPoint("TOPRIGHT", PhanxBuffFrame)
+		PhanxBuffFrame.buttons[1]:SetPoint("TOP" .. db.growthAnchor, PhanxBuffFrame)
 	end
 end
 
@@ -411,7 +411,7 @@ function PhanxTempEnchantFrame:Load()
 
 	db = PhanxBuffsDB
 
-	self:SetPoint("TOPRIGHT", PhanxBuffFrame)
+	self:SetPoint("TOP" .. db.growthAnchor, PhanxBuffFrame)
 	self:SetWidth(db.buffSize * 2 + db.buffSpacing)
 	self:SetHeight(db.buffSize)
 
