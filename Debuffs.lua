@@ -148,7 +148,7 @@ end
 
 ------------------------------------------------------------------------
 
-function PhanxDebuffFrame:UpdateDebuffs()
+function PhanxDebuffFrame:Update()
 	for i, t in ipairs(debuffs) do
 		debuffs[i] = remTable(t)
 	end
@@ -156,12 +156,10 @@ function PhanxDebuffFrame:UpdateDebuffs()
 	local i = 1
 	while true do
 		local name, _, icon, count, kind, duration, expires, caster, _, _, spellID = UnitAura(debuffUnit, i, "HARMFUL")
-		if not name then break end
+		if not icon or icon == "" then break end
 
 		if not db.ignoreDebuffs[name] then
-			local n = #debuffs + 1
-			debuffs[n] = newTable()
-			local t = debuffs[n]
+			local t = newTable()
 
 			t.name = name
 			t.icon = icon
@@ -172,6 +170,8 @@ function PhanxDebuffFrame:UpdateDebuffs()
 			t.caster = caster
 			t.spellID = spellID
 			t.index = i
+
+			debuffs[#debuffs + 1] = t
 		end
 
 		i = i + 1
@@ -224,7 +224,7 @@ function PhanxDebuffFrame:OnUpdate(elapsed)
 	counter = counter + elapsed
 	if counter > 0.1 then
 		if dirty then
-			self:UpdateDebuffs()
+			self:Update()
 			dirty = false
 		end
 		for i, button in ipairs(buttons) do
