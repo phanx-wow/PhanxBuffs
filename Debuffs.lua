@@ -22,7 +22,6 @@ local ignore = {
 	["Bested the Undercity"] = true,
 	["Bested Thunder Bluff"] = true,
 	["Chill of the Throne"] = true,
-	["Weakened Soul"] = true,
 }
 
 local debuffs = { }
@@ -54,6 +53,17 @@ local function button_OnLeave()
 	GameTooltip:Hide()
 end
 
+local function button_OnClick(self)
+	local debuff = debuffs[self:GetID()]
+	if not debuff then return end
+
+	if IsAltKeyDown() and IsShiftKeyDown() then
+		ignore[debuff.name] = true
+		print("|cffffcc00PhanxBuffs:|r", L["Now ignoring debuff:"], buff.name)
+		self:GetParent():Update()
+	end
+end
+
 local buttons = setmetatable({ }, { __index = function(t, i)
 	local f = CreateFrame("Button", nil, PhanxDebuffFrame)
 	f:SetID(i)
@@ -64,6 +74,9 @@ local buttons = setmetatable({ }, { __index = function(t, i)
 	f:EnableMouse(true)
 	f:SetScript("OnEnter", button_OnEnter)
 	f:SetScript("OnLeave", button_OnLeave)
+
+	f:RegisterForClicks("RightButtonUp")
+	f:SetScript("OnClick", button_OnClick)
 
 	f.icon = f:CreateTexture(nil, "BACKGROUND")
 	f.icon:SetAllPoints(f)
@@ -312,6 +325,9 @@ function PhanxDebuffFrame:Load()
 	if db then return end
 
 	db = PhanxBuffsDB
+
+	if not db.ignoreDebuffs then db.ignoreDebuffs = ignore end
+	ignore = db.ignoreDebuffs
 
 	dirty = true
 	self:SetScript("OnUpdate", self.OnUpdate)

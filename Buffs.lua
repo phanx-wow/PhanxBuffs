@@ -11,7 +11,7 @@ local PhanxBuffFrame = CreateFrame("Frame", "PhanxBuffFrame", UIParent)
 
 local db
 local ignore = {
-	["Fake Buff"] = true,
+--	["Useless Buff"] = true,
 }
 
 local buffs = { }
@@ -63,7 +63,13 @@ local function button_OnClick(self)
 	local buff = buffs[self:GetID()]
 	if not buff then return end
 
-	CancelUnitBuff(buffUnit, buff.index, "HELPFUL")
+	if IsAltKeyDown() and IsShiftKeyDown() then
+		ignore[buff.name] = true
+		print("|cffffcc00PhanxBuffs:|r", L["Now ignoring buff:"], buff.name)
+		self:GetParent():Update()
+	else
+		CancelUnitBuff(buffUnit, buff.index, "HELPFUL")
+	end
 end
 
 local buttons = setmetatable({ }, { __index = function(t, i)
@@ -316,6 +322,9 @@ function PhanxBuffFrame:Load()
 	if db then return end
 
 	db = PhanxBuffsDB
+
+	if not db.ignoreBuffs then db.ignoreBuffs = ignore end
+	ignore = db.ignoreBuffs
 
 	LibButtonFacade = LibStub("LibButtonFacade", true)
 
