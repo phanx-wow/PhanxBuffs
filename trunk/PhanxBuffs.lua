@@ -80,7 +80,7 @@ local optionsPanel = CreateFrame("Frame", nil, InterfaceOptionsFramePanelContain
 optionsPanel.name = "PhanxBuffs"
 optionsPanel:Hide()
 
-optionsPanel:RegisterEvent("PLAYER_LOGIN")
+optionsPanel:RegisterEvent("PLAYER_ENTERING_WORLD")
 optionsPanel:SetScript("OnEvent", function(self)
 	if not PhanxBuffsDB then PhanxBuffsDB = { } end
 	db = PhanxBuffsDB
@@ -527,10 +527,29 @@ end)
 
 InterfaceOptions_AddCategory(optionsPanel)
 
+------------------------------------------------------------------------
+
 local aboutPanel = LibStub("LibAboutPanel").new("PhanxBuffs", "PhanxBuffs")
 
+------------------------------------------------------------------------
+
 SLASH_PHANXBUFFS1 = "/pbuff"
-SlashCmdList.PHANXBUFFS = function()
+SlashCmdList.PHANXBUFFS = function(input)
+	input = input and input:trim()
+	if input and input:len() > 0 then
+		local type, name = input:match("^([Dd]?[Ee]?[Bb][Uu][Ff][Ff])%s*(.+)$")
+		if type and name then
+			if type:lower() == "buff" then
+				PhanxBuffsDB.ignoreBuffs[name] = PhanxBuffsDB.ignoreBuffs[name] and nil or true
+				print("|cffffcc00PhanxBuffs:|r", PhanxBuffsDB.ignoreBuffs[name] and L["Now ignoring buff:"] or L["No longer ignoring buff:"], name)
+				return
+			elseif type:lower() == "debuff" then
+				PhanxBuffsDB.ignoreDebuffs[name] = PhanxBuffsDB.ignoreDebuffs[name] and nil or true
+				print("|cffffcc00PhanxBuffs:|r", PhanxBuffsDB.ignoreDebuffs[name] and L["Now ignoring debuff:"] or L["No longer ignoring debuff:"], name)
+				return
+			end
+		end
+	end
 	InterfaceOptionsFrame_OpenToCategory(aboutPanel)
 	InterfaceOptionsFrame_OpenToCategory(optionsPanel)
 end
