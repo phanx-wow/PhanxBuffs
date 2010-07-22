@@ -182,6 +182,7 @@ if select(2, UnitClass("player")) == "SHAMAN" then
 		[L["Earthliving"]] = GetSpellInfo(51994),
 		[L["Flametongue"]] = GetSpellInfo(58790),
 		[L["Frostbrand"]]  = GetSpellInfo(58796),
+		[L["Rockbiter"]]   = GetSpellInfo(10399),
 		[L["Windfury"]]    = GetSpellInfo(58804),
 	}
 elseif select(2, UnitClass("player")) == "ROGUE" then

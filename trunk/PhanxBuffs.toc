@@ -1,5 +1,5 @@
 ## Interface: 30300
-## Version: 3.3.3.wowi:revision-beta
+## Version: 3.3.5.wowi:revision-beta
 
 ## Title: PhanxBuffs
 ## Notes: Basic replacement for player buff, debuff, and temporary enchant frames.

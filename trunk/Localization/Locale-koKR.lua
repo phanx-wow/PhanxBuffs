@@ -19,6 +19,7 @@ ns.L = L
 -- L["Earthliving"] = ""
 -- L["Flametongue"] = ""
 -- L["Frostbrand"] = ""
+-- L["Rockbiter"] = ""
 -- L["Windfury"] = ""
 
 -- Rogue weapon enchant keywords
