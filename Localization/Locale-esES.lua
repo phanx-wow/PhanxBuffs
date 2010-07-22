@@ -19,6 +19,7 @@ ns.L = L
 L["Earthliving"] = "Vida terrestre"
 L["Flametongue"] = "Lengua de Fuego"
 L["Frostbrand"] = "Estigma de Escarcha"
+L["Rockbiter"] = "Muerdepiedras" -- needs check
 L["Windfury"] = "Viento Furioso"
 
 -- Rogue weapon enchant keywords
