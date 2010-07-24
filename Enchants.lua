@@ -135,14 +135,12 @@ end
 
 local function FindTempEnchantItem(findString)
 	findString = findString:gsub("%(.-%)", ""):trim():lower()
-	--print("Searching for temp enchant item '" .. findString .. "'")
 	for bag = 0, 4 do
 		for slot = 1, GetContainerNumSlots(bag) do
 			local icon, _, _, _, _, _, link = GetContainerItemInfo(bag, slot)
 			if link then
 				local name = link:match("%[(.+)%]")
 				if name:lower():match(findString) then
-					--print("Found item: '" .. name .. "'")
 					return icon, bag, slot
 				end
 			end
