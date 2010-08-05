@@ -65,7 +65,7 @@ local function button_OnClick(self)
 
 	if IsAltKeyDown() and IsShiftKeyDown() then
 		ignore[buff.name] = true
-		print("|cffffcc00PhanxBuffs:|r", L["Now ignoring buff:"], buff.name)
+		print("|cffffcc00PhanxBuffs:|r", ns.L["Now ignoring buff:"], buff.name)
 		self:GetParent():Update()
 	else
 		CancelUnitBuff(buffUnit, buff.index, "HELPFUL")
