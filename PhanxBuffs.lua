@@ -537,7 +537,7 @@ SLASH_PHANXBUFFS1 = "/pbuff"
 SlashCmdList.PHANXBUFFS = function(input)
 	input = input and input:trim()
 	if input and input:len() > 0 then
-		local type, name = input:match("^([Dd]?[Ee]?[Bb][Uu][Ff][Ff])%s*(.+)$")
+		local type, name = input:match("^([Dd]?[Ee]?[Bb][Uu][Ff][Ff])%s*(.*)$")
 		if type and name then
 			if type:lower() == "buff" then
 				PhanxBuffsDB.ignoreBuffs[name] = PhanxBuffsDB.ignoreBuffs[name] and nil or true
@@ -547,6 +547,16 @@ SlashCmdList.PHANXBUFFS = function(input)
 				PhanxBuffsDB.ignoreDebuffs[name] = PhanxBuffsDB.ignoreDebuffs[name] and nil or true
 				print("|cffffcc00PhanxBuffs:|r", PhanxBuffsDB.ignoreDebuffs[name] and L["Now ignoring debuff:"] or L["No longer ignoring debuff:"], name)
 				return
+			end
+		elseif type:lower() == "buff" then
+			print("|cffffcc00PhanxBuffs:|r", L["Currently ignoring these buffs:"])
+			for buff in pairs(PhanxBuffsDB.ignoreBuffs) do
+				print("     ", buff)
+			end
+		elseif type:lower() == "debuff" then
+			print("|cffffcc00PhanxBuffs:|r", L["Currently ignoring these debuffs:"])
+			for debuff in pairs(PhanxBuffsDB.ignoreDebuffs) do
+				print("     ", debuff)
 			end
 		end
 	end
