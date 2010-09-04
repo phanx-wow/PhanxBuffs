@@ -69,7 +69,5 @@ L["Show weapon buffs as the spell or item that buffed the weapon, instead of the
 L["Lock Frames"] = "鎖定框架"
 L["Lock the buff and debuff frames in place, hiding the backdrop and preventing them from being moved."] = "鎖定buff和debuff框架,隱藏背景防止被移動."
 
--- L["Now ignoring buff:"] = ""
--- L["No longer ignoring buff:"] = ""
--- L["Now ignoring debuff:"] = ""
--- L["No longer ignoring debuff:"] = ""
+-- L["These buffs are currently being ignored:"] = ""
+-- L["These debuffs are currently being ignored:"] = ""

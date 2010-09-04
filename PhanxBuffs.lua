@@ -38,6 +38,9 @@ local L = setmetatable(ns.L, { __index = function(t, k)
 	return v
 end })
 
+L["%s is now being ignored."] = ERR_IGNORE_ADDED_S
+L["%s is no longer being ignored."] = ERR_IGNORE_REMOVED_S
+
 ------------------------------------------------------------------------
 
 local LibSharedMedia
@@ -541,20 +544,20 @@ SlashCmdList.PHANXBUFFS = function(input)
 		if type and name then
 			if type:lower() == "buff" then
 				PhanxBuffsDB.ignoreBuffs[name] = PhanxBuffsDB.ignoreBuffs[name] and nil or true
-				print("|cffffcc00PhanxBuffs:|r", PhanxBuffsDB.ignoreBuffs[name] and L["Now ignoring buff:"] or L["No longer ignoring buff:"], name)
+				print("|cffffcc00PhanxBuffs:|r", string.format(PhanxBuffsDB.ignoreBuffs[name] and L["%s is now being ignored."] or L["%s is no longer being ignored."], name))
 				return
 			elseif type:lower() == "debuff" then
 				PhanxBuffsDB.ignoreDebuffs[name] = PhanxBuffsDB.ignoreDebuffs[name] and nil or true
-				print("|cffffcc00PhanxBuffs:|r", PhanxBuffsDB.ignoreDebuffs[name] and L["Now ignoring debuff:"] or L["No longer ignoring debuff:"], name)
+				print("|cffffcc00PhanxBuffs:|r", string.format(PhanxBuffsDB.ignoreBuffs[name] and L["%s is now being ignored."] or L["%s is no longer being ignored."], name))
 				return
 			end
 		elseif type:lower() == "buff" then
-			print("|cffffcc00PhanxBuffs:|r", L["Currently ignoring these buffs:"])
+			print("|cffffcc00PhanxBuffs:|r", L["These buffs are currently being ignored:"])
 			for buff in pairs(PhanxBuffsDB.ignoreBuffs) do
 				print("     ", buff)
 			end
 		elseif type:lower() == "debuff" then
-			print("|cffffcc00PhanxBuffs:|r", L["Currently ignoring these debuffs:"])
+			print("|cffffcc00PhanxBuffs:|r", L["These debuffs are currently being ignored:"])
 			for debuff in pairs(PhanxBuffsDB.ignoreDebuffs) do
 				print("     ", debuff)
 			end
