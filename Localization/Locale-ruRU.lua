@@ -68,3 +68,8 @@ L["Spellstone"] = "камень чар"
 -- L["Show weapon buffs as the spell or item that buffed the weapon, instead of the weapon itself."] = ""
 -- L["Lock Frames"] = ""
 -- L["Lock the buff and debuff frames in place, hiding the backdrop and preventing them from being moved."] = ""
+
+-- L["Now ignoring buff:"] = ""
+-- L["No longer ignoring buff:"] = ""
+-- L["Now ignoring debuff:"] = ""
+-- L["No longer ignoring debuff:"] = ""

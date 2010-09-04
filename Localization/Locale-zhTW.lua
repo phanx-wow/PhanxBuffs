@@ -68,3 +68,8 @@ L["Weapon Buff Sources"] = "武器附魔來源"
 L["Show weapon buffs as the spell or item that buffed the weapon, instead of the weapon itself."] = "顯示武器附魔圖示用附魔物品或法術來取代武器本身."
 L["Lock Frames"] = "鎖定框架"
 L["Lock the buff and debuff frames in place, hiding the backdrop and preventing them from being moved."] = "鎖定buff和debuff框架,隱藏背景防止被移動."
+
+-- L["Now ignoring buff:"] = ""
+-- L["No longer ignoring buff:"] = ""
+-- L["Now ignoring debuff:"] = ""
+-- L["No longer ignoring debuff:"] = ""
