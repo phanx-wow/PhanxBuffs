@@ -69,5 +69,11 @@ L["Spellstone"] = "Zauberstein"
 -- L["Lock Frames"] = ""
 -- L["Lock the buff and debuff frames in place, hiding the backdrop and preventing them from being moved."] = ""
 
--- L["These buffs are currently being ignored:"] = ""
--- L["These debuffs are currently being ignored:"] = ""
+-- L["Cast by %s"] = ""
+
+-- L["Now ignoring buff: %s"] = ""
+-- L["No longer ignoring buff: %s"] = ""
+-- L["Now ignoring debuff: %s"] = ""
+-- L["No longer ignoring debuff: %s"] = ""
+-- L["Currently ignoring these buffs:"] = ""
+-- L["Currently ignoring these debuffs:"] = ""
