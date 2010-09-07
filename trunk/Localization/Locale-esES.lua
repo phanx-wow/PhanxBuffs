@@ -69,5 +69,11 @@ L["Show weapon buffs as the spell or item that buffed the weapon, instead of the
 L["Lock Frames"] = "Bloquear celdas"
 L["Lock the buff and debuff frames in place, hiding the backdrop and preventing them from being moved."] = "Bloquear celdas de beneficios y perjuicios, para ocultar el fondo y permitar el movimiento."
 
-L["These buffs are currently being ignored:"] = "Estás ignorando a este beneficios actualmente:"
-L["These debuffs are currently being ignored:"] = "Estás ignorando a este perjuicios actualmente:"
+-- L["Cast by %s"] = ""
+
+-- L["Now ignoring buff: %s"] = "Estás ignorando a beneficio: %s"
+-- L["No longer ignoring buff: %s"] = "Ya no ignoras a beneficio: %s"
+-- L["Now ignoring debuff: %s"] = "Estás ignorando a perjuicio: %s"
+-- L["No longer ignoring debuff: %s"] = "Ya no ignoras a perjucio: %s"
+-- L["Currently ignoring these buffs:"] = "Estás ignorando a este beneficios:"
+-- L["Currently ignoring these debuffs:"] = "Estás ignorando a este perjuicios:"

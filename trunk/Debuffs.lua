@@ -57,7 +57,7 @@ local function button_OnClick(self)
 
 	if IsAltKeyDown() and IsShiftKeyDown() then
 		ignore[debuff.name] = true
-		print("|cffffcc00PhanxBuffs:|r", ns.L["Now ignoring debuff:"], debuff.name)
+		print("|cffffcc00PhanxBuffs:|r", string.format(ns.L["Now ignoring debuff:"], debuff.name))
 		self:GetParent():Update()
 	end
 end

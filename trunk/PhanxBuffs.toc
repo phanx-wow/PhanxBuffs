@@ -8,7 +8,7 @@
 ## X-Copyright: Copyright © 2010 Phanx
 ## X-License: See README for license terms.
 ## X-CompatibleLocales: enUS, deDE, esES, esMX, frFR, koKR, ruRU, zhCN, zhTW
-## X-Localizations: enUS
+## X-Localizations: enUS, esES, esMX, koKR, zhTW
 ## X-Website: http://www.wowinterface.com/downloads/info16874-PhanxBuffs.html
 ## X-WoWI-ID: 16874
 
