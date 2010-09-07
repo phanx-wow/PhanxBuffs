@@ -30,13 +30,19 @@ local unitNames = setmetatable({ }, { __index = function(t, unit)
 	local name = UnitName(unit)
 	if not name then return end
 
+	if t[name] then
+		return t[name]
+	end
+
 	local _, class = UnitClass(unit)
 	if not class then return name end
 
 	local color = (CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS)[class]
 	if not color then return name end
 
-	return string.format("Cast by |cff%02x%02x%02x%s|r", color.r * 255, color.g * 255, color.b * 255, name)
+	local v = string.format("|cff%02x%02x%02x%s|r", color.r * 255, color.g * 255, color.b * 255, name)
+	t[name] = v
+	return v
 end })
 
 local function button_OnEnter(self)
@@ -49,7 +55,7 @@ local function button_OnEnter(self)
 	if db.showBuffSources then
 		local caster = unitNames[buff.caster]
 		if caster then
-			GameTooltip:AddLine(caster)
+			GameTooltip:AddLine(string.format(L["Cast by %s"], caster))
 			GameTooltip:Show()
 		end
 	end
@@ -65,7 +71,7 @@ local function button_OnClick(self)
 
 	if IsAltKeyDown() and IsShiftKeyDown() then
 		ignore[buff.name] = true
-		print("|cffffcc00PhanxBuffs:|r", ns.L["Now ignoring buff:"], buff.name)
+		print("|cffffcc00PhanxBuffs:|r", string.format(ns.L["Now ignoring buff: %s"], buff.name))
 		self:GetParent():Update()
 	else
 		CancelUnitBuff(buffUnit, buff.index, "HELPFUL")

@@ -45,9 +45,9 @@ local function button_OnEnter(self)
 	end
 	if remaining then
 		if remaining > 59 then
-			GameTooltip:AddLine(math.floor((remaining / 60) + 0.5) .. " minutes remaining")
+			GameTooltip:AddLine(L["%d minutes remaining"]:format(math.floor((remaining / 60) + 0.5)))
 		else
-			GameTooltip:AddLine(math.floor(remaining + 0.5) .. " seconds remaining")
+			GameTooltip:AddLine(L["%d seconds remaining"]:format(math.floor(remaining + 0.5)))
 		end
 		GameTooltip:Show()
 	end
