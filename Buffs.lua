@@ -20,6 +20,9 @@ local buffUnit = "player"
 local _, ns = ...
 local GetFontFile = ns.GetFontFile
 
+local L = ns.L
+L["Cast by: |cff%02x%02x%02x%s|r"] = L["Cast by: %s"]:replace("%s", "|cff%02x%02x%02x%s|r")
+
 local MAX_BUFFS = 40
 
 ------------------------------------------------------------------------
@@ -30,19 +33,13 @@ local unitNames = setmetatable({ }, { __index = function(t, unit)
 	local name = UnitName(unit)
 	if not name then return end
 
-	if t[name] then
-		return t[name]
-	end
-
 	local _, class = UnitClass(unit)
-	if not class then return name end
+	if not class then return L["Cast by: %s"]:format(name) end
 
 	local color = (CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS)[class]
-	if not color then return name end
+	if not color then return L["Cast by: %s"]:format(name) end
 
-	local v = string.format("|cff%02x%02x%02x%s|r", color.r * 255, color.g * 255, color.b * 255, name)
-	t[name] = v
-	return v
+	return L["Cast by: |cff%02x%02x%02x%s|r"]:format(color.r * 255, color.g * 255, color.b * 255, name)
 end })
 
 local function button_OnEnter(self)
@@ -55,7 +52,7 @@ local function button_OnEnter(self)
 	if db.showBuffSources then
 		local caster = unitNames[buff.caster]
 		if caster then
-			GameTooltip:AddLine(string.format(L["Cast by %s"], caster))
+			GameTooltip:AddLine(caster)
 			GameTooltip:Show()
 		end
 	end
