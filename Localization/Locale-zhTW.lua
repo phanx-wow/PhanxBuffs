@@ -69,6 +69,9 @@ L["Show weapon buffs as the spell or item that buffed the weapon, instead of the
 L["Lock Frames"] = "鎖定框架"
 L["Lock the buff and debuff frames in place, hiding the backdrop and preventing them from being moved."] = "鎖定buff和debuff框架,隱藏背景防止被移動."
 
+-- L["Buff Cancel Workaround"] = ""
+-- L["Workaround for the new restriction on cancelling buffs in Cataclysm.\n\nInserts a /cancelaura command in the chat input box for the buff clicked on. Press Enter to send the command and cancel the buff."] = ""
+
 -- L["Cast by %s"] = ""
 
 -- L["Now ignoring buff: %s"] = ""

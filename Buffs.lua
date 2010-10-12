@@ -25,6 +25,8 @@ L["Cast by: |cff%02x%02x%02x%s|r"] = L["Cast by: %s"]:replace("%s", "|cff%02x%02
 
 local MAX_BUFFS = 40
 
+local WOW_VERSION = select(4, GetBuildInfo())
+
 ------------------------------------------------------------------------
 
 local unitNames = setmetatable({ }, { __index = function(t, unit)
@@ -70,8 +72,11 @@ local function button_OnClick(self)
 		ignore[buff.name] = true
 		print("|cffffcc00PhanxBuffs:|r", string.format(ns.L["Now ignoring buff: %s"], buff.name))
 		self:GetParent():Update()
-	else
+	elseif WOW_VERSION < 40000 then
 		CancelUnitBuff(buffUnit, buff.index, "HELPFUL")
+	elseif db.buffCancelWorkaround then
+		-- CancelUnitBuff is protected in WoW 4.0, le sigh
+		ChatFrame_OpenChat("/cancelaura " .. buff.name, ChatEdit_GetActiveWindow() or ChatEdit_GetLastActiveWindow())
 	end
 end
 
