@@ -76,7 +76,8 @@ local function button_OnClick(self)
 		CancelUnitBuff(buffUnit, buff.index, "HELPFUL")
 	elseif db.buffCancelWorkaround then
 		-- CancelUnitBuff is protected in WoW 4.0, le sigh
-		ChatFrame_OpenChat("/cancelaura " .. buff.name, ChatEdit_GetActiveWindow() or ChatEdit_GetLastActiveWindow())
+		-- nope, this gets a blocked action message too, fuck you Blizz
+		-- ChatFrame_OpenChat("/cancelaura " .. buff.name, ChatEdit_GetActiveWindow() or ChatEdit_GetLastActiveWindow())
 	end
 end
 
