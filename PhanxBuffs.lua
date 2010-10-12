@@ -458,20 +458,9 @@ optionsPanel:SetScript("OnShow", function(self)
 
 	-------------------------------------------------------------------
 
-	local buffCancelWorkaround = CreateCheckbox(self, L["Buff Cancel Workaround"])
-	buffCancelWorkaround.desc = L["Workaround for the new restriction on cancelling buffs in Cataclysm.\n\nInserts a /cancelaura command in the chat input box for the buff clicked on. Press Enter to send the command and cancel the buff."]
-	buffCancelWorkaround:SetPoint("TOPLEFT", showTempEnchantSources, "BOTTOMLEFT", 0, -8)
-	buffCancelWorkaround:SetChecked(db.buffCancelWorkaround)
-
-	buffCancelWorkaround.OnClick = function(self, checked)
-		db.buffCancelWorkaround = checked
-	end
-
-	-------------------------------------------------------------------
-
 	local lockFrames = CreateCheckbox(self, L["Lock Frames"])
 	lockFrames.desc = L["Lock the buff and debuff frames in place, hiding the backdrop and preventing them from being moved."]
-	lockFrames:SetPoint("TOPLEFT", buffCancelWorkaround, "BOTTOMLEFT", 0, -8)
+	lockFrames:SetPoint("TOPLEFT", showTempEnchantSources, "BOTTOMLEFT", 0, -8)
 	lockFrames:SetChecked(true)
 
 	local dragBackdrop = {
@@ -537,6 +526,17 @@ optionsPanel:SetScript("OnShow", function(self)
 	end
 
 	-------------------------------------------------------------------
+--[[
+	local buffCancelWorkaround = CreateCheckbox(self, L["Buff Cancel Workaround"])
+	buffCancelWorkaround.desc = L["Workaround for the new restriction on cancelling buffs in Cataclysm.\n\nInserts a /cancelaura command in the chat input box for the buff clicked on. Press Enter to send the command and cancel the buff."]
+	buffCancelWorkaround:SetPoint("TOPLEFT", lockFrames, "BOTTOMLEFT", 0, -8)
+	buffCancelWorkaround:SetChecked(db.buffCancelWorkaround)
+
+	buffCancelWorkaround.OnClick = function(self, checked)
+		db.buffCancelWorkaround = checked
+	end
+--]]
+	-------------------------------------------------------------------
 
 	self:SetScript("OnShow", nil)
 end)
@@ -552,32 +552,36 @@ local aboutPanel = LibStub("LibAboutPanel").new("PhanxBuffs", "PhanxBuffs")
 SLASH_PHANXBUFFS1 = "/pbuff"
 SlashCmdList.PHANXBUFFS = function(input)
 	if not input then return end
-	if input:trim():len() == 0 then return end
 
-	local type, name = input:match("^(%S+)%s*(.*)$")
-	type = type:lower()
+	if input:trim():len() > 0 then
+		local type, name = input:match("^(%S+)%s*(.*)$")
+		type = type:lower()
 
-	if name then
-		if type == L["buff"] then
-			PhanxBuffsDB.ignoreBuffs[name] = PhanxBuffsDB.ignoreBuffs[name] and nil or true
-			print("|cffffcc00PhanxBuffs:|r", string.format(PhanxBuffsDB.ignoreBuffs[name] and L["Now ignoring buff: %s"] or L["No longer ignoring buff: %s"], name))
+		if name then
+			if type == L["buff"] then
+				PhanxBuffsDB.ignoreBuffs[name] = PhanxBuffsDB.ignoreBuffs[name] and nil or true
+				print("|cffffcc00PhanxBuffs:|r", string.format(PhanxBuffsDB.ignoreBuffs[name] and L["Now ignoring buff: %s"] or L["No longer ignoring buff: %s"], name))
+				return
+			elseif type == L["debuff"] then
+				PhanxBuffsDB.ignoreDebuffs[name] = PhanxBuffsDB.ignoreDebuffs[name] and nil or true
+				print("|cffffcc00PhanxBuffs:|r", string.format(PhanxBuffsDB.ignoreBuffs[name] and L["Now ignoring debuff: %s"] or L["No longer ignoring debuff: %s"], name))
+				return
+			end
+		elseif input == L["buff"] then
+			print("|cffffcc00PhanxBuffs:|r", L["Currently ignoring these buffs:"])
+			for buff in pairs(PhanxBuffsDB.ignoreBuffs) do
+				print("     ", buff)
+			end
 			return
-		elseif type == L["debuff"] then
-			PhanxBuffsDB.ignoreDebuffs[name] = PhanxBuffsDB.ignoreDebuffs[name] and nil or true
-			print("|cffffcc00PhanxBuffs:|r", string.format(PhanxBuffsDB.ignoreBuffs[name] and L["Now ignoring debuff: %s"] or L["No longer ignoring debuff: %s"], name))
+		elseif input == L["debuff"] then
+			print("|cffffcc00PhanxBuffs:|r", L["Currently ignoring these debuffs:"])
+			for debuff in pairs(PhanxBuffsDB.ignoreDebuffs) do
+				print("     ", debuff)
+			end
 			return
-		end
-	elseif type == L["buff"] then
-		print("|cffffcc00PhanxBuffs:|r", L["Currently ignoring these buffs:"])
-		for buff in pairs(PhanxBuffsDB.ignoreBuffs) do
-			print("     ", buff)
-		end
-	elseif type == L["debuff"] then
-		print("|cffffcc00PhanxBuffs:|r", L["Currently ignoring these debuffs:"])
-		for debuff in pairs(PhanxBuffsDB.ignoreDebuffs) do
-			print("     ", debuff)
 		end
 	end
+
 	InterfaceOptionsFrame_OpenToCategory(aboutPanel)
 	InterfaceOptionsFrame_OpenToCategory(optionsPanel)
 end
