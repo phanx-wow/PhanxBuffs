@@ -7,10 +7,8 @@
 	Copyright © 2010 Phanx. See README for license terms.
 ----------------------------------------------------------------------]]
 
-local LibButtonFacade = LibStub("LibButtonFacade", true)
-if not LibButtonFacade then return end
-
-if tonumber((GetAddOnMetadata("ButtonFacade", "Version") or ""):match("%.(%d+)$") or 0) < 311 then return end
+local LibButtonFacade, LibButtonFacade_VERSION = LibStub("LibButtonFacade", true)
+if not LibButtonFacade or LibButtonFacade_VERSION < 30305 then return end
 
 local done
 local _, ns = ...
@@ -62,34 +60,34 @@ hooksecurefunc(PhanxTempEnchantFrame, "Load", function(self)
 			f.border:Hide()
 			f.border = nil
 		end
-		if f.SetBorderColor then
-			f.SetBorderColor = function(f, r, g, b, a)
-				if a and a > 0 then
-					LibButtonFacade:SetBorderColor(f, r, g, b, a)
-					LibButtonFacade:SetNormalVertexColor(f, r, g, b, a)
-				else
-					LibButtonFacade:SetBorderColor(f, 1, 1, 1, 0)
-					LibButtonFacade:SetNormalVertexColor(f, 1, 1, 1, 1)
-				end
-			end
-		end
 
 		f.buttonData = { Icon = f.icon }
 		for i, layer in ipairs(buttonDataLayers) do
 			f.buttonData[layer] = false
 		end
+
 		if f:GetParent() == PhanxBuffFrame then
 			f.buttonData.Border = false
 		else
-			f.buttonData.Border = f:CreateTexture()
+			f.border = f.border or f:CreateTexture()
+			f.buttonData.Border = f.border
+		end
+
+		if f.SetBorderColor then
+			f.SetBorderColor = function(f, r, g, b, a)
+				if a and a > 0 then
+					f.border:SetVertexColor(r, g, b, a)
+				else
+					f.border:SetVertexColor(1, 1, 1, 0)
+				end
+			end
 		end
 
 		LibButtonFacade:Group("PhanxBuffs"):AddButton(f, f.buttonData)
 
 		if f:GetParent() == PhanxTempEnchantFrame then
 			-- print("Recoloring temp enchant button")
-			LibButtonFacade:SetBorderColor(f, 0.46, 0.18, 0.67, 1)
-			LibButtonFacade:SetNormalVertexColor(f, 0.46, 0.18, 0.67, 1)
+			f.border:SetVertexColor(0.46, 0.18, 0.67, 1)
 		end
 	end
 
@@ -121,8 +119,7 @@ hooksecurefunc(PhanxTempEnchantFrame, "Load", function(self)
 
 		for i = 1, #PhanxTempEnchantFrame.buttons do
 			-- print("Recoloring temp enchant button", i)
-			LibButtonFacade:SetBorderColor(PhanxTempEnchantFrame.buttons[i], 0.46, 0.18, 0.67, 1)
-			LibButtonFacade:SetNormalVertexColor(PhanxTempEnchantFrame.buttons[i], 0.46, 0.18, 0.67, 1)
+			PhanxTempEnchantFrame.buttons[i].border:SetVertexColor(0.46, 0.18, 0.67, 1)
 		end
 
 		PhanxBuffFrame:Update()
@@ -145,15 +142,12 @@ hooksecurefunc(PhanxTempEnchantFrame, "Load", function(self)
 		local L = ns.L
 		for i = 1, panel:GetNumChildren() do
 			local child = select(i, panel:GetChildren())
-			if child and not child.desc then
-				local grandchild = child.GetChildren and child:GetChildren()
-				if type(grandchild) == "table" and grandchild.OnValueChanged and (grandchild.desc == L["Set the size of each buff icon."] or grandchild.desc == L["Set the size of each debuff icon."]) then
-					local OnValueChanged = grandchild.OnValueChanged
-					grandchild.OnValueChanged = function(...)
-						OnValueChanged(...)
-						LibButtonFacade:Group("PhanxBuffs"):Skin(db.skin.skin, db.skin.gloss, db.skin.backdrop, db.skin.colors)
-						-- print("Reskinned PhanxBuffs because buff/debuff size changed.")
-					end
+			if type(child) == "table" and child.OnValueChanged and (child.desc == L["Set the size of each buff icon."] or child.desc == L["Set the size of each debuff icon."]) then
+				local OnValueChanged = child.OnValueChanged
+				child.OnValueChanged = function(...)
+					OnValueChanged(...)
+					LibButtonFacade:Group("PhanxBuffs"):ReSkin()
+					-- print("Reskinned PhanxBuffs because buff/debuff size changed.")
 				end
 			end
 		end

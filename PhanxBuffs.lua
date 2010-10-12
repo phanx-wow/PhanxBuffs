@@ -24,6 +24,8 @@ local defaultDB = {
 
 	showBuffSources = true,
 	showTempEnchantSources = true,
+
+	buffCancelWorkaround = false,
 }
 
 ------------------------------------------------------------------------
@@ -456,9 +458,20 @@ optionsPanel:SetScript("OnShow", function(self)
 
 	-------------------------------------------------------------------
 
+	local buffCancelWorkaround = CreateCheckbox(self, L["Buff Cancel Workaround"])
+	buffCancelWorkaround.desc = L["Workaround for the new restriction on cancelling buffs in Cataclysm.\n\nInserts a /cancelaura command in the chat input box for the buff clicked on. Press Enter to send the command and cancel the buff."]
+	buffCancelWorkaround:SetPoint("TOPLEFT", showTempEnchantSources, "BOTTOMLEFT", 0, -8)
+	buffCancelWorkaround:SetChecked(db.buffCancelWorkaround)
+
+	buffCancelWorkaround.OnClick = function(self, checked)
+		db.buffCancelWorkaround = checked
+	end
+
+	-------------------------------------------------------------------
+
 	local lockFrames = CreateCheckbox(self, L["Lock Frames"])
 	lockFrames.desc = L["Lock the buff and debuff frames in place, hiding the backdrop and preventing them from being moved."]
-	lockFrames:SetPoint("TOPLEFT", showTempEnchantSources, "BOTTOMLEFT", 0, -8)
+	lockFrames:SetPoint("TOPLEFT", buffCancelWorkaround, "BOTTOMLEFT", 0, -8)
 	lockFrames:SetChecked(true)
 
 	local dragBackdrop = {
