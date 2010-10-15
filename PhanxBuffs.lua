@@ -24,8 +24,6 @@ local defaultDB = {
 
 	showBuffSources = true,
 	showTempEnchantSources = true,
-
-	buffCancelWorkaround = false,
 }
 
 ------------------------------------------------------------------------
@@ -525,17 +523,6 @@ optionsPanel:SetScript("OnShow", function(self)
 		end
 	end
 
-	-------------------------------------------------------------------
---[[
-	local buffCancelWorkaround = CreateCheckbox(self, L["Buff Cancel Workaround"])
-	buffCancelWorkaround.desc = L["Workaround for the new restriction on cancelling buffs in Cataclysm.\n\nInserts a /cancelaura command in the chat input box for the buff clicked on. Press Enter to send the command and cancel the buff."]
-	buffCancelWorkaround:SetPoint("TOPLEFT", lockFrames, "BOTTOMLEFT", 0, -8)
-	buffCancelWorkaround:SetChecked(db.buffCancelWorkaround)
-
-	buffCancelWorkaround.OnClick = function(self, checked)
-		db.buffCancelWorkaround = checked
-	end
---]]
 	-------------------------------------------------------------------
 
 	self:SetScript("OnShow", nil)
