@@ -74,10 +74,6 @@ local function button_OnClick(self)
 		self:GetParent():Update()
 	elseif WOW_VERSION < 40000 then
 		CancelUnitBuff(buffUnit, buff.index, "HELPFUL")
-	elseif db.buffCancelWorkaround then
-		-- CancelUnitBuff is protected in WoW 4.0, le sigh
-		-- nope, this gets a blocked action message too, fuck you Blizz
-		-- ChatFrame_OpenChat("/cancelaura " .. buff.name, ChatEdit_GetActiveWindow() or ChatEdit_GetLastActiveWindow())
 	end
 end
 
