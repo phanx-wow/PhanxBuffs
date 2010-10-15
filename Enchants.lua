@@ -38,7 +38,7 @@ local function button_OnEnter(self)
 			PhanxTempEnchantFrame:Update()
 			spellsDirty = nil
 		end
-		GameTooltip:SetSpell(self.arg1, BOOKTYPE_SPELL)
+		GameTooltip:SetSpellBookItem(self.arg1, BOOKTYPE_SPELL)
 		remaining = self.expires - GetTime()
 	else
 		GameTooltip:SetInventoryItem("player", self:GetID())
@@ -154,7 +154,7 @@ local function FindTempEnchantSpell(findString)
 
 	local i = 1
 	while true do
-		local spellName, spellRank = GetSpellName(i, BOOKTYPE_SPELL)
+		local spellName, spellRank = GetSpellBookItemName(i, BOOKTYPE_SPELL)
 		if not spellName then break end
 		if spellName:find(findString) then
 			if findRank then
@@ -177,11 +177,11 @@ end
 local tempEnchantKeywords
 if select(2, UnitClass("player")) == "SHAMAN" then
 	tempEnchantKeywords = {
-		[L["Earthliving"]] = GetSpellInfo(51994),
-		[L["Flametongue"]] = GetSpellInfo(58790),
-		[L["Frostbrand"]]  = GetSpellInfo(58796),
-		[L["Rockbiter"]]   = GetSpellInfo(10399),
-		[L["Windfury"]]    = GetSpellInfo(58804),
+		[L["Earthliving"]] = GetSpellInfo(51730),
+		[L["Flametongue"]] = GetSpellInfo(8024),
+		[L["Frostbrand"]]  = GetSpellInfo(8033),
+		[L["Rockbiter"]]   = GetSpellInfo(8017),
+		[L["Windfury"]]    = GetSpellInfo(8232),
 	}
 elseif select(2, UnitClass("player")) == "ROGUE" then
 	tempEnchantKeywords = {
