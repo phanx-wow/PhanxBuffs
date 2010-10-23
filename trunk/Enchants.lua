@@ -21,6 +21,8 @@ local _, ns = ...
 local GetFontFile = ns.GetFontFile
 local L = ns.L
 
+local WOW_VERSION = select(4, GetBuildInfo())
+
 ------------------------------------------------------------------------
 
 local function button_OnEnter(self)
@@ -58,10 +60,12 @@ local function button_OnLeave()
 end
 
 local function button_OnClick(self)
-	if self:GetID() == MAIN_HAND_SLOT then
-		CancelItemTempEnchantment(1)
-	elseif self:GetID() == OFF_HAND_SLOT then
-		CancelItemTempEnchantment(2)
+	if WOW_VERSION < 40000 then
+		if self:GetID() == MAIN_HAND_SLOT then
+			CancelItemTempEnchantment(1)
+		elseif self:GetID() == OFF_HAND_SLOT then
+			CancelItemTempEnchantment(2)
+		end
 	end
 end
 

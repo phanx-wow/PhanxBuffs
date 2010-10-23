@@ -81,11 +81,11 @@ local buttons = setmetatable({ }, { __index = function(t, i)
 
 	f.count = f:CreateFontString(nil, "OVERLAY")
     f.count:SetPoint("CENTER", f, "TOP")
-	f.count:SetFont(GetFontFile(db.fontFace), db.debuffSize * 0.6, "OUTLINE")
+	f.count:SetFont(GetFontFile(db.fontFace), db.debuffSize * 0.6, db.fontOutline)
 
 	f.timer = f:CreateFontString(nil, "OVERLAY")
 	f.timer:SetPoint("TOP", f, "BOTTOM")
-	f.timer:SetFont(GetFontFile(db.fontFace), db.debuffSize * 0.5, "OUTLINE")
+	f.timer:SetFont(GetFontFile(db.fontFace), db.debuffSize * 0.5, db.fontOutline)
 
 	if PhanxBorder then
 		PhanxBorder.AddBorder(f)
