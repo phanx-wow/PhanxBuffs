@@ -14,14 +14,14 @@ local ignore = {
 --	["Useless Buff"] = true,
 }
 
-local buffs = { }
+local buffs, cantCancel = { }, { }
 local buffUnit = "player"
 
 local _, ns = ...
 local GetFontFile = ns.GetFontFile
 
 local L = ns.L
-L["Cast by: |cff%02x%02x%02x%s|r"] = L["Cast by: %s"]:replace("%s", "|cff%02x%02x%02x%s|r")
+L["Cast by |cff%02x%02x%02x%s|r"] = L["Cast by %s"]:replace("%s", "|cff%02x%02x%02x%s|r")
 
 local MAX_BUFFS = 40
 
@@ -36,12 +36,12 @@ local unitNames = setmetatable({ }, { __index = function(t, unit)
 	if not name then return end
 
 	local _, class = UnitClass(unit)
-	if not class then return L["Cast by: %s"]:format(name) end
+	if not class then return L["Cast by %s"]:format(name) end
 
 	local color = (CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS)[class]
-	if not color then return L["Cast by: %s"]:format(name) end
+	if not color then return L["Cast by %s"]:format(name) end
 
-	return L["Cast by: |cff%02x%02x%02x%s|r"]:format(color.r * 255, color.g * 255, color.b * 255, name)
+	return L["Cast by |cff%02x%02x%02x%s|r"]:format(color.r * 255, color.g * 255, color.b * 255, name)
 end })
 
 local function button_OnEnter(self)
@@ -74,6 +74,8 @@ local function button_OnClick(self)
 		self:GetParent():Update()
 	elseif WOW_VERSION < 40000 then
 		CancelUnitBuff(buffUnit, buff.index, "HELPFUL")
+	elseif not buff.noCancel then
+		PhanxBuffsCancelButton:SetMacro(self, buff.icon, "/cancelaura " .. buff.name)
 	end
 end
 
@@ -211,10 +213,9 @@ function PhanxBuffFrame:Update()
 		buffs[i] = remTable(t)
 	end
 
-	local i = 1
-	while true do
+	for i = 1, 100 do
 		local name, _, icon, count, kind, duration, expires, caster, _, _, spellID = UnitAura(buffUnit, i, "HELPFUL")
-		if not icon or icon == "" then break end
+		if not name or not icon or icon == "" then break end
 
 		if not ignore[name] then
 			local t = newTable()
@@ -231,15 +232,22 @@ function PhanxBuffFrame:Update()
 
 			buffs[#buffs + 1] = t
 		end
-
-		i = i + 1
 	end
 
 	table.sort(buffs, BuffSort)
 
+	wipe(cantCancel)
+	for i = 1, 100 do
+		local name, _, icon = UnitAura(buffUnit, i, "HELPFUL NOT_CANCELABLE")
+		if not name or not icon or icon == "" then break end
+		cantCancel[name] = true
+	end
+
 	for i, buff in ipairs(buffs) do
 		local f = buttons[i]
 		f.icon:SetTexture(buff.icon)
+
+		buff.noCancel = cantCancel[buff.name]
 
 		if buff.count > 1 then
 			f.count:SetText(buff.count)

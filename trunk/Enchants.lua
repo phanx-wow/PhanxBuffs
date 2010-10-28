@@ -16,6 +16,7 @@ local dirty, bagsDirty, spellsDirty, inVehicle
 
 local MAIN_HAND_SLOT = GetInventorySlotInfo("MainHandSlot")
 local OFF_HAND_SLOT = GetInventorySlotInfo("SecondaryHandSlot")
+local RANGED_SLOT = GetInventorySlotInfo("RangedSlot")
 
 local _, ns = ...
 local GetFontFile = ns.GetFontFile
@@ -60,12 +61,17 @@ local function button_OnLeave()
 end
 
 local function button_OnClick(self)
+	local id = self:GetID()
 	if WOW_VERSION < 40000 then
-		if self:GetID() == MAIN_HAND_SLOT then
+		if id == MAIN_HAND_SLOT then
 			CancelItemTempEnchantment(1)
-		elseif self:GetID() == OFF_HAND_SLOT then
+		elseif id == OFF_HAND_SLOT then
 			CancelItemTempEnchantment(2)
 		end
+	else
+		local button = "TempEnchant" .. (id - 15)
+		_G[button]:SetID(id)
+		PhanxBuffsCancelButton:SetMacro(self, self.icon:GetTexture(), "/click " .. button .. " RightButton")
 	end
 end
 
