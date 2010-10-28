@@ -19,6 +19,7 @@ ns.L = L
 L["Earthliving"] = "대지생명의 무기"
 L["Flametongue"] = "불꽃의 무기"
 L["Frostbrand"] = "냉기의 무기"
+-- L["Rockbiter"] = ""
 L["Windfury"] = "질풍의 무기"
 
 -- Rogue weapon enchant keywords
@@ -68,13 +69,7 @@ L["Show weapon buffs as the spell or item that buffed the weapon, instead of the
 L["Lock Frames"] = "프레임 잠금"
 L["Lock the buff and debuff frames in place, hiding the backdrop and preventing them from being moved."] = "해당 위치에 버프와 디버프 프레임을 잠급니다. 배경을 숨기고 움직이지 못하도록 합니다."
 
--- L["Buff Cancel Workaround"] = ""
--- L["Workaround for the new restriction on cancelling buffs in Cataclysm.\n\nInserts a /cancelaura command in the chat input box for the buff clicked on. Press Enter to send the command and cancel the buff."] = ""
-
 L["Cast by %s"] = "시전자: %s"
-
-L[" minutes remaining"] = "분 남음"
-L[" seconds remaining"] = "초 남음"
 
 -- L["Now ignoring buff: %s"] = ""
 -- L["No longer ignoring buff: %s"] = ""

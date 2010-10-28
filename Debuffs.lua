@@ -34,6 +34,33 @@ local DebuffTypeColor = {
 	["Poison"]	= { 0.0, 0.6, 0 },
 }
 
+local GetDispelMacro
+do
+	local _, class = UnitClass("player")
+	if class == "DRUID" then
+		local macro = "/cast [@player] " .. (GetSpellInfo(2782)) -- Remove Corruption
+		GetDispelMacro = function(kind)
+			return (kind == "CURSE" or kind == "POISON" or (kind == "MAGIC" and select(5, GetTalentInfo(3, 17)) > 0)) and macro
+		end
+	elseif class == "PALADIN" then
+		local macro = "/cast [@player] " .. (GetSpellInfo(4987)) -- Cleanse
+		GetDispelMacro = function(kind)
+			return (kind == "DISEASE" or kind == "POISON" or (kind == "MAGIC" and select(5, GetTalentInfo(1, 14)) > 0)) and macro
+		end
+	elseif class == "PRIEST" then
+		local macro1 = "/cast [@player] " .. (GetSpellInfo(528)) -- Cure Disease
+		local macro2 = "/cast [@player] " .. (GetSpellInfo(527)) -- Dispel Magic
+		GetDispelMacro = function(kind)
+			return kind == "DISEASE" and macro1 or kind == "MAGIC" and macro2
+		end
+	elseif class == "SHAMAN" then
+		local macro = "/cast [@player] " .. (GetSpellInfo(51886)) -- Cleanse Spirit
+		GetDispelMacro = function(kind)
+			return (kind == "CURSE" or (kind == "MAGIC" and select(5, GetTalentInfo(3, 12)) > 0)) and macro
+		end
+	end
+end
+
 local _, ns = ...
 local GetFontFile = ns.GetFontFile
 
@@ -59,6 +86,11 @@ local function button_OnClick(self)
 		ignore[debuff.name] = true
 		print("|cffffcc00PhanxBuffs:|r", string.format(ns.L["Now ignoring debuff:"], debuff.name))
 		self:GetParent():Update()
+	elseif not InCombatLockdown() then
+		local macro = GetDispelMacro and DebuffTypeColor[debuff.kind] and GetDispelMacro(debuff.kind)
+		if macro then
+			PhanxBuffsCancelButton:SetMacro(self, debuff.icon, macro)
+		end
 	end
 end
 

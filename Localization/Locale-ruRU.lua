@@ -69,9 +69,6 @@ L["Spellstone"] = "камень чар"
 -- L["Lock Frames"] = ""
 -- L["Lock the buff and debuff frames in place, hiding the backdrop and preventing them from being moved."] = ""
 
--- L["Buff Cancel Workaround"] = ""
--- L["Workaround for the new restriction on cancelling buffs in Cataclysm.\n\nInserts a /cancelaura command in the chat input box for the buff clicked on. Press Enter to send the command and cancel the buff."] = ""
-
 -- L["Cast by %s"] = ""
 
 -- L["Now ignoring buff: %s"] = ""

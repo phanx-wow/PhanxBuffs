@@ -79,6 +79,47 @@ end
 
 ------------------------------------------------------------------------
 
+local cancelButton = CreateFrame("Button", "PhanxBuffsCancelButton", UIParent, "SecureActionButtonTemplate")
+cancelButton:SetPoint("CENTER")
+cancelButton:SetSize(64, 64)
+cancelButton:Hide()
+
+cancelButton:RegisterForClicks("LeftButtonDown", "RightButtonDown")
+cancelButton:SetAttribute("unit", "player")
+cancelButton:SetAttribute("*type1", "macro")
+cancelButton:SetAttribute("*macrotext1", "/run if not InCombatLockdown() then PhanxBuffsCancelButton:Hide() end")
+cancelButton:SetAttribute("*type2", "macro")
+
+cancelButton.overlay = cancelButton:CreateTexture(nil, "BACKGROUND")
+cancelButton.overlay:SetAllPoints(true)
+cancelButton.overlay:SetTexture(1, 0, 0, 0.5)
+
+cancelButton.icon = cancelButton:CreateTexture(nil, "BACKGROUND")
+cancelButton.icon:SetAllPoints(true)
+cancelButton.icon:Hide()
+
+function cancelButton:SetMacro(button, icon, macro)
+	if db.noCancel or InCombatLockdown() then return end
+	self:ClearAllPoints()
+	self:SetPoint("TOPLEFT", button, "TOPLEFT", -2, 2)
+	self:SetPoint("BOTTOMRIGHT", button, "BOTTOMRIGHT", 2, -2)
+	self:SetFrameLevel(button:GetFrameLevel() + 2)
+
+	self:SetAttribute("*macrotext2", macro .. "\n/run if not InCombatLockdown() then PhanxBuffsCancelButton:Hide() end")
+	self.icon:SetTexture(icon)
+
+	self:Show()
+end
+
+cancelButton:RegisterEvent("PLAYER_REGEN_DISABLED")
+cancelButton:SetScript("OnEvent", function(self)
+	if not InCombatLockdown() then
+		self:Hide()
+	end
+end)
+
+------------------------------------------------------------------------
+
 local optionsPanel = CreateFrame("Frame", nil, InterfaceOptionsFramePanelContainer)
 optionsPanel.name = "PhanxBuffs"
 optionsPanel:Hide()
