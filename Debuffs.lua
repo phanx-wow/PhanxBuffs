@@ -42,6 +42,11 @@ do
 		GetDispelMacro = function(kind)
 			return (kind == "CURSE" or kind == "POISON" or (kind == "MAGIC" and select(5, GetTalentInfo(3, 17)) > 0)) and macro
 		end
+	elseif class == "MAGE" then
+		local macro = "/cast [@player] " .. (GetSpellInfo(475)) -- Remove Curse
+		GetDispelMacro = function(kind)
+			return kind == "CURSE" and macro
+		end
 	elseif class == "PALADIN" then
 		local macro = "/cast [@player] " .. (GetSpellInfo(4987)) -- Cleanse
 		GetDispelMacro = function(kind)
