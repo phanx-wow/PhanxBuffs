@@ -71,9 +71,13 @@ L["Lock the buff and debuff frames in place, hiding the backdrop and preventing 
 
 L["Cast by %s"] = "Aplicada por %s"
 
-L["Now ignoring buff: %s"] = "Estás ignorando a beneficio: %s"
-L["No longer ignoring buff: %s"] = "Ya no ignoras a beneficio: %s"
-L["Now ignoring debuff: %s"] = "Estás ignorando a perjuicio: %s"
-L["No longer ignoring debuff: %s"] = "Ya no ignoras a perjucio: %s"
+L["Now ignoring buff: %s"] = "Estás ignorando a beneficio: %s."
+L["No longer ignoring buff: %s"] = "Ya no ignoras a beneficio: %s."
+L["Now ignoring debuff: %s"] = "Estás ignorando a perjuicio: %s."
+L["No longer ignoring debuff: %s"] = "Ya no ignoras a perjucio: %s."
 L["Currently ignoring these buffs:"] = "Estás ignorando a este beneficios:"
-L["Currently ignoring these debuffs:"] = "Estás ignorando a este perjuicios:"
+L["Currently ignoring these debuffs:"] = "Estás ignorando a % perjuicios:"
+L["No buffs are being ignored:"] = "No hay beneficios están siendo ignoradas."
+L["%d buffs are being ignored:"] = "Estás ignorando a % beneficios:"
+L["No debuffs are being ignored:"] = "No hay perjuicios están siendo ignoradas."
+L["%d debuffs are being ignored:"] = "Estás ignorando a % perjuicios:"

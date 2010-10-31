@@ -71,9 +71,11 @@ L["Lock the buff and debuff frames in place, hiding the backdrop and preventing 
 
 L["Cast by %s"] = "시전자: %s"
 
--- L["Now ignoring buff: %s"] = ""
--- L["No longer ignoring buff: %s"] = ""
--- L["Now ignoring debuff: %s"] = ""
--- L["No longer ignoring debuff: %s"] = ""
--- L["Currently ignoring these buffs:"] = ""
--- L["Currently ignoring these debuffs:"] = ""
+-- L["Now ignoring buff: %s."] = ""
+-- L["No longer ignoring buff: %s."] = ""
+-- L["Now ignoring debuff: %s."] = ""
+-- L["No longer ignoring debuff: %s."] = ""
+-- L["No buffs are being ignored:"] = ""
+-- L["%d buffs are being ignored:"] = ""
+-- L["No debuffs are being ignored:"] = ""
+-- L["%d debuffs are being ignored:"] = ""

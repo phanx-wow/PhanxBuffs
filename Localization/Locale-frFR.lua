@@ -71,9 +71,11 @@ L["Lock the buff and debuff frames in place, hiding the backdrop and preventing 
 
 L["Cast by %s"] = "Incanté par %s"
 
-L["Now ignoring buff: %s"] = "Buff à présent ignoré : %s"
-L["No longer ignoring buff: %s"] = "Buff n'étant à présent plus ignoré : %s"
-L["Now ignoring debuff: %s"] = "Debuff à présent ignoré : %s"
-L["No longer ignoring debuff: %s"] = "Debuff n'étant à présent plus ignoré : %s"
-L["Currently ignoring these buffs:"] = "Buffs actuellement ignorés:"
-L["Currently ignoring these debuffs:"] = "Debuffs actuellement ignorés:"
+L["Now ignoring buff: %s."] = "Buff à présent ignoré : %s."
+L["No longer ignoring buff: %s."] = "Buff n'étant à présent plus ignoré : %s."
+L["Now ignoring debuff: %s."] = "Debuff à présent ignoré : %s"
+L["No longer ignoring debuff: %s."] = "Debuff n'étant à présent plus ignoré : %s."
+L["No buffs are being ignored:"] = "Aucun buffs sont ignorés."
+L["%d buffs are being ignored:"] = "%d buffs actuellement ignorés:"
+L["No debuffs are being ignored:"] = "Aucun debuffs sont ignorés."
+L["%d debuffs are being ignored:"] = "%d debuffs actuellement ignorés:"
