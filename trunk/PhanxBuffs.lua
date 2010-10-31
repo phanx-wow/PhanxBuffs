@@ -585,28 +585,47 @@ SlashCmdList.PHANXBUFFS = function(input)
 		local type, name = input:match("^(%S+)%s*(.*)$")
 		type = type:lower()
 
-		if name then
+		if name and name ~= "" then
 			if type == L["buff"] then
-				PhanxBuffsDB.ignoreBuffs[name] = PhanxBuffsDB.ignoreBuffs[name] and nil or true
-				print("|cffffcc00PhanxBuffs:|r", string.format(PhanxBuffsDB.ignoreBuffs[name] and L["Now ignoring buff: %s"] or L["No longer ignoring buff: %s"], name))
+				local newstate = PhanxBuffsDB.ignoreBuffs[name] and nil or true
+				PhanxBuffsDB.ignoreBuffs[name] = newstate
+				print("|cffffcc00PhanxBuffs:|r", string.format(newstate and L["Now ignoring buff: %s."] or L["No longer ignoring buff: %s."], name))
 				return
 			elseif type == L["debuff"] then
-				PhanxBuffsDB.ignoreDebuffs[name] = PhanxBuffsDB.ignoreDebuffs[name] and nil or true
-				print("|cffffcc00PhanxBuffs:|r", string.format(PhanxBuffsDB.ignoreBuffs[name] and L["Now ignoring debuff: %s"] or L["No longer ignoring debuff: %s"], name))
+				local newstate = PhanxBuffsDB.ignoreDebuffs[name]
+				PhanxBuffsDB.ignoreDebuffs[name] = newstate
+				print("|cffffcc00PhanxBuffs:|r", string.format(newtate and L["Now ignoring debuff: %s."] or L["No longer ignoring debuff: %s."], name))
 				return
 			end
 		elseif input == L["buff"] then
-			print("|cffffcc00PhanxBuffs:|r", L["Currently ignoring these buffs:"])
+			local t = { }
 			for buff in pairs(PhanxBuffsDB.ignoreBuffs) do
-				print("     ", buff)
+				t[#t + 1] = buff
+			end
+			if #t == 0 then
+				print("|cffffcc00PhanxBuffs:|r", L["No buffs are being ignored."])
+			else
+				table.sort(t)
+				print("|cffffcc00PhanxBuffs:|r", L["%d buffs are being ignored:"]:format(#t))
+				for _, buff in ipairs(t) do
+					print("   ", buff)
+				end
 			end
 			return
 		elseif input == L["debuff"] then
-			print("|cffffcc00PhanxBuffs:|r", L["Currently ignoring these debuffs:"])
-			for debuff in pairs(PhanxBuffsDB.ignoreDebuffs) do
-				print("     ", debuff)
+			local t = { }
+			for debuff in pairs(PhanxBuffsDB.ignoreDedebuffs) do
+				t[#t + 1] = debuff
 			end
-			return
+			if #t == 0 then
+				print("|cffffcc00PhanxBuffs:|r", L["No debuffs are being ignored."])
+			else
+				table.sort(t)
+				print("|cffffcc00PhanxBuffs:|r", L["%d debuffs are being ignored:"]:format(#t))
+				for _, debuff in ipairs(t) do
+					print("   ", debuff)
+				end
+			end
 		end
 	end
 
