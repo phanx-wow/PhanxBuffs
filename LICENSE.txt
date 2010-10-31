@@ -1,0 +1,22 @@
+The contents of this software, excluding third-party resources, are 
+copyrighted to its author with all rights reserved, under United States 
+and international copyright law.
+
+In particular, please note that you MAY NOT distribute this software in 
+any form, with or without modifications, including as part of a 
+compilation, without prior written permission from its author.
+
+You are hereby granted the following additional rights:
+
+1. You MAY download and run this software as a user interface addon 
+   inside the World of Warcraft game client.
+
+2. You MAY make modifications to this software for your own private use.
+
+3. You MAY use source code from this software for any purpose, provided
+   that the names of this software and/or its author are not used to
+   promote your project, and do not appear in the title, source code, or
+   file names of your project, outside of an optional credits notation.
+
+All rights not explicitly addressed in this license are reserved by the
+copyright holder.

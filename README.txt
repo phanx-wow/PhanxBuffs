@@ -1,4 +1,3 @@
-
 PhanxBuffs - a World of Warcraft user interface addon
 
 	by Phanx < addons@phanx.net >
@@ -7,72 +6,115 @@ PhanxBuffs - a World of Warcraft user interface addon
 
 Description
 
-	PhanxBuffs is a basic replacement for the default UI's buff, debuff,
-	and temporary enchant (weapon buff) frames.
-
-	It looks and acts basically like the default buff frames, with a few
-	improvements:
+	PhanxBuffs is a basic replacement for the default UI’s buff, debuff,
+	and temporary enchant (weapon buff) frames. It looks and acts
+	basically like the default buff frames, with a few improvements:
 
 	* Buff and debuff icons are sorted by their remaining duration
-	* Text timers are shown only when less than 30 seconds remain
+	* Text timers are shown only when less than 30 seconds remain on the
+	  buff or debuff
 	* Weapon buff icons can show the spell or item that buffed your
 	  weapon, instead of the weapon itself
-	* Buff tooltips show who cast the buff on you
-	* Buffs or debuffs you never want to see can be hidden
-	* Basic configuration options are available
-
-	Things that will probably be added in the future:
-
-	* ButtonFacade support
+	* Buff tooltips show the name of the party or raid member who cast
+	  the buff on you
+	* Buffs or debuffs you never want to see can be hidden (eg. Chill of
+	  the Throne)
 	* Wrap icons to more than one row, with configurable row lengths
-	* GUI for modifying buff and debuff ignore lists
+	* Buff and debuff frames are movable
+	* Basic configuration options
+	* ButtonFacade support
 
 Usage
 
-	Options are available by typing "/pbuff" or navigating to the
+	Options are available by typing `/pbuff` or navigating to the
 	PhanxBuffs panel in the standard Interface Options window.
 
-	There is currently no GUI for adding or removing buffs or debuffs
-	from the ignore lists. The easiest way to edit the lists is to open
-	the relevant file (Buffs.lua or Debuffs.lua) and edit the ignore
-	list at the top.
+	Add a buff/debuff to the ignore list by right-clicking it while
+	holding down the Alt and Shift keys.
+
+	Add/remove a buff/debuff to/from the ignore list by typing
+	"/pbuff buff Zomg Uber Buff" or "/pbuff debuff Zomg Evil Debuff".
+	Buff/debuff names provided with these commands must be properly
+	spelled, capitalized, and punctuated.
+
+Buff Cancelling in WoW 4.0
+
+	Blizzard added new restrictions on buff cancelling for addons in
+	WoW 4.0. As a result, PhanxBuffs and any other addon which provides
+	a filterable buff display can no longer directly cancel buffs when
+	you right-click on them.
+
+	As a workaround, you can cancel buffs while out of combat by
+	right-clicking on them twice. The first time you right-click, a red
+	overlay will appear on the buff. Right-click again to cancel the
+	buff, or left-click to hide the overlay and keep the buff. The
+	workaround also supports removing weapon buffs, and removing debuffs
+	your character can dispel.
+
+	If you need right-click buff cancelling in combat, try:
+
+	* Aptus Aura Frames
+	  http://www.wowinterface.com/downloads/info18102-AptusAuraFrames.html
+	* Bison
+	  http://www.wowace.com/addons/bison/
+	* NivBuffs
+	  http://www.wowinterface.com/downloads/info18440-nivBuffs.html
+
+	You could also try my new addon CancelMyBuffs, which provides a
+	slightly different way to cancel buffs quickly:
+	http://www.wowinterface.com/downloads/info18447-CancelMyBuffs.html
 
 Localization
 
-	Compatible with: en*, deDE, esES, esMX, frFR, koKR, ruRU, zhCN, zhTW
-	Translated into: en*
+	PhanxBuffs works in all locales, except for the “show weapon buff
+	sources” feature, which requires translations to function and is
+	currently translated only for English, German, Spanish, French, and
+	Russian clients.
 
-	If you can help translate for any locale, please contact me.
+	The options text is currently localized in English, French, Spanish,
+	and Korean.
 
-Feedback
+	If you can provide translations for any locale, send me a PM.
 
-	Please use the ticket system on either download site report bugs or
-	request features. Use the comment system only for general questions
-	or comments.
+Feature Requests
 
-	If you need to contact me privately, you may do by private message
-	on either download site, or by email at addons@phanx.net.
+	* http://www.wowinterface.com/portal.php?uid=28751&a=listfeatures
+
+	Please use the ticket tracker to request features. This keeps all
+	the requests in one place, so they don’t get overlooked or forgotten.
+	Note, however, that PhanxBuffs is intentionally quite basic, and I
+	will probably decline most feature requests, especially requests for
+	more detailed configuration options.
+
+Bug Reports
+
+	Before reporting a bug, please:
+
+	1. Double-check that you have the latest version of PhanxBuffs.
+	2. Disable all other addons and see if the problem persists.
+	3. Enable Lua error display, or install BugSack, and see if any
+	   error messages appear when the problem occurs.
+	   http://www.wowinterface.com/downloads/info5995-BugSack.html
+
+	Once you’ve done those things, use the bug tracker to report the
+	problem. Be sure to include:
+
+	* PhanxBuffs version (ex: 4.0.1.50)
+	* WoW version and locale (ex: 4.0.1 enUS)
+	* Description of the problem, and steps to reproduce it
+	* Whether the problem occurs when all other addons are disabled
+	* Text of any related error messages, WITHOUT lists of local
+	  variables or installed addons
+
+	Finally, remember to check on your ticket after a few days! I may
+	need more information from you in order to identify and fix the
+	problem.
 
 License
 
-	Copyright © 2010 Phanx.
-
-	The contents of this addon, excluding third-party resources, are
-	copyrighted to its author with all rights reserved, under United
-	States copyright law and various international treaties.
-
-	In particular, please note that you may not distribute this addon in
-	any form, with or without modifications, including as part of a
-	compilation, without prior written permission from its author.
-
-	The author of this addon hereby grants you the following rights:
-
-	1. You may make modifications to this addon for private use only.
-
-	2. You may use source code from this addon for any purpose, provided
-	that the names of this addon and its author are not used to promote
-	your project, and do not appear in the title, source code, or file
-	names of your project, outside of an optional credits notation.
-
-	All rights not explicitly addressed in this license are reserved by
-	the copyright holder.
+	PhanxBuffs is free as in “free beer”, not as in “free software”, and
+	you may not include it in your compilation, or redistribute it in
+	any other way, without getting permission first. You may, however,
+	reuse code from PhanxBuffs in your own addon. See the LICENSE file
+	inside the addon’s folder for a formal copyright notice and the full
+	license terms under which PhanxBuffs is released.
