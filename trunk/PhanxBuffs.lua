@@ -587,15 +587,18 @@ SlashCmdList.PHANXBUFFS = function(input)
 
 		if name and name ~= "" then
 			if type == L["buff"] then
-				local newstate = PhanxBuffsDB.ignoreBuffs[name] and nil or true
+				local newstate
+				if PhanxBuffsDB.ignoreBuffs[name] then newstate = nil else newstate = true end
+				print(tostring(newstate))
 				PhanxBuffsDB.ignoreBuffs[name] = newstate
 				print("|cffffcc00PhanxBuffs:|r", string.format(newstate and L["Now ignoring buff: %s."] or L["No longer ignoring buff: %s."], name))
-				return
+				return PhanxBuffFrame:Update()
 			elseif type == L["debuff"] then
-				local newstate = PhanxBuffsDB.ignoreDebuffs[name]
+				local newstate
+				if PhanxBuffsDB.ignoreDebuffs[name] then newstate = nil else newstate = true end
 				PhanxBuffsDB.ignoreDebuffs[name] = newstate
 				print("|cffffcc00PhanxBuffs:|r", string.format(newtate and L["Now ignoring debuff: %s."] or L["No longer ignoring debuff: %s."], name))
-				return
+				return PhanxDebuffFrame:Update()
 			end
 		elseif input == L["buff"] then
 			local t = { }
@@ -614,7 +617,7 @@ SlashCmdList.PHANXBUFFS = function(input)
 			return
 		elseif input == L["debuff"] then
 			local t = { }
-			for debuff in pairs(PhanxBuffsDB.ignoreDedebuffs) do
+			for debuff in pairs(PhanxBuffsDB.ignoreDebuffs) do
 				t[#t + 1] = debuff
 			end
 			if #t == 0 then
