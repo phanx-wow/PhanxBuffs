@@ -100,16 +100,23 @@ cancelButton.icon:Hide()
 
 function cancelButton:SetMacro(button, icon, macro)
 	if db.noCancel or InCombatLockdown() then return end
+
 	self:ClearAllPoints()
 	self:SetPoint("TOPLEFT", button, "TOPLEFT", -2, 2)
 	self:SetPoint("BOTTOMRIGHT", button, "BOTTOMRIGHT", 2, -2)
-	self:SetFrameLevel(button:GetFrameLevel() + 2)
+	self:SetFrameLevel(100)
+
+	self.icon:SetTexture(icon)
 
 	self:SetAttribute("*macrotext2", macro .. "\n/run if not InCombatLockdown() then PhanxBuffsCancelButton:Hide() end")
-	self.icon:SetTexture(icon)
 
 	self:Show()
 end
+
+cancelButton:SetScript("OnHide", function(self)
+	self:ClearAllPoints()
+	self:SetPoint("CENTER", UIParent, "CENTER", 0, 0)
+end)
 
 cancelButton:RegisterEvent("PLAYER_REGEN_DISABLED")
 cancelButton:SetScript("OnEvent", function(self)
