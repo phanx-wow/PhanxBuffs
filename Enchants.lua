@@ -303,33 +303,34 @@ end
 
 ------------------------------------------------------------------------
 
-local counter = 0
-function PhanxTempEnchantFrame:OnUpdate(elapsed)
-	counter = counter + elapsed
-	if counter > 0.1 then
-		if dirty then
-			self:Update()
-			dirty = false
-		end
-		for i, button in ipairs(buttons) do
-			if not button:IsShown() then break end
+local timerGroup = PhanxTempEnchantFrame:CreateAnimationGroup()
+local timer = timerGroup:CreateAnimation()
+timer:SetOrder(1)
+timer:SetDuration(0.1) -- how often you want it to finish
+timer:SetMaxFramerate(25) -- use this to throttle
+timerGroup:SetScript("OnFinished", function(self, requested)
+	if dirty then
+		PhanxTempEnchantFrame:Update()
+		dirty = false
+	end
+	for i, button in ipairs(buttons) do
+		if not button:IsShown() then break end
 
-			if button.expires and button.expires > 0 then
-				local remaining = button.expires - GetTime()
-				if remaining < 0 then
-					dirty = true
-				elseif remaining <= 30.5 then
-					button.timer:SetText( math.floor(remaining + 0.5) )
-				else
-					button.timer:SetText()
-				end
+		if button.expires and button.expires > 0 then
+			local remaining = button.expires - GetTime()
+			if remaining < 0 then
+				dirty = true
+			elseif remaining <= 30.5 then
+				button.timer:SetText( math.floor(remaining + 0.5) )
 			else
 				button.timer:SetText()
 			end
+		else
+			button.timer:SetText()
 		end
-		counter = 0
 	end
-end
+	self:Play() -- start it over again
+end)
 
 ------------------------------------------------------------------------
 
@@ -436,7 +437,7 @@ function PhanxTempEnchantFrame:Load()
 	db = PhanxBuffsDB
 
 	dirty = true
-	self:SetScript("OnUpdate", self.OnUpdate)
+	timerGroup:Play()
 
 	self:RegisterEvent("BAG_UPDATE")
 	self:RegisterEvent("PLAYER_ENTERING_WORLD")

@@ -270,38 +270,39 @@ end
 
 ------------------------------------------------------------------------
 
-local counter, dirty = 0
-function PhanxBuffFrame:OnUpdate(elapsed)
-	counter = counter + elapsed
-	if counter > 0.1 then
-		if dirty then
-			self:Update()
-			dirty = false
-		end
-		for i, button in ipairs(buttons) do
-			if not button:IsShown() then break end
-
-			local buff = buffs[button:GetID()]
-			if buff then
-				if buff.expires > 0 then
-					local remaining = buff.expires - GetTime()
-					if remaining < 0 then
-						-- bugged out, kill it
-						remTable( table.remove(buffs, button:GetID()) )
-						dirty = true
-					elseif remaining <= 30.5 then
-						button.timer:SetText( math.floor(remaining + 0.5) )
-					else
-						button.timer:SetText()
-					end
+local dirty
+local timerGroup = PhanxBuffFrame:CreateAnimationGroup()
+local timer = timerGroup:CreateAnimation()
+timer:SetOrder(1)
+timer:SetDuration(0.1) -- how often you want it to finish
+timer:SetMaxFramerate(20) -- use this to throttle
+timerGroup:SetScript("OnFinished", function(self, requested)
+	if dirty then
+		PhanxBuffFrame:Update()
+		dirty = false
+	end
+	for i, button in ipairs(buttons) do
+		if not button:IsShown() then break end
+		local buff = buffs[button:GetID()]
+		if buff then
+			if buff.expires > 0 then
+				local remaining = buff.expires - GetTime()
+				if remaining < 0 then
+					-- bugged out, kill it
+					remTable( table.remove(buffs, button:GetID()) )
+					dirty = true
+				elseif remaining <= 30.5 then
+					button.timer:SetText( math.floor(remaining + 0.5) )
 				else
 					button.timer:SetText()
 				end
+			else
+				button.timer:SetText()
 			end
 		end
-		counter = 0
 	end
-end
+	self:Play() -- start it over again
+end)
 
 ------------------------------------------------------------------------
 
@@ -342,7 +343,7 @@ function PhanxBuffFrame:Load()
 	LibButtonFacade = LibStub("LibButtonFacade", true)
 
 	dirty = true
-	self:SetScript("OnUpdate", self.OnUpdate)
+	timerGroup:Play()
 
 	self:RegisterEvent("PLAYER_ENTERING_WORLD")
 	self:RegisterEvent("UNIT_ENTERING_VEHICLE")
