@@ -297,38 +297,40 @@ end
 
 ------------------------------------------------------------------------
 
-local counter, dirty = 0
-function PhanxDebuffFrame:OnUpdate(elapsed)
-	counter = counter + elapsed
-	if counter > 0.1 then
-		if dirty then
-			self:Update()
-			dirty = false
-		end
-		for i, button in ipairs(buttons) do
-			if not button:IsShown() then break end
+local dirty
+local timerGroup = PhanxDebuffFrame:CreateAnimationGroup()
+local timer = timerGroup:CreateAnimation()
+timer:SetOrder(1)
+timer:SetDuration(0.1) -- how often you want it to finish
+timer:SetMaxFramerate(25) -- use this to throttle
+timerGroup:SetScript("OnFinished", function(self, requested)
+	if dirty then
+		PhanxDebuffFrame:Update()
+		dirty = false
+	end
+	for i, button in ipairs(buttons) do
+		if not button:IsShown() then break end
 
-			local debuff = debuffs[button:GetID()]
-			if debuff then
-				if debuff.expires > 0 then
-					local remaining = debuff.expires - GetTime()
-					if remaining < 0 then
-						-- bugged out, kill it
-						remTable( table.remove(debuffs, button:GetID()) )
-						dirty = true
-					elseif remaining <= 30.5 then
-						button.timer:SetText( math.floor(remaining + 0.5) )
-					else
-						button.timer:SetText()
-					end
+		local debuff = debuffs[button:GetID()]
+		if debuff then
+			if debuff.expires > 0 then
+				local remaining = debuff.expires - GetTime()
+				if remaining < 0 then
+					-- bugged out, kill it
+					remTable( table.remove(debuffs, button:GetID()) )
+					dirty = true
+				elseif remaining <= 30.5 then
+					button.timer:SetText( math.floor(remaining + 0.5) )
 				else
 					button.timer:SetText()
 				end
+			else
+				button.timer:SetText()
 			end
 		end
-		counter = 0
 	end
-end
+	self:Play() -- start it over again
+end)
 
 PhanxDebuffFrame:SetScript("OnEvent", function(self, event, unit)
 	if event == "UNIT_AURA" then
@@ -365,7 +367,7 @@ function PhanxDebuffFrame:Load()
 	ignore = db.ignoreDebuffs
 
 	dirty = true
-	self:SetScript("OnUpdate", self.OnUpdate)
+	timerGroup:Play()
 
 	self:RegisterEvent("PLAYER_ENTERING_WORLD")
 	self:RegisterEvent("UNIT_ENTERING_VEHICLE")
