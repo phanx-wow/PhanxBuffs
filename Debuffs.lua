@@ -10,19 +10,7 @@
 local PhanxDebuffFrame = CreateFrame("Frame", "PhanxDebuffFrame", UIParent)
 
 local db
-local ignore = {
-	["Bested Darnassus"] = true,
-	["Bested Gnomeregan"] = true,
-	["Bested Ironforge"] = true,
-	["Bested Orgrimmar"] = true,
-	["Bested Sen'jin"] = true,
-	["Bested Silvermoon City"] = true,
-	["Bested Stormwind"] = true,
-	["Bested the Exodar"] = true,
-	["Bested the Undercity"] = true,
-	["Bested Thunder Bluff"] = true,
-	["Chill of the Throne"] = true,
-}
+local ignore
 
 local debuffs = { }
 local debuffUnit = "player"
@@ -362,9 +350,7 @@ function PhanxDebuffFrame:Load()
 	if db then return end
 
 	db = PhanxBuffsDB
-
-	if not db.ignoreDebuffs then db.ignoreDebuffs = ignore end
-	ignore = db.ignoreDebuffs
+	ignore = PhanxBuffsIgnoreDB.debuffs
 
 	dirty = true
 	timerGroup:Play()

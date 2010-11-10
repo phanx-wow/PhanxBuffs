@@ -10,10 +10,12 @@
 ## X-CompatibleLocales: enUS, deDE, esES, esMX, frFR, koKR, ruRU, zhCN, zhTW
 ## X-Localizations: enUS, esES, esMX, koKR, zhTW
 ## X-Website: http://www.wowinterface.com/downloads/info16874-PhanxBuffs.html
+## X-Curse-Project-ID: phanxbuffs
 ## X-WoWI-ID: 16874
 
 ## OptionalDependencies: LibAboutPanel, LibSharedMedia-3.0, PhanxConfigWidgets, ButtonFacade
 ## SavedVariables: PhanxBuffsDB
+## SavedVariablesPerCharacter: PhanxBuffsIgnoreDB
 
 Libs\LibStub\LibStub.lua
 Libs\CallbackHandler-1.0\CallbackHandler-1.0.lua

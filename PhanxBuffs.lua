@@ -25,6 +25,22 @@ local defaultDB = {
 	showBuffSources = true,
 	showTempEnchantSources = true,
 }
+local defaultIgnore = {
+	buffs = { },
+	debuffs = {
+		[GetSpellInfo(64805)] = true, -- Bested Darnassus
+		[GetSpellInfo(64808)] = true, -- Bested the Exodar
+		[GetSpellInfo(64809)] = true, -- Bested Gnomeregan
+		[GetSpellInfo(64810)] = true, -- Bested Ironforge
+		[GetSpellInfo(64811)] = true, -- Bested Orgrimmar
+		[GetSpellInfo(64812)] = true, -- Bested Sen'jin
+		[GetSpellInfo(64813)] = true, -- Bested Silvermoon City
+		[GetSpellInfo(64814)] = true, -- Bested Stormwind
+		[GetSpellInfo(64815)] = true, -- Bested Thunder Bluff
+		[GetSpellInfo(64816)] = true, -- Bested the Undercity
+		[GetSpellInfo(69127)] = true, -- Chill of the Throne
+	},
+}
 
 ------------------------------------------------------------------------
 
@@ -133,14 +149,24 @@ optionsPanel:Hide()
 
 optionsPanel:RegisterEvent("PLAYER_ENTERING_WORLD")
 optionsPanel:SetScript("OnEvent", function(self)
-	if not PhanxBuffsDB then PhanxBuffsDB = { } end
-	db = PhanxBuffsDB
-
-	for k, v in pairs(defaultDB) do
-		if type(db[k]) ~= type(v) then
-			db[k] = v
+	local function copyTable(src, dst)
+		if type(src) ~= "table" then return dst or { } end
+		if type(dst) ~= "table" then dst = { } end
+		for k, v in pairs(src) do
+			if type(v) == "table" then
+				dst[k] = copyTable(v, dst[k])
+			elseif type(v) ~= type(dst[k]) then
+				dst[k] = v
+			end
 		end
+		return dst
 	end
+
+	if not PhanxBuffsDB then PhanxBuffsDB = { } end
+	if not PhanxBuffsIgnoreDB then PhanxBuffsIgnoreDB = { } end
+
+	db = copyTable(defaultDB, PhanxBuffsDB)
+	ignore = copyTable(defaultIgnore, PhanxBuffsIgnoreDB)
 
 	LibSharedMedia = LibStub("LibSharedMedia-3.0", true)
 
@@ -594,22 +620,20 @@ SlashCmdList.PHANXBUFFS = function(input)
 
 		if name and name ~= "" then
 			if type == L["buff"] then
-				local newstate
-				if PhanxBuffsDB.ignoreBuffs[name] then newstate = nil else newstate = true end
+				local newstate = not PhanxBuffsIgnoreDB.buffs[name] and true or nil
 				print(tostring(newstate))
-				PhanxBuffsDB.ignoreBuffs[name] = newstate
+				PhanxBuffsIgnoreDB.buffs[name] = newstate
 				print("|cffffcc00PhanxBuffs:|r", string.format(newstate and L["Now ignoring buff: %s."] or L["No longer ignoring buff: %s."], name))
 				return PhanxBuffFrame:Update()
 			elseif type == L["debuff"] then
-				local newstate
-				if PhanxBuffsDB.ignoreDebuffs[name] then newstate = nil else newstate = true end
-				PhanxBuffsDB.ignoreDebuffs[name] = newstate
+				local newstate = not PhanxBuffsIgnoreDB.debuffs[name] and true or nil
+				PhanxBuffsIgnoreDB.debuffs[name] = newstate
 				print("|cffffcc00PhanxBuffs:|r", string.format(newtate and L["Now ignoring debuff: %s."] or L["No longer ignoring debuff: %s."], name))
 				return PhanxDebuffFrame:Update()
 			end
 		elseif input == L["buff"] then
 			local t = { }
-			for buff in pairs(PhanxBuffsDB.ignoreBuffs) do
+			for buff in pairs(PhanxBuffsIgnoreDB.buffs) do
 				t[#t + 1] = buff
 			end
 			if #t == 0 then
@@ -624,7 +648,7 @@ SlashCmdList.PHANXBUFFS = function(input)
 			return
 		elseif input == L["debuff"] then
 			local t = { }
-			for debuff in pairs(PhanxBuffsDB.ignoreDebuffs) do
+			for debuff in pairs(PhanxBuffsIgnoreDB.debuffs) do
 				t[#t + 1] = debuff
 			end
 			if #t == 0 then
