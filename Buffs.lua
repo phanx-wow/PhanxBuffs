@@ -10,9 +10,7 @@
 local PhanxBuffFrame = CreateFrame("Frame", "PhanxBuffFrame", UIParent)
 
 local db
-local ignore = {
---	["Useless Buff"] = true,
-}
+local ignore
 
 local buffs, cantCancel = { }, { }
 local buffUnit = "player"
@@ -336,9 +334,7 @@ function PhanxBuffFrame:Load()
 	if db then return end
 
 	db = PhanxBuffsDB
-
-	if not db.ignoreBuffs then db.ignoreBuffs = ignore end
-	ignore = db.ignoreBuffs
+	ignore = PhanxBuffsIgnoreDB.buffs
 
 	LibButtonFacade = LibStub("LibButtonFacade", true)
 
