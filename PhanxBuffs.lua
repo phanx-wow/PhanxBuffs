@@ -339,7 +339,7 @@ optionsPanel:SetScript("OnShow", function(self)
 	debuffColumns.desc = L["Set the number of debuff icons to show on each row."]
 	debuffColumns:SetPoint("TOPLEFT", debuffSpacing, "BOTTOMLEFT", 0, -12)
 	debuffColumns:SetPoint("TOPRIGHT", debuffSpacing, "BOTTOMRIGHT", 0, -12)
-	debuffColumns:SetValue(db.debuffSpacing)
+	debuffColumns:SetValue(db.debuffColumns)
 
 	debuffColumns.OnValueChanged = function(self, value)
 		value = math.floor(value + 0.5)
