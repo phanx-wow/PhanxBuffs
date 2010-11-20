@@ -25,7 +25,7 @@ L["Windfury"] = "Windzorn"
 -- Rogue weapon enchant keywords
 
 L["Anesthetic Poison"] = "Beruhigendes Gift"
-L["Crippling Poison"] = "Verkrüppel" -- item is Verkrüppelndes Gift, enchant is Verkrüppelungsgift
+L["Crippling Poison"] = "Verkrüppel[nu][dn][eg]s%s?[Gg]ift" -- item is Verkrüppelndes Gift, enchant is Verkrüppelungsgift
 L["Deadly Poison"] = "Tödliches Gift"
 L["Instant Poison"] = "Sofort wirkendes Gift"
 L["Mind-Numbing Poison"] = "Gedankenbenebelndes Gift"
