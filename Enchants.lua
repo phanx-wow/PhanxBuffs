@@ -166,7 +166,7 @@ local function FindTempEnchantSpell(findString)
 	while true do
 		local spellName, spellRank = GetSpellBookItemName(i, BOOKTYPE_SPELL)
 		if not spellName then break end
-		if spellName:find(findString) then
+		if spellName:match(findString) then
 			if findRank then
 				if spellRank then
 					spellRank = spellRank:match("%d+")
@@ -213,7 +213,7 @@ local function FindTempEnchantString()
 	for i = 1, PhanxTempEnchantFrame.tooltip:NumLines() do
 		local line = PhanxTempEnchantFrame.tooltip.L[i]
 		for k, v in pairs(tempEnchantKeywords) do
-			if line:find(k) then
+			if line:match(k) then
 				if type(v) == "string" then
 					local rank = line:match("( %d+)") or ""
 					-- print("Found temp enchant string " .. k .. " (spell " .. v .. ") rank " .. rank)
