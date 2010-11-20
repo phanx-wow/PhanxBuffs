@@ -57,6 +57,10 @@ end })
 L["%d minutes remaining"] = SPELL_TIME_REMAINING_MIN -- "%d |4minute:minutes; remaining"
 L["%d seconds remaining"] = SPELL_TIME_REMAINING_SEC -- "%d |4second:seconds; remaining"
 
+if GetLocale():match("^en") then
+	L["Mind-Numbing Poison"] = "Mind[%-%s]Numbing Poison"
+end
+
 ------------------------------------------------------------------------
 
 local LibSharedMedia

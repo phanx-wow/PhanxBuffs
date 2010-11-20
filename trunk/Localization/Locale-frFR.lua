@@ -28,7 +28,7 @@ L["Anesthetic Poison"] = "Poison anesthésiant"
 L["Crippling Poison"] = "Poison affaiblissant"
 L["Deadly Poison"] = "Poison mortel"
 L["Instant Poison"] = "Poison instantané"
-L["Mind-Numbing Poison"] = "Poison de Distraction mentale" -- item name has lowercase d
+L["Mind-Numbing Poison"] = "Poison de [Dd]istraction mentale" -- item name has lowercase d
 L["Wound Poison"] = "Poison douloureux"
 
 -- Warlock weapon enchant keywords
