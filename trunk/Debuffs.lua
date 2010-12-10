@@ -1,10 +1,16 @@
 --[[--------------------------------------------------------------------
-	PhanxBuffs
-	Replaces default player buff, debuff, and temporary enchant frames.
-	by Phanx < addons@phanx.net >
-	http://www.wowinterface.com/downloads/info16874-PhanxBuffs.html
-	http://wow.curse.com/downloads/wow-addons/details/phanxbuffs.aspx
-	Copyright © 2010 Phanx. See README for license terms.
+PhanxBuffs
+Replacement player buff, debuff, and temporary enchant frames.
+
+http://www.wowinterface.com/downloads/info16874-PhanxBuffs.html
+http://wow.curse.com/downloads/wow-addons/details/phanxbuffs.aspx
+
+Copyright © 2010 Phanx < addons@phanx.net >
+
+I, the copyright holder of this work, hereby release it into the public
+domain. This applies worldwide. In case this is not legally possible:
+I grant anyone the right to use this work for any purpose, without any
+conditions, unless such conditions are required by law.
 ----------------------------------------------------------------------]]
 
 local PhanxDebuffFrame = CreateFrame("Frame", "PhanxDebuffFrame", UIParent)
