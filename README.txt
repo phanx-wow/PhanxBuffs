@@ -1,120 +1,92 @@
-PhanxBuffs - a World of Warcraft user interface addon
+# PhanxBuffs
 
-	by Phanx < addons@phanx.net >
-	http://www.wowinterface.com/downloads/info-PhanxBuffs.html
-	http://wow.curse.com/downloads/wow-addons/details/phanxbuffs.aspx
+* by Phanx < addons@phanx.net >
+* Copyright © 2010 Phanx. Some rights reserved. See LICENSE.txt for details.
+* http://www.wowinterface.com/downloads/info16874-PhanxBuffs.html
+* http://wow.curse.com/downloads/wow-addons/details/phanxbuffs.aspx
 
-Description
 
-	PhanxBuffs is a basic replacement for the default UI’s buff, debuff,
-	and temporary enchant (weapon buff) frames. It looks and acts
-	basically like the default buff frames, with a few improvements:
+## Description
 
-	* Buff and debuff icons are sorted by their remaining duration
-	* Text timers are shown only when less than 30 seconds remain on the
-	  buff or debuff
-	* Weapon buff icons can show the spell or item that buffed your
-	  weapon, instead of the weapon itself
-	* Buff tooltips show the name of the party or raid member who cast
-	  the buff on you
-	* Buffs or debuffs you never want to see can be hidden (eg. Chill of
-	  the Throne)
-	* Wrap icons to more than one row, with configurable row lengths
-	* Buff and debuff frames are movable
-	* Basic configuration options
-	* ButtonFacade support
+PhanxBuffs is a basic replacement for the default UI’s buff, debuff, and
+temporary enchant (weapon buff) frames. It looks and acts basically like
+the default buff frames, with a few improvements:
 
-Usage
+* Buff and debuff icons are sorted by their remaining duration
+* Text timers are shown only when less than 30 seconds remain on the
+  buff or debuff
+* Weapon buff icons can show the spell or item that buffed your weapon,
+  instead of the weapon itself
+* Buff tooltips show the name of the party or raid member who cast the
+  buff on you
+* Buffs or debuffs you never want to see can be hidden (eg. Chill of the
+  Throne)
+* Wrap icons to more than one row, with configurable row lengths
+* Buff and debuff frames are movable
+* Basic configuration options
+* ButtonFacade support
 
-	Options are available by typing `/pbuff` or navigating to the
-	PhanxBuffs panel in the standard Interface Options window.
 
-	Add a buff/debuff to the ignore list by right-clicking it while
-	holding down the Alt and Shift keys.
+## Usage
 
-	Add/remove a buff/debuff to/from the ignore list by typing
-	"/pbuff buff Zomg Uber Buff" or "/pbuff debuff Zomg Evil Debuff".
-	Buff/debuff names provided with these commands must be properly
-	spelled, capitalized, and punctuated.
+Options are available by typing "/pbuff" or navigating to the PhanxBuffs
+panel in the standard Interface Options window.
 
-Buff Cancelling in WoW 4.0
+Add a buff/debuff to the ignore list by right-clicking it while holding
+down the Alt and Shift keys.
 
-	Blizzard added new restrictions on buff cancelling for addons in
-	WoW 4.0. As a result, PhanxBuffs and any other addon which provides
-	a filterable buff display can no longer directly cancel buffs when
-	you right-click on them.
+Add/remove a buff/debuff to/from the ignore list by typing
+"/pbuff buff Zomg Uber Buff" or "/pbuff debuff Zomg Evil Debuff".
+Buff/debuff names provided with these commands must be properly spelled,
+capitalized, and punctuated.
 
-	As a workaround, you can cancel buffs while out of combat by
-	right-clicking on them twice. The first time you right-click, a red
-	overlay will appear on the buff. Right-click again to cancel the
-	buff, or left-click to hide the overlay and keep the buff. The
-	workaround also supports removing weapon buffs, and removing debuffs
-	your character can dispel.
 
-	If you need right-click buff cancelling in combat, try:
+## Buff Cancelling in WoW 4.0
 
-	* Aptus Aura Frames
-	  http://www.wowinterface.com/downloads/info18102-AptusAuraFrames.html
-	* Bison
-	  http://www.wowace.com/addons/bison/
-	* NivBuffs
-	  http://www.wowinterface.com/downloads/info18440-nivBuffs.html
+Due to Blizzard restrictions, PhanxBuffs and other addons which provide
+a filterable buff display can no longer directly cancel buffs when you
+right-click on them.
 
-	You could also try my new addon CancelMyBuffs, which provides a
-	slightly different way to cancel buffs quickly:
-	http://www.wowinterface.com/downloads/info18447-CancelMyBuffs.html
+As a workaround, you can cancel buffs by right-clicking them twice, but
+only while out of combat. The first right-click will bring up a red
+overlay on the buff icon. Right-click again to cancel the buff, or
+left-click to hide the overlay and keep the buff.
 
-Localization
+If you need right-click buff cancelling in combat, keep in mind that you
+will have to sacrifice most filtering and sorting functions. Here are
+several addons that use the restrictive new secure aura system:
 
-	PhanxBuffs works in all locales, except for the “show weapon buff
-	sources” feature, which requires translations to function and is
-	currently translated only for English, German, Spanish, French, and
-	Russian clients.
+* Aptus Aura Frames
+  http://www.wowinterface.com/downloads/info18102-AptusAuraFrames.html
+* Bison
+  http://www.wowace.com/addons/bison/
+* NivBuffs
+  http://www.wowinterface.com/downloads/info18440-nivBuffs.html
 
-	The options text is currently localized in English, French, Spanish,
-	and Korean.
+You may also try my new addon CancelMyBuffs, which provides a slightly
+different way to cancel buffs quickly:
 
-	If you can provide translations for any locale, send me a PM.
+* http://www.wowinterface.com/downloads/info18447-CancelMyBuffs.html
 
-Feature Requests
 
-	* http://www.wowinterface.com/portal.php?uid=28751&a=listfeatures
+## Localization
 
-	Please use the ticket tracker to request features. This keeps all
-	the requests in one place, so they don’t get overlooked or forgotten.
-	Note, however, that PhanxBuffs is intentionally quite basic, and I
-	will probably decline most feature requests, especially requests for
-	more detailed configuration options.
+PhanxBuffs works in all locales, except for the “Show weapon buff
+sources” feature, which depends on translations. This functionality is
+currently available only for English, German, Spanish, French, and
+Russian clients.
 
-Bug Reports
+The options text is currently localized in English, French, Spanish, and
+Korean.
 
-	Before reporting a bug, please:
+If you can provide translations for any locale, send me a PM.
 
-	1. Double-check that you have the latest version of PhanxBuffs.
-	2. Disable all other addons and see if the problem persists.
-	3. Enable Lua error display, or install BugSack, and see if any
-	   error messages appear when the problem occurs.
-	   http://www.wowinterface.com/downloads/info5995-BugSack.html
 
-	Once you’ve done those things, use the bug tracker to report the
-	problem. Be sure to include:
+## Feedback
 
-	* PhanxBuffs version (ex: 4.0.1.50)
-	* WoW version and locale (ex: 4.0.1 enUS)
-	* Description of the problem, and steps to reproduce it
-	* Whether the problem occurs when all other addons are disabled
-	* Text of any related error messages, WITHOUT lists of local
-	  variables or installed addons
+For bug reports and feature requests, please use the ticket tracker on
+either download site. For general questions and comments, post a ticket
+on either download site.
 
-	Finally, remember to check on your ticket after a few days! I may
-	need more information from you in order to identify and fix the
-	problem.
-
-License
-
-	PhanxBuffs is free as in “free beer”, not as in “free software”, and
-	you may not include it in your compilation, or redistribute it in
-	any other way, without getting permission first. You may, however,
-	reuse code from PhanxBuffs in your own addon. See the LICENSE file
-	inside the addon’s folder for a formal copyright notice and the full
-	license terms under which PhanxBuffs is released.
+If you need to contact me privately, you can send me a private message
+on either download site, or email me at addons@phanx.net.
