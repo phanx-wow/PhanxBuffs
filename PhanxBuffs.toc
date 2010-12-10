@@ -1,12 +1,12 @@
 ## Interface: 40000
-## Version: 4.0.1.wowi:revision-beta
+## Version: 4.0.3.wowi:revision-beta
 
 ## Title: PhanxBuffs
 ## Notes: Basic replacement for player buff, debuff, and temporary enchant frames.
 ## Author: Phanx
 ## X-Email: addons@phanx.net
 ## X-Copyright: Copyright © 2010 Phanx
-## X-License: See README for license terms.
+## X-License: Some rights reserved. See LICENSE.txt for details.
 ## X-CompatibleLocales: enUS, deDE, esES, esMX, frFR, koKR, ruRU, zhCN, zhTW
 ## X-Localizations: enUS, esES, esMX, koKR, zhTW
 ## X-Website: http://www.wowinterface.com/downloads/info16874-PhanxBuffs.html
