@@ -1,18 +1,12 @@
-PhanxBuffs
-Replacement player buff, debuff, and temporary enchant frames.
+# PhanxBuffs
 
-http://www.wowinterface.com/downloads/info16874-PhanxBuffs.html
-http://wow.curse.com/downloads/wow-addons/details/phanxbuffs.aspx
+* by Phanx < addons@phanx.net >
+* Copyright © 2010 Phanx. Some rights reserved. See LICENSE.txt for details.
+* http://www.wowinterface.com/downloads/info16874-PhanxBuffs.html
+* http://wow.curse.com/downloads/wow-addons/details/phanxbuffs.aspx
 
-Copyright © 2010 Phanx < addons@phanx.net >
 
-I, the copyright holder of this work, hereby release it into the public
-domain. This applies worldwide. In case this is not legally possible:
-I grant anyone the right to use this work for any purpose, without any
-conditions, unless such conditions are required by law.
-
-------------------------------------------------------------------------
-Description
+## Description
 
 PhanxBuffs is a basic replacement for the default UI’s buff, debuff, and
 temporary enchant (weapon buff) frames. It looks and acts basically like
@@ -32,8 +26,8 @@ the default buff frames, with a few improvements:
 * Basic configuration options
 * ButtonFacade support
 
-------------------------------------------------------------------------
-Usage
+
+## Usage
 
 Options are available by typing "/pbuff" or navigating to the PhanxBuffs
 panel in the standard Interface Options window.
@@ -46,8 +40,8 @@ Add/remove a buff/debuff to/from the ignore list by typing
 Buff/debuff names provided with these commands must be properly spelled,
 capitalized, and punctuated.
 
-------------------------------------------------------------------------
-Buff Cancelling in WoW 4.0
+
+## Buff Cancelling in WoW 4.0
 
 Due to Blizzard restrictions, PhanxBuffs and other addons which provide
 a filterable buff display can no longer directly cancel buffs when you
@@ -71,10 +65,11 @@ several addons that use the restrictive new secure aura system:
 
 You may also try my new addon CancelMyBuffs, which provides a slightly
 different way to cancel buffs quickly:
+
 * http://www.wowinterface.com/downloads/info18447-CancelMyBuffs.html
 
-------------------------------------------------------------------------
-Localization
+
+## Localization
 
 PhanxBuffs works in all locales, except for the “Show weapon buff
 sources” feature, which depends on translations. This functionality is
@@ -86,8 +81,8 @@ Korean.
 
 If you can provide translations for any locale, send me a PM.
 
-------------------------------------------------------------------------
-Feedback
+
+## Feedback
 
 For bug reports and feature requests, please use the ticket tracker on
 either download site. For general questions and comments, post a ticket

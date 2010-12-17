@@ -1,16 +1,10 @@
 --[[--------------------------------------------------------------------
-PhanxBuffs
-Replacement player buff, debuff, and temporary enchant frames.
-
-http://www.wowinterface.com/downloads/info16874-PhanxBuffs.html
-http://wow.curse.com/downloads/wow-addons/details/phanxbuffs.aspx
-
-Copyright © 2010 Phanx < addons@phanx.net >
-
-I, the copyright holder of this work, hereby release it into the public
-domain. This applies worldwide. In case this is not legally possible:
-I grant anyone the right to use this work for any purpose, without any
-conditions, unless such conditions are required by law.
+	PhanxBuffs
+	Replacement player buff, debuff, and temporary enchant frames.
+	by Phanx < addons@phanx.net >
+	Copyright © 2010 Phanx. Some rights reserved. See LICENSE.txt for details.
+	http://www.wowinterface.com/downloads/info16874-PhanxBuffs.html
+	http://wow.curse.com/downloads/wow-addons/details/phanxbuffs.aspx
 ------------------------------------------------------------------------
 	Traditional Chinese Localization (正體中文)
 	Last updated 2010-07-20 by fmdsm on curse.com
