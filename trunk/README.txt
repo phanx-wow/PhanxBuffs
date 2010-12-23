@@ -1,6 +1,7 @@
 # PhanxBuffs
 
 * by Phanx < addons@phanx.net >
+* Currently maintained by Akkorian < akkorian@hotmail.com >
 * Copyright © 2010 Phanx. Some rights reserved. See LICENSE.txt for details.
 * http://www.wowinterface.com/downloads/info16874-PhanxBuffs.html
 * http://wow.curse.com/downloads/wow-addons/details/phanxbuffs.aspx
@@ -71,15 +72,12 @@ different way to cancel buffs quickly:
 
 ## Localization
 
-PhanxBuffs works in all locales, except for the “Show weapon buff
-sources” feature, which depends on translations. This functionality is
-currently available only for English, German, Spanish, French, and
-Russian clients.
+PhanxBuffs is compatible with English, Deutsch, Español, Français,
+Русский, 한국어, and 正體中文 game clients.
 
-The options text is currently localized in English, French, Spanish, and
-Korean.
-
-If you can provide translations for any locale, send me a PM.
+The options text is currently translated into English, Français, 한국어,
+and 正體中文. If you can provide translations for any locale, please send
+me a PM on either download site.
 
 
 ## Feedback
@@ -88,5 +86,5 @@ For bug reports and feature requests, please use the ticket tracker on
 either download site. For general questions and comments, post a ticket
 on either download site.
 
-If you need to contact me privately, you can send me a private message
-on either download site, or email me at addons@phanx.net.
+If you need to contact me privately, send me a PM on either download
+site, or email me at akkorian@hotmail.com or addons@phanx.net.

@@ -167,10 +167,10 @@ optionsPanel:SetScript("OnEvent", function(self)
 	end
 
 	if not PhanxBuffsDB then PhanxBuffsDB = { } end
-	if not PhanxBuffsIgnoreDB then PhanxBuffsIgnoreDB = { } end
-
 	db = copyTable(defaultDB, PhanxBuffsDB)
-	ignore = copyTable(defaultIgnore, PhanxBuffsIgnoreDB)
+
+	if not PhanxBuffsIgnoreDB then PhanxBuffsIgnoreDB = { } end
+	copyTable(defaultIgnore, PhanxBuffsIgnoreDB)
 
 	LibSharedMedia = LibStub("LibSharedMedia-3.0", true)
 
@@ -632,7 +632,7 @@ SlashCmdList.PHANXBUFFS = function(input)
 			elseif type == L["debuff"] then
 				local newstate = not PhanxBuffsIgnoreDB.debuffs[name] and true or nil
 				PhanxBuffsIgnoreDB.debuffs[name] = newstate
-				print("|cffffcc00PhanxBuffs:|r", string.format(newtate and L["Now ignoring debuff: %s."] or L["No longer ignoring debuff: %s."], name))
+				print("|cffffcc00PhanxBuffs:|r", string.format(newstate and L["Now ignoring debuff: %s."] or L["No longer ignoring debuff: %s."], name))
 				return PhanxDebuffFrame:Update()
 			end
 		elseif input == L["buff"] then
