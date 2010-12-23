@@ -1,6 +1,5 @@
 PhanxBuffs
 Replacement player buff, debuff, and temporary enchant frames.
-
 http://www.wowinterface.com/downloads/info16874-PhanxBuffs.html
 http://wow.curse.com/downloads/wow-addons/details/phanxbuffs.aspx
 
