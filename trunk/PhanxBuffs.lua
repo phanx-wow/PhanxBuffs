@@ -214,6 +214,8 @@ optionsPanel:SetScript("OnEvent", function(self)
 		table.sort(fonts)
 	end
 
+	SetCVar("consolidateBuffs", 0)
+
 	BuffFrame:Hide()
 	TemporaryEnchantFrame:Hide()
 	BuffFrame:UnregisterAllEvents()
