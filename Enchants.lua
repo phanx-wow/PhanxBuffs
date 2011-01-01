@@ -348,15 +348,15 @@ function PhanxTempEnchantFrame:UNIT_INVENTORY_CHANGED(unit)
 	end
 end
 
-function PhanxTempEnchantFrame:UNIT_ENTERING_VEHICLE(unit)
-	if unit == "player" then
+function PhanxTempEnchantFrame:UNIT_ENTERED_VEHICLE(unit)
+	if unit == "player" and SecureCmdOptionParse( "[bonusbar:5]" ) then
 		inVehicle = true
 		self:Hide()
 		PhanxBuffFrame.buttons[1]:SetPoint("TOP" .. db.growthAnchor, PhanxBuffFrame)
 	end
 end
 
-function PhanxTempEnchantFrame:UNIT_EXITING_VEHICLE(unit)
+function PhanxTempEnchantFrame:UNIT_EXITED_VEHICLE(unit)
 	if unit == "player" then
 		inVehicle = nil
 		dirty = true
@@ -367,9 +367,9 @@ end
 function PhanxTempEnchantFrame:PLAYER_ENTERING_WORLD()
 	local inVehicleNow = UnitInVehicle("player")
 	if inVehicle and not inVehicleNow then
-		return self:UNIT_EXITING_VEHICLE("player")
+		return self:UNIT_EXITED_VEHICLE("player")
 	elseif inVehicleNow and not inVehicle then
-		return self:UNIT_ENTERING_VEHICLE("player")
+		return self:UNIT_ENTERED_VEHICLE("player")
 	end
 	dirty = true
 end
@@ -442,7 +442,7 @@ function PhanxTempEnchantFrame:Load()
 	self:RegisterEvent("BAG_UPDATE")
 	self:RegisterEvent("PLAYER_ENTERING_WORLD")
 	self:RegisterEvent("SPELLS_CHANGED")
-	self:RegisterEvent("UNIT_ENTERING_VEHICLE")
-	self:RegisterEvent("UNIT_EXITING_VEHICLE")
+	self:RegisterEvent("UNIT_ENTERED_VEHICLE")
+	self:RegisterEvent("UNIT_EXITED_VEHICLE")
 	self:RegisterEvent("UNIT_INVENTORY_CHANGED")
 end

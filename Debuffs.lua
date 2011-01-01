@@ -320,28 +320,29 @@ timerGroup:SetScript("OnFinished", function(self, requested)
 	self:Play() -- start it over again
 end)
 
-PhanxDebuffFrame:SetScript("OnEvent", function(self, event, unit)
+PhanxDebuffFrame:SetScript("OnEvent", function( self, event, unit )
 	if event == "UNIT_AURA" then
 		if unit == debuffUnit then
 			dirty = true
 		end
-	return end
-	if event == "PLAYER_ENTERING_WORLD" then
-		debuffUnit = UnitInVehicle("player") and "vehicle" or "player"
+	elseif event == "PLAYER_ENTERING_WORLD" then
+		if ( UnitInVehicle( "player" ) and SecureCmdOptionParse( "[bonusbar:5]" ) ) then
+			debuffUnit = "vehicle"
+		else
+			debuffUnit = "player"
+		end
 		dirty = true
-	return end
-	if event == "UNIT_ENTERING_VEHICLE" then
-		if unit == "player" then
+	elseif event == "UNIT_ENTERED_VEHICLE" then
+		if unit == "player" and SecureCmdOptionParse( "[bonusbar:5]" ) then
 			debuffUnit = "vehicle"
 			dirty = true
 		end
-	return end
-	if event == "UNIT_EXITING_VEHICLE" then
+	elseif event == "UNIT_EXITED_VEHICLE" then
 		if unit == "player" then
 			debuffUnit = "player"
 			dirty = true
 		end
-	return end
+	end
 end)
 
 ------------------------------------------------------------------------
@@ -355,8 +356,8 @@ function PhanxDebuffFrame:Load()
 	dirty = true
 	timerGroup:Play()
 
-	self:RegisterEvent("PLAYER_ENTERING_WORLD")
-	self:RegisterEvent("UNIT_ENTERING_VEHICLE")
-	self:RegisterEvent("UNIT_EXITING_VEHICLE")
-	self:RegisterEvent("UNIT_AURA")
+	self:RegisterEvent( "PLAYER_ENTERING_WORLD" )
+	self:RegisterEvent( "UNIT_ENTERING_VEHICLE" )
+	self:RegisterEvent( "UNIT_EXITING_VEHICLE" )
+	self:RegisterEvent( "UNIT_AURA" )
 end

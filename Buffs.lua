@@ -304,28 +304,29 @@ end)
 
 ------------------------------------------------------------------------
 
-PhanxBuffFrame:SetScript("OnEvent", function(self, event, unit)
+PhanxBuffFrame:SetScript("OnEvent", function( self, event, unit )
 	if event == "UNIT_AURA" then
 		if unit == buffUnit then
 			dirty = true
 		end
-	return end
-	if event == "PLAYER_ENTERING_WORLD" then
-		buffUnit = UnitInVehicle("player") and "vehicle" or "player"
+	elseif event == "PLAYER_ENTERING_WORLD" then
+		if ( UnitInVehicle( "player" ) and SecureCmdOptionParse( "[bonusbar:5]" ) ) then
+			buffUnit = "vehicle"
+		else
+			buffUnit = "player"
+		end
 		dirty = true
-	return end
-	if event == "UNIT_ENTERING_VEHICLE" then
-		if unit == "player" then
+	elseif event == "UNIT_ENTERED_VEHICLE" then
+		if unit == "player" and SecureCmdOptionParse( "[bonusbar:5]" ) then
 			buffUnit = "vehicle"
 			dirty = true
 		end
-	return end
-	if event == "UNIT_EXITING_VEHICLE" then
+	elseif event == "UNIT_EXITED_VEHICLE" then
 		if unit == "player" then
 			buffUnit = "player"
 			dirty = true
 		end
-	return end
+	end
 end)
 
 ------------------------------------------------------------------------
@@ -336,13 +337,11 @@ function PhanxBuffFrame:Load()
 	db = PhanxBuffsDB
 	ignore = PhanxBuffsIgnoreDB.buffs
 
-	LibButtonFacade = LibStub("LibButtonFacade", true)
-
 	dirty = true
 	timerGroup:Play()
 
-	self:RegisterEvent("PLAYER_ENTERING_WORLD")
-	self:RegisterEvent("UNIT_ENTERING_VEHICLE")
-	self:RegisterEvent("UNIT_EXITING_VEHICLE")
-	self:RegisterEvent("UNIT_AURA")
+	self:RegisterEvent( "PLAYER_ENTERING_WORLD" )
+	self:RegisterEvent( "UNIT_ENTERING_VEHICLE" )
+	self:RegisterEvent( "UNIT_EXITING_VEHICLE" )
+	self:RegisterEvent( "UNIT_AURA" )
 end
