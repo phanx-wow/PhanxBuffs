@@ -1,4 +1,5 @@
-# PhanxBuffs
+PhanxBuffs
+==========
 
 * by Phanx < addons@phanx.net >
 * Currently maintained by Akkorian < akkorian@hotmail.com >
@@ -7,7 +8,8 @@
 * http://wow.curse.com/downloads/wow-addons/details/phanxbuffs.aspx
 
 
-## Description
+Description
+-----------
 
 PhanxBuffs is a basic replacement for the default UI’s buff, debuff, and
 temporary enchant (weapon buff) frames. It looks and acts basically like
@@ -28,7 +30,8 @@ the default buff frames, with a few improvements:
 * ButtonFacade support
 
 
-## Usage
+Usage
+-----
 
 Options are available by typing "/pbuff" or navigating to the PhanxBuffs
 panel in the standard Interface Options window.
@@ -42,7 +45,8 @@ Buff/debuff names provided with these commands must be properly spelled,
 capitalized, and punctuated.
 
 
-## Buff Cancelling in WoW 4.0
+Buff Cancelling in WoW 4.0
+--------------------------
 
 Due to Blizzard restrictions, PhanxBuffs and other addons which provide
 a filterable buff display can no longer directly cancel buffs when you
@@ -70,7 +74,8 @@ different way to cancel buffs quickly:
 * http://www.wowinterface.com/downloads/info18447-CancelMyBuffs.html
 
 
-## Localization
+Localization
+------------
 
 PhanxBuffs is compatible with English, Deutsch, Español, Français,
 Русский, 한국어, and 正體中文 game clients.
@@ -80,11 +85,12 @@ and 正體中文. If you can provide translations for any locale, please send
 me a PM on either download site.
 
 
-## Feedback
+Feedback
+--------
 
 For bug reports and feature requests, please use the ticket tracker on
 either download site. For general questions and comments, post a ticket
 on either download site.
 
 If you need to contact me privately, send me a PM on either download
-site, or email me at akkorian@hotmail.com or addons@phanx.net.
+site, or email me at akkorian@hotmail.com.
