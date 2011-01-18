@@ -1,9 +1,9 @@
 PhanxBuffs
 ==========
 
-* by Phanx < addons@phanx.net >
-* Currently maintained by Akkorian < akkorian@hotmail.com >
-* Copyright © 2010 Phanx. Some rights reserved. See LICENSE.txt for details.
+* Written by Phanx <addons@phanx.net>
+* Maintained by Akkorian <akkorian@hotmail.com>
+* Copyright © 2010–2011 Phanx. Some rights reserved. See LICENSE.txt for details.
 * http://www.wowinterface.com/downloads/info16874-PhanxBuffs.html
 * http://wow.curse.com/downloads/wow-addons/details/phanxbuffs.aspx
 
@@ -93,4 +93,4 @@ either download site. For general questions and comments, post a ticket
 on either download site.
 
 If you need to contact me privately, send me a PM on either download
-site, or email me at akkorian@hotmail.com.
+site, or email me at <akkorian@hotmail.com>.
