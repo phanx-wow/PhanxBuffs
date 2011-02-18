@@ -45,7 +45,7 @@ local defaultIgnore = {
 
 ------------------------------------------------------------------------
 
-local _, ns = ...
+local ADDON_NAME, ns = ...
 if not ns.L then ns.L = { } end
 
 local L = setmetatable(ns.L, { __index = function(t, k)
@@ -100,60 +100,9 @@ end
 
 ------------------------------------------------------------------------
 
-local cancelButton = CreateFrame("Button", "PhanxBuffsCancelButton", UIParent, "SecureActionButtonTemplate")
-cancelButton:SetPoint("CENTER")
-cancelButton:SetSize(64, 64)
-cancelButton:Hide()
-
-cancelButton:RegisterForClicks("LeftButtonDown", "RightButtonDown")
-cancelButton:SetAttribute("unit", "player")
-cancelButton:SetAttribute("*type1", "macro")
-cancelButton:SetAttribute("*macrotext1", "/run if not InCombatLockdown() then PhanxBuffsCancelButton:Hide() end")
-cancelButton:SetAttribute("*type2", "macro")
-
-cancelButton.overlay = cancelButton:CreateTexture(nil, "BACKGROUND")
-cancelButton.overlay:SetAllPoints(true)
-cancelButton.overlay:SetTexture(1, 0, 0, 0.5)
-
-cancelButton.icon = cancelButton:CreateTexture(nil, "BACKGROUND")
-cancelButton.icon:SetAllPoints(true)
-cancelButton.icon:Hide()
-
-function cancelButton:SetMacro(button, icon, macro)
-	if db.noCancel or InCombatLockdown() then return end
-
-	self:ClearAllPoints()
-	self:SetPoint("TOPLEFT", button, "TOPLEFT", -2, 2)
-	self:SetPoint("BOTTOMRIGHT", button, "BOTTOMRIGHT", 2, -2)
-	self:SetFrameLevel(100)
-
-	self.icon:SetTexture(icon)
-
-	self:SetAttribute("*macrotext2", macro .. "\n/run if not InCombatLockdown() then PhanxBuffsCancelButton:Hide() end")
-
-	self:Show()
-end
-
-cancelButton:SetScript("OnHide", function(self)
-	self:ClearAllPoints()
-	self:SetPoint("CENTER", UIParent, "CENTER", 0, 0)
-end)
-
-cancelButton:RegisterEvent("PLAYER_REGEN_DISABLED")
-cancelButton:SetScript("OnEvent", function(self)
-	if not InCombatLockdown() then
-		self:Hide()
-	end
-end)
-
-------------------------------------------------------------------------
-
-local optionsPanel = CreateFrame("Frame", nil, InterfaceOptionsFramePanelContainer)
-optionsPanel.name = "PhanxBuffs"
-optionsPanel:Hide()
-
-optionsPanel:RegisterEvent("PLAYER_ENTERING_WORLD")
-optionsPanel:SetScript("OnEvent", function(self)
+local eventFrame = CreateFrame("Frame")
+eventFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
+eventFrame:SetScript("OnEvent", function(self)
 	local function copyTable(src, dst)
 		if type(src) ~= "table" then return dst or { } end
 		if type(dst) ~= "table" then dst = { } end
@@ -229,36 +178,72 @@ optionsPanel:SetScript("OnEvent", function(self)
 	self:SetScript("OnEvent", nil)
 end)
 
-optionsPanel:SetScript("OnShow", function(self)
+------------------------------------------------------------------------
+
+local cancelButton = CreateFrame("Button", "PhanxBuffsCancelButton", UIParent, "SecureActionButtonTemplate")
+cancelButton:SetPoint("CENTER")
+cancelButton:SetSize(64, 64)
+cancelButton:Hide()
+
+cancelButton:RegisterForClicks("LeftButtonDown", "RightButtonDown")
+cancelButton:SetAttribute("unit", "player")
+cancelButton:SetAttribute("*type1", "macro")
+cancelButton:SetAttribute("*macrotext1", "/run if not InCombatLockdown() then PhanxBuffsCancelButton:Hide() end")
+cancelButton:SetAttribute("*type2", "macro")
+
+cancelButton.overlay = cancelButton:CreateTexture(nil, "BACKGROUND")
+cancelButton.overlay:SetAllPoints(true)
+cancelButton.overlay:SetTexture(1, 0, 0, 0.5)
+
+cancelButton.icon = cancelButton:CreateTexture(nil, "BACKGROUND")
+cancelButton.icon:SetAllPoints(true)
+cancelButton.icon:Hide()
+
+function cancelButton:SetMacro(button, icon, macro)
+	if db.noCancel or InCombatLockdown() then return end
+
+	self:ClearAllPoints()
+	self:SetPoint("TOPLEFT", button, "TOPLEFT", -2, 2)
+	self:SetPoint("BOTTOMRIGHT", button, "BOTTOMRIGHT", 2, -2)
+	self:SetFrameLevel(100)
+
+	self.icon:SetTexture(icon)
+
+	self:SetAttribute("*macrotext2", macro .. "\n/run if not InCombatLockdown() then PhanxBuffsCancelButton:Hide() end")
+
+	self:Show()
+end
+
+cancelButton:SetScript("OnHide", function(self)
+	self:ClearAllPoints()
+	self:SetPoint("CENTER", UIParent, "CENTER", 0, 0)
+end)
+
+cancelButton:RegisterEvent("PLAYER_REGEN_DISABLED")
+cancelButton:SetScript("OnEvent", function(self)
+	if not InCombatLockdown() then
+		self:Hide()
+	end
+end)
+
+------------------------------------------------------------------------
+
+local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDON_NAME, nil, function(self)
 	local CreateCheckbox = LibStub("PhanxConfig-Checkbox").CreateCheckbox
 	local CreateDropdown = LibStub("PhanxConfig-Dropdown").CreateDropdown
 	local CreateScrollingDropdown = LibStub("PhanxConfig-ScrollingDropdown").CreateScrollingDropdown
 	local CreateSlider = LibStub("PhanxConfig-Slider").CreateSlider
 
-	-------------------------------------------------------------------
+	--------------------------------------------------------------------
 
-	local title = self:CreateFontString(nil, "ARTWORK", "GameFontNormalLarge")
-	title:SetPoint("TOPLEFT", 16, -16)
-	title:SetPoint("TOPRIGHT", -16, -16)
-	title:SetJustifyH("LEFT")
-	title:SetText(self.name)
+	local title, notes = LibStub("PhanxConfig-Header").CreateHeader(ADDON_NAME, L["Use this panel to adjust some basic settings for buff, debuff, and weapon buff icons."])
 
-	local notes = self:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
-	notes:SetPoint("TOPLEFT", title, "BOTTOMLEFT", 0, -8)
-	notes:SetPoint("TOPRIGHT", title, 0, -8)
-	notes:SetHeight(32)
-	notes:SetJustifyH("LEFT")
-	notes:SetJustifyV("TOP")
-	notes:SetNonSpaceWrap(true)
-	notes:SetText(L["Use this panel to adjust some basic settings for buff, debuff, and weapon buff icons."])
-
-	-------------------------------------------------------------------
+	--------------------------------------------------------------------
 
 	local buffSize = CreateSlider(self, L["Buff Size"], 12, 48, 2)
 	buffSize.desc = L["Set the size of each buff icon."]
 	buffSize:SetPoint("TOPLEFT", notes, "BOTTOMLEFT", -4, -8)
 	buffSize:SetPoint("TOPRIGHT", notes, "BOTTOM", -8, -8)
-	buffSize:SetValue(db.buffSize)
 
 	buffSize.OnValueChanged = function(self, value)
 		value = math.floor((value / 2) + 0.5) * 2
@@ -270,13 +255,12 @@ optionsPanel:SetScript("OnShow", function(self)
 		return value
 	end
 
-	-------------------------------------------------------------------
+	--------------------------------------------------------------------
 
 	local buffSpacing = CreateSlider(self, L["Buff Spacing"], 0, 8, 1)
 	buffSpacing.desc = L["Set the space between buff icons."]
 	buffSpacing:SetPoint("TOPLEFT", buffSize, "BOTTOMLEFT", 0, -12)
 	buffSpacing:SetPoint("TOPRIGHT", buffSize, "BOTTOMRIGHT", 0, -12)
-	buffSpacing:SetValue(db.buffSpacing)
 
 	buffSpacing.OnValueChanged = function(self, value)
 		value = math.floor(value + 0.5)
@@ -288,13 +272,12 @@ optionsPanel:SetScript("OnShow", function(self)
 		return value
 	end
 
-	-------------------------------------------------------------------
+	--------------------------------------------------------------------
 
 	local buffColumns = CreateSlider(self, L["Buff Columns"], 10, 40, 2)
 	buffColumns.desc = L["Set the number of buff icons to show on each row."]
 	buffColumns:SetPoint("TOPLEFT", buffSpacing, "BOTTOMLEFT", 0, -12)
 	buffColumns:SetPoint("TOPRIGHT", buffSpacing, "BOTTOMRIGHT", 0, -12)
-	buffColumns:SetValue(db.buffSpacing)
 
 	buffColumns.OnValueChanged = function(self, value)
 		value = math.floor(value + 0.5)
@@ -306,13 +289,12 @@ optionsPanel:SetScript("OnShow", function(self)
 		return value
 	end
 
-	-------------------------------------------------------------------
+	--------------------------------------------------------------------
 
 	local debuffSize = CreateSlider(self, L["Debuff Size"], 12, 64, 2)
 	debuffSize.desc = L["Set the size of each debuff icon."]
 	debuffSize:SetPoint("TOPLEFT", buffColumns, "BOTTOMLEFT", 0, -12)
 	debuffSize:SetPoint("TOPRIGHT", buffColumns, "BOTTOMRIGHT", 0, -12)
-	debuffSize:SetValue(db.debuffSize)
 
 	debuffSize.OnValueChanged = function(self, value)
 		value = math.floor((value / 2) + 0.5) * 2
@@ -323,13 +305,12 @@ optionsPanel:SetScript("OnShow", function(self)
 		return value
 	end
 
-	-------------------------------------------------------------------
+	--------------------------------------------------------------------
 
 	local debuffSpacing = CreateSlider(self, L["Debuff Spacing"], 0, 8, 1)
 	debuffSpacing.desc = L["Set the space between debuff icons."]
 	debuffSpacing:SetPoint("TOPLEFT", debuffSize, "BOTTOMLEFT", 0, -12)
 	debuffSpacing:SetPoint("TOPRIGHT", debuffSize, "BOTTOMRIGHT", 0, -12)
-	debuffSpacing:SetValue(db.debuffSpacing)
 
 	debuffSpacing.OnValueChanged = function(self, value)
 		value = math.floor(value + 0.5)
@@ -340,13 +321,12 @@ optionsPanel:SetScript("OnShow", function(self)
 		return value
 	end
 
-	-------------------------------------------------------------------
+	--------------------------------------------------------------------
 
 	local debuffColumns = CreateSlider(self, L["Debuff Columns"], 10, 30, 2)
 	debuffColumns.desc = L["Set the number of debuff icons to show on each row."]
 	debuffColumns:SetPoint("TOPLEFT", debuffSpacing, "BOTTOMLEFT", 0, -12)
 	debuffColumns:SetPoint("TOPRIGHT", debuffSpacing, "BOTTOMRIGHT", 0, -12)
-	debuffColumns:SetValue(db.debuffColumns)
 
 	debuffColumns.OnValueChanged = function(self, value)
 		value = math.floor(value + 0.5)
@@ -357,13 +337,13 @@ optionsPanel:SetScript("OnShow", function(self)
 		return value
 	end
 
-	-------------------------------------------------------------------
+	--------------------------------------------------------------------
 
 	local fontFace = CreateScrollingDropdown(self, L["Typeface"], fonts)
 	fontFace.desc = L["Set the typeface for stack count and timer text."]
 	fontFace:SetPoint("TOPLEFT", notes, "BOTTOM", 8, -8)
 	fontFace:SetPoint("TOPRIGHT", notes, "BOTTOMRIGHT", 0, -8)
-	fontFace:SetValue(db.fontFace)
+
 	do
 		local _, height, flags = fontFace.valueText:GetFont()
 		fontFace.valueText:SetFont(GetFontFile(db.fontFace), height, flags)
@@ -417,7 +397,7 @@ optionsPanel:SetScript("OnShow", function(self)
 		end)
 	end
 
-	-------------------------------------------------------------------
+	--------------------------------------------------------------------
 
 	local outlines = {
 		["NONE"] = L["None"],
@@ -466,9 +446,8 @@ optionsPanel:SetScript("OnShow", function(self)
 	fontOutline.desc = L["Set the outline weight for stack count and timer text."]
 	fontOutline:SetPoint("TOPLEFT", fontFace, "BOTTOMLEFT", 0, -12)
 	fontOutline:SetPoint("TOPRIGHT", fontFace, "BOTTOMRIGHT", 0, -12)
-	fontOutline:SetValue(db.fontOutline, outlines[db.fontOutline])
 
-	-------------------------------------------------------------------
+	--------------------------------------------------------------------
 
 	local anchors = {
 		["LEFT"] = L["Left"],
@@ -510,32 +489,29 @@ optionsPanel:SetScript("OnShow", function(self)
 	growthAnchor.desc = L["Set the side of the screen from which buffs and debuffs grow."]
 	growthAnchor:SetPoint("TOPLEFT", fontOutline, "BOTTOMLEFT", 0, -12)
 	growthAnchor:SetPoint("TOPRIGHT", fontOutline, "BOTTOMRIGHT", 0, -12)
-	growthAnchor:SetValue(db.growthAnchor, anchors[db.growthAnchor])
 
-	-------------------------------------------------------------------
+	--------------------------------------------------------------------
 
 	local showBuffSources = CreateCheckbox(self, L["Buff Sources"])
 	showBuffSources.desc = L["Show the name of the party or raid member who cast a buff on you in its tooltip."]
 	showBuffSources:SetPoint("TOPLEFT", growthAnchor, "BOTTOMLEFT", 2, -8)
-	showBuffSources:SetChecked(db.showBuffSources)
 
 	showBuffSources.OnClick = function(self, checked)
 		db.showBuffSources = checked
 	end
 
-	-------------------------------------------------------------------
+	--------------------------------------------------------------------
 
 	local showTempEnchantSources = CreateCheckbox(self, L["Weapon Buff Sources"])
 	showTempEnchantSources.desc = L["Show weapon buffs as the spell or item that buffed the weapon, instead of the weapon itself."]
 	showTempEnchantSources:SetPoint("TOPLEFT", showBuffSources, "BOTTOMLEFT", 0, -8)
-	showTempEnchantSources:SetChecked(db.showTempEnchantSources)
 
 	showTempEnchantSources.OnClick = function(self, checked)
 		db.showTempEnchantSources = checked
 		PhanxTempEnchantFrame:Update()
 	end
 
-	-------------------------------------------------------------------
+	--------------------------------------------------------------------
 
 	local lockFrames = CreateCheckbox(self, L["Lock Frames"])
 	lockFrames.desc = L["Lock the buff and debuff frames in place, hiding the backdrop and preventing them from being moved."]
@@ -604,12 +580,20 @@ optionsPanel:SetScript("OnShow", function(self)
 		end
 	end
 
-	-------------------------------------------------------------------
-
-	self:SetScript("OnShow", nil)
+	self.refresh = function()
+		buffSize:SetValue(db.buffSize)
+		buffSpacing:SetValue(db.buffSpacing)
+		buffColumns:SetValue(db.buffSpacing)
+		debuffSize:SetValue(db.debuffSize)
+		debuffSpacing:SetValue(db.debuffSpacing)
+		debuffColumns:SetValue(db.debuffColumns)
+		fontFace:SetValue(db.fontFace)
+		fontOutline:SetValue(db.fontOutline, outlines[db.fontOutline])
+		growthAnchor:SetValue(db.growthAnchor, anchors[db.growthAnchor])
+		showBuffSources:SetChecked(db.showBuffSources)
+		showTempEnchantSources:SetChecked(db.showTempEnchantSources)
+	end
 end)
-
-InterfaceOptions_AddCategory(optionsPanel)
 
 ------------------------------------------------------------------------
 
@@ -619,9 +603,7 @@ local aboutPanel = LibStub("LibAboutPanel").new("PhanxBuffs", "PhanxBuffs")
 
 SLASH_PHANXBUFFS1 = "/pbuff"
 SlashCmdList.PHANXBUFFS = function(input)
-	if not input then return end
-
-	if input:trim():len() > 0 then
+	if not input or input:trim():len() > 0 then
 		local type, name = input:match("^(%S+)%s*(.*)$")
 		type = type:lower()
 
@@ -638,6 +620,7 @@ SlashCmdList.PHANXBUFFS = function(input)
 				print("|cffffcc00PhanxBuffs:|r", string.format(newstate and L["Now ignoring debuff: %s."] or L["No longer ignoring debuff: %s."], name))
 				return PhanxDebuffFrame:Update()
 			end
+			return
 		elseif input == L["buff"] then
 			local t = { }
 			for buff in pairs(PhanxBuffsIgnoreDB.buffs) do
@@ -667,6 +650,7 @@ SlashCmdList.PHANXBUFFS = function(input)
 					print("   ", debuff)
 				end
 			end
+			return
 		end
 	end
 
