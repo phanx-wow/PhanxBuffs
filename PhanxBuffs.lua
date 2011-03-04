@@ -236,7 +236,7 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 
 	--------------------------------------------------------------------
 
-	local title, notes = LibStub("PhanxConfig-Header").CreateHeader(ADDON_NAME, L["Use this panel to adjust some basic settings for buff, debuff, and weapon buff icons."])
+	local title, notes = LibStub("PhanxConfig-Header").CreateHeader(self, ADDON_NAME, L["Use this panel to adjust some basic settings for buff, debuff, and weapon buff icons."])
 
 	--------------------------------------------------------------------
 
