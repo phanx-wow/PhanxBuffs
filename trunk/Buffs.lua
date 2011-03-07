@@ -94,7 +94,7 @@ local buttons = setmetatable({ }, { __index = function(t, i)
 	f:RegisterForClicks("RightButtonUp")
 	f:SetScript("OnClick", button_OnClick)
 
-	f.icon = f:CreateTexture(nil, "ARTWORK")
+	f.icon = f:CreateTexture(nil, "BACKGROUND")
 	f.icon:SetAllPoints(f)
 
 	f.count = f:CreateFontString(nil, "OVERLAY")
@@ -274,7 +274,7 @@ local timerGroup = PhanxBuffFrame:CreateAnimationGroup()
 local timer = timerGroup:CreateAnimation()
 timer:SetOrder(1)
 timer:SetDuration(0.1) -- how often you want it to finish
-timer:SetMaxFramerate(20) -- use this to throttle
+-- timer:SetMaxFramerate(20) -- use this to throttle
 timerGroup:SetScript("OnFinished", function(self, requested)
 	if dirty then
 		PhanxBuffFrame:Update()
