@@ -77,45 +77,45 @@ local function button_OnClick(self)
 end
 
 local buttons = setmetatable({ }, { __index = function(t, i)
-	local f = CreateFrame("Button", nil, PhanxTempEnchantFrame)
-	f:SetWidth(db.buffSize)
-	f:SetHeight(db.buffSize)
-	f:Show()
+	local button = CreateFrame("Button", nil, PhanxTempEnchantFrame)
+	button:SetWidth(db.buffSize)
+	button:SetHeight(db.buffSize)
+	button:Show()
 
-	f:EnableMouse(true)
-	f:SetScript("OnEnter", button_OnEnter)
-	f:SetScript("OnLeave", button_OnLeave)
+	button:EnableMouse(true)
+	button:SetScript("OnEnter", button_OnEnter)
+	button:SetScript("OnLeave", button_OnLeave)
 
-	f:RegisterForClicks("RightButtonUp")
-	f:SetScript("OnClick", button_OnClick)
+	button:RegisterForClicks("RightButtonUp")
+	button:SetScript("OnClick", button_OnClick)
 
-	f.icon = f:CreateTexture(nil, "BACKGROUND")
-	f.icon:SetAllPoints(f)
+	button.icon = button:CreateTexture(nil, "BACKGROUND")
+	button.icon:SetAllPoints(button)
 
-	f.count = f:CreateFontString(nil, "OVERLAY")
-    f.count:SetPoint("CENTER", f, "TOP")
-	f.count:SetFont(GetFontFile(db.fontFace), db.buffSize * 0.6, "OUTLINE")
+	button.count = button:CreateFontString(nil, "OVERLAY")
+    button.count:SetPoint("CENTER", button, "TOP")
+	button.count:SetFont(GetFontFile(db.fontFace), db.buffSize * 0.6, "OUTLINE")
 
-	f.timer = f:CreateFontString(nil, "OVERLAY")
-	f.timer:SetPoint("TOP", f, "BOTTOM")
-	f.timer:SetFont(GetFontFile(db.fontFace), db.buffSize * 0.5, "OUTLINE")
+	button.timer = button:CreateFontString(nil, "OVERLAY")
+	button.timer:SetPoint("TOP", button, "BOTTOM")
+	button.timer:SetFont(GetFontFile(db.fontFace), db.buffSize * 0.5, "OUTLINE")
 
 	if PhanxBorder then
-		PhanxBorder.AddBorder(f)
-		f.icon:SetTexCoord(0.07, 0.93, 0.07, 0.93)
-		f:SetBorderColor(180 / 255, 76 / 255, 1) -- 118 / 255, 47 / 255, 170 / 255)
+		PhanxBorder.AddBorder(button)
+		button.icon:SetTexCoord(0.07, 0.93, 0.07, 0.93)
+		button:SetBorderColor(180 / 255, 76 / 255, 1) -- 118 / 255, 47 / 255, 170 / 255)
 	else
-		f.border = f:CreateTexture(nil, "OVERLAY")
-		f.border:SetPoint("TOPLEFT", f, -2, 2)
-		f.border:SetPoint("BOTTOMRIGHT", f, 2, -2)
-		f.border:SetTexture("Interface\\Buttons\\UI-TempEnchant-Border")
+		button.border = button:CreateTexture(nil, "OVERLAY")
+		button.border:SetPoint("TOPLEFT", button, -2, 2)
+		button.border:SetPoint("BOTTOMRIGHT", button, 2, -2)
+		button.border:SetTexture("Interface\\Buttons\\UI-TempEnchant-Border")
 	end
 
-	t[i] = f
+	t[i] = button
 
 	PhanxTempEnchantFrame:UpdateLayout()
 
-	return f
+	return button
 end })
 
 PhanxTempEnchantFrame.buttons = buttons
@@ -127,6 +127,10 @@ function PhanxTempEnchantFrame:UpdateLayout()
 	local spacing = db.buffSpacing
 	local anchor = db.growthAnchor
 
+	local fontFace = GetFontFile(db.fontFace)
+	local fontScale = db.fontScale
+	local fontOutline = db.fontOutline
+
 	for i, button in ipairs(buttons) do
 		local x = (spacing + size) * (i - 1) * (anchor == "LEFT" and 1 or -1)
 
@@ -134,6 +138,9 @@ function PhanxTempEnchantFrame:UpdateLayout()
 		button:SetPoint("TOP" .. anchor, self, "TOP" .. anchor, x, 0)
 		button:SetWidth(size)
 		button:SetHeight(size)
+
+		button.count:SetFont(fontFace, size * 0.7, fontOutline)
+		button.timer:SetFont(fontFace, size * 0.55, fontOutline)
 	end
 
 	self:ClearAllPoints()
