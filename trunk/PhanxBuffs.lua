@@ -452,7 +452,7 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 
 	--------------------------------------------------------------------
 
-	local fontScale = CreateSlider( self, L["Font Scale"], 0.5, 2, 0.25, true,
+	local fontScale = CreateSlider( self, L["Text Scale"], 0.5, 2, 0.25, true,
 		L["Adjust the size of the stack count and timer text."] )
 	fontScale:SetPoint( "TOPLEFT", fontOutline, "BOTTOMLEFT", 0, -12 )
 	fontScale:SetPoint( "TOPRIGHT", fontOutline, "BOTTOMRIGHT", 0, -12 )
