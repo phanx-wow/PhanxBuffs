@@ -291,7 +291,7 @@ local timerGroup = PhanxDebuffFrame:CreateAnimationGroup()
 local timer = timerGroup:CreateAnimation()
 timer:SetOrder(1)
 timer:SetDuration(0.1) -- how often you want it to finish
-timer:SetMaxFramerate(25) -- use this to throttle
+-- timer:SetMaxFramerate(25) -- use this to throttle
 timerGroup:SetScript("OnFinished", function(self, requested)
 	if dirty then
 		PhanxDebuffFrame:Update()
