@@ -89,51 +89,48 @@ local function button_OnClick(self)
 end
 
 local buttons = setmetatable({ }, { __index = function(t, i)
-	local f = CreateFrame("Button", nil, PhanxDebuffFrame)
-	f:SetID(i)
-	f:SetWidth(db.debuffSize)
-	f:SetHeight(db.debuffSize)
-	f:Show()
+	local button = CreateFrame("Button", nil, PhanxDebuffFrame)
+	button:SetID(i)
+	button:SetWidth(db.debuffSize)
+	button:SetHeight(db.debuffSize)
+	button:Show()
 
-	f:EnableMouse(true)
-	f:SetScript("OnEnter", button_OnEnter)
-	f:SetScript("OnLeave", button_OnLeave)
+	button:EnableMouse(true)
+	button:SetScript("OnEnter", button_OnEnter)
+	button:SetScript("OnLeave", button_OnLeave)
 
-	f:RegisterForClicks("RightButtonUp")
-	f:SetScript("OnClick", button_OnClick)
+	button:RegisterForClicks("RightButtonUp")
+	button:SetScript("OnClick", button_OnClick)
 
-	f.icon = f:CreateTexture(nil, "BACKGROUND")
-	f.icon:SetAllPoints(f)
+	button.icon = button:CreateTexture(nil, "BACKGROUND")
+	button.icon:SetAllPoints(button)
 
-	f.count = f:CreateFontString(nil, "OVERLAY")
-    f.count:SetPoint("CENTER", f, "TOP")
-	f.count:SetFont(GetFontFile(db.fontFace), db.debuffSize * 0.6, db.fontOutline)
+	button.count = button:CreateFontString(nil, "OVERLAY")
+    button.count:SetPoint("CENTER", button, "TOP")
 
-	f.timer = f:CreateFontString(nil, "OVERLAY")
-	f.timer:SetPoint("TOP", f, "BOTTOM")
-	f.timer:SetFont(GetFontFile(db.fontFace), db.debuffSize * 0.5, db.fontOutline)
+	button.timer = button:CreateFontString(nil, "OVERLAY")
+	button.timer:SetPoint("TOP", button, "BOTTOM")
 
 	if PhanxBorder then
-		PhanxBorder.AddBorder(f)
-		f.icon:SetTexCoord(0.07, 0.93, 0.07, 0.93)
+		PhanxBorder.AddBorder(button)
+		button.icon:SetTexCoord(0.07, 0.93, 0.07, 0.93)
 	else
-		f.border = f:CreateTexture(nil, "BORDER")
-		f.border:SetPoint("TOPLEFT", f, -3, 2)
-		f.border:SetPoint("BOTTOMRIGHT", f, 2, -2)
-		f.border:SetTexture("Interface\\Buttons\\UI-Debuff-Overlays")
-		f.border:SetTexCoord(0.296875, 0.5703125, 0, 0.515625)
-		f.SetBorderColor = function(f, ...) return f.border:SetVertexColor(...) end
+		button.border = button:CreateTexture(nil, "BORDER")
+		button.border:SetPoint("TOPLEFT", button, -3, 2)
+		button.border:SetPoint("BOTTOMRIGHT", button, 2, -2)
+		button.border:SetTexture("Interface\\Buttons\\UI-Debuff-Overlays")
+		button.border:SetTexCoord(0.296875, 0.5703125, 0, 0.515625)
+		button.SetBorderColor = function(button, ...) return button.border:SetVertexColor(...) end
 	end
 
-	f.symbol = f:CreateFontString(nil, "OVERLAY")
-	f.symbol:SetPoint("BOTTOM", f, 0, 2)
-	f.symbol:SetFont(GetFontFile(db.fontFace), db.debuffSize * 0.5, "OUTLINE")
+	button.symbol = button:CreateFontString(nil, "OVERLAY")
+	button.symbol:SetPoint("BOTTOM", button, 0, 2)
 
-	t[i] = f
+	t[i] = button
 
 	PhanxDebuffFrame:UpdateLayout()
 
-	return f
+	return button
 end })
 
 PhanxDebuffFrame.buttons = buttons
@@ -146,6 +143,10 @@ function PhanxDebuffFrame:UpdateLayout()
 	local spacing = db.debuffSpacing
 	local cols = db.debuffColumns
 
+	local fontFace = GetFontFile(db.fontFace)
+	local fontScale = db.fontScale
+	local fontOutline = db.fontOutline
+
 	for i, button in ipairs(buttons) do
 		local col = (i - 1) % cols
 		local row = math.ceil(i / cols) - 1
@@ -157,6 +158,10 @@ function PhanxDebuffFrame:UpdateLayout()
 		button:SetWidth(size)
 		button:SetHeight(size)
 		button:SetPoint("TOP" .. anchor, self, "TOP" .. anchor, x, -y)
+		
+		button.count:SetFont(fontFace, size * 0.7, fontOutline)
+		button.timer:SetFont(fontFace, size * 0.55, fontOutline)
+		button.symbol:SetFont(fontFace, size * 0.7, fontOutline)
 	end
 
 	self:ClearAllPoints()
