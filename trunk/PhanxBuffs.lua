@@ -20,6 +20,7 @@ local defaultDB = {
 
 	fontFace = "Friz Quadrata TT",
 	fontOutline = "OUTLINE",
+	fontScale = 1,
 
 	growthAnchor = "RIGHT",
 
@@ -89,11 +90,13 @@ local function SetButtonFonts(parent, face, outline)
 	local file = GetFontFile(face)
 
 	local baseSize = parent == PhanxDebuffFrame and db.debuffSize or db.buffSize
+	local scale = db.textScale
+	
 	for i, button in ipairs(parent.buttons) do
-		button.count:SetFont(file, baseSize * 0.6, outline)
-		button.timer:SetFont(file, baseSize * 0.5, outline)
+		button.count:SetFont(file, baseSize * scale * 0.7, outline)
+		button.timer:SetFont(file, baseSize * scale * 0.55, outline)
 		if button.symbol then
-			button.symbol:SetFont(file, baseSize * 0.6, outline)
+			button.symbol:SetFont(file, baseSize * scale * 0.7, outline)
 		end
 	end
 end
@@ -240,7 +243,7 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 
 	--------------------------------------------------------------------
 
-	local buffSize = CreateSlider(self, L["Buff Size"], 12, 48, 2)
+	local buffSize = CreateSlider(self, L["Buff Size"], 10, 60, 2)
 	buffSize.desc = L["Set the size of each buff icon."]
 	buffSize:SetPoint("TOPLEFT", notes, "BOTTOMLEFT", -4, -8)
 	buffSize:SetPoint("TOPRIGHT", notes, "BOTTOM", -8, -8)
@@ -257,7 +260,7 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 
 	--------------------------------------------------------------------
 
-	local buffSpacing = CreateSlider(self, L["Buff Spacing"], 0, 8, 1)
+	local buffSpacing = CreateSlider(self, L["Buff Spacing"], 0, 20, 1)
 	buffSpacing.desc = L["Set the space between buff icons."]
 	buffSpacing:SetPoint("TOPLEFT", buffSize, "BOTTOMLEFT", 0, -12)
 	buffSpacing:SetPoint("TOPRIGHT", buffSize, "BOTTOMRIGHT", 0, -12)
@@ -274,7 +277,7 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 
 	--------------------------------------------------------------------
 
-	local buffColumns = CreateSlider(self, L["Buff Columns"], 10, 40, 2)
+	local buffColumns = CreateSlider(self, L["Buff Columns"], 1, 40, 1)
 	buffColumns.desc = L["Set the number of buff icons to show on each row."]
 	buffColumns:SetPoint("TOPLEFT", buffSpacing, "BOTTOMLEFT", 0, -12)
 	buffColumns:SetPoint("TOPRIGHT", buffSpacing, "BOTTOMRIGHT", 0, -12)
@@ -291,7 +294,7 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 
 	--------------------------------------------------------------------
 
-	local debuffSize = CreateSlider(self, L["Debuff Size"], 12, 64, 2)
+	local debuffSize = CreateSlider(self, L["Debuff Size"], 10, 60, 2)
 	debuffSize.desc = L["Set the size of each debuff icon."]
 	debuffSize:SetPoint("TOPLEFT", buffColumns, "BOTTOMLEFT", 0, -12)
 	debuffSize:SetPoint("TOPRIGHT", buffColumns, "BOTTOMRIGHT", 0, -12)
@@ -307,7 +310,7 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 
 	--------------------------------------------------------------------
 
-	local debuffSpacing = CreateSlider(self, L["Debuff Spacing"], 0, 8, 1)
+	local debuffSpacing = CreateSlider(self, L["Debuff Spacing"], 0, 20, 1)
 	debuffSpacing.desc = L["Set the space between debuff icons."]
 	debuffSpacing:SetPoint("TOPLEFT", debuffSize, "BOTTOMLEFT", 0, -12)
 	debuffSpacing:SetPoint("TOPRIGHT", debuffSize, "BOTTOMRIGHT", 0, -12)
@@ -323,7 +326,7 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 
 	--------------------------------------------------------------------
 
-	local debuffColumns = CreateSlider(self, L["Debuff Columns"], 10, 30, 2)
+	local debuffColumns = CreateSlider(self, L["Debuff Columns"], 1, 40, 1)
 	debuffColumns.desc = L["Set the number of debuff icons to show on each row."]
 	debuffColumns:SetPoint("TOPLEFT", debuffSpacing, "BOTTOMLEFT", 0, -12)
 	debuffColumns:SetPoint("TOPRIGHT", debuffSpacing, "BOTTOMRIGHT", 0, -12)
@@ -449,6 +452,24 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 
 	--------------------------------------------------------------------
 
+	local fontScale = CreateSlider( self, L["Font Scale"], 0.5, 2, 0.25, true,
+		L["Adjust the size of the stack count and timer text."] )
+	fontScale:SetPoint( "TOPLEFT", fontOutline, "BOTTOMLEFT", 0, -12 )
+	fontScale:SetPoint( "TOPRIGHT", fontOutline, "BOTTOMRIGHT", 0, -12 )
+	fontScale.OnValueChanged = function( self, value )
+		value = floor( value * 100 / 25 ) * 25 / 100
+
+		db.fontScale = value
+
+		PhanxBuffFrame:UpdateLayout()
+		PhanxDebuffFrame:UpdateLayout()
+		PhanxTempEnchantFrame:UpdateLayout()
+		
+		return value
+	end
+
+	--------------------------------------------------------------------
+
 	local anchors = {
 		["LEFT"] = L["Left"],
 		["RIGHT"] = L["Right"],
@@ -487,14 +508,14 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 		end)
 	end
 	growthAnchor.desc = L["Set the side of the screen from which buffs and debuffs grow."]
-	growthAnchor:SetPoint("TOPLEFT", fontOutline, "BOTTOMLEFT", 0, -12)
-	growthAnchor:SetPoint("TOPRIGHT", fontOutline, "BOTTOMRIGHT", 0, -12)
+	growthAnchor:SetPoint("TOPLEFT", fontScale, "BOTTOMLEFT", 0, -12)
+	growthAnchor:SetPoint("TOPRIGHT", fontScale, "BOTTOMRIGHT", 0, -12)
 
 	--------------------------------------------------------------------
 
 	local showBuffSources = CreateCheckbox(self, L["Buff Sources"])
 	showBuffSources.desc = L["Show the name of the party or raid member who cast a buff on you in its tooltip."]
-	showBuffSources:SetPoint("TOPLEFT", growthAnchor, "BOTTOMLEFT", 2, -8)
+	showBuffSources:SetPoint("TOPLEFT", growthAnchor, "BOTTOMLEFT", 0, -12)
 
 	showBuffSources.OnClick = function(self, checked)
 		db.showBuffSources = checked
@@ -589,6 +610,7 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 		debuffColumns:SetValue(db.debuffColumns)
 		fontFace:SetValue(db.fontFace)
 		fontOutline:SetValue(db.fontOutline, outlines[db.fontOutline])
+		fontScale:SetValue(db.fontScale)
 		growthAnchor:SetValue(db.growthAnchor, anchors[db.growthAnchor])
 		showBuffSources:SetChecked(db.showBuffSources)
 		showTempEnchantSources:SetChecked(db.showTempEnchantSources)
@@ -603,59 +625,57 @@ local aboutPanel = LibStub("LibAboutPanel").new("PhanxBuffs", "PhanxBuffs")
 
 SLASH_PHANXBUFFS1 = "/pbuff"
 SlashCmdList.PHANXBUFFS = function(input)
-	if not input or input:trim():len() > 0 then
-		local type, name = input:match("^(%S+)%s*(.*)$")
-		type = type:lower()
+	if not input then input = "" end
 
-		if name and name ~= "" then
-			if type == L["buff"] then
-				local newstate = not PhanxBuffsIgnoreDB.buffs[name] and true or nil
-				print(tostring(newstate))
-				PhanxBuffsIgnoreDB.buffs[name] = newstate
-				print("|cffffcc00PhanxBuffs:|r", string.format(newstate and L["Now ignoring buff: %s."] or L["No longer ignoring buff: %s."], name))
-				return PhanxBuffFrame:Update()
-			elseif type == L["debuff"] then
-				local newstate = not PhanxBuffsIgnoreDB.debuffs[name] and true or nil
-				PhanxBuffsIgnoreDB.debuffs[name] = newstate
-				print("|cffffcc00PhanxBuffs:|r", string.format(newstate and L["Now ignoring debuff: %s."] or L["No longer ignoring debuff: %s."], name))
-				return PhanxDebuffFrame:Update()
-			end
-			return
-		elseif input == L["buff"] then
-			local t = { }
-			for buff in pairs(PhanxBuffsIgnoreDB.buffs) do
-				t[#t + 1] = buff
-			end
-			if #t == 0 then
-				print("|cffffcc00PhanxBuffs:|r", L["No buffs are being ignored."])
-			else
-				table.sort(t)
-				print("|cffffcc00PhanxBuffs:|r", L["%d buffs are being ignored:"]:format(#t))
-				for _, buff in ipairs(t) do
-					print("   ", buff)
-				end
-			end
-			return
-		elseif input == L["debuff"] then
-			local t = { }
-			for debuff in pairs(PhanxBuffsIgnoreDB.debuffs) do
-				t[#t + 1] = debuff
-			end
-			if #t == 0 then
-				print("|cffffcc00PhanxBuffs:|r", L["No debuffs are being ignored."])
-			else
-				table.sort(t)
-				print("|cffffcc00PhanxBuffs:|r", L["%d debuffs are being ignored:"]:format(#t))
-				for _, debuff in ipairs(t) do
-					print("   ", debuff)
-				end
-			end
-			return
+	local cmd, arg = input:match("^(%S+)%s*(.*)$")
+	cmd = cmd and cmd:lower()
+
+	if arg and arg ~= "" then
+		if cmd == L["buff"] then
+			local ignoring = not PhanxBuffsIgnoreDB.buffs[name] and true or nil
+			PhanxBuffsIgnoreDB.buffs[arg] = ignoring
+			print("|cffffcc00PhanxBuffs:|r", string.format(ignoring and L["Now ignoring buff: %s."] or L["No longer ignoring buff: %s."], arg))
+			return PhanxBuffFrame:Update()
+		elseif cmd == L["debuff"] then
+			local ignoring = not PhanxBuffsIgnoreDB.debuffs[name] and true or nil
+			PhanxBuffsIgnoreDB.debuffs[arg] = ignoring
+			print("|cffffcc00PhanxBuffs:|r", string.format(ignoring and L["Now ignoring debuff: %s."] or L["No longer ignoring debuff: %s."], arg))
+			return PhanxDebuffFrame:Update()
 		end
+		return
+	elseif cmd == L["buff"] then
+		local t = { }
+		for buff in pairs(PhanxBuffsIgnoreDB.buffs) do
+			t[#t + 1] = buff
+		end
+		if #t == 0 then
+			print("|cffffcc00PhanxBuffs:|r", L["No buffs are being ignored."])
+		else
+			table.sort(t)
+			print("|cffffcc00PhanxBuffs:|r", L["%d |4buff:buffs; |4is:are; being ignored:"]:format(#t))
+			for _, buff in ipairs(t) do
+				print("   ", buff)
+			end
+		end
+		return
+	elseif cmd == L["debuff"] then
+		local t = { }
+		for debuff in pairs(PhanxBuffsIgnoreDB.debuffs) do
+			t[#t + 1] = debuff
+		end
+		if #t == 0 then
+			print("|cffffcc00PhanxBuffs:|r", L["No debuffs are being ignored."])
+		else
+			table.sort(t)
+			print("|cffffcc00PhanxBuffs:|r", L["%d |4debuff:debuffs; |4is:are; being ignored:"]:format(#t))
+			for _, debuff in ipairs(t) do
+				print("   ", debuff)
+			end
+		end
+		return
+	else
+		InterfaceOptionsFrame_OpenToCategory(optionsPanel)
 	end
-
-	InterfaceOptionsFrame_OpenToCategory(aboutPanel)
-	InterfaceOptionsFrame_OpenToCategory(optionsPanel)
 end
 
 ------------------------------------------------------------------------

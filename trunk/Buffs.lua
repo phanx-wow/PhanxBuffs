@@ -81,40 +81,38 @@ end
 local buttons = setmetatable({ }, { __index = function(t, i)
 	if type(i) ~= "number" then return end
 
-	local f = CreateFrame("Button", nil, PhanxBuffFrame)
-	f:SetID(i)
-	f:SetWidth(db.buffSize)
-	f:SetHeight(db.buffSize)
-	f:Show()
+	local button = CreateFrame("Button", nil, PhanxBuffFrame)
+	button:SetID(i)
+	button:SetWidth(db.buffSize)
+	button:SetHeight(db.buffSize)
+	button:Show()
 
-	f:EnableMouse(true)
-	f:SetScript("OnEnter", button_OnEnter)
-	f:SetScript("OnLeave", button_OnLeave)
+	button:EnableMouse(true)
+	button:SetScript("OnEnter", button_OnEnter)
+	button:SetScript("OnLeave", button_OnLeave)
 
-	f:RegisterForClicks("RightButtonUp")
-	f:SetScript("OnClick", button_OnClick)
+	button:RegisterForClicks("RightButtonUp")
+	button:SetScript("OnClick", button_OnClick)
 
-	f.icon = f:CreateTexture(nil, "BACKGROUND")
-	f.icon:SetAllPoints(f)
+	button.icon = button:CreateTexture(nil, "BACKGROUND")
+	button.icon:SetAllPoints(true)
 
-	f.count = f:CreateFontString(nil, "OVERLAY")
-    f.count:SetPoint("CENTER", f, "TOP")
-	f.count:SetFont(GetFontFile(db.fontFace), db.buffSize * 0.75, db.fontOutline)
+	button.count = button:CreateFontString(nil, "OVERLAY")
+    button.count:SetPoint("CENTER", button, "TOP")
 
-	f.timer = f:CreateFontString(nil, "OVERLAY")
-	f.timer:SetPoint("TOP", f, "BOTTOM")
-	f.timer:SetFont(GetFontFile(db.fontFace), db.buffSize * 0.6, db.fontOutline)
+	button.timer = button:CreateFontString(nil, "OVERLAY")
+	button.timer:SetPoint("TOP", button, "BOTTOM")
 
 	if PhanxBorder then
-		PhanxBorder.AddBorder(f)
-		f.icon:SetTexCoord(0.07, 0.93, 0.07, 0.93)
+		PhanxBorder.AddBorder(button)
+		button.icon:SetTexCoord(0.07, 0.93, 0.07, 0.93)
 	end
 
-	t[i] = f
+	t[i] = button
 
 	PhanxBuffFrame:UpdateLayout()
 
-	return f
+	return button
 end })
 
 PhanxBuffFrame.buttons = buttons
@@ -136,6 +134,10 @@ function PhanxBuffFrame:UpdateLayout()
 	local cols = db.buffColumns
 	local rows = math.ceil(MAX_BUFFS / cols)
 
+	local fontFace = GetFontFile(db.fontFace)
+	local fontScale = db.fontScale
+	local fontOutline = db.fontOutline
+
 	for i, button in ipairs(buttons) do
 		local j = i + tempEnchants
 
@@ -149,6 +151,9 @@ function PhanxBuffFrame:UpdateLayout()
 		button:SetWidth(size)
 		button:SetHeight(size)
 		button:SetPoint("TOP" .. anchor, self, "TOP" .. anchor, x, -y)
+
+		button.count:SetFont(fontFace, size * fontScale * 0.7, fontOutline)
+		button.timer:SetFont(fontFace, size * fontScale * 0.55, fontOutline)
 	end
 
 	self:ClearAllPoints()

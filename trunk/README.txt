@@ -78,10 +78,10 @@ Localization
 ------------
 
 PhanxBuffs is compatible with English, Deutsch, Español, Français,
-Русский, 한국어, and 正體中文 game clients.
+Русский, 한국어, 简体中文, and 繁體中文 game clients.
 
 The options text is currently translated into English, Français, 한국어,
-and 正體中文. If you can provide translations for any locale, please send
+and 繁體中文. If you can provide translations for any locale, please send
 me a PM on either download site.
 
 
