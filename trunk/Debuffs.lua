@@ -29,28 +29,40 @@ do
 	if class == "DRUID" then
 		local macro = "/cast [@player] " .. (GetSpellInfo(2782)) -- Remove Corruption
 		GetDispelMacro = function(kind)
-			return (kind == "CURSE" or kind == "POISON" or (kind == "MAGIC" and select(5, GetTalentInfo(3, 17)) > 0)) and macro
+			if kind == "CURSE" or kind == "POISON" or (kind == "MAGIC" and select(5, GetTalentInfo(3, 17)) > 0) then
+				return macro
+			end
 		end
 	elseif class == "MAGE" then
 		local macro = "/cast [@player] " .. (GetSpellInfo(475)) -- Remove Curse
 		GetDispelMacro = function(kind)
-			return kind == "CURSE" and macro
+			if kind == "CURSE" then
+				return macro
+			end
 		end
 	elseif class == "PALADIN" then
 		local macro = "/cast [@player] " .. (GetSpellInfo(4987)) -- Cleanse
 		GetDispelMacro = function(kind)
-			return (kind == "DISEASE" or kind == "POISON" or (kind == "MAGIC" and select(5, GetTalentInfo(1, 14)) > 0)) and macro
+			if kind == "DISEASE" or kind == "POISON" or (kind == "MAGIC" and select(5, GetTalentInfo(1, 14)) > 0) then
+				return macro
+			end
 		end
 	elseif class == "PRIEST" then
 		local macro1 = "/cast [@player] " .. (GetSpellInfo(528)) -- Cure Disease
 		local macro2 = "/cast [@player] " .. (GetSpellInfo(527)) -- Dispel Magic
 		GetDispelMacro = function(kind)
-			return kind == "DISEASE" and macro1 or kind == "MAGIC" and macro2
+			if kind == "DISEASE" then
+				return macro1
+			elseif kind == "MAGIC" then
+				return macro2
+			end
 		end
 	elseif class == "SHAMAN" then
 		local macro = "/cast [@player] " .. (GetSpellInfo(51886)) -- Cleanse Spirit
 		GetDispelMacro = function(kind)
-			return (kind == "CURSE" or (kind == "MAGIC" and select(5, GetTalentInfo(3, 12)) > 0)) and macro
+			if kind == "CURSE" or (kind == "MAGIC" and select(5, GetTalentInfo(3, 12)) > 0) then
+				return macro
+			end
 		end
 	end
 end
@@ -81,11 +93,15 @@ local function button_OnClick(self)
 		print("|cffffcc00PhanxBuffs:|r", string.format(ns.L["Now ignoring debuff:"], debuff.name))
 		self:GetParent():Update()
 	elseif not InCombatLockdown() then
-		local macro = GetDispelMacro and DebuffTypeColor[debuff.kind] and GetDispelMacro(debuff.kind)
+		local macro = GetDispelMacro and GetDispelMacro(debuff.kind)
 		if macro then
 			PhanxBuffsCancelButton:SetMacro(self, debuff.icon, macro)
 		end
 	end
+end
+
+local function button_SetBorderColor(self, ...)
+	return self.border:SetVertexColor(...)
 end
 
 local buttons = setmetatable({ }, { __index = function(t, i)
@@ -107,9 +123,15 @@ local buttons = setmetatable({ }, { __index = function(t, i)
 
 	button.count = button:CreateFontString(nil, "OVERLAY")
     button.count:SetPoint("CENTER", button, "TOP")
+    button.count:SetShadowOffset(1, -1)
 
 	button.timer = button:CreateFontString(nil, "OVERLAY")
 	button.timer:SetPoint("TOP", button, "BOTTOM")
+    button.timer:SetShadowOffset(1, -1)
+
+	button.symbol = button:CreateFontString(nil, "OVERLAY")
+	button.symbol:SetPoint("BOTTOMLEFT", button, 1, 0)
+    button.symbol:SetShadowOffset(1, -1)
 
 	if PhanxBorder then
 		PhanxBorder.AddBorder(button)
@@ -120,11 +142,8 @@ local buttons = setmetatable({ }, { __index = function(t, i)
 		button.border:SetPoint("BOTTOMRIGHT", button, 2, -2)
 		button.border:SetTexture("Interface\\Buttons\\UI-Debuff-Overlays")
 		button.border:SetTexCoord(0.296875, 0.5703125, 0, 0.515625)
-		button.SetBorderColor = function(button, ...) return button.border:SetVertexColor(...) end
+		button.SetBorderColor = button_SetBorderColor
 	end
-
-	button.symbol = button:CreateFontString(nil, "OVERLAY")
-	button.symbol:SetPoint("BOTTOM", button, 0, 2)
 
 	t[i] = button
 
@@ -159,9 +178,9 @@ function PhanxDebuffFrame:UpdateLayout()
 		button:SetHeight(size)
 		button:SetPoint("TOP" .. anchor, self, "TOP" .. anchor, x, -y)
 		
-		button.count:SetFont(fontFace, 16 * fontScale, fontOutline)
+		button.count:SetFont(fontFace, 18 * fontScale, fontOutline)
 		button.timer:SetFont(fontFace, 14 * fontScale, fontOutline)
-		button.symbol:SetFont(fontFace, 14 * fontScale, fontOutline)
+		button.symbol:SetFont(fontFace, 16 * fontScale, fontOutline)
 	end
 
 	self:ClearAllPoints()
