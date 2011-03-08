@@ -7,8 +7,8 @@
 	http://www.wowinterface.com/downloads/info16874-PhanxBuffs.html
 	http://wow.curse.com/downloads/wow-addons/details/phanxbuffs.aspx
 ------------------------------------------------------------------------
-	Spanish Localization (Español (EU) y Español (AL))
-	Last updated 2010-09-03 by Phanx
+	Localization for esES/esMX | Spanish (Europe)/Spanish (Latin America) | Español (Europa)/Español (America Latina)
+	Last updated 2011-03-07 by Akkorian
 ----------------------------------------------------------------------]]
 
 if GetLocale() ~= "esES" and GetLocale() ~= "esMX" then return end
@@ -41,32 +41,32 @@ ns.L = {
 
 	["Use this panel to adjust some basic settings for buff, debuff, and weapon buff icons."] = "Estes opciones te permiten configurar los iconos de beneficios, perjuicios, y beneficios de armas.",
 	["Buff Size"] = "Tamaño de beneficios",
-	["Set the size of each buff icon."] = "Ajustar el tamaño de cada icono de beneficio.",
-	["Buff Spacing"] = "Espaciamiento de beneficios",
-	["Set the space between buff icons."] = "Ajustar el espaciamiento entre los iconos de beneficios.",
+	["Adjust the size of each buff icon."] = "Ajustar el tamaño de los iconos de beneficios.",
 	["Buff Columns"] = "Columnas de beneficios",
-	["Set the number of buff icons to show on each row."] = "Ajustar el número de iconos de beneficios para mostrar en cada fila.",
+	["Adjust the number of buff icons to show on each row."] = "Ajustar el número de iconos de beneficios para mostrar en cada fila.",
 	["Debuff Size"] = "Tamaño de perjuicios",
-	["Set the size of each debuff icon."] = "Ajustar el tamaño de cada icono de perjuicio.",
-	["Debuff Spacing"] = "Espaciamiento de perjuicios",
-	["Set the space between debuff icons."] = "Ajustar el espaciamiento entre los iconos de perjuicios.",
+	["Adjust the size of each debuff icon."] = "Ajustar el tamaño de los icons de perjuicios.",
 	["Debuff Columns"] = "Columnas de perjuicios",
-	["Set the number of debuff icons to show on each row."] = "Ajustar el número de iconos de perjuicios para mostrar en cada fila.",
+	["Adjust the number of debuff icons to show on each row."] = "Ajustar el número de iconos de perjuicios para mostrar en cada fila.",
+	["Icon Spacing"] = "Espaciamiento de iconos",
+	["Adjust the space between icons."] = "Ajustar el espaciamiento entre los iconos.",
+	["Growth Anchor"] = "Ancla de iconos",
+	["Select the side of the screen from which buffs and debuffs grow."] = "Establecer el lado de la pantalla para que anclar los iconos de beneficios y perjuicios.",
+	["Left"] = "Izquierda",
+	["Right"] = "Derecha",
 	["Typeface"] = "Tipo de letra",
-	["Set the typeface for stack count and timer text."] = "Establecer el tipo de letra del texto de aplicaciones y tiempo.",
+	["Select the typeface for the stack count and timer text."] = "Establecer el tipo de letra del texto de aplicaciones y tiempo.",
 	["Text Outline"] = "Perfil de texto",
-	["Set the outline weight for stack count and timer text."] = "Establecer el grueso del perfil del texto de aplicaciones y tiempo.",
+	["Select the outline weight for the stack count and timer text."] = "Establecer el grueso del perfil del texto de aplicaciones y tiempo.",
 	["None"] = "Ninguno",
 	["Thin"] = "Fino",
 	["Thick"] = "Grueso",
-	["Text Scale"] = "Tamaño de texto",
+	["Text Size"] = "Tamaño de texto",
 	["Adjust the size of the stack count and timer text."] = "Ajustar el tamaño del texto de aplicaciones y tiempo.",
-	["Growth Anchor"] = "Ancla de iconos",
-	["Set the side of the screen from which buffs and debuffs grow."] = "Establecer el lado de la pantalla para que anclar los iconos de beneficios y perjuicios.",
-	["Left"] = "Izquierda",
-	["Right"] = "Derecha",
+	["Max Timer Duration"] = "Tiempo máximo",
+	["Adjust the maximum remaining duration, in seconds, to show the timer text for a buff or debuff."] = "Ajustar el máximo de tiempo restante, en segundos, para mostrar el texto de tiempo.",
 	["Buff Sources"] = "Taumaturgos de beneficios",
-	["Show the name of the party or raid member who cast a buff on you in its tooltip."] = "Mostrar el nombre del miembro del grupo o banda que ha aplicado un beneficio en su descripción.",
+	["Show the name of the party or raid member who cast a buff on you in its tooltip."] = "Mostrar el nombre del miembro del grupo o banda que ha aplicado un beneficio a te en su descripción.",
 	["Weapon Buff Sources"] = "Fuentes de encantamientos de arma",
 	["Show weapon buffs as the spell or item that buffed the weapon, instead of the weapon itself."] = "Mostrar los beneficios del arma como el encanto o el artículo que encantaron el arma, en vez del arma sí mismo.",
 	["Lock Frames"] = "Bloquear iconos",
@@ -74,15 +74,13 @@ ns.L = {
 
 	["Cast by %s"] = "Aplicada por %s",
 
-	["Now ignoring buff: %s"] = "Estás ignorando beneficio: %s",
-	["Now ignoring debuff: %s"] = "Estás ignorando perjuicio: %s",
-	["No longer ignoring buff: %s"] = "Ya no estás ignorando beneficio: %s",
-	["No longer ignoring debuff: %s"] = "Ya no estás ignorando perjucio: %s",
-	["Currently ignoring these buffs:"] = "Estás ignorando estes beneficios:",
-	["Currently ignoring these debuffs:"] = "Estás ignorando estes perjuicios:",
-	["%d buffs are being ignored:"] = "Estás ignorando % beneficios:",
-	["%d debuffs are being ignored:"] = "Estás ignorando % perjuicios:",
-	["No buffs are being ignored:"] = "No estás ignorando cualquier beneficios.",
-	["No debuffs are being ignored:"] = "No estás ignorando cualquier perjuicios.",
+	["Now ignoring buff: %s"] = "Estás ignorando al beneficio: %s",
+	["Now ignoring debuff: %s"] = "Estás ignorando al perjuicio: %s",
+	["No longer ignoring buff: %s"] = "Ya no estás ignorando al beneficio: %s",
+	["No longer ignoring debuff: %s"] = "Ya no estás ignorando al perjucio: %s",
+	["No buffs are being ignored."] = "No estás ignorando a ningún beneficios.",
+	["No debuffs are being ignored."] = "No estás ignorando a ningún perjuicios.",
+	["%d |4buff:buffs; |4is:are; being ignored:"] = "Estás ignorando a %d |4beneficio:beneficios;:",
+	["%d |4debuff:debuffs; |4is:are; being ignored:"] = "Estás ignorando a %d |perjuicio:perjuicios;:",
 
 }
