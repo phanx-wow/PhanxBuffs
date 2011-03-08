@@ -124,7 +124,7 @@ PhanxTempEnchantFrame.buttons = buttons
 
 function PhanxTempEnchantFrame:UpdateLayout()
 	local size = db.buffSize
-	local spacing = db.buffSpacing
+	local spacing = db.iconSpacing
 	local anchor = db.growthAnchor
 
 	local fontFace = GetFontFile(db.fontFace)
@@ -139,8 +139,8 @@ function PhanxTempEnchantFrame:UpdateLayout()
 		button:SetWidth(size)
 		button:SetHeight(size)
 
-		button.count:SetFont(fontFace, size * 0.7, fontOutline)
-		button.timer:SetFont(fontFace, size * 0.55, fontOutline)
+		button.count:SetFont(fontFace, 16 * fontScale, fontOutline)
+		button.timer:SetFont(fontFace, 14 * fontScale, fontOutline)
 	end
 
 	self:ClearAllPoints()
@@ -323,13 +323,18 @@ timerGroup:SetScript("OnFinished", function(self, requested)
 	end
 	for i, button in ipairs(buttons) do
 		if not button:IsShown() then break end
-
 		if button.expires and button.expires > 0 then
 			local remaining = button.expires - GetTime()
 			if remaining < 0 then
 				dirty = true
-			elseif remaining <= 30.5 then
-				button.timer:SetText( math.floor(remaining + 0.5) )
+			elseif remaining <= db.maxTimer then
+				if remaining > 3600 then
+					button.timer:SetFormattedText( HOUR_ONELETTER_ABBR, math.floor( ( remaining / 60 ) + 0.5 ) )
+				elseif remaining > 60 then
+					button.timer:SetFormattedText( MINUTE_ONELETTER_ABBR, math.floor( ( remaining / 60 ) + 0.5 ) )
+				else
+					button.timer:SetText( math.floor( remaining + 0.5 ) )
+				end
 			else
 				button.timer:SetText()
 			end

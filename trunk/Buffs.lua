@@ -130,7 +130,7 @@ function PhanxBuffFrame:UpdateLayout()
 
 	local anchor = db.growthAnchor
 	local size = db.buffSize
-	local spacing = db.buffSpacing
+	local spacing = db.iconSpacing
 	local cols = db.buffColumns
 	local rows = math.ceil(MAX_BUFFS / cols)
 
@@ -152,8 +152,8 @@ function PhanxBuffFrame:UpdateLayout()
 		button:SetHeight(size)
 		button:SetPoint("TOP" .. anchor, self, "TOP" .. anchor, x, -y)
 
-		button.count:SetFont(fontFace, size * fontScale * 0.7, fontOutline)
-		button.timer:SetFont(fontFace, size * fontScale * 0.55, fontOutline)
+		button.count:SetFont(fontFace, 16 * fontScale, fontOutline)
+		button.timer:SetFont(fontFace, 14 * fontScale, fontOutline)
 	end
 
 	self:ClearAllPoints()
@@ -285,18 +285,25 @@ timerGroup:SetScript("OnFinished", function(self, requested)
 		PhanxBuffFrame:Update()
 		dirty = false
 	end
+	local max = db.maxTimer
 	for i, button in ipairs(buttons) do
 		if not button:IsShown() then break end
-		local buff = buffs[button:GetID()]
+		local buff = buffs[ button:GetID() ]
 		if buff then
 			if buff.expires > 0 then
 				local remaining = buff.expires - GetTime()
 				if remaining < 0 then
 					-- bugged out, kill it
-					remTable( table.remove(buffs, button:GetID()) )
+					remTable( table.remove( buffs, button:GetID() ) )
 					dirty = true
-				elseif remaining <= 30.5 then
-					button.timer:SetText( math.floor(remaining + 0.5) )
+				elseif remaining <= max then
+					if remaining > 3600 then
+						button.timer:SetFormattedText( HOUR_ONELETTER_ABBR, math.floor( ( remaining / 60 ) + 0.5 ) )
+					elseif remaining > 60 then
+						button.timer:SetFormattedText( MINUTE_ONELETTER_ABBR, math.floor( ( remaining / 60 ) + 0.5 ) )
+					else
+						button.timer:SetText( math.floor( remaining + 0.5 ) )
+					end
 				else
 					button.timer:SetText()
 				end
