@@ -7,7 +7,7 @@
 	http://www.wowinterface.com/downloads/info16874-PhanxBuffs.html
 	http://wow.curse.com/downloads/wow-addons/details/phanxbuffs.aspx
 ------------------------------------------------------------------------
-	Localization for esES/esMX | Spanish (Europe)/Spanish (Latin America) | Español (Europa)/Español (America Latina)
+	Spanish Localization (Español - Europa y América Latina)
 	Last updated 2011-03-07 by Akkorian
 ----------------------------------------------------------------------]]
 
@@ -51,13 +51,13 @@ ns.L = {
 	["Icon Spacing"] = "Espaciamiento de iconos",
 	["Adjust the space between icons."] = "Ajustar el espaciamiento entre los iconos.",
 	["Growth Anchor"] = "Ancla de iconos",
-	["Select the side of the screen from which buffs and debuffs grow."] = "Establecer el lado de la pantalla para que anclar los iconos de beneficios y perjuicios.",
+	["Set the side of the screen from which buffs and debuffs grow."] = "Establecer el lado de la pantalla para que anclar los iconos de beneficios y perjuicios.",
 	["Left"] = "Izquierda",
 	["Right"] = "Derecha",
 	["Typeface"] = "Tipo de letra",
-	["Select the typeface for the stack count and timer text."] = "Establecer el tipo de letra del texto de aplicaciones y tiempo.",
+	["Set the typeface for the stack count and timer text."] = "Establecer el tipo de letra del texto de aplicaciones y tiempo.",
 	["Text Outline"] = "Perfil de texto",
-	["Select the outline weight for the stack count and timer text."] = "Establecer el grueso del perfil del texto de aplicaciones y tiempo.",
+	["Set the outline weight for the stack count and timer text."] = "Establecer el grueso del perfil del texto de aplicaciones y tiempo.",
 	["None"] = "Ninguno",
 	["Thin"] = "Fino",
 	["Thick"] = "Grueso",
@@ -65,9 +65,9 @@ ns.L = {
 	["Adjust the size of the stack count and timer text."] = "Ajustar el tamaño del texto de aplicaciones y tiempo.",
 	["Max Timer Duration"] = "Tiempo máximo",
 	["Adjust the maximum remaining duration, in seconds, to show the timer text for a buff or debuff."] = "Ajustar el máximo de tiempo restante, en segundos, para mostrar el texto de tiempo.",
-	["Buff Sources"] = "Taumaturgos de beneficios",
+	["Buff Casters"] = "Taumaturgos de beneficios",
 	["Show the name of the party or raid member who cast a buff on you in its tooltip."] = "Mostrar el nombre del miembro del grupo o banda que ha aplicado un beneficio a te en su descripción.",
-	["Weapon Buff Sources"] = "Fuentes de encantamientos de arma",
+	["Weapon Buff Sources"] = "Fuentes de encantamientos",
 	["Show weapon buffs as the spell or item that buffed the weapon, instead of the weapon itself."] = "Mostrar los beneficios del arma como el encanto o el artículo que encantaron el arma, en vez del arma sí mismo.",
 	["Lock Frames"] = "Bloquear iconos",
 	["Lock the buff and debuff frames in place, hiding the backdrop and preventing them from being moved."] = "Bloquear las iconos de beneficios y perjuicios, para ocultar el fondo y prevenir el movimiento.",
