@@ -12,17 +12,17 @@ local db
 local defaultDB = {
 	buffColumns = 20,
 	buffSize = 24,
-	buffSpacing = 3,
 
 	debuffColumns = 10,
 	debuffSize = 48,
-	debuffSpacing = 3,
+
+	iconSpacing = 3,
+	maxTimer = 30,
+	growthAnchor = "RIGHT",
 
 	fontFace = "Friz Quadrata TT",
 	fontOutline = "OUTLINE",
 	fontScale = 1,
-
-	growthAnchor = "RIGHT",
 
 	showBuffSources = true,
 	showTempEnchantSources = true,
@@ -90,8 +90,8 @@ local function SetButtonFonts(parent, face, outline)
 	local file = GetFontFile(face)
 
 	local baseSize = parent == PhanxDebuffFrame and db.debuffSize or db.buffSize
-	local scale = db.textScale
-	
+	local scale = db.fontScale
+
 	for i, button in ipairs(parent.buttons) do
 		button.count:SetFont(file, baseSize * scale * 0.7, outline)
 		button.timer:SetFont(file, baseSize * scale * 0.55, outline)
@@ -249,47 +249,22 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 	buffSize:SetPoint("TOPRIGHT", notes, "BOTTOM", -8, -8)
 
 	buffSize.OnValueChanged = function(self, value)
-		value = math.floor((value / 2) + 0.5) * 2
-
 		db.buffSize = value
 		PhanxBuffFrame:UpdateLayout()
 		PhanxTempEnchantFrame:UpdateLayout()
-
-		return value
-	end
-
-	--------------------------------------------------------------------
-
-	local buffSpacing = CreateSlider(self, L["Buff Spacing"], 0, 20, 1)
-	buffSpacing.desc = L["Set the space between buff icons."]
-	buffSpacing:SetPoint("TOPLEFT", buffSize, "BOTTOMLEFT", 0, -12)
-	buffSpacing:SetPoint("TOPRIGHT", buffSize, "BOTTOMRIGHT", 0, -12)
-
-	buffSpacing.OnValueChanged = function(self, value)
-		value = math.floor(value + 0.5)
-
-		db.buffSpacing = value
-		PhanxBuffFrame:UpdateLayout()
-		PhanxTempEnchantFrame:UpdateLayout()
-
-		return value
 	end
 
 	--------------------------------------------------------------------
 
 	local buffColumns = CreateSlider(self, L["Buff Columns"], 1, 40, 1)
 	buffColumns.desc = L["Set the number of buff icons to show on each row."]
-	buffColumns:SetPoint("TOPLEFT", buffSpacing, "BOTTOMLEFT", 0, -12)
-	buffColumns:SetPoint("TOPRIGHT", buffSpacing, "BOTTOMRIGHT", 0, -12)
+	buffColumns:SetPoint("TOPLEFT", buffSize, "BOTTOMLEFT", 0, -12)
+	buffColumns:SetPoint("TOPRIGHT", buffSize, "BOTTOMRIGHT", 0, -12)
 
 	buffColumns.OnValueChanged = function(self, value)
-		value = math.floor(value + 0.5)
-
 		db.buffColumns = value
 		PhanxBuffFrame:UpdateLayout()
 		PhanxTempEnchantFrame:UpdateLayout()
-
-		return value
 	end
 
 	--------------------------------------------------------------------
@@ -300,45 +275,78 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 	debuffSize:SetPoint("TOPRIGHT", buffColumns, "BOTTOMRIGHT", 0, -12)
 
 	debuffSize.OnValueChanged = function(self, value)
-		value = math.floor((value / 2) + 0.5) * 2
-
 		db.debuffSize = value
 		PhanxDebuffFrame:UpdateLayout()
-
-		return value
-	end
-
-	--------------------------------------------------------------------
-
-	local debuffSpacing = CreateSlider(self, L["Debuff Spacing"], 0, 20, 1)
-	debuffSpacing.desc = L["Set the space between debuff icons."]
-	debuffSpacing:SetPoint("TOPLEFT", debuffSize, "BOTTOMLEFT", 0, -12)
-	debuffSpacing:SetPoint("TOPRIGHT", debuffSize, "BOTTOMRIGHT", 0, -12)
-
-	debuffSpacing.OnValueChanged = function(self, value)
-		value = math.floor(value + 0.5)
-
-		db.debuffSpacing = value
-		PhanxDebuffFrame:UpdateLayout()
-
-		return value
 	end
 
 	--------------------------------------------------------------------
 
 	local debuffColumns = CreateSlider(self, L["Debuff Columns"], 1, 40, 1)
 	debuffColumns.desc = L["Set the number of debuff icons to show on each row."]
-	debuffColumns:SetPoint("TOPLEFT", debuffSpacing, "BOTTOMLEFT", 0, -12)
-	debuffColumns:SetPoint("TOPRIGHT", debuffSpacing, "BOTTOMRIGHT", 0, -12)
+	debuffColumns:SetPoint("TOPLEFT", debuffSize, "BOTTOMLEFT", 0, -12)
+	debuffColumns:SetPoint("TOPRIGHT", debuffSize, "BOTTOMRIGHT", 0, -12)
 
 	debuffColumns.OnValueChanged = function(self, value)
-		value = math.floor(value + 0.5)
-
 		db.debuffColumns = value
 		PhanxDebuffFrame:UpdateLayout()
-
-		return value
 	end
+
+	--------------------------------------------------------------------
+
+	local iconSpacing = CreateSlider(self, L["Icon Spacing"], 0, 20, 1)
+	iconSpacing.desc = L["Set the space between icons."]
+	iconSpacing:SetPoint("TOPLEFT", debuffColumns, "BOTTOMLEFT", 0, -12)
+	iconSpacing:SetPoint("TOPRIGHT", debuffColumns, "BOTTOMRIGHT", 0, -12)
+
+	iconSpacing.OnValueChanged = function(self, value)
+		db.iconSpacing = value
+		PhanxBuffFrame:UpdateLayout()
+		PhanxDebuffFrame:UpdateLayout()
+		PhanxTempEnchantFrame:UpdateLayout()
+	end
+
+	--------------------------------------------------------------------
+
+	local anchors = {
+		["LEFT"] = L["Left"],
+		["RIGHT"] = L["Right"],
+	}
+
+	local growthAnchor
+	do
+		local function OnClick(self)
+			local value = self.value
+
+			db.growthAnchor = value
+
+			PhanxBuffFrame:UpdateLayout()
+			PhanxDebuffFrame:UpdateLayout()
+			PhanxTempEnchantFrame:UpdateLayout()
+
+			growthAnchor:SetValue(self.value, self.text)
+		end
+
+		local info = { } -- UIDropDownMenu_CreateInfo()
+
+		growthAnchor = CreateDropdown(self, L["Growth Anchor"], function()
+			local selected = db.growthAnchor
+
+			info.text = L["Right"]
+			info.value = "RIGHT"
+			info.func = OnClick
+			info.checked = "RIGHT" == selected
+			UIDropDownMenu_AddButton(info)
+
+			info.text = L["Left"]
+			info.value = "LEFT"
+			info.func = OnClick
+			info.checked = "LEFT" == selected
+			UIDropDownMenu_AddButton(info)
+		end)
+	end
+	growthAnchor.desc = L["Set the side of the screen from which buffs and debuffs grow."]
+	growthAnchor:SetPoint("TOPLEFT", iconSpacing, "BOTTOMLEFT", 0, -12)
+	growthAnchor:SetPoint("TOPRIGHT", iconSpacing, "BOTTOMRIGHT", 0, -12)
 
 	--------------------------------------------------------------------
 
@@ -452,70 +460,38 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 
 	--------------------------------------------------------------------
 
-	local fontScale = CreateSlider( self, L["Text Scale"], 0.5, 2, 0.25, true,
+	local fontScale = CreateSlider( self, L["Text Size"], 0.5, 1.5, 0.1, true,
 		L["Adjust the size of the stack count and timer text."] )
 	fontScale:SetPoint( "TOPLEFT", fontOutline, "BOTTOMLEFT", 0, -12 )
 	fontScale:SetPoint( "TOPRIGHT", fontOutline, "BOTTOMRIGHT", 0, -12 )
-	fontScale.OnValueChanged = function( self, value )
-		value = floor( value * 100 / 25 ) * 25 / 100
 
+	fontScale.OnValueChanged = function( self, value )
 		db.fontScale = value
 
 		PhanxBuffFrame:UpdateLayout()
 		PhanxDebuffFrame:UpdateLayout()
 		PhanxTempEnchantFrame:UpdateLayout()
-		
-		return value
 	end
 
 	--------------------------------------------------------------------
 
-	local anchors = {
-		["LEFT"] = L["Left"],
-		["RIGHT"] = L["Right"],
-	}
+	local maxTimer = CreateSlider(self, L["Max Timer Duration"], 0, 600, 30)
+	maxTimer.desc = L["Show the timer text only when the buff or debuff's remaining duration is less than this many seconds."]
+	maxTimer:SetPoint("TOPLEFT", fontScale, "BOTTOMLEFT", 0, -12)
+	maxTimer:SetPoint("TOPRIGHT", fontScale, "BOTTOMRIGHT", 0, -12)
 
-	local growthAnchor
-	do
-		local function OnClick(self)
-			local value = self.value
-
-			db.growthAnchor = value
-
-			PhanxBuffFrame:UpdateLayout()
-			PhanxDebuffFrame:UpdateLayout()
-			PhanxTempEnchantFrame:UpdateLayout()
-
-			growthAnchor:SetValue(self.value, self.text)
-		end
-
-		local info = { } -- UIDropDownMenu_CreateInfo()
-
-		growthAnchor = CreateDropdown(self, L["Growth Anchor"], function()
-			local selected = db.growthAnchor
-
-			info.text = L["Right"]
-			info.value = "RIGHT"
-			info.func = OnClick
-			info.checked = "RIGHT" == selected
-			UIDropDownMenu_AddButton(info)
-
-			info.text = L["Left"]
-			info.value = "LEFT"
-			info.func = OnClick
-			info.checked = "LEFT" == selected
-			UIDropDownMenu_AddButton(info)
-		end)
+	maxTimer.OnValueChanged = function(self, value)
+		db.maxTimer = value
+		PhanxBuffFrame:UpdateLayout()
+		PhanxDebuffFrame:UpdateLayout()
+		PhanxTempEnchantFrame:UpdateLayout()
 	end
-	growthAnchor.desc = L["Set the side of the screen from which buffs and debuffs grow."]
-	growthAnchor:SetPoint("TOPLEFT", fontScale, "BOTTOMLEFT", 0, -12)
-	growthAnchor:SetPoint("TOPRIGHT", fontScale, "BOTTOMRIGHT", 0, -12)
 
 	--------------------------------------------------------------------
 
-	local showBuffSources = CreateCheckbox(self, L["Buff Sources"])
+	local showBuffSources = CreateCheckbox(self, L["Buff Casters"])
 	showBuffSources.desc = L["Show the name of the party or raid member who cast a buff on you in its tooltip."]
-	showBuffSources:SetPoint("TOPLEFT", growthAnchor, "BOTTOMLEFT", 0, -12)
+	showBuffSources:SetPoint("TOPLEFT", maxTimer, "BOTTOMLEFT", 0, -12)
 
 	showBuffSources.OnClick = function(self, checked)
 		db.showBuffSources = checked
@@ -603,15 +579,16 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 
 	self.refresh = function()
 		buffSize:SetValue(db.buffSize)
-		buffSpacing:SetValue(db.buffSpacing)
-		buffColumns:SetValue(db.buffSpacing)
+		buffColumns:SetValue(db.buffColumns)
 		debuffSize:SetValue(db.debuffSize)
-		debuffSpacing:SetValue(db.debuffSpacing)
 		debuffColumns:SetValue(db.debuffColumns)
+		iconSpacing:SetValue(db.iconSpacing)
+		growthAnchor:SetValue(db.growthAnchor, anchors[db.growthAnchor])
+
 		fontFace:SetValue(db.fontFace)
 		fontOutline:SetValue(db.fontOutline, outlines[db.fontOutline])
 		fontScale:SetValue(db.fontScale)
-		growthAnchor:SetValue(db.growthAnchor, anchors[db.growthAnchor])
+		maxTimer:SetValue(db.maxTimer)
 		showBuffSources:SetChecked(db.showBuffSources)
 		showTempEnchantSources:SetChecked(db.showTempEnchantSources)
 	end
