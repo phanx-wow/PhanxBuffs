@@ -244,7 +244,7 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 	--------------------------------------------------------------------
 
 	local buffSize = CreateSlider(self, L["Buff Size"], 10, 60, 2)
-	buffSize.desc = L["Set the size of each buff icon."]
+	buffSize.desc = L["Adjust the size of each buff icon."]
 	buffSize:SetPoint("TOPLEFT", notes, "BOTTOMLEFT", -4, -8)
 	buffSize:SetPoint("TOPRIGHT", notes, "BOTTOM", -8, -8)
 
@@ -257,7 +257,7 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 	--------------------------------------------------------------------
 
 	local buffColumns = CreateSlider(self, L["Buff Columns"], 1, 40, 1)
-	buffColumns.desc = L["Set the number of buff icons to show on each row."]
+	buffColumns.desc = L["Adjust the number of buff icons to show on each row."]
 	buffColumns:SetPoint("TOPLEFT", buffSize, "BOTTOMLEFT", 0, -12)
 	buffColumns:SetPoint("TOPRIGHT", buffSize, "BOTTOMRIGHT", 0, -12)
 
@@ -270,7 +270,7 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 	--------------------------------------------------------------------
 
 	local debuffSize = CreateSlider(self, L["Debuff Size"], 10, 60, 2)
-	debuffSize.desc = L["Set the size of each debuff icon."]
+	debuffSize.desc = L["Adjust the size of each debuff icon."]
 	debuffSize:SetPoint("TOPLEFT", buffColumns, "BOTTOMLEFT", 0, -12)
 	debuffSize:SetPoint("TOPRIGHT", buffColumns, "BOTTOMRIGHT", 0, -12)
 
@@ -282,7 +282,7 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 	--------------------------------------------------------------------
 
 	local debuffColumns = CreateSlider(self, L["Debuff Columns"], 1, 40, 1)
-	debuffColumns.desc = L["Set the number of debuff icons to show on each row."]
+	debuffColumns.desc = L["Adjust the number of debuff icons to show on each row."]
 	debuffColumns:SetPoint("TOPLEFT", debuffSize, "BOTTOMLEFT", 0, -12)
 	debuffColumns:SetPoint("TOPRIGHT", debuffSize, "BOTTOMRIGHT", 0, -12)
 
@@ -294,7 +294,7 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 	--------------------------------------------------------------------
 
 	local iconSpacing = CreateSlider(self, L["Icon Spacing"], 0, 20, 1)
-	iconSpacing.desc = L["Set the space between icons."]
+	iconSpacing.desc = L["Adjust the space between icons."]
 	iconSpacing:SetPoint("TOPLEFT", debuffColumns, "BOTTOMLEFT", 0, -12)
 	iconSpacing:SetPoint("TOPRIGHT", debuffColumns, "BOTTOMRIGHT", 0, -12)
 
@@ -351,7 +351,7 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 	--------------------------------------------------------------------
 
 	local fontFace = CreateScrollingDropdown(self, L["Typeface"], fonts)
-	fontFace.desc = L["Set the typeface for stack count and timer text."]
+	fontFace.desc = L["Set the typeface for the stack count and timer text."]
 	fontFace:SetPoint("TOPLEFT", notes, "BOTTOM", 8, -8)
 	fontFace:SetPoint("TOPRIGHT", notes, "BOTTOMRIGHT", 0, -8)
 
@@ -454,7 +454,7 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 			UIDropDownMenu_AddButton(info)
 		end)
 	end
-	fontOutline.desc = L["Set the outline weight for stack count and timer text."]
+	fontOutline.desc = L["Set the outline weight for the stack count and timer text."]
 	fontOutline:SetPoint("TOPLEFT", fontFace, "BOTTOMLEFT", 0, -12)
 	fontOutline:SetPoint("TOPRIGHT", fontFace, "BOTTOMRIGHT", 0, -12)
 
@@ -476,7 +476,7 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 	--------------------------------------------------------------------
 
 	local maxTimer = CreateSlider(self, L["Max Timer Duration"], 0, 600, 30)
-	maxTimer.desc = L["Show the timer text only when the buff or debuff's remaining duration is less than this many seconds."]
+	maxTimer.desc = L["Adjust the maximum remaining duration, in seconds, to show the timer text for a buff or debuff."]
 	maxTimer:SetPoint("TOPLEFT", fontScale, "BOTTOMLEFT", 0, -12)
 	maxTimer:SetPoint("TOPRIGHT", fontScale, "BOTTOMRIGHT", 0, -12)
 
