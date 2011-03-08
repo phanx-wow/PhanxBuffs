@@ -140,7 +140,7 @@ PhanxDebuffFrame.buttons = buttons
 function PhanxDebuffFrame:UpdateLayout()
 	local anchor = db.growthAnchor
 	local size = db.debuffSize
-	local spacing = db.debuffSpacing
+	local spacing = db.iconSpacing
 	local cols = db.debuffColumns
 
 	local fontFace = GetFontFile(db.fontFace)
@@ -159,9 +159,9 @@ function PhanxDebuffFrame:UpdateLayout()
 		button:SetHeight(size)
 		button:SetPoint("TOP" .. anchor, self, "TOP" .. anchor, x, -y)
 		
-		button.count:SetFont(fontFace, size * 0.7, fontOutline)
-		button.timer:SetFont(fontFace, size * 0.55, fontOutline)
-		button.symbol:SetFont(fontFace, size * 0.7, fontOutline)
+		button.count:SetFont(fontFace, 16 * fontScale, fontOutline)
+		button.timer:SetFont(fontFace, 14 * fontScale, fontOutline)
+		button.symbol:SetFont(fontFace, 14 * fontScale, fontOutline)
 	end
 
 	self:ClearAllPoints()
@@ -302,9 +302,9 @@ timerGroup:SetScript("OnFinished", function(self, requested)
 		PhanxDebuffFrame:Update()
 		dirty = false
 	end
+	local max = db.maxTimer
 	for i, button in ipairs(buttons) do
 		if not button:IsShown() then break end
-
 		local debuff = debuffs[button:GetID()]
 		if debuff then
 			if debuff.expires > 0 then
@@ -313,8 +313,14 @@ timerGroup:SetScript("OnFinished", function(self, requested)
 					-- bugged out, kill it
 					remTable( table.remove(debuffs, button:GetID()) )
 					dirty = true
-				elseif remaining <= 30.5 then
-					button.timer:SetText( math.floor(remaining + 0.5) )
+				elseif remaining <= max then
+					if remaining > 3600 then
+						button.timer:SetFormattedText( HOUR_ONELETTER_ABBR, math.floor( ( remaining / 60 ) + 0.5 ) )
+					elseif remaining > 60 then
+						button.timer:SetFormattedText( MINUTE_ONELETTER_ABBR, math.floor( ( remaining / 60 ) + 0.5 ) )
+					else
+						button.timer:SetText( math.floor( remaining + 0.5 ) )
+					end
 				else
 					button.timer:SetText()
 				end
