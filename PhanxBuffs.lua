@@ -88,15 +88,13 @@ local function SetButtonFonts(parent, face, outline)
 	if not outline then outline = db.fontOutline end
 
 	local file = GetFontFile(face)
-
-	local baseSize = parent == PhanxDebuffFrame and db.debuffSize or db.buffSize
 	local scale = db.fontScale
 
 	for i, button in ipairs(parent.buttons) do
-		button.count:SetFont(file, baseSize * scale * 0.7, outline)
-		button.timer:SetFont(file, baseSize * scale * 0.55, outline)
+		button.count:SetFont(file, 18 * scale, outline)
+		button.timer:SetFont(file, 14 * scale, outline)
 		if button.symbol then
-			button.symbol:SetFont(file, baseSize * scale * 0.7, outline)
+			button.symbol:SetFont(file, 16 * scale, outline)
 		end
 	end
 end
@@ -427,7 +425,7 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 			SetButtonFonts(PhanxDebuffFrame, nil, value)
 			SetButtonFonts(PhanxTempEnchantFrame, nil, value)
 
-			fontOutline:SetValue(self.value, self.text)
+			fontOutline:SetValue(value, outlines[value])
 		end
 
 		local info = { } -- UIDropDownMenu_CreateInfo()

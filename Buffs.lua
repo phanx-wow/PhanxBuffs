@@ -99,9 +99,11 @@ local buttons = setmetatable({ }, { __index = function(t, i)
 
 	button.count = button:CreateFontString(nil, "OVERLAY")
     button.count:SetPoint("CENTER", button, "TOP")
+    button.count:SetShadowOffset(1, -1)
 
 	button.timer = button:CreateFontString(nil, "OVERLAY")
 	button.timer:SetPoint("TOP", button, "BOTTOM")
+    button.timer:SetShadowOffset(1, -1)
 
 	if PhanxBorder then
 		PhanxBorder.AddBorder(button)
@@ -145,7 +147,7 @@ function PhanxBuffFrame:UpdateLayout()
 		button:SetHeight(size)
 		button:SetPoint("TOP" .. anchor, self, "TOP" .. anchor, x, -y)
 
-		button.count:SetFont(fontFace, 16 * fontScale, fontOutline)
+		button.count:SetFont(fontFace, 18 * fontScale, fontOutline)
 		button.timer:SetFont(fontFace, 14 * fontScale, fontOutline)
 	end
 
