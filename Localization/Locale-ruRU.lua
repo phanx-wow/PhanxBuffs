@@ -17,15 +17,15 @@ ns.L = {
 
 -- Shaman weapon enchant keywords
 
-	["Earthliving"] = "Жизнь Земли",
-	["Flametongue"] = "Язык пламени",
-	["Frostbrand"] = "Ледяное клеймо",
-	["Rockbiter"] = "Камнедробителя", -- needs check
-	["Windfury"] = "Неистовство ветра",
+	["Earthliving"] = "[Жж]изн[ьи] [Зз]емли",
+	["Flametongue"] = "[Яя]зыка? пламени",
+	["Frostbrand"] = "[Лл]едяно[ег]о? клейм[оа]",
+	["Rockbiter"] = "[Кк]амнедробител[яь]",
+	["Windfury"] = "[Нн]еистовств[ао] ветра",
 
 -- Rogue weapon enchant keywords
 
-	["Anesthetic Poison"] = "Анестезирующий яд",
+	["Anesthetic Poison"] = "Анестезирующий яд", -- Removed in Cataclysm
 	["Crippling Poison"] = "Калечащий яд",
 	["Deadly Poison"] = "Смертельный яд",
 	["Instant Poison"] = "Быстродействующий яд",
@@ -34,8 +34,8 @@ ns.L = {
 
 -- Warlock weapon enchant keywords
 
-	["Firestone"] = "камень огня",
-	["Spellstone"] = "камень чар",
+	["Firestone"] = "камень огня", -- Removed in Cataclysm
+	["Spellstone"] = "камень чар", -- Removed in Cataclysm
 
 -- Configuration panel
 

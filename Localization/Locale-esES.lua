@@ -20,12 +20,12 @@ ns.L = {
 	["Earthliving"] = "Vida terrestre",
 	["Flametongue"] = "Lengua de Fuego",
 	["Frostbrand"] = "Estigma de Escarcha",
-	["Rockbiter"] = "Muerdepiedras", -- needs check
+	["Rockbiter"] = "Muerdepiedras",
 	["Windfury"] = "Viento Furioso",
 
 -- Rogue weapon enchant keywords
 
-	["Anesthetic Poison"] = "Veneno anestésico",
+	["Anesthetic Poison"] = "Veneno anestésico", -- Removed in Cataclysm
 	["Crippling Poison"] = "Veneno entorpecedor",
 	["Deadly Poison"] = "Veneno mortal",
 	["Instant Poison"] = "Veneno instantáneo",
@@ -34,8 +34,8 @@ ns.L = {
 
 -- Warlock weapon enchant keywords
 
-	["Firestone"] = "Piedra de fuego",
-	["Spellstone"] = "Piedra de hechizo",
+	["Firestone"] = "Piedra de fuego", -- Removed in Cataclysm
+	["Spellstone"] = "Piedra de hechizo", -- Removed in Cataclysm
 
 -- Configuration panel text
 
