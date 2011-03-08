@@ -10,7 +10,7 @@
 ## X-Copyright: Copyright © 2010–2011 Phanx
 ## X-License: Some rights reserved. See LICENSE.txt for details.
 ## X-CompatibleLocales: deDE, enUS, esES, esMX, frFR, koKR, ruRU, zhCN, zhTW
-## X-Localizations: enUS, esES, esMX, frFR, koKR, zhTW
+## X-Localizations: enUS, esES, esMX, frFR, koKR, ruRU, zhTW
 ## X-Website: http://www.wowinterface.com/downloads/info16874-PhanxBuffs.html
 ## X-Curse-Project-ID: phanxbuffs
 ## X-WoWI-ID: 16874
