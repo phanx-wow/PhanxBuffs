@@ -120,14 +120,6 @@ PhanxBuffFrame.buttons = buttons
 ------------------------------------------------------------------------
 
 function PhanxBuffFrame:UpdateLayout()
-	local tempEnchants = 0
-
-	for _, button in ipairs(PhanxTempEnchantFrame.buttons) do
-		if button:IsShown() then
-			tempEnchants = tempEnchants + 1
-		end
-	end
-
 	local anchor = db.growthAnchor
 	local size = db.buffSize
 	local spacing = db.iconSpacing
@@ -138,8 +130,9 @@ function PhanxBuffFrame:UpdateLayout()
 	local fontScale = db.fontScale
 	local fontOutline = db.fontOutline
 
+	local numEnchants = PhanxTempEnchantFrame.numEnchants or 0
 	for i, button in ipairs(buttons) do
-		local j = i + tempEnchants
+		local j = i + numEnchants
 
 		local col = (j - 1) % cols
 		local row = math.ceil(j / cols) - 1
