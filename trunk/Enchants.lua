@@ -13,6 +13,7 @@ local PhanxTempEnchantFrame = CreateFrame("Frame", "PhanxTempEnchantFrame", UIPa
 local db
 
 local enchants = { }
+local playerClass = select(2, UnitClass("player"))
 local dirty, bagsDirty, spellsDirty, inVehicle
 
 local MAIN_HAND_SLOT = GetInventorySlotInfo("MainHandSlot")
@@ -145,7 +146,7 @@ function PhanxTempEnchantFrame:UpdateLayout()
 
 	self:ClearAllPoints()
 	self:SetPoint("TOP" .. anchor, PhanxBuffFrame, "TOP" .. anchor, 0, 0)
-	self:SetWidth((db.buffSize * 2) + db.buffSpacing)
+	self:SetWidth((db.buffSize * (playerClass == "ROGUE" and 3 or 2)) + db.buffSpacing)
 	self:SetHeight(db.buffSize)
 end
 
@@ -193,7 +194,7 @@ local function FindTempEnchantSpell(findString)
 end
 
 local tempEnchantKeywords
-if select(2, UnitClass("player")) == "SHAMAN" then
+if playerClass == "SHAMAN" then
 	tempEnchantKeywords = {
 		[L["Earthliving"]] = GetSpellInfo(51730),
 		[L["Flametongue"]] = GetSpellInfo(8024),
@@ -201,7 +202,7 @@ if select(2, UnitClass("player")) == "SHAMAN" then
 		[L["Rockbiter"]]   = GetSpellInfo(8017),
 		[L["Windfury"]]    = GetSpellInfo(8232),
 	}
-elseif select(2, UnitClass("player")) == "ROGUE" then
+elseif playerClass == "ROGUE" then
 	tempEnchantKeywords = {
 		[L["Anesthetic Poison"]] = true,
 		[L["Crippling Poison"]] = true,
@@ -210,7 +211,7 @@ elseif select(2, UnitClass("player")) == "ROGUE" then
 		[L["Mind-Numbing Poison"]] = true,
 		[L["Wound Poison"]] = true,
 	}
-elseif select(2, UnitClass("player")) == "WARLOCK" then
+elseif playerClass == "WARLOCK" then
 	tempEnchantKeywords = {
 		[L["Firestone"]] = true,
 		[L["Spellstone"]] = true,
@@ -238,12 +239,15 @@ end
 ------------------------------------------------------------------------
 
 function PhanxTempEnchantFrame:Update()
-	local hasMainHandEnchant, mainHandExpiration, mainHandCharges, hasOffHandEnchant, offHandExpiration, offHandCharges = GetWeaponEnchantInfo()
+	local mainHandEnchant, mainHandExpiration, mainHandCharges,
+		offHandEnchant, offHandExpiration, offHandCharges,
+		thrownEnchant, thrownExpiration, thrownCharges = GetWeaponEnchantInfo()
 
 	local numEnchants = 0
 
-	if hasMainHandEnchant then
-		local b = buttons[1]
+	if mainHandEnchant then
+		numEnchants = numEnchants + 1
+		local b = buttons[numEnchants]
 
 		b.expires = GetTime() + (mainHandExpiration / 1000)
 		b.icon:SetTexture(GetInventoryItemTexture("player", MAIN_HAND_SLOT))
@@ -265,12 +269,11 @@ function PhanxTempEnchantFrame:Update()
 		b.count:SetText(mainHandCharges > 0 and mainHandCharges or nil)
 		b:SetID(MAIN_HAND_SLOT)
 		b:Show()
-
-		numEnchants = numEnchants + 1
 	end
 
-	if hasOffHandEnchant then
-		local b = buttons[hasMainHandEnchant and 2 or 1]
+	if offHandEnchant then
+		numEnchants = numEnchants + 1
+		local b = buttons[numEnchants]
 
 		b.expires = GetTime() + (offHandExpiration / 1000)
 		b.icon:SetTexture(GetInventoryItemTexture("player", OFF_HAND_SLOT))
@@ -292,8 +295,32 @@ function PhanxTempEnchantFrame:Update()
 		b.count:SetText(offHandCharges > 0 and offHandCharges or nil)
 		b:SetID(OFF_HAND_SLOT)
 		b:Show()
+	end
 
+	if thrownEnchant then
 		numEnchants = numEnchants + 1
+		local b = buttons[numEnchants]
+
+		b.expires = GetTime() + (thrownExpiration / 1000)
+		b.icon:SetTexture(GetInventoryItemTexture("player", THROWN_SLOT))
+
+		b.arg1, b.arg2 = nil, nil
+		if tempEnchantKeywords and db.showTempEnchantSources then
+			self.tooltip:SetInventoryItem("player", THROWN_SLOT)
+			local tempEnchantString, tempEnchantFindFunc = FindTempEnchantString()
+			if tempEnchantString then
+				local icon, arg1, arg2 = tempEnchantFindFunc(tempEnchantString)
+				if icon and icon ~= "" then
+					b.icon:SetTexture(icon)
+					b.arg1 = arg1
+					b.arg2 = arg2
+				end
+			end
+		end
+
+		b.count:SetText(thrownCharges > 1 and thrownCharges or nil)
+		b:SetID(THROWN_SLOT)
+		b:Show()
 	end
 
 	if #buttons > numEnchants then
@@ -306,6 +333,7 @@ function PhanxTempEnchantFrame:Update()
 		end
 	end
 
+	self.numEnchants = numEnchants
 	PhanxBuffFrame:UpdateLayout()
 end
 
