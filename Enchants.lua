@@ -146,7 +146,7 @@ function PhanxTempEnchantFrame:UpdateLayout()
 
 	self:ClearAllPoints()
 	self:SetPoint("TOP" .. anchor, PhanxBuffFrame, "TOP" .. anchor, 0, 0)
-	self:SetWidth((db.buffSize * (playerClass == "ROGUE" and 3 or 2)) + db.buffSpacing)
+	self:SetWidth((db.buffSize * (playerClass == "ROGUE" and 3 or 2)) + spacing)
 	self:SetHeight(db.buffSize)
 end
 
