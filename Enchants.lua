@@ -50,9 +50,9 @@ local function button_OnEnter(self)
 	end
 	if remaining then
 		if remaining > 59 then
-			GameTooltip:AddLine(L["%d minutes remaining"]:format(math.floor((remaining / 60) + 0.5)))
+			GameTooltip:AddLine(L["%d minutes remaining"]:format(floor((remaining / 60) + 0.5)))
 		else
-			GameTooltip:AddLine(L["%d seconds remaining"]:format(math.floor(remaining + 0.5)))
+			GameTooltip:AddLine(L["%d seconds remaining"]:format(floor(remaining + 0.5)))
 		end
 		GameTooltip:Show()
 	end
@@ -302,11 +302,11 @@ function PhanxTempEnchantFrame:Update()
 		local b = buttons[numEnchants]
 
 		b.expires = GetTime() + (thrownExpiration / 1000)
-		b.icon:SetTexture(GetInventoryItemTexture("player", THROWN_SLOT))
+		b.icon:SetTexture(GetInventoryItemTexture("player", RANGED_SLOT))
 
 		b.arg1, b.arg2 = nil, nil
 		if tempEnchantKeywords and db.showTempEnchantSources then
-			self.tooltip:SetInventoryItem("player", THROWN_SLOT)
+			self.tooltip:SetInventoryItem("player", RANGED_SLOT)
 			local tempEnchantString, tempEnchantFindFunc = FindTempEnchantString()
 			if tempEnchantString then
 				local icon, arg1, arg2 = tempEnchantFindFunc(tempEnchantString)
@@ -319,7 +319,7 @@ function PhanxTempEnchantFrame:Update()
 		end
 
 		b.count:SetText(thrownCharges > 1 and thrownCharges or nil)
-		b:SetID(THROWN_SLOT)
+		b:SetID(RANGED_SLOT)
 		b:Show()
 	end
 
@@ -357,11 +357,11 @@ timerGroup:SetScript("OnFinished", function(self, requested)
 				dirty = true
 			elseif remaining <= db.maxTimer then
 				if remaining > 3600 then
-					button.timer:SetFormattedText( HOUR_ONELETTER_ABBR, math.floor( ( remaining / 60 ) + 0.5 ) )
+					button.timer:SetFormattedText( HOUR_ONELETTER_ABBR, floor( ( remaining / 60 ) + 0.5 ) )
 				elseif remaining > 60 then
-					button.timer:SetFormattedText( MINUTE_ONELETTER_ABBR, math.floor( ( remaining / 60 ) + 0.5 ) )
+					button.timer:SetFormattedText( MINUTE_ONELETTER_ABBR, floor( ( remaining / 60 ) + 0.5 ) )
 				else
-					button.timer:SetText( math.floor( remaining + 0.5 ) )
+					button.timer:SetText( floor( remaining + 0.5 ) )
 				end
 			else
 				button.timer:SetText()

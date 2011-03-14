@@ -293,11 +293,11 @@ timerGroup:SetScript("OnFinished", function(self, requested)
 					dirty = true
 				elseif remaining <= max then
 					if remaining > 3600 then
-						button.timer:SetFormattedText( HOUR_ONELETTER_ABBR, math.floor( ( remaining / 60 ) + 0.5 ) )
+						button.timer:SetFormattedText( HOUR_ONELETTER_ABBR, floor( ( remaining / 60 ) + 0.5 ) )
 					elseif remaining > 60 then
-						button.timer:SetFormattedText( MINUTE_ONELETTER_ABBR, math.floor( ( remaining / 60 ) + 0.5 ) )
+						button.timer:SetFormattedText( MINUTE_ONELETTER_ABBR, floor( ( remaining / 60 ) + 0.5 ) )
 					else
-						button.timer:SetText( math.floor( remaining + 0.5 ) )
+						button.timer:SetText( floor( remaining + 0.5 ) )
 					end
 				else
 					button.timer:SetText()
