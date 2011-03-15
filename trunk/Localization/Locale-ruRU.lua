@@ -8,7 +8,7 @@
 	http://wow.curse.com/downloads/wow-addons/details/phanxbuffs.aspx
 ------------------------------------------------------------------------
 	Russian Localization (Русский)
-	Last updated YYYY-MM-DD by YourName
+	Last updated 2011-03-14 by Akkorian
 ----------------------------------------------------------------------]]
 
 if GetLocale() ~= "ruRU" then return end
@@ -39,7 +39,7 @@ ns.L = {
 
 -- Configuration panel
 
---	["Use this panel to adjust some basic settings for buff, debuff, and weapon buff icons."] = "",
+	["Use this panel to adjust some basic settings for buff, debuff, and weapon buff icons."] = "Эти настройки позволяют настроить значков для положительных и отрицательных эффектов, и чар, связанных с оружием.",
 	["Buff Size"] = "Размер пол. эффектов",
 	["Adjust the size of each buff icon."] = "Настроить размера значков положительного эффекта.",
 	["Buff Columns"] = "Столбцов пол. эффектов",
@@ -55,7 +55,7 @@ ns.L = {
 	["Left"] = "Слева",
 	["Right"] = "Справа",
 	["Typeface"] = "Шрифт",
---	["Set the typeface for the stack count and timer text."] = "",
+	["Set the typeface for the stack count and timer text."] = "Настроить шрифт для имя и заряд счетчиков.",
 	["Text Outline"] = "Контур шрифта",
 	["Set the outline weight for the stack count and timer text."] = "Настроить контура шрифта.",
 	["None"] = "Нету",
@@ -63,14 +63,14 @@ ns.L = {
 	["Thick"] = "Толстый",
 	["Text Size"] = "Размер шрифта",
 	["Adjust the size of the stack count and timer text."] = "Настроить размера шрифта.",
---	["Max Timer Duration"] = "",
---	["Adjust the maximum remaining duration, in seconds, to show the timer text for a buff or debuff."] = "",
---	["Buff Sources"] = "",
---	["Show the name of the party or raid member who cast a buff on you in its tooltip."] = "",
---	["Weapon Buff Sources"] = "",
---	["Show weapon buffs as the spell or item that buffed the weapon, instead of the weapon itself."] = "",
-	["Lock Frames"] = "Закрепить значки",
---	["Lock the buff and debuff frames in place, hiding the backdrop and preventing them from being moved."] = "",
+	["Max Timer Duration"] = "Максимальное время",
+	["Adjust the maximum remaining duration, in seconds, to show the timer text for a buff or debuff."] = "Установите максимальное количество времени в секундах, чтобы показать отметчик времени для эффект.",
+	["Buff Sources"] = "Источники эффекты",
+	["Show the name of the party or raid member who cast a buff on you in its tooltip."] = "Показать имя персонажа который наложил положительный эффект на вас во всплывающих подсказках.",
+	["Weapon Buff Sources"] = "Источники чарами",
+	["Show weapon buffs as the spell or item that buffed the weapon, instead of the weapon itself."] = "Отображать чары, связанных с оружием, а не оружия.",
+	["Lock Frames"] = "Заблокировать значки",
+	["Lock the buff and debuff frames in place, hiding the backdrop and preventing them from being moved."] = "Заблокировать значки, предотвращение перемещения и скрытия фона.",
 
 	["Cast by %s"] = "Наносится %s",
 
