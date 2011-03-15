@@ -1,10 +1,11 @@
 ## Interface: 40000
-## Version: 4.0.6.wowi:revision-beta
+## Version: 4.1.0.wowi:revision-beta
 
 ## Title: PhanxBuffs
 ## Notes: Basic replacement for player buff, debuff, and temporary enchant frames.
 ## Notes-esES: Sustitutos básicos de los iconos de beneficios, perjuicios, y beneficios de armas del jugador.
 ## Notes-esMX: Sustitutos básicos de los iconos de beneficios, perjuicios, y beneficios de armas del jugador.
+## Notes-ruRU: Заменить стандартные значков для положительных и отрицательных эффектов, и чары, связанных с оружием.
 ## Author: Phanx, Akkorian
 ## X-Email: akkorian@hotmail.com
 ## X-Copyright: Copyright © 2010–2011 Phanx
