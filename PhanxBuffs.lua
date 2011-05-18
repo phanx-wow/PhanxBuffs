@@ -607,12 +607,12 @@ SlashCmdList.PHANXBUFFS = function(input)
 
 	if arg and arg ~= "" then
 		if cmd == L["buff"] then
-			local ignoring = not PhanxBuffsIgnoreDB.buffs[name] and true or nil
+			local ignoring = not PhanxBuffsIgnoreDB.buffs[arg] and true or nil
 			PhanxBuffsIgnoreDB.buffs[arg] = ignoring
 			print("|cffffcc00PhanxBuffs:|r", string.format(ignoring and L["Now ignoring buff: %s."] or L["No longer ignoring buff: %s."], arg))
 			return PhanxBuffFrame:Update()
 		elseif cmd == L["debuff"] then
-			local ignoring = not PhanxBuffsIgnoreDB.debuffs[name] and true or nil
+			local ignoring = not PhanxBuffsIgnoreDB.debuffs[arg] and true or nil
 			PhanxBuffsIgnoreDB.debuffs[arg] = ignoring
 			print("|cffffcc00PhanxBuffs:|r", string.format(ignoring and L["Now ignoring debuff: %s."] or L["No longer ignoring debuff: %s."], arg))
 			return PhanxDebuffFrame:Update()
