@@ -20,7 +20,7 @@ local _, ns = ...
 local GetFontFile = ns.GetFontFile
 
 local L = ns.L
-L["Cast by |cff%02x%02x%02x%s|r"] = L["Cast by %s"]:replace("%s", "|cff%02x%02x%02x%s|r")
+L["Cast by |cff%02x%02x%02x%s|r"] = L["Cast by %s"]:gsub( "%%s", "|cff%%02x%%02x%%02x%%s|r" )
 
 local MAX_BUFFS = 40
 
