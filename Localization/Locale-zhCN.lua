@@ -8,7 +8,7 @@
 	http://wow.curse.com/downloads/wow-addons/details/phanxbuffs.aspx
 ------------------------------------------------------------------------
 	Simplified Chinese Localization (简体中文)
-	Last updated YYYY-MM-DD by YourName
+	Last updated 2011-10-20 by wowuicn
 ----------------------------------------------------------------------]]
 
 if GetLocale() ~= "zhCN" then return end
@@ -34,19 +34,19 @@ ns.L = {
 -- Configuration panel
 
 --	["Use this panel to adjust some basic settings for buff, debuff, and weapon buff icons."] = "",
---	["Buff Size"] = "",
+	["Buff Size"] = "Buff 大小",
 --	["Adjust the size of each buff icon."] = "",
---	["Buff Columns"] = "",
+	["Buff Columns"] = "Buff 栏",
 --	["Adjust the number of buff icons to show on each row."] = "",
---	["Debuff Size"] = "",
+	["Debuff Size"] = "Debuff 大小",
 --	["Adjust the size of each debuff icon."] = "",
---	["Debuff Columns"] = "",
+	["Debuff Columns"] = "Debuff 栏",
 --	["Adjust the number of debuff icons to show on each row."] = "",
 --	["Icon Spacing"] = "",
 --	["Adjust the space between icons."] = "",
---	["Growth Anchor"] = "",
+	["Growth Anchor"] = "增长锚点",
 --	["Set the side of the screen from which buffs and debuffs grow."] = "",
---	["Left"] = "",
+	["Left"] = "左侧",
 --	["Right"] = "",
 --	["Typeface"] = "",
 --	["Set the typeface for the stack count and timer text."] = "",
@@ -59,14 +59,14 @@ ns.L = {
 --	["Adjust the size of the stack count and timer text."] = ""
 --	["Max Timer Duration"] = "",
 --	["Adjust the maximum remaining duration, in seconds, to show the timer text for a buff or debuff."] = "",
---	["Buff Sources"] = "",
+	["Buff Sources"] = "Buff 来源",
 --	["Show the name of the party or raid member who cast a buff on you in its tooltip."] = "",
 --	["Weapon Buff Sources"] = "",
 --	["Show weapon buffs as the spell or item that buffed the weapon, instead of the weapon itself."] = "",
---	["Lock Frames"] = "",
+	["Lock Frames"] = "锁定框体",
 --	["Lock the buff and debuff frames in place, hiding the backdrop and preventing them from being moved."] = "",
 
---	["Cast by %s"] = "",
+	["Cast by %s"] = "来自 %s",
 
 --	["Now ignoring buff: %s"] = "",
 --	["Now ignoring debuff: %s"] = "",
