@@ -25,17 +25,11 @@ ns.L = {
 
 -- Rogue weapon enchant keywords
 
-	["Anesthetic Poison"] = "Veneno anestésico", -- Removed in Cataclysm
 	["Crippling Poison"] = "Veneno entorpecedor",
 	["Deadly Poison"] = "Veneno mortal",
 	["Instant Poison"] = "Veneno instantáneo",
 	["Mind-Numbing Poison"] = "Veneno de aturdimiento mental",
 	["Wound Poison"] = "Veneno hiriente",
-
--- Warlock weapon enchant keywords
-
-	["Firestone"] = "Piedra de fuego", -- Removed in Cataclysm
-	["Spellstone"] = "Piedra de hechizo", -- Removed in Cataclysm
 
 -- Configuration panel text
 

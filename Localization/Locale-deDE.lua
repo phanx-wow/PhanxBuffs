@@ -17,7 +17,7 @@ ns.L = {
 
 -- Shaman weapon enchant keywords
 
-	["Earthliving"] = "Lebensgeister", -- Removed in Cataclysm
+	["Earthliving"] = "Lebensgeister",
 	["Flametongue"] = "Flammenzunge",
 	["Frostbrand"] = "Frostbrand",
 	["Rockbiter"] = "Felsbeißer",
@@ -25,17 +25,11 @@ ns.L = {
 
 -- Rogue weapon enchant keywords
 
-	["Anesthetic Poison"] = "Beruhigendes Gift", -- Removed in Cataclysm
 	["Crippling Poison"] = "Verkrüppel[nu][dn][eg]s%s?[Gg]ift", -- item is Verkrüppelndes Gift, enchant is Verkrüppelungsgift
 	["Deadly Poison"] = "Tödliches Gift",
 	["Instant Poison"] = "Sofort wirkendes Gift",
 	["Mind-Numbing Poison"] = "Gedankenbenebelndes Gift",
 	["Wound Poison"] = "Wundgift",
-
--- Warlock weapon enchant keywords
-
-	["Firestone"] = "Feuerstein", -- Removed in Cataclysm
-	["Spellstone"] = "Zauberstein", -- Removed in Cataclysm
 
 -- Configuration panel
 
