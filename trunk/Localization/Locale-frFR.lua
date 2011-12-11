@@ -25,17 +25,11 @@ ns.L = {
 
 -- Rogue weapon enchant keywords
 
-	["Anesthetic Poison"] = "Poison anesthésiant", -- Removed in Cataclysm
 	["Crippling Poison"] = "Poison affaiblissant",
 	["Deadly Poison"] = "Poison mortel",
 	["Instant Poison"] = "Poison instantané",
 	["Mind-Numbing Poison"] = "Poison de [Dd]istraction mentale", -- item name has lowercase d
 	["Wound Poison"] = "Poison douloureux",
-
--- Warlock weapon enchant keywords
-
-	["Firestone"] = "Pierre de feu", -- Removed in Cataclysm
-	["Spellstone"] = "Pierre de sort", -- Removed in Cataclysm
 
 -- Configuration panel
 

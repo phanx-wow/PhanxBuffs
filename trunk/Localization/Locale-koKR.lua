@@ -25,17 +25,11 @@ ns.L = {
 
 -- Rogue weapon enchant keywords
 
-	["Anesthetic Poison"] = "정신 마취 독", -- Removed in Cataclysm
 	["Crippling Poison"] = "신경 마비 독",
 	["Deadly Poison"] = "맹독",
 	["Instant Poison"] = "순간 효과 독",
 	["Mind-Numbing Poison"] = "정신 마비 독",
 	["Wound Poison"] = "상처 감염 독",
-
--- Warlock weapon enchant keywords
-
-	["Firestone"] = "화염석", -- Removed in Cataclysm
-	["Spellstone"] = "주문석", -- Removed in Cataclysm
 
 -- Configuration panel
 
