@@ -92,4 +92,4 @@ either download site. For general questions and comments, post a ticket
 on either download site.
 
 If you need to contact me privately, send me a PM on either download
-site, or email me at <akkorian@hotmail.com>.
+site, or email me at <addons@phanx.net>.
