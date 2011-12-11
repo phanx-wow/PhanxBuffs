@@ -1,5 +1,5 @@
-## Interface: 40200
-## Version: 4.2.0.wowi:revision-beta
+## Interface: 40300
+## Version: 4.3.0.wowi:revision-beta
 
 ## Title: PhanxBuffs
 ## Notes: Basic replacement for player buff, debuff, and temporary enchant frames.
@@ -10,7 +10,7 @@
 ## X-Email: akkorian@hotmail.com
 ## X-Copyright: Copyright © 2010–2011 Phanx
 ## X-License: Some rights reserved. See LICENSE.txt for details.
-## X-CompatibleLocales: deDE, enUS, esES, esMX, frFR, koKR, ruRU, zhCN, zhTW
+## X-CompatibleLocales: deDE, enUS, esES, esMX, frFR, koKR, ptBR, ruRU, zhCN, zhTW
 ## X-Localizations: enUS, esES, esMX, frFR, koKR, ruRU, zhTW
 ## X-Website: http://www.wowinterface.com/downloads/info16874-PhanxBuffs.html
 ## X-Curse-Project-ID: phanxbuffs
@@ -34,6 +34,7 @@ Libs\LibAboutPanel\LibAboutPanel.lua
 Localization\Locale-deDE.lua
 Localization\Locale-esES.lua
 Localization\Locale-frFR.lua
+Localization\Locale-ptBR.lua
 Localization\Locale-ruRU.lua
 Localization\Locale-koKR.lua
 Localization\Locale-zhCN.lua

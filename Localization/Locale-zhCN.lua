@@ -25,17 +25,11 @@ ns.L = {
 
 -- Rogue weapon enchant keywords
 
---	["Anesthetic Poison"] = "",
 --	["Crippling Poison"] = "",
 --	["Deadly Poison"] = "",
 --	["Instant Poison"] = "",
 --	["Mind-Numbing Poison"] = "",
 --	["Wound Poison"] = "",
-
--- Warlock weapon enchant keywords
-
---	["Firestone"] = "",
---	["Spellstone"] = "",
 
 -- Configuration panel
 

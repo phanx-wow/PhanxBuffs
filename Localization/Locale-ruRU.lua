@@ -25,17 +25,11 @@ ns.L = {
 
 -- Rogue weapon enchant keywords
 
-	["Anesthetic Poison"] = "Анестезирующий яд", -- Removed in Cataclysm
 	["Crippling Poison"] = "Калечащий яд",
 	["Deadly Poison"] = "Смертельный яд",
 	["Instant Poison"] = "Быстродействующий яд",
 	["Mind-Numbing Poison"] = "Дурманящий яд",
 	["Wound Poison"] = "Нейтрализующий яд",
-
--- Warlock weapon enchant keywords
-
-	["Firestone"] = "камень огня", -- Removed in Cataclysm
-	["Spellstone"] = "камень чар", -- Removed in Cataclysm
 
 -- Configuration panel
 
