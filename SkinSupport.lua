@@ -3,13 +3,13 @@
 	Replacement player buff, debuff, and temporary enchant frames.
 	Written by Phanx <addons@phanx.net>
 	Maintained by Akkorian <akkorian@hotmail.com>
-	Copyright © 2010–2011 Phanx. Some rights reserved. See LICENSE.txt for details.
+	Copyright ï¿½ 2010ï¿½2011 Phanx. Some rights reserved. See LICENSE.txt for details.
 	http://www.wowinterface.com/downloads/info16874-PhanxBuffs.html
-	http://wow.curse.com/downloads/wow-addons/details/phanxbuffs.aspx
+	http://www.curse.com/addons/wow/phanxbuffs
 ----------------------------------------------------------------------]]
 
-local LibButtonFacade, LibButtonFacade_VERSION = LibStub("LibButtonFacade", true)
-if not LibButtonFacade or LibButtonFacade_VERSION < 30305 then return end
+local Masque = LibStub("Masque", true)
+if not Masque then return end
 
 local done
 local _, ns = ...
@@ -84,7 +84,7 @@ hooksecurefunc(PhanxTempEnchantFrame, "Load", function(self)
 			end
 		end
 
-		LibButtonFacade:Group("PhanxBuffs"):AddButton(f, f.buttonData)
+		Masque:Group("PhanxBuffs"):AddButton(f, f.buttonData)
 
 		if f:GetParent() == PhanxTempEnchantFrame then
 			-- print("Recoloring temp enchant button")
@@ -110,13 +110,14 @@ hooksecurefunc(PhanxTempEnchantFrame, "Load", function(self)
 		end })
 	end
 
-	local function OnSkinChanged(_, skin, gloss, backdrop, _, _, colors)
+	local function OnSkinChanged(_, _, skin, gloss, backdrop, colors, fonts)
 		-- print(string.format("New skin: %s, Gloss: %s, Backdrop: %s", skin, tostring(gloss), tostring(backdrop)))
 
 		db.skin.skin = skin
 		db.skin.gloss = gloss
 		db.skin.backdrop = backdrop
 		db.skin.colors = colors
+		db.skin.fonts = fonts
 
 		for i = 1, #PhanxTempEnchantFrame.buttons do
 			-- print("Recoloring temp enchant button", i)
@@ -128,9 +129,9 @@ hooksecurefunc(PhanxTempEnchantFrame, "Load", function(self)
 		PhanxTempEnchantFrame:Update()
 	end
 
-	LibButtonFacade:RegisterSkinCallback("PhanxBuffs", OnSkinChanged)
+	Masque:Register("PhanxBuffs", OnSkinChanged)
 
-	LibButtonFacade:Group("PhanxBuffs"):Skin(db.skin.skin, db.skin.gloss, db.skin.backdrop, db.skin.colors)
+	Masque:Group("PhanxBuffs"):Skin(db.skin.skin, db.skin.gloss, db.skin.backdrop, db.skin.colors)
 
 	SkinFrame(PhanxBuffFrame)
 	SkinFrame(PhanxDebuffFrame)
@@ -147,7 +148,7 @@ hooksecurefunc(PhanxTempEnchantFrame, "Load", function(self)
 				local OnValueChanged = child.OnValueChanged
 				child.OnValueChanged = function(...)
 					OnValueChanged(...)
-					LibButtonFacade:Group("PhanxBuffs"):ReSkin()
+					Masque:Group("PhanxBuffs"):ReSkin()
 					-- print("Reskinned PhanxBuffs because buff/debuff size changed.")
 				end
 			end
