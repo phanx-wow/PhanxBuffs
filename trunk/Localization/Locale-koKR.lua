@@ -4,7 +4,7 @@
 	Written by Phanx <addons@phanx.net>
 	Copyright © 2010–2011 Phanx. Some rights reserved. See LICENSE.txt for details.
 	http://www.wowinterface.com/downloads/info16874-PhanxBuffs.html
-	http://wow.curse.com/downloads/wow-addons/details/phanxbuffs.aspx
+	http://www.curse.com/addons/wow/phanxbuffs
 ------------------------------------------------------------------------
 	Korean Localization (한국어)
 	Last updated 2010-09-07 by Bruteforce
