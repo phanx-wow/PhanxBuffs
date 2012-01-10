@@ -2,8 +2,7 @@
 	PhanxBuffs
 	Replacement player buff, debuff, and temporary enchant frames.
 	Written by Phanx <addons@phanx.net>
-	Maintained by Akkorian <akkorian@hotmail.com>
-	Copyright � 2010�2011 Phanx. Some rights reserved. See LICENSE.txt for details.
+	Copyright © 2010–2012 Phanx. Some rights reserved. See LICENSE.txt for details.
 	http://www.wowinterface.com/downloads/info16874-PhanxBuffs.html
 	http://www.curse.com/addons/wow/phanxbuffs
 ----------------------------------------------------------------------]]
@@ -144,12 +143,14 @@ hooksecurefunc(PhanxTempEnchantFrame, "Load", function(self)
 		local L = ns.L
 		for i = 1, panel:GetNumChildren() do
 			local child = select(i, panel:GetChildren())
-			if type(child) == "table" and child.OnValueChanged and (child.desc == L["Set the size of each buff icon."] or child.desc == L["Set the size of each debuff icon."]) then
-				local OnValueChanged = child.OnValueChanged
-				child.OnValueChanged = function(...)
-					OnValueChanged(...)
-					Masque:Group("PhanxBuffs"):ReSkin()
-					-- print("Reskinned PhanxBuffs because buff/debuff size changed.")
+			if type(child) == "table" and child.OnValueChanged and child.labelText then
+				local name = child.labelText:GetText()
+				if name == L["Buff Size"] or name == L["Debuff Size"] then
+					local OnValueChanged = child.OnValueChanged
+					child.OnValueChanged = function(...)
+						OnValueChanged(...)
+						Masque:Group("PhanxBuffs"):ReSkin()
+					end
 				end
 			end
 		end
