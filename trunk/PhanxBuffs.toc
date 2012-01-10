@@ -8,7 +8,7 @@
 ## Notes-ruRU: Заменить стандартные значков для положительных и отрицательных эффектов, и чары, связанных с оружием.
 ## Author: Phanx
 ## X-Email: addons@phanx.net
-## X-Copyright: Copyright © 2010–2011 Phanx
+## X-Copyright: Copyright © 2010–2012 Phanx
 ## X-License: Some rights reserved. See LICENSE.txt for details.
 ## X-CompatibleLocales: deDE, enUS, esES, esMX, frFR, koKR, ptBR, ruRU, zhCN, zhTW
 ## X-Localizations: enUS, esES, esMX, frFR, koKR, ruRU, zhTW
