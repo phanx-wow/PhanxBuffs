@@ -19,18 +19,9 @@ hooksecurefunc(PhanxTempEnchantFrame, "Load", function(self)
 
 	local db = PhanxBuffsDB
 	if db.noButtonFacade then return end
-
-	local defaultSkin = {
-		skin = "Blizzard",
-		gloss = 0,
-		backdrop = true,
-		colors = { },
-	}
-	if not db.skin then db.skin = { } end
-	for k, v in pairs(defaultSkin) do
-		if type(db.skin[k]) ~= type(v) then
-			db.skin[k] = v
-		end
+	if db.skin then
+		-- print("Removing old skin data...")
+		db.skin = nil
 	end
 
 	local buttonDataLayers = { "AutoCast", "AutoCastable", "Backdrop", "Checked", "Cooldown", "Count", "Disabled", "Flash", "Highlight", "HotKey", "Name", "Pushed" }
@@ -112,12 +103,6 @@ hooksecurefunc(PhanxTempEnchantFrame, "Load", function(self)
 	local function OnSkinChanged(_, _, skin, gloss, backdrop, colors, fonts)
 		-- print(string.format("New skin: %s, Gloss: %s, Backdrop: %s", skin, tostring(gloss), tostring(backdrop)))
 
-		db.skin.skin = skin
-		db.skin.gloss = gloss
-		db.skin.backdrop = backdrop
-		db.skin.colors = colors
-		db.skin.fonts = fonts
-
 		for i = 1, #PhanxTempEnchantFrame.buttons do
 			-- print("Recoloring temp enchant button", i)
 			PhanxTempEnchantFrame.buttons[i].border:SetVertexColor(0.46, 0.18, 0.67, 1)
@@ -129,8 +114,6 @@ hooksecurefunc(PhanxTempEnchantFrame, "Load", function(self)
 	end
 
 	Masque:Register("PhanxBuffs", OnSkinChanged)
-
-	Masque:Group("PhanxBuffs"):Skin(db.skin.skin, db.skin.gloss, db.skin.backdrop, db.skin.colors)
 
 	SkinFrame(PhanxBuffFrame)
 	SkinFrame(PhanxDebuffFrame)
