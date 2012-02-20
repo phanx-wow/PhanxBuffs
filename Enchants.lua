@@ -476,6 +476,8 @@ function PhanxTempEnchantFrame:Load()
 
 	db = PhanxBuffsDB
 
+	self:PLAYER_ENTERING_WORLD()
+
 	dirty = true
 	timerGroup:Play()
 
