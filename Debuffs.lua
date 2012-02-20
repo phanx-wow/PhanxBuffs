@@ -383,11 +383,13 @@ function PhanxDebuffFrame:Load()
 	db = PhanxBuffsDB
 	ignore = PhanxBuffsIgnoreDB.debuffs
 
+	self:GetScript("OnEvent")(self, "PLAYER_ENTERING_WORLD")
+
 	dirty = true
 	timerGroup:Play()
 
 	self:RegisterEvent( "PLAYER_ENTERING_WORLD" )
-	self:RegisterEvent( "UNIT_ENTERING_VEHICLE" )
-	self:RegisterEvent( "UNIT_EXITING_VEHICLE" )
+	self:RegisterEvent( "UNIT_ENTERED_VEHICLE" )
+	self:RegisterEvent( "UNIT_EXITED_VEHICLE" )
 	self:RegisterEvent( "UNIT_AURA" )
 end
