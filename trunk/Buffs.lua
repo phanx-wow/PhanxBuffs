@@ -210,7 +210,6 @@ function PhanxBuffFrame:Update()
 	for i, t in ipairs(buffs) do
 		buffs[i] = remTable(t)
 	end
-
 	for i = 1, 100 do
 		local name, _, icon, count, kind, duration, expires, caster, _, _, spellID = UnitAura(buffUnit, i, "HELPFUL")
 		if not name or not icon or icon == "" then break end
@@ -344,11 +343,13 @@ function PhanxBuffFrame:Load()
 	db = PhanxBuffsDB
 	ignore = PhanxBuffsIgnoreDB.buffs
 
+	self:GetScript("OnEvent")(self, "PLAYER_ENTERING_WORLD")
+
 	dirty = true
 	timerGroup:Play()
 
 	self:RegisterEvent( "PLAYER_ENTERING_WORLD" )
-	self:RegisterEvent( "UNIT_ENTERING_VEHICLE" )
-	self:RegisterEvent( "UNIT_EXITING_VEHICLE" )
+	self:RegisterEvent( "UNIT_ENTERED_VEHICLE" )
+	self:RegisterEvent( "UNIT_EXITED_VEHICLE" )
 	self:RegisterEvent( "UNIT_AURA" )
 end
