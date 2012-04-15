@@ -15,6 +15,8 @@ local ignore
 local debuffs = { }
 local debuffUnit = "player"
 
+local floor = math.floor
+
 local DebuffTypeColor = {
 	["Magic"]	= { 0.2, 0.6, 1 },
 	["Curse"]	= { 0.6, 0.0, 1 },
@@ -169,8 +171,8 @@ function PhanxDebuffFrame:UpdateLayout()
 		local col = (i - 1) % cols
 		local row = math.ceil(i / cols) - 1
 
-		local x = col * (spacing + size) * (anchor == "LEFT" and 1 or -1)
-		local y = row * (spacing + (size * 1.5))
+		local x = floor(col * (spacing + size) * (anchor == "LEFT" and 1 or -1) + 0.5)
+		local y = floor(row * (spacing + (size * 1.5)) + 0.5)
 
 		button:ClearAllPoints()
 		button:SetWidth(size)
@@ -184,9 +186,9 @@ function PhanxDebuffFrame:UpdateLayout()
 
 	self:ClearAllPoints()
 	if db.debuffPoint and db.debuffX and db.debuffY then
-		self:SetPoint(db.debuffPoint, UIParent, db.debuffX, db.debuffY)
+		self:SetPoint(db.debuffPoint, UIParent, db.debuffX, db.debuffY + 0.5)
 	else
-		self:SetPoint("BOTTOMRIGHT", UIParent, -70 - Minimap:GetWidth(), UIParent:GetHeight() - Minimap:GetHeight() - 62)
+		self:SetPoint("BOTTOMRIGHT", UIParent, -70 - math.floor(Minimap:GetWidth() + 0.5), math.floor(UIParent:GetHeight() + 0.5) - math.floor(Minimap:GetHeight() + 0.5) - 62)
 	end
 	self:SetWidth((size * cols) + (spacing * (cols - 1)))
 	self:SetHeight(size)

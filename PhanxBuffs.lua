@@ -523,8 +523,8 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 	local function OnDragStop(self)
 		self:StopMovingOrSizing()
 
-		local w, h, x, y = UIParent:GetWidth(), UIParent:GetHeight(), self:GetCenter()
-		local hhalf, vhalf = (x > w/2) and "RIGHT" or "LEFT", (y > h/2) and "TOP" or "BOTTOM"
+		local w, h, x, y = math.floor(UIParent:GetWidth() + 0.5), math.floor(UIParent:GetHeight() + 0.5), math.floor(self:GetCenter() + 0.5)
+		local hhalf, vhalf = (x > w / 2) and "RIGHT" or "LEFT", (y > h / 2) and "TOP" or "BOTTOM"
 		local dx = hhalf == "RIGHT" and math.floor(self:GetRight() + 0.5) - w or math.floor(self:GetLeft() + 0.5)
 		local dy = vhalf == "TOP" and math.floor(self:GetTop() + 0.5) - h or math.floor(self:GetBottom() + 0.5)
 

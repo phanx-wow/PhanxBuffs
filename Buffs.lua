@@ -7,23 +7,27 @@
 	http://www.curse.com/addons/wow/phanxbuffs
 ----------------------------------------------------------------------]]
 
-local PhanxBuffFrame = CreateFrame("Frame", "PhanxBuffFrame", UIParent)
+local _, ns = ...
 
 local db
 local ignore
 
-local buffs, cantCancel = { }, { }
 local buffUnit = "player"
 
-local _, ns = ...
+local MAX_BUFFS = 40
+local WOW_VERSION = select(4, GetBuildInfo())
+
 local GetFontFile = ns.GetFontFile
+local floor = math.floor
+
+local buffs, cantCancel = {}, {}
+
+local PhanxBuffFrame = CreateFrame("Frame", "PhanxBuffFrame", UIParent)
 
 local L = ns.L
 L["Cast by |cff%02x%02x%02x%s|r"] = L["Cast by %s"]:gsub( "%%s", "|cff%%02x%%02x%%02x%%s|r" )
 
-local MAX_BUFFS = 40
 
-local WOW_VERSION = select(4, GetBuildInfo())
 
 ------------------------------------------------------------------------
 
@@ -138,8 +142,8 @@ function PhanxBuffFrame:UpdateLayout()
 		local col = (j - 1) % cols
 		local row = math.ceil(j / cols) - 1
 
-		local x = col * (spacing + size) * (anchor == "LEFT" and 1 or -1)
-		local y = row * (spacing + (size * 1.5))
+		local x = floor(col * (spacing + size) * (anchor == "LEFT" and 1 or -1) + 0.5)
+		local y = floor(row * (spacing + (size * 1.5)) + 0.5)
 
 		button:ClearAllPoints()
 		button:SetWidth(size)
@@ -154,7 +158,7 @@ function PhanxBuffFrame:UpdateLayout()
 	if db.buffPoint and db.buffX and db.buffY then
 		self:SetPoint(db.buffPoint, UIParent, db.buffX, db.buffY)
 	else
-		self:SetPoint("TOPRIGHT", UIParent, -70 - Minimap:GetWidth(), -30)
+		self:SetPoint("TOPRIGHT", UIParent, -70 - floor(Minimap:GetWidth() + 0.5), -15)
 	end
 	self:SetWidth((size * cols) + (spacing * (cols - 1)))
 	self:SetHeight((size * rows) + (spacing * (rows - 1)))
