@@ -1,8 +1,8 @@
 PhanxBuffs
 ==========
 
-* Written by Phanx <addons@phanx.net>
-* Copyright © 2010–2012 Phanx. Some rights reserved. See LICENSE.txt for details.
+* Copyright (c) 2010-2012 Phanx <addons@phanx.net>. All rights reserved.
+* See the accompanying LICENSE file for more information.
 * http://www.wowinterface.com/downloads/info16874-PhanxBuffs.html
 * http://www.curse.com/addons/wow/phanxbuffs
 
@@ -44,8 +44,8 @@ Buff/debuff names provided with these commands must be properly spelled,
 capitalized, and punctuated.
 
 
-Buff Cancelling in WoW 4.0
---------------------------
+Buff Cancelling in WoW 4.0 (Cataclysm)
+--------------------------------------
 
 Due to Blizzard restrictions, PhanxBuffs and other addons which provide
 a filterable buff display can no longer directly cancel buffs when you
@@ -76,20 +76,29 @@ different way to cancel buffs quickly:
 Localization
 ------------
 
-PhanxBuffs is compatible with English, Deutsch, Español, Français,
+Compatible with English, Deutsch, Español (EU), Español (AL), Français,
 Português, Русский, 한국어, 简体中文, and 繁體中文 game clients.
 
-The options text is currently translated into English, Français, 한국어,
-and 繁體中文. If you can provide translations for any locale, please send
-me a PM on either download site.
+Translated into English, Français, 한국어, and 繁體中文.
+
+To add or update translations for any language, see the Localization tab
+on the CurseForge project page:
+
+http://wow.curseforge.com/addons/phanxbuffs/localization/
 
 
 Feedback
 --------
 
-For bug reports and feature requests, please use the ticket tracker on
-either download site. For general questions and comments, post a ticket
-on either download site.
+Bugs, errors, or other problems:
+	Submit a bug report ticket on either download page.
 
-If you need to contact me privately, send me a PM on either download
-site, or email me at <addons@phanx.net>.
+Feature requests or other suggestions:
+	Submit a feature request ticket system on either download page.
+
+General questions or comments:
+	Post a comment on the WoWInterface download page.
+
+If you need to contact me privately for a reason other than those listed
+above, you can send me a private message on either download site, or
+email me at <addons@phanx.net>.

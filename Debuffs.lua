@@ -1,8 +1,8 @@
 --[[--------------------------------------------------------------------
 	PhanxBuffs
 	Replacement player buff, debuff, and temporary enchant frames.
-	Written by Phanx <addons@phanx.net>
-	Copyright © 2010–2012 Phanx. Some rights reserved. See LICENSE.txt for details.
+	Copyright (c) 2010-2012 Phanx <addons@phanx.net>. All rights reserved.
+	See the accompanying README and LICENSE files for more information.
 	http://www.wowinterface.com/downloads/info16874-PhanxBuffs.html
 	http://www.curse.com/addons/wow/phanxbuffs
 ----------------------------------------------------------------------]]
@@ -178,7 +178,7 @@ function PhanxDebuffFrame:UpdateLayout()
 		button:SetWidth(size)
 		button:SetHeight(size)
 		button:SetPoint("TOP" .. anchor, self, "TOP" .. anchor, x, -y)
-		
+
 		button.count:SetFont(fontFace, 18 * fontScale, fontOutline)
 		button.timer:SetFont(fontFace, 14 * fontScale, fontOutline)
 		button.symbol:SetFont(fontFace, 16 * fontScale, fontOutline)
