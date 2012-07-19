@@ -206,8 +206,10 @@ elseif playerClass == "ROGUE" then
 		[L["Anesthetic Poison"]] = true,
 		[L["Crippling Poison"]] = true,
 		[L["Deadly Poison"]] = true,
-		[L["Instant Poison"]] = true,
+		[L["Instant Poison"]] = true, -- Removed in 5.0
+		[L["Leeching Poison"]] = true, -- Added in 5.0
 		[L["Mind-Numbing Poison"]] = true,
+		[L["Paralytic Poison"]] = true, -- Added in 5.0
 		[L["Wound Poison"]] = true,
 	}
 elseif playerClass == "WARLOCK" then

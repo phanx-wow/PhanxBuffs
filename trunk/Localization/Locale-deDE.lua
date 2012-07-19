@@ -26,8 +26,10 @@ ns.L = {
 
 	["Crippling Poison"] = "Verkrüppel[nu][dn][eg]s%s?[Gg]ift", -- item is Verkrüppelndes Gift, enchant is Verkrüppelungsgift
 	["Deadly Poison"] = "Tödliches Gift",
-	["Instant Poison"] = "Sofort wirkendes Gift",
+	["Instant Poison"] = "Sofort wirkendes Gift", -- Removed in 5.0
+--	["Leeching Poison"] = "" -- Added in 5.0
 	["Mind-Numbing Poison"] = "Gedankenbenebelndes Gift",
+--	["Paralytic Poison"] = "", -- Added in 5.0
 	["Wound Poison"] = "Wundgift",
 
 -- Configuration panel

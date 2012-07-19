@@ -27,7 +27,9 @@ ns.L = {
 --	["Crippling Poison"] = "",
 --	["Deadly Poison"] = "",
 --	["Instant Poison"] = "",
+--	["Leeching Poison"] = "" -- Added in 5.0
 --	["Mind-Numbing Poison"] = "",
+--	["Paralytic Poison"] = "", -- Added in 5.0
 --	["Wound Poison"] = "",
 
 -- Configuration panel
