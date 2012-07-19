@@ -26,8 +26,10 @@ ns.L = {
 
 	["Crippling Poison"] = "Poison affaiblissant",
 	["Deadly Poison"] = "Poison mortel",
-	["Instant Poison"] = "Poison instantané",
+	["Instant Poison"] = "Poison instantané", -- Removed in 5.0
+--	["Leeching Poison"] = "" -- Added in 5.0
 	["Mind-Numbing Poison"] = "Poison de [Dd]istraction mentale", -- item name has lowercase d
+--	["Paralytic Poison"] = "", -- Added in 5.0
 	["Wound Poison"] = "Poison douloureux",
 
 -- Configuration panel
