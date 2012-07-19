@@ -27,7 +27,9 @@ ns.L = {
 	["Crippling Poison"] = "신경 마비 독",
 	["Deadly Poison"] = "맹독",
 	["Instant Poison"] = "순간 효과 독",
+--	["Leeching Poison"] = "" -- Added in 5.0
 	["Mind-Numbing Poison"] = "정신 마비 독",
+--	["Paralytic Poison"] = "", -- Added in 5.0
 	["Wound Poison"] = "상처 감염 독",
 
 -- Configuration panel

@@ -6,8 +6,9 @@
 	http://www.wowinterface.com/downloads/info16874-PhanxBuffs.html
 	http://www.curse.com/addons/wow/phanxbuffs
 ------------------------------------------------------------------------
-	Traditional Chinese Localization (正體中文)
-	Last updated 2010-07-20 by fmdsm on curse.com
+	Traditional Chinese Localization (繁體中文)
+	Last updated 2012-01-22 by BNSSNB @ CurseForge
+	Previously updated by fmdsm @ CurseForge
 ----------------------------------------------------------------------]]
 
 if GetLocale() ~= "zhTW" then return end
@@ -54,10 +55,10 @@ ns.L = {
 	["None"] = "無",
 	["Thin"] = "細",
 	["Thick"] = "粗",
---	["Text Size"] = "",
---	["Adjust the size of the stack count and timer text."] = "",
---	["Max Timer Duration"] = "",
---	["Adjust the maximum remaining duration, in seconds, to show the timer text for a buff or debuff."] = "",
+	["Text Size"] = "文字大小",
+	["Adjust the size of the stack count and timer text."] = " 調整堆疊計數和計時的文字大小。",
+	["Max Timer Duration"] = "最大計時期間",
+	["Adjust the maximum remaining duration, in seconds, to show the timer text for a buff or debuff."] = "調整顯示buff或debuff的計時文字，最大的提醒期間，以秒數計。",
 	["Buff Sources"] = "buff來源",
 	["Show the name of the party or raid member who cast a buff on you in its tooltip."] = "在提示上顯示buff施放者的名字",
 	["Weapon Buff Sources"] = "武器附魔來源",
@@ -65,15 +66,15 @@ ns.L = {
 	["Lock Frames"] = "鎖定框架",
 	["Lock the buff and debuff frames in place, hiding the backdrop and preventing them from being moved."] = "鎖定buff和debuff框架,隱藏背景防止被移動",
 
---	["Cast by %s"] = "",
+	["Cast by %s"] = "由 %s 施放",
 
---	["Now ignoring buff: %s"] = "",
---	["Now ignoring debuff: %s"] = "",
---	["No longer ignoring buff: %s"] = "",
---	["No longer ignoring debuff: %s"] = "",
---	["No buffs are being ignored."] = "",
---	["No debuffs are being ignored."] = "",
---	["%d |4buff:buffs; |4is:are; being ignored:"] = "",
---	["%d |4debuff:debuffs; |4is:are; being ignored:"] = "",
+	["Now ignoring buff: %s"] = "現在忽略的buff：%s",
+	["Now ignoring debuff: %s"] = "現在忽略的debuff：%s",
+	["No longer ignoring buff: %s"] = "不再忽略的buff：%s",
+	["No longer ignoring debuff: %s"] = "不再忽略的debuff：%s",
+	["No buffs are being ignored."] = "沒有被忽略的buffs。",
+	["No debuffs are being ignored."] = "沒有被忽略的debuffs。",
+	["%d |4buff:buffs; |4is:are; being ignored:"] = "%d |4buff:buffs;被忽略：",
+	["%d |4debuff:debuffs; |4is:are; being ignored:"] = "%d |4debuff:debuffs;被忽略：",
 
 }

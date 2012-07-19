@@ -16,19 +16,21 @@ ns.L = {
 
 -- Shaman weapon enchant keywords
 
---	["Earthliving"] = "",
---	["Flametongue"] = "",
---	["Frostbrand"] = "",
---	["Rockbiter"] = "",
---	["Windfury"] = "",
+	["Earthliving"] = "Terraviva",
+	["Flametongue"] = "Labardeas",
+	["Frostbrand"] = "Marca Gélida",
+	["Rockbiter"] = "Trinca-pedra",
+	["Windfury"] = "Fúria dos Ventos",
 
 -- Rogue weapon enchant keywords
 
---	["Crippling Poison"] = "",
---	["Deadly Poison"] = "",
---	["Instant Poison"] = "",
---	["Mind-Numbing Poison"] = "",
---	["Wound Poison"] = "",
+	["Crippling Poison"] = "Veneno Debilitante",
+	["Deadly Poison"] = "Veneno Mortal",
+	["Instant Poison"] = "Veneno Instantâneo", -- Removed in 5.0
+--	["Leeching Poison"] = "" -- Added in 5.0
+	["Mind-Numbing Poison"] = "Veneno Entorpecente",
+--	["Paralytic Poison"] = "", -- Added in 5.0
+	["Wound Poison"] = "Veneno Ferino",
 
 -- Configuration panel
 

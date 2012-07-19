@@ -26,8 +26,10 @@ ns.L = {
 
 	["Crippling Poison"] = "Калечащий яд",
 	["Deadly Poison"] = "Смертельный яд",
-	["Instant Poison"] = "Быстродействующий яд",
+	["Instant Poison"] = "Быстродействующий яд", -- Removed in 5.0
+--	["Leeching Poison"] = "" -- Added in 5.0
 	["Mind-Numbing Poison"] = "Дурманящий яд",
+--	["Paralytic Poison"] = "", -- Added in 5.0
 	["Wound Poison"] = "Нейтрализующий яд",
 
 -- Configuration panel

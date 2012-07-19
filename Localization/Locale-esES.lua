@@ -26,8 +26,10 @@ ns.L = {
 
 	["Crippling Poison"] = "Veneno entorpecedor",
 	["Deadly Poison"] = "Veneno mortal",
-	["Instant Poison"] = "Veneno instantáneo",
+	["Instant Poison"] = "Veneno instantáneo", -- Removed in 5.0
+--	["Leeching Poison"] = "" -- Added in 5.0
 	["Mind-Numbing Poison"] = "Veneno de aturdimiento mental",
+--	["Paralytic Poison"] = "", -- Added in 5.0
 	["Wound Poison"] = "Veneno hiriente",
 
 -- Configuration panel text
