@@ -7,6 +7,8 @@
 	http://www.curse.com/addons/wow/phanxbuffs
 ----------------------------------------------------------------------]]
 
+local MoP = select(4, GetBuildInfo()) > 50000
+
 local PhanxTempEnchantFrame = CreateFrame("Frame", "PhanxTempEnchantFrame", UIParent)
 
 local db
@@ -17,7 +19,7 @@ local dirty, bagsDirty, spellsDirty, inVehicle
 
 local MAIN_HAND_SLOT = GetInventorySlotInfo("MainHandSlot")
 local OFF_HAND_SLOT = GetInventorySlotInfo("SecondaryHandSlot")
-local RANGED_SLOT = GetInventorySlotInfo("RangedSlot")
+local RANGED_SLOT = not MoP and GetInventorySlotInfo("RangedSlot")
 
 local _, ns = ...
 local GetFontFile = ns.GetFontFile
@@ -298,7 +300,7 @@ function PhanxTempEnchantFrame:Update()
 		b:Show()
 	end
 
-	if thrownEnchant then
+	if thrownEnchant and not MoP then
 		numEnchants = numEnchants + 1
 		local b = buttons[numEnchants]
 
