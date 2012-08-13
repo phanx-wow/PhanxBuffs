@@ -507,9 +507,20 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 
 	--------------------------------------------------------------------
 
+	local oneClickCancel = CreateCheckbox(self, L["One-Click Cancel"])
+	oneClickCancel.desc = L["Cancel unprotected buffs on the first click, instead of the second. Only works out of combat."]
+	oneClickCancel:SetPoint("TOPLEFT", showTempEnchantSources, "BOTTOMLEFT", 0, -8)
+
+	oneClickCancel.OnClick = function(self, checked)
+		db.oneClickCancel = checked
+		PhanxBuffFrame:Update()
+	end
+
+	--------------------------------------------------------------------
+
 	local lockFrames = CreateCheckbox(self, L["Lock Frames"])
 	lockFrames.desc = L["Lock the buff and debuff frames in place, hiding the backdrop and preventing them from being moved."]
-	lockFrames:SetPoint("TOPLEFT", showTempEnchantSources, "BOTTOMLEFT", 0, -8)
+	lockFrames:SetPoint("TOPLEFT", oneClickCancel, "BOTTOMLEFT", 0, -8)
 	lockFrames:SetChecked(true)
 
 	local dragBackdrop = {
