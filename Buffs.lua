@@ -27,8 +27,6 @@ local PhanxBuffFrame = CreateFrame("Frame", "PhanxBuffFrame", UIParent)
 local L = ns.L
 L["Cast by |cff%02x%02x%02x%s|r"] = L["Cast by %s"]:gsub( "%%s", "|cff%%02x%%02x%%02x%%s|r" )
 
-
-
 ------------------------------------------------------------------------
 
 local unitNames = setmetatable({ }, { __index = function(t, unit)
@@ -66,6 +64,20 @@ local function button_OnLeave()
 	GameTooltip:Hide()
 end
 
+local protected = {
+	[48263] = true, -- DEATHKNIGHT Blood Presence
+	[48266] = true, -- DEATHKNIGHT Frost Presence
+	[48265] = true, -- DEATHKNIGHT Unholy Presence
+	[1066]  = true, -- DRUID Aquatic Form
+	[5487]  = true, -- DRUID Bear Form
+	[768]   = true, -- DRUID Cat Form
+	[33943] = true, -- DRUID Flight Form
+	[33891] = true, -- DRUID Swift Flight Form
+	[783]   = true, -- DRUID Travel Form
+	[15473] = true, -- PRIEST Shadowform
+	[1784]  = true, -- ROGUE Stealth
+}
+
 local function button_OnClick(self)
 	local buff = buffs[self:GetID()]
 	if not buff then return end
@@ -74,10 +86,13 @@ local function button_OnClick(self)
 		ignore[buff.name] = true
 		print("|cffffcc00PhanxBuffs:|r", string.format(ns.L["Now ignoring buff: %s"], buff.name))
 		self:GetParent():Update()
-	elseif WOW_VERSION < 40000 then
-		CancelUnitBuff(buffUnit, buff.index, "HELPFUL")
-	elseif not buff.noCancel then
+	elseif buff.noCancel or InCombatLockdown() then
+		-- do nothing
+	elseif protected[buff.spellID] then
+		-- shapeshift
 		PhanxBuffsCancelButton:SetMacro(self, buff.icon, "/cancelaura " .. buff.name)
+	else
+		CancelUnitBuff(buffUnit, buff.index, "HELPFUL")
 	end
 end
 
