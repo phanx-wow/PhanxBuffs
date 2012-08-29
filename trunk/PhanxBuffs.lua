@@ -508,7 +508,7 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 	--------------------------------------------------------------------
 
 	local oneClickCancel = CreateCheckbox(self, L["One-Click Cancel"])
-	oneClickCancel.desc = L["Cancel unprotected buffs on the first click, instead of the second. Only works out of combat."]
+	oneClickCancel.desc = L["Cancel unprotected buffs on the first click, instead of the second. Only works out of combat, and protected buffs like shapeshift forms and weapon buffs will still require two clicks."]
 	oneClickCancel:SetPoint("TOPLEFT", showTempEnchantSources, "BOTTOMLEFT", 0, -8)
 
 	oneClickCancel.OnClick = function(self, checked)
