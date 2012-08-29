@@ -72,8 +72,9 @@ local protected = {
 	[5487]  = true, -- DRUID Bear Form
 	[768]   = true, -- DRUID Cat Form
 	[33943] = true, -- DRUID Flight Form
-	[33891] = true, -- DRUID Swift Flight Form
+	[40120] = true, -- DRUID Swift Flight Form
 	[783]   = true, -- DRUID Travel Form
+	[33891] = true, -- DRUID Tree of Life
 	[15473] = true, -- PRIEST Shadowform
 	[1784]  = true, -- ROGUE Stealth
 }
