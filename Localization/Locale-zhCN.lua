@@ -26,7 +26,7 @@ ns.L = {
 
 --	["Crippling Poison"] = "",
 --	["Deadly Poison"] = "",
---	["Instant Poison"] = "",
+--	["Instant Poison"] = "", -- Removed in 5.0
 --	["Leeching Poison"] = "" -- Added in 5.0
 --	["Mind-Numbing Poison"] = "",
 --	["Paralytic Poison"] = "", -- Added in 5.0
@@ -64,6 +64,8 @@ ns.L = {
 --	["Show the name of the party or raid member who cast a buff on you in its tooltip."] = "",
 --	["Weapon Buff Sources"] = "",
 --	["Show weapon buffs as the spell or item that buffed the weapon, instead of the weapon itself."] = "",
+--	["One-Click Cancel"] = "",
+--	["Cancel unprotected buffs on the first click, instead of the second. Only works out of combat, and protected buffs like shapeshift forms and weapon buffs will still require two clicks."] = "",
 	["Lock Frames"] = "锁定框体",
 --	["Lock the buff and debuff frames in place, hiding the backdrop and preventing them from being moved."] = "",
 

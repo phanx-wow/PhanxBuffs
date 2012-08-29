@@ -26,7 +26,7 @@ ns.L = {
 
 	["Crippling Poison"] = "신경 마비 독",
 	["Deadly Poison"] = "맹독",
-	["Instant Poison"] = "순간 효과 독",
+	["Instant Poison"] = "순간 효과 독", -- Removed in 5.0
 --	["Leeching Poison"] = "" -- Added in 5.0
 	["Mind-Numbing Poison"] = "정신 마비 독",
 --	["Paralytic Poison"] = "", -- Added in 5.0
@@ -64,6 +64,8 @@ ns.L = {
 	["Show the name of the party or raid member who cast a buff on you in its tooltip."] = "파티원 또는 공격대원 중 당신에게 버프를 시전한 누군가의 이름을 툴팁에 보여줍니다.",
 	["Weapon Buff Sources"] = "무기 버프 출처",
 	["Show weapon buffs as the spell or item that buffed the weapon, instead of the weapon itself."] = "무기 자체를 대신하는 주문에 의한 무기 버프 또는 아이템에 의해 버프된 무기를 보여줍니다.",
+--	["One-Click Cancel"] = "",
+--	["Cancel unprotected buffs on the first click, instead of the second. Only works out of combat, and protected buffs like shapeshift forms and weapon buffs will still require two clicks."] = "",
 	["Lock Frames"] = "프레임 잠금",
 	["Lock the buff and debuff frames in place, hiding the backdrop and preventing them from being moved."] = "해당 위치에 버프와 디버프 프레임을 잠급니다. 배경을 숨기고 움직이지 못하도록 합니다.",
 

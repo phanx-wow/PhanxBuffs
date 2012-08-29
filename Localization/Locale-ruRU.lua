@@ -64,6 +64,8 @@ ns.L = {
 	["Show the name of the party or raid member who cast a buff on you in its tooltip."] = "Показать имя персонажа который наложил положительный эффект на вас во всплывающих подсказках.",
 	["Weapon Buff Sources"] = "Источники чарами",
 	["Show weapon buffs as the spell or item that buffed the weapon, instead of the weapon itself."] = "Отображать чары, связанных с оружием, а не оружия.",
+--	["One-Click Cancel"] = "",
+--	["Cancel unprotected buffs on the first click, instead of the second. Only works out of combat, and protected buffs like shapeshift forms and weapon buffs will still require two clicks."] = "",
 	["Lock Frames"] = "Заблокировать значки",
 	["Lock the buff and debuff frames in place, hiding the backdrop and preventing them from being moved."] = "Заблокировать значки, предотвращение перемещения и скрытия фона.",
 
