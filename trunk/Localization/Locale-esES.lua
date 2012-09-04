@@ -64,8 +64,8 @@ ns.L = {
 	["Show the name of the party or raid member who cast a buff on you in its tooltip."] = "Mostrar el nombre del miembro del grupo o banda que ha aplicado un beneficio a te en su descripción.",
 	["Weapon Buff Sources"] = "Fuentes de encantamientos",
 	["Show weapon buffs as the spell or item that buffed the weapon, instead of the weapon itself."] = "Mostrar los beneficios del arma como el encanto o el artículo que encantaron el arma, en vez del arma sí mismo.",
---	["One-Click Cancel"] = "",
---	["Cancel unprotected buffs on the first click, instead of the second. Only works out of combat, and protected buffs like shapeshift forms and weapon buffs will still require two clicks."] = "",
+	["One-Click Cancel"] = "Solo clic para cancelar",
+	["Cancel unprotected buffs on the first click, instead of the second. Only works out of combat, and protected buffs like shapeshift forms and weapon buffs will still require two clicks."] = "Cancelar beneficios desprotegidos en el primer clic, en vez del segundo. Esto sólo funciona fuera de combate y los beneficios protegidos, como las cambiados de forma y los encantamientos de armas, todavía requieren dos clics para cancelar.",
 	["Lock Frames"] = "Bloquear iconos",
 	["Lock the buff and debuff frames in place, hiding the backdrop and preventing them from being moved."] = "Bloquear las iconos de beneficios y perjuicios, para ocultar el fondo y prevenir el movimiento.",
 
