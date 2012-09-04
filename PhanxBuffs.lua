@@ -486,7 +486,7 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 
 	--------------------------------------------------------------------
 
-	local showBuffSources = CreateCheckbox(self, L["Buff Casters"])
+	local showBuffSources = CreateCheckbox(self, L["Buff Sources"])
 	showBuffSources.desc = L["Show the name of the party or raid member who cast a buff on you in its tooltip."]
 	showBuffSources:SetPoint("TOPLEFT", maxTimer, "BOTTOMLEFT", 0, -12)
 
