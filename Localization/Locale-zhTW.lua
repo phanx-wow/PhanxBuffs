@@ -20,7 +20,7 @@ ns.L = {
 	["Earthliving"] = "大地生命",
 	["Flametongue"] = "火舌",
 	["Frostbrand"] = "冰封",
---	["Rockbiter"] = "",
+	["Rockbiter"] = "石化",
 	["Windfury"] = "風怒",
 
 -- Rogue weapon enchant keywords
@@ -28,9 +28,9 @@ ns.L = {
 	["Crippling Poison"] = "致殘",
 	["Deadly Poison"] = "致命",
 	["Instant Poison"] = "速效", -- Removed in 5.0
---	["Leeching Poison"] = "" -- Added in 5.0
+	["Leeching Poison"] = "吸血毒藥" -- Added in 5.0
 	["Mind-Numbing Poison"] = "麻痹",
---	["Paralytic Poison"] = "", -- Added in 5.0
+	["Paralytic Poison"] = "麻痺毒藥", -- Added in 5.0
 	["Wound Poison"] = "致傷",
 
 -- Configuration panel
@@ -65,8 +65,8 @@ ns.L = {
 	["Show the name of the party or raid member who cast a buff on you in its tooltip."] = "在提示上顯示buff施放者的名字",
 	["Weapon Buff Sources"] = "武器附魔來源",
 	["Show weapon buffs as the spell or item that buffed the weapon, instead of the weapon itself."] = "顯示武器附魔圖示用附魔物品或法術來取代武器本身",
---	["One-Click Cancel"] = "",
---	["Cancel unprotected buffs on the first click, instead of the second. Only works out of combat, and protected buffs like shapeshift forms and weapon buffs will still require two clicks."] = "",
+	["One-Click Cancel"] = "鍵取消",
+	["Cancel unprotected buffs on the first click, instead of the second. Only works out of combat, and protected buffs like shapeshift forms and weapon buffs will still require two clicks."] = "單次點擊取消未受保護的buffs而不是兩次，但只有非戰鬥時有用，並且受保護的buffs類似形狀改變的型態與武器buffs仍然需要兩次點擊。",
 	["Lock Frames"] = "鎖定框架",
 	["Lock the buff and debuff frames in place, hiding the backdrop and preventing them from being moved."] = "鎖定buff和debuff框架,隱藏背景防止被移動",
 
