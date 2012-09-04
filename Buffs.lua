@@ -89,11 +89,10 @@ local function button_OnClick(self)
 		self:GetParent():Update()
 	elseif buff.noCancel or InCombatLockdown() then
 		-- do nothing
-	elseif protected[buff.spellID] or not db.oneClickCancel then
-		-- shapeshift
-		PhanxBuffsCancelButton:SetMacro(self, buff.icon, "/cancelaura " .. buff.name)
-	else
+	elseif db.oneClickCancel and not protected[buff.spellID] then
 		CancelUnitBuff(buffUnit, buff.index, "HELPFUL")
+	else
+		PhanxBuffsCancelButton:SetMacro(self, buff.icon, "/cancelaura " .. buff.name)
 	end
 end
 
