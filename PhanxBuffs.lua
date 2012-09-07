@@ -27,7 +27,7 @@ local defaultDB = {
 	showTempEnchantSources = true,
 }
 local defaultIgnore = {
-	buffs = { },
+	buffs = {},
 	debuffs = {
 		[GetSpellInfo(64805)] = true, -- Bested Darnassus
 		[GetSpellInfo(64808)] = true, -- Bested the Exodar
@@ -46,7 +46,7 @@ local defaultIgnore = {
 ------------------------------------------------------------------------
 
 local ADDON_NAME, ns = ...
-if not ns.L then ns.L = { } end
+if not ns.L then ns.L = {} end
 
 local L = setmetatable(ns.L, { __index = function(t, k)
 	if not k then return "" end
@@ -66,7 +66,7 @@ end
 
 local LibSharedMedia
 
-local fonts = { }
+local fonts = {}
 
 local defaultFonts = {
 	["Arial Narrow"] = [[Fonts\ARIALN.TTF]],
@@ -104,8 +104,8 @@ local eventFrame = CreateFrame("Frame")
 eventFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
 eventFrame:SetScript("OnEvent", function(self)
 	local function copyTable(src, dst)
-		if type(src) ~= "table" then return dst or { } end
-		if type(dst) ~= "table" then dst = { } end
+		if type(src) ~= "table" then return dst or {} end
+		if type(dst) ~= "table" then dst = {} end
 		for k, v in pairs(src) do
 			if type(v) == "table" then
 				dst[k] = copyTable(v, dst[k])
@@ -116,10 +116,10 @@ eventFrame:SetScript("OnEvent", function(self)
 		return dst
 	end
 
-	if not PhanxBuffsDB then PhanxBuffsDB = { } end
+	if not PhanxBuffsDB then PhanxBuffsDB = {} end
 	db = copyTable(defaultDB, PhanxBuffsDB)
 
-	if not PhanxBuffsIgnoreDB then PhanxBuffsIgnoreDB = { } end
+	if not PhanxBuffsIgnoreDB then PhanxBuffsIgnoreDB = {} end
 	copyTable(defaultIgnore, PhanxBuffsIgnoreDB)
 
 	LibSharedMedia = LibStub("LibSharedMedia-3.0", true)
@@ -323,7 +323,7 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 			growthAnchor:SetValue(self.value, self.text)
 		end
 
-		local info = { } -- UIDropDownMenu_CreateInfo()
+		local info = {} -- UIDropDownMenu_CreateInfo()
 
 		growthAnchor = CreateDropdown(self, L["Growth Anchor"], function()
 			local selected = db.growthAnchor
@@ -342,8 +342,8 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 		end)
 	end
 	growthAnchor.desc = L["Set the side of the screen from which buffs and debuffs grow."]
-	growthAnchor:SetPoint("TOPLEFT", iconSpacing, "BOTTOMLEFT", 0, -12)
-	growthAnchor:SetPoint("TOPRIGHT", iconSpacing, "BOTTOMRIGHT", 0, -12)
+	growthAnchor:SetPoint("TOPLEFT", iconSpacing, "BOTTOMLEFT", 0, -14)
+	growthAnchor:SetPoint("TOPRIGHT", iconSpacing, "BOTTOMRIGHT", 0, -14)
 
 	--------------------------------------------------------------------
 
@@ -427,7 +427,7 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 			fontOutline:SetValue(value, outlines[value])
 		end
 
-		local info = { } -- UIDropDownMenu_CreateInfo()
+		local info = {} -- UIDropDownMenu_CreateInfo()
 
 		fontOutline = CreateDropdown(self, L["Text Outline"], function()
 			local selected = db.fontOutline
@@ -457,12 +457,12 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 
 	--------------------------------------------------------------------
 
-	local fontScale = CreateSlider( self, L["Text Size"], 0.5, 1.5, 0.1, true,
-		L["Adjust the size of the stack count and timer text."] )
-	fontScale:SetPoint( "TOPLEFT", fontOutline, "BOTTOMLEFT", 0, -12 )
-	fontScale:SetPoint( "TOPRIGHT", fontOutline, "BOTTOMRIGHT", 0, -12 )
+	local fontScale = CreateSlider(self, L["Text Size"], 0.5, 1.5, 0.05, true,
+		L["Adjust the size of the stack count and timer text."])
+	fontScale:SetPoint("TOPLEFT", fontOutline, "BOTTOMLEFT", 0, -12)
+	fontScale:SetPoint("TOPRIGHT", fontOutline, "BOTTOMRIGHT", 0, -12)
 
-	fontScale.OnValueChanged = function( self, value )
+	fontScale.OnValueChanged = function(self, value)
 		db.fontScale = value
 
 		PhanxBuffFrame:UpdateLayout()
@@ -630,7 +630,7 @@ SlashCmdList.PHANXBUFFS = function(input)
 		end
 		return
 	elseif cmd == L["buff"] then
-		local t = { }
+		local t = {}
 		for buff in pairs(PhanxBuffsIgnoreDB.buffs) do
 			t[#t + 1] = buff
 		end
@@ -645,7 +645,7 @@ SlashCmdList.PHANXBUFFS = function(input)
 		end
 		return
 	elseif cmd == L["debuff"] then
-		local t = { }
+		local t = {}
 		for debuff in pairs(PhanxBuffsIgnoreDB.debuffs) do
 			t[#t + 1] = debuff
 		end
