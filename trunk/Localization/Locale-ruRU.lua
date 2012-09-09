@@ -26,29 +26,40 @@ ns.L = {
 
 	["Crippling Poison"] = "Калечащий яд",
 	["Deadly Poison"] = "Смертельный яд",
-	["Instant Poison"] = "Быстродействующий яд", -- Removed in 5.0
---	["Leeching Poison"] = "" -- Added in 5.0
+--	["Leeching Poison"] = "",
 	["Mind-Numbing Poison"] = "Дурманящий яд",
---	["Paralytic Poison"] = "", -- Added in 5.0
+--	["Paralytic Poison"] = "",
 	["Wound Poison"] = "Нейтрализующий яд",
 
 -- Configuration panel
 
 	["Use this panel to adjust some basic settings for buff, debuff, and weapon buff icons."] = "Эти настройки позволяют настроить значков для положительных и отрицательных эффектов, и чар, связанных с оружием.",
+
 	["Buff Size"] = "Размер пол. эффектов",
 	["Adjust the size of each buff icon."] = "Настроить размера значков положительного эффекта.",
+	["Buff Spacing"] = "Расстояние пол. эффектов",
+	["Adjust the space between buff icons."] = "Настроить расстояния между значков положительного эффекта.",
 	["Buff Columns"] = "Столбцов пол. эффектов",
 	["Adjust the number of buff icons to show on each row."] = "Настроить числа положительный эффект значков для отображения на каждой строке.",
+--	["Buff Anchor"] = "",
+--	["Choose whether the buff icons grow from left to right, or right to left."] = "",
+--	["Choose whether the buff icons grow from top to bottom, or bottom to top."] = "",
+
 	["Debuff Size"] = "Размер отр. эффектов",
 	["Adjust the size of each debuff icon."] = "Настроить размера значков отрицательного эффекта.",
+	["Debuff Spacing"] = "Расстояние отр. эффектов",
+	["Adjust the space between debuff icons."] = "Настроить расстояния между значков отрицательного эффекта.",
 	["Debuff Columns"] = "Столбцов отр. эффектов",
 	["Adjust the number of debuff icons to show on each row."] = "Настроить числа отрицательных эффекта значков для отображения на каждой строке.",
-	["Icon Spacing"] = "Иконка расстоянии",
-	["Adjust the space between icons."] = "Настроить расстояния между иконками.",
-	["Growth Anchor"] = "Иконка привязанности",
-	["Set the side of the screen from which buffs and debuffs grow."] = "Установить какой стороне экрана значки привязан.",
+--	["Debuff Anchor"] = "",
+--	["Choose whether the debuff icons grow from left to right, or right to left."] = "",
+--	["Choose whether the debuff icons grow from top to bottom, or bottom to top."] = "",
+
+	["Top"] = "Верх",
+	["Bottom"] = "Низ",
 	["Left"] = "Слева",
 	["Right"] = "Справа",
+
 	["Typeface"] = "Шрифт",
 	["Set the typeface for the stack count and timer text."] = "Настроить шрифт для имя и заряд счетчиков.",
 	["Text Outline"] = "Контур шрифта",
@@ -58,8 +69,10 @@ ns.L = {
 	["Thick"] = "Толстый",
 	["Text Size"] = "Размер шрифта",
 	["Adjust the size of the stack count and timer text."] = "Настроить размера шрифта.",
+
 	["Max Timer Duration"] = "Максимальное время",
 	["Adjust the maximum remaining duration, in seconds, to show the timer text for a buff or debuff."] = "Установите максимальное количество времени в секундах, чтобы показать отметчик времени для эффект.",
+
 	["Buff Sources"] = "Источники эффекты",
 	["Show the name of the party or raid member who cast a buff on you in its tooltip."] = "Показать имя персонажа который наложил положительный эффект на вас во всплывающих подсказках.",
 	["Weapon Buff Sources"] = "Источники чарами",
