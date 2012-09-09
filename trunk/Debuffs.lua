@@ -18,9 +18,9 @@ local debuffUnit = "player"
 local floor = math.floor
 
 local DebuffTypeColor = {
-	["Magic"]	= { 0.2, 0.6, 1 },
 	["Curse"]	= { 0.6, 0.0, 1 },
 	["Disease"]	= { 0.6, 0.4, 0 },
+	["Magic"]	= { 0.2, 0.6, 1 },
 	["Poison"]	= { 0.0, 0.6, 0 },
 }
 
@@ -30,38 +30,42 @@ do
 	if class == "DRUID" then
 		local macro = "/cast [@player] " .. (GetSpellInfo(2782)) -- Remove Corruption
 		GetDispelMacro = function(kind)
-			if kind == "CURSE" or kind == "POISON" or (kind == "MAGIC" and select(5, GetTalentInfo(3, 17)) > 0) then
+			if kind == "Curse" or kind == "Poison" or (kind == "Magic" and GetSpecialization() == 4 and UnitLevel("player") >= 22) then
 				return macro
 			end
 		end
 	elseif class == "MAGE" then
 		local macro = "/cast [@player] " .. (GetSpellInfo(475)) -- Remove Curse
 		GetDispelMacro = function(kind)
-			if kind == "CURSE" then
+			if kind == "Curse" then
+				return macro
+			end
+		end
+	elseif class == "MONK" then
+		local macro = "/cast [@player] " .. (GetSpellInfo(115450)) -- Detox
+		GetDispelMacro = function(kind)
+			if kind == "Disease" or kind == "Poison" or (kind == "Magic" and GetSpecialization() == 2 and UnitLevel("player") >= 20) then
 				return macro
 			end
 		end
 	elseif class == "PALADIN" then
 		local macro = "/cast [@player] " .. (GetSpellInfo(4987)) -- Cleanse
 		GetDispelMacro = function(kind)
-			if kind == "DISEASE" or kind == "POISON" or (kind == "MAGIC" and select(5, GetTalentInfo(1, 14)) > 0) then
+			if kind == "Disease" or kind == "Poison" or (kind == "Magic" and GetSpecialization() == 1 and UnitLevel("player") >= 20) then
 				return macro
 			end
 		end
 	elseif class == "PRIEST" then
-		local macro1 = "/cast [@player] " .. (GetSpellInfo(528)) -- Cure Disease
-		local macro2 = "/cast [@player] " .. (GetSpellInfo(527)) -- Dispel Magic
+		local macro = "/cast [@player] " .. (GetSpellInfo(527)) -- Purify
 		GetDispelMacro = function(kind)
-			if kind == "DISEASE" then
-				return macro1
-			elseif kind == "MAGIC" then
-				return macro2
+			if (kind == "Disease" or kind == "Magic") and (GetSpecialization() == 2 and level >= 22) then
+				return macro
 			end
 		end
 	elseif class == "SHAMAN" then
 		local macro = "/cast [@player] " .. (GetSpellInfo(51886)) -- Cleanse Spirit
 		GetDispelMacro = function(kind)
-			if kind == "CURSE" or (kind == "MAGIC" and select(5, GetTalentInfo(3, 12)) > 0) then
+			if kind == "Curse" or (kind == "Magic" and GetSpecialization() == 3 and UnitLevel("player") >= 18) then
 				return macro
 			end
 		end
@@ -127,11 +131,11 @@ local buttons = setmetatable({ }, { __index = function(t, i)
     button.count:SetShadowOffset(1, -1)
 
 	button.timer = button:CreateFontString(nil, "OVERLAY")
-	button.timer:SetPoint("TOP", button, "BOTTOM")
+	button.timer:SetPoint("CENTER", button, "BOTTOM")
     button.timer:SetShadowOffset(1, -1)
 
 	button.symbol = button:CreateFontString(nil, "OVERLAY")
-	button.symbol:SetPoint("BOTTOMLEFT", button, 1, 0)
+	button.symbol:SetPoint("CENTER", button)
     button.symbol:SetShadowOffset(1, -1)
 
 	if PhanxBorder then
@@ -158,7 +162,8 @@ PhanxDebuffFrame.buttons = buttons
 ------------------------------------------------------------------------
 
 function PhanxDebuffFrame:UpdateLayout()
-	local anchor = db.growthAnchor
+	local anchorH = db.debuffAnchorH
+	local anchorV = db.debuffAnchorV
 	local size = db.debuffSize
 	local spacing = db.iconSpacing
 	local cols = db.debuffColumns
@@ -171,13 +176,13 @@ function PhanxDebuffFrame:UpdateLayout()
 		local col = (i - 1) % cols
 		local row = math.ceil(i / cols) - 1
 
-		local x = floor(col * (spacing + size) * (anchor == "LEFT" and 1 or -1) + 0.5)
+		local x = floor(col * (spacing + size) * (anchorH == "LEFT" and 1 or -1) + 0.5)
 		local y = floor(row * (spacing + (size * 1.5)) + 0.5)
 
 		button:ClearAllPoints()
 		button:SetWidth(size)
 		button:SetHeight(size)
-		button:SetPoint("TOP" .. anchor, self, "TOP" .. anchor, x, -y)
+		button:SetPoint(anchorV .. anchorH, self, anchorV .. anchorH, x, anchorV == "BOTTOM" and y or -y)
 
 		button.count:SetFont(fontFace, 18 * fontScale, fontOutline)
 		button.timer:SetFont(fontFace, 14 * fontScale, fontOutline)

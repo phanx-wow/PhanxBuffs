@@ -120,7 +120,7 @@ local buttons = setmetatable({ }, { __index = function(t, i)
     button.count:SetShadowOffset(1, -1)
 
 	button.timer = button:CreateFontString(nil, "OVERLAY")
-	button.timer:SetPoint("TOP", button, "BOTTOM")
+	button.timer:SetPoint("CENTER", button, "BOTTOM")
     button.timer:SetShadowOffset(1, -1)
 
 	if PhanxBorder then
@@ -140,7 +140,8 @@ PhanxBuffFrame.buttons = buttons
 ------------------------------------------------------------------------
 
 function PhanxBuffFrame:UpdateLayout()
-	local anchor = db.growthAnchor
+	local anchorH = db.buffAnchorH
+	local anchorV = db.buffAnchorV
 	local size = db.buffSize
 	local spacing = db.iconSpacing
 	local cols = db.buffColumns
@@ -157,13 +158,13 @@ function PhanxBuffFrame:UpdateLayout()
 		local col = (j - 1) % cols
 		local row = math.ceil(j / cols) - 1
 
-		local x = floor(col * (spacing + size) * (anchor == "LEFT" and 1 or -1) + 0.5)
+		local x = floor(col * (spacing + size) * (anchorH == "LEFT" and 1 or -1) + 0.5)
 		local y = floor(row * (spacing + (size * 1.5)) + 0.5)
 
 		button:ClearAllPoints()
 		button:SetWidth(size)
 		button:SetHeight(size)
-		button:SetPoint("TOP" .. anchor, self, "TOP" .. anchor, x, -y)
+		button:SetPoint(anchorV .. anchorH, self, anchorV .. anchorH, x, anchorV == "BOTTOM" and y or -y)
 
 		button.count:SetFont(fontFace, 18 * fontScale, fontOutline)
 		button.timer:SetFont(fontFace, 14 * fontScale, fontOutline)
