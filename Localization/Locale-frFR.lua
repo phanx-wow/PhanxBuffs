@@ -26,10 +26,9 @@ ns.L = {
 
 	["Crippling Poison"] = "Poison affaiblissant",
 	["Deadly Poison"] = "Poison mortel",
-	["Instant Poison"] = "Poison instantané", -- Removed in 5.0
---	["Leeching Poison"] = "" -- Added in 5.0
+--	["Leeching Poison"] = "",
 	["Mind-Numbing Poison"] = "Poison de [Dd]istraction mentale", -- item name has lowercase d
---	["Paralytic Poison"] = "", -- Added in 5.0
+--	["Paralytic Poison"] = "",
 	["Wound Poison"] = "Poison douloureux",
 
 -- Configuration panel
@@ -37,18 +36,29 @@ ns.L = {
 	["Use this panel to adjust some basic settings for buff, debuff, and weapon buff icons."] = "Utilisez cette fenêtre pour ajuster des réglages basiques pour les icônes de buffs, debuffs, et buffs d'arme.",
 	["Buff Size"] = "Taille des Buffs",
 	["Adjust the size of each buff icon."] = "Configure la taille de chaque icône de buff.",
+	["Buff Spacing"] = "Espacement des Buffs",
+	["Adjust the space between buff icons."] = "Configure l'espacement entre les icônes des buffs.",
 	["Buff Columns"] = "Colonnes de Buffs",
 	["Adjust the number of buff icons to show on each row."] = "Configure le nombre d'icônes de Buffs à afficher par ligne.",
+	["Buff Anchor"] = "Ancrage des Buffs",
+--	["Choose whether the buff icons grow from left to right, or right to left."] = "",
+--	["Choose whether the buff icons grow from top to bottom, or bottom to top."] = "",
+
 	["Debuff Size"] = "Taille des Debuffs",
 	["Adjust the size of each debuff icon."] = "Configure la taille de chaque icône de debuff.",
+	["Debuff Spacing"] = "Espacement des Debuffs",
+	["Adjust the space between debuff icons."] = "Configure l'espacement entre les icônes des debuffs.",
 	["Debuff Columns"] = "Colonnes de Debuffs",
 	["Adjust the number of debuff icons to show on each row."] = "Configure le nombre d'icônes de Debuffs à afficher par ligne.",
-	["Icon Spacing"] = "Espacement des Icônes",
-	["Adjust the space between icons."] = "Configure l'espacement entre les icônes.",
-	["Growth Anchor"] = "Ancrage de Propagation",
-	["Set the side of the screen from which buffs and debuffs grow."] = "Configure le côté de l'écran à partir duquel les buffs et débuffs apparaîtront.",
+	["Debuff Anchor"] = "Ancrage des Debuffs",
+--	["Choose whether the debuff icons grow from left to right, or right to left."] = "",
+--	["Choose whether the debuff icons grow from top to bottom, or bottom to top."] = "",
+
+--	["Top"] = "",
+--	["Bottom"] = "",
 	["Left"] = "Gauche",
 	["Right"] = "Droite",
+
 	["Typeface"] = "Police",
 	["Set the typeface for the stack count and timer text."] = "Configure la police de texte des compteurs de stack et du timer.",
 	["Text Outline"] = "Contour du Texte",
@@ -58,8 +68,10 @@ ns.L = {
 	["Thick"] = "Epais",
 --	["Text Size"] = "",
 --	["Adjust the size of the stack count and timer text."] = "",
+
 --	["Max Timer Duration"] = "",
 --	["Adjust the maximum remaining duration, in seconds, to show the timer text for a buff or debuff."] = "",
+
 	["Buff Sources"] = "Origines des Buffs",
 	["Show the name of the party or raid member who cast a buff on you in its tooltip."] = "Affiche dans le tooltip du buff le nom du membre du groupe ou raid qui l'a incanté.",
 	["Weapon Buff Sources"] = "Origine des Buffs d'Arme",
