@@ -3,16 +3,17 @@
 
 ## Title: PhanxBuffs
 ## Notes: Basic replacement for player buff, debuff, and temporary enchant frames.
-## Notes-esES: Sustitutos básicos de los iconos de beneficios, perjuicios, y beneficios de armas del jugador.
-## Notes-esMX: Sustitutos básicos de los iconos de beneficios, perjuicios, y beneficios de armas del jugador.
-## Notes-ruRU: Заменить стандартные значков для положительных и отрицательных эффектов, и чары, связанных с оружием.
+## Notes-esES: Sustitutos básicos de los iconos del jugador de beneficios, perjuicios y encancamientos de armas.
+## Notes-esMX: Sustitutos básicos de los iconos del jugador de beneficios, perjuicios y encancamientos de armas.
+## Notes-ptBR: Substituições básicas para os ícones do jogador de bônus, penalidades e encantamentos de armas.
+## Notes-ruRU: Простая замена иконки игрока баффы, дебаффы и чары, связанных с оружием.
 
 ## Author: Phanx
 ## X-Email: addons@phanx.net
 ## X-Copyright: Copyright (c) 2010-2012 Phanx. All rights reserved.
 ## X-License: See the accompanying LICENSE file for details.
 ## X-CompatibleLocales: deDE, enUS, esES, esMX, frFR, itIT, koKR, ptBR, ruRU, zhCN, zhTW
-## X-Localizations: enUS, esES, esMX, frFR, koKR, ruRU, zhTW
+## X-Localizations: enUS, esES, esMX, frFR, koKR, ptBR, ruRU, zhTW
 ## X-Website: http://www.wowinterface.com/downloads/info16874-PhanxBuffs.html
 ## X-Curse-Project-ID: phanxbuffs
 ## X-WoWI-ID: 16874

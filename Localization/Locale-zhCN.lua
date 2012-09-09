@@ -26,29 +26,40 @@ ns.L = {
 
 --	["Crippling Poison"] = "",
 --	["Deadly Poison"] = "",
---	["Instant Poison"] = "", -- Removed in 5.0
---	["Leeching Poison"] = "" -- Added in 5.0
+--	["Leeching Poison"] = "",
 --	["Mind-Numbing Poison"] = "",
---	["Paralytic Poison"] = "", -- Added in 5.0
+--	["Paralytic Poison"] = "",
 --	["Wound Poison"] = "",
 
 -- Configuration panel
 
 --	["Use this panel to adjust some basic settings for buff, debuff, and weapon buff icons."] = "",
+
 	["Buff Size"] = "Buff 大小",
 --	["Adjust the size of each buff icon."] = "",
+--	["Buff Spacing"] = "",
+--	["Adjust the space between buff icons."] = "",
 	["Buff Columns"] = "Buff 栏",
 --	["Adjust the number of buff icons to show on each row."] = "",
+	["Buff Anchor"] = "Buff 增长锚点",
+--	["Choose whether the buff icons grow from left to right, or right to left."] = "",
+--	["Choose whether the buff icons grow from top to bottom, or bottom to top."] = "",
+
 	["Debuff Size"] = "Debuff 大小",
 --	["Adjust the size of each debuff icon."] = "",
+--	["Debuff Spacing"] = "",
+--	["Adjust the space between debuff icons."] = "",
 	["Debuff Columns"] = "Debuff 栏",
 --	["Adjust the number of debuff icons to show on each row."] = "",
---	["Icon Spacing"] = "",
---	["Adjust the space between icons."] = "",
-	["Growth Anchor"] = "增长锚点",
---	["Set the side of the screen from which buffs and debuffs grow."] = "",
+	["Debuff Anchor"] = "Debuff 增长锚点",
+--	["Choose whether the debuff icons grow from left to right, or right to left."] = "",
+--	["Choose whether the debuff icons grow from top to bottom, or bottom to top."] = "",
+
+--	["Top"] = "",
+--	["Bottom"] = "",
 	["Left"] = "左侧",
 --	["Right"] = "",
+
 --	["Typeface"] = "",
 --	["Set the typeface for the stack count and timer text."] = "",
 --	["Text Outline"] = "",
@@ -58,8 +69,10 @@ ns.L = {
 --	["Thick"] = "",
 --	["Text Size"] = "",
 --	["Adjust the size of the stack count and timer text."] = ""
+
 --	["Max Timer Duration"] = "",
 --	["Adjust the maximum remaining duration, in seconds, to show the timer text for a buff or debuff."] = "",
+
 	["Buff Sources"] = "Buff 来源",
 --	["Show the name of the party or raid member who cast a buff on you in its tooltip."] = "",
 --	["Weapon Buff Sources"] = "",

@@ -26,29 +26,40 @@ ns.L = {
 
 	["Crippling Poison"] = "Veneno entorpecedor",
 	["Deadly Poison"] = "Veneno mortal",
-	["Instant Poison"] = "Veneno instantáneo", -- Removed in 5.0
-	["Leeching Poison"] = "Veneno parasitante", -- Added in 5.0
+	["Leeching Poison"] = "Veneno parasitante",
 	["Mind-Numbing Poison"] = "Veneno de aturdimiento mental",
-	["Paralytic Poison"] = "Veneno paralizador", -- Added in 5.0
+	["Paralytic Poison"] = "Veneno paralizador",
 	["Wound Poison"] = "Veneno hiriente",
 
 -- Configuration panel text
 
-	["Use this panel to adjust some basic settings for buff, debuff, and weapon buff icons."] = "Estes opciones te permiten configurar los iconos de beneficios, perjuicios, y beneficios de armas.",
+	["Use this panel to adjust some basic settings for buff, debuff, and weapon buff icons."] = "Estes opciones te permiten configurar los iconos de beneficios, perjuicios, y encancamientos de armas.",
+
 	["Buff Size"] = "Tamaño de beneficios",
 	["Adjust the size of each buff icon."] = "Ajustar el tamaño de los iconos de beneficios.",
+	["Buff Spacing"] = "Espaciamiento de beneficios",
+	["Adjust the space between buff icons."] = "Ajustar el espaciamiento entre los iconos de beneficios.",
 	["Buff Columns"] = "Columnas de beneficios",
 	["Adjust the number of buff icons to show on each row."] = "Ajustar el número de iconos de beneficios para mostrar en cada fila.",
+	["Buff Anchor"] = "Ancla de beneficios",
+	["Choose whether the buff icons grow from left to right, or right to left."] = "Seleccionar entre extender los iconos de beneficios de la derecha a la izquierda, o de la izquierda a la derecha.",
+	["Choose whether the buff icons grow from top to bottom, or bottom to top."] = "Seleccionar entre extender los iconos de beneficios de arriba a abajo, o de abajo a arriba.",
+
 	["Debuff Size"] = "Tamaño de perjuicios",
 	["Adjust the size of each debuff icon."] = "Ajustar el tamaño de los icons de perjuicios.",
+	["Debuff Spacing"] = "Espaciamiento de perjuicios",
+	["Adjust the space between debuff icons."] = "Ajustar el espaciamiento entre los iconos de perjuicios.",
 	["Debuff Columns"] = "Columnas de perjuicios",
 	["Adjust the number of debuff icons to show on each row."] = "Ajustar el número de iconos de perjuicios para mostrar en cada fila.",
-	["Icon Spacing"] = "Espaciamiento de iconos",
-	["Adjust the space between icons."] = "Ajustar el espaciamiento entre los iconos.",
-	["Growth Anchor"] = "Ancla de iconos",
-	["Set the side of the screen from which buffs and debuffs grow."] = "Establecer el lado de la pantalla para que anclar los iconos de beneficios y perjuicios.",
+	["Debuff Anchor"] = "Ancla de perjuicios",
+	["Choose whether the debuff icons grow from left to right, or right to left."] = "Seleccionar entre extender los iconos de perjuicios de la derecha a la izquierda, o de la izquierda a la derecha.",
+	["Choose whether the debuff icons grow from top to bottom, or bottom to top."] = "Seleccionar entre extender los iconos de perjuicios de la arriba a abajo, o de abajo a arriba.",
+
+	["Top"] = "Arriba",
+	["Bottom"] = "Abajo",
 	["Left"] = "Izquierda",
 	["Right"] = "Derecha",
+
 	["Typeface"] = "Tipo de letra",
 	["Set the typeface for the stack count and timer text."] = "Establecer el tipo de letra del texto de aplicaciones y tiempo.",
 	["Text Outline"] = "Perfil de texto",
@@ -58,8 +69,10 @@ ns.L = {
 	["Thick"] = "Grueso",
 	["Text Size"] = "Tamaño de texto",
 	["Adjust the size of the stack count and timer text."] = "Ajustar el tamaño del texto de aplicaciones y tiempo.",
+
 	["Max Timer Duration"] = "Tiempo máximo",
 	["Adjust the maximum remaining duration, in seconds, to show the timer text for a buff or debuff."] = "Ajustar el máximo de tiempo restante, en segundos, para mostrar el texto de tiempo.",
+
 	["Buff Sources"] = "Taumaturgos de beneficios",
 	["Show the name of the party or raid member who cast a buff on you in its tooltip."] = "Mostrar el nombre del miembro del grupo o banda que ha aplicado un beneficio a te en su descripción.",
 	["Weapon Buff Sources"] = "Fuentes de encantamientos",
