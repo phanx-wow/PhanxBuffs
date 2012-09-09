@@ -35,21 +35,21 @@ ns.L = {
 
 	["Use this panel to adjust some basic settings for buff, debuff, and weapon buff icons."] = "Эти настройки позволяют настроить значков для положительных и отрицательных эффектов, и чар, связанных с оружием.",
 
-	["Buff Size"] = "Размер пол. эффектов",
+	["Buff Size"] = "Размер баффы",
 	["Adjust the size of each buff icon."] = "Настроить размера значков положительного эффекта.",
-	["Buff Spacing"] = "Расстояние пол. эффектов",
+	["Buff Spacing"] = "Расстояние баффы",
 	["Adjust the space between buff icons."] = "Настроить расстояния между значков положительного эффекта.",
-	["Buff Columns"] = "Столбцов пол. эффектов",
+	["Buff Columns"] = "Столбцов баффы",
 	["Adjust the number of buff icons to show on each row."] = "Настроить числа положительный эффект значков для отображения на каждой строке.",
 --	["Buff Anchor"] = "",
 --	["Choose whether the buff icons grow from left to right, or right to left."] = "",
 --	["Choose whether the buff icons grow from top to bottom, or bottom to top."] = "",
 
-	["Debuff Size"] = "Размер отр. эффектов",
+	["Debuff Size"] = "Размер дебаффы",
 	["Adjust the size of each debuff icon."] = "Настроить размера значков отрицательного эффекта.",
-	["Debuff Spacing"] = "Расстояние отр. эффектов",
+	["Debuff Spacing"] = "Расстояние дебаффы",
 	["Adjust the space between debuff icons."] = "Настроить расстояния между значков отрицательного эффекта.",
-	["Debuff Columns"] = "Столбцов отр. эффектов",
+	["Debuff Columns"] = "Столбцов дебаффы",
 	["Adjust the number of debuff icons to show on each row."] = "Настроить числа отрицательных эффекта значков для отображения на каждой строке.",
 --	["Debuff Anchor"] = "",
 --	["Choose whether the debuff icons grow from left to right, or right to left."] = "",
@@ -73,7 +73,7 @@ ns.L = {
 	["Max Timer Duration"] = "Максимальное время",
 	["Adjust the maximum remaining duration, in seconds, to show the timer text for a buff or debuff."] = "Установите максимальное количество времени в секундах, чтобы показать отметчик времени для эффект.",
 
-	["Buff Sources"] = "Источники эффекты",
+	["Buff Sources"] = "Источники баффы",
 	["Show the name of the party or raid member who cast a buff on you in its tooltip."] = "Показать имя персонажа который наложил положительный эффект на вас во всплывающих подсказках.",
 	["Weapon Buff Sources"] = "Источники чарами",
 	["Show weapon buffs as the spell or item that buffed the weapon, instead of the weapon itself."] = "Отображать чары, связанных с оружием, а не оружия.",
@@ -84,13 +84,13 @@ ns.L = {
 
 	["Cast by %s"] = "Наносится %s",
 
-	["Now ignoring buff: %s"] = "Теперь игнорируя положительный эффект: %s",
-	["Now ignoring debuff: %s"] = "Теперь игнорируя отрицательный эффект: %s",
-	["No longer ignoring buff: %s"] = "Больше не игнорируя положительный эффект: %s",
-	["No longer ignoring debuff: %s"] = "Больше не игнорируя отрицательный эффект: %s",
-	["No buffs are being ignored."] = "Вы не игнорируя любые положительные эффекты.",
-	["No debuffs are being ignored."] = "Вы не игнорируя любые отрицательные эффекты",
-	["%d |4buff:buffs; |4is:are; being ignored:"] = "Вы игнорируете %d |4положительный:положительных; |4эффект:эффектов;.",
-	["%d |4debuff:debuffs; |4is:are; being ignored:"] = "Вы игнорируете %d |4отрицательный:отрицательных; |4эффект:эффектов;.",
+	["Now ignoring buff: %s"] = "Теперь игнорируя бафф: %s",
+	["Now ignoring debuff: %s"] = "Теперь игнорируя дебафф: %s",
+	["No longer ignoring buff: %s"] = "Больше не игнорируя бафф: %s",
+	["No longer ignoring debuff: %s"] = "Больше не игнорируя дебафф: %s",
+	["No buffs are being ignored."] = "Вы не игнорируя любые баффы.",
+	["No debuffs are being ignored."] = "Вы не игнорируя любые дебаффы",
+	["%d |4buff:buffs; |4is:are; being ignored:"] = "Вы игнорируете %d |4бафф:баффы;.",
+	["%d |4debuff:debuffs; |4is:are; being ignored:"] = "Вы игнорируете %d |4дебафф:дебаффы;.",
 
 }
