@@ -125,19 +125,20 @@ PhanxTempEnchantFrame.buttons = buttons
 ------------------------------------------------------------------------
 
 function PhanxTempEnchantFrame:UpdateLayout()
+	local anchorH = db.buffAnchorH
+	local anchorV = db.buffAnchorV
 	local size = db.buffSize
 	local spacing = db.iconSpacing
-	local anchor = db.growthAnchor
 
 	local fontFace = GetFontFile(db.fontFace)
 	local fontScale = db.fontScale
 	local fontOutline = db.fontOutline
 
 	for i, button in ipairs(buttons) do
-		local x = (spacing + size) * (i - 1) * (anchor == "LEFT" and 1 or -1)
+		local x = (spacing + size) * (i - 1) * (anchorH == "LEFT" and 1 or -1)
 
 		button:ClearAllPoints()
-		button:SetPoint("TOP" .. anchor, self, "TOP" .. anchor, x, 0)
+		button:SetPoint(anchorV .. anchorH, self, anchorV .. anchorH, x, 0)
 		button:SetWidth(size)
 		button:SetHeight(size)
 
@@ -146,8 +147,8 @@ function PhanxTempEnchantFrame:UpdateLayout()
 	end
 
 	self:ClearAllPoints()
-	self:SetPoint("TOP" .. anchor, PhanxBuffFrame, "TOP" .. anchor, 0, 0)
-	self:SetWidth((db.buffSize * (playerClass == "ROGUE" and 3 or 2)) + spacing)
+	self:SetPoint(anchorV .. anchorH, PhanxBuffFrame, anchorV .. anchorH, 0, 0)
+	self:SetWidth((db.buffSize * 2) + spacing)
 	self:SetHeight(db.buffSize)
 end
 
