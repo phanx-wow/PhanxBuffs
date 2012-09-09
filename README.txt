@@ -15,76 +15,62 @@ temporary enchant (weapon buff) frames. It looks and acts basically like
 the default buff frames, with a few improvements:
 
 * Buff and debuff icons are sorted by their remaining duration
-* Text timers are shown only when less than 30 seconds remain on the
-  buff or debuff
+* Text timers are shown only when less than 30 seconds remain
 * Weapon buff icons can show the spell or item that buffed your weapon,
   instead of the weapon itself
-* Buff tooltips show the name of the party or raid member who cast the
-  buff on you
-* Buffs or debuffs you never want to see can be hidden (eg. Chill of the
-  Throne)
+* Buff tooltips show the name of the group member who cast it on you
+* Buffs or debuffs you never want to see can be hidden
 * Wrap icons to more than one row, with configurable row lengths
 * Buff and debuff frames are movable
 * Basic configuration options
-* ButtonFacade support
+* Masque skinning support
 
 
 Usage
 -----
 
-Options are available by typing "/pbuff" or navigating to the PhanxBuffs
-panel in the standard Interface Options window.
+Type “/pbuff” for options, or browse to the PhanxBuffs panel in the
+standard Interface Options window.
 
-Add a buff/debuff to the ignore list by right-clicking it while holding
-down the Alt and Shift keys.
+Alt+Shift+Right Click a buff or debuff to add it to the ignore list.
 
-Add/remove a buff/debuff to/from the ignore list by typing
-"/pbuff buff Zomg Uber Buff" or "/pbuff debuff Zomg Evil Debuff".
+Type “/pbuff buff Zomg Uber Buff” or “/pbuff debuff Zomg Evil Debuff” to
+add or remove the specified buff or debuff to or from the ignore list.
 Buff/debuff names provided with these commands must be properly spelled,
 capitalized, and punctuated.
 
 
-Buff Cancelling in WoW 4.0 (Cataclysm)
---------------------------------------
+Cancelling Buffs
+----------------
 
-Due to Blizzard restrictions, PhanxBuffs and other addons which provide
-a filterable buff display can no longer directly cancel buffs when you
-right-click on them.
+Due to Blizzard restrictions, you cannot right-click to cancel buffs
+while in combat when using addons that filter or sort the buff display.
+PhanxBuffs includes a workaround that lets you right-click to cancel
+buffs *out of combat*, but you must click twice to remove certain
+“protected” buffs like shapeshift forms and weapon buffs. By default,
+PhanxBuffs applies this two-click cancelling method to all buffs to keep
+things consistent, but if you like, you can enable one-click cancelling
+for unprotected buffs in the options panel.
 
-As a workaround, you can cancel buffs by right-clicking them twice, but
-only while out of combat. The first right-click will bring up a red
-overlay on the buff icon. Right-click again to cancel the buff, or
-left-click to hide the overlay and keep the buff.
-
-If you need right-click buff cancelling in combat, keep in mind that you
-will have to sacrifice most filtering and sorting functions. Here are
-several addons that use the restrictive new secure aura system:
-
-* Aptus Aura Frames
-  http://www.wowinterface.com/downloads/info18102-AptusAuraFrames.html
-* Bison
-  http://www.wowace.com/addons/bison/
-* NivBuffs
-  http://www.wowinterface.com/downloads/info18440-nivBuffs.html
-
-You may also try my new addon CancelMyBuffs, which provides a slightly
-different way to cancel buffs quickly:
-
-* http://www.wowinterface.com/downloads/info18447-CancelMyBuffs.html
+When you right-click once, a red square will appear over the buff icon.
+Right-click again to cancel the buff, or left-click to keep it and hide
+the red square. You can also right-click on debuffs your character can
+dispel to cast the appropriate dispel spell on yourself, but as with
+cancelling buffs, this feature only works out of combat.
 
 
 Localization
 ------------
 
-Compatible with English, Deutsch, Español (EU), Español (AL), Français,
+Compatible with English, Deutsch, Español (EU & AL), Français, Italiano,
 Português, Русский, 한국어, 简体中文, and 繁體中文 game clients.
 
-Translated into English, Français, 한국어, and 繁體中文.
+Translated into English, Español, Français, Português, Русский, 한국어,
+and 繁體中文.
 
 To add or update translations for any language, see the Localization tab
 on the CurseForge project page:
-
-http://wow.curseforge.com/addons/phanxbuffs/localization/
+	<http://wow.curseforge.com/addons/phanxbuffs/localization/>
 
 
 Feedback

@@ -131,11 +131,11 @@ local buttons = setmetatable({ }, { __index = function(t, i)
     button.count:SetShadowOffset(1, -1)
 
 	button.timer = button:CreateFontString(nil, "OVERLAY")
-	button.timer:SetPoint("CENTER", button, "BOTTOM")
+	button.timer:SetPoint("TOP", button, "BOTTOM")
     button.timer:SetShadowOffset(1, -1)
 
 	button.symbol = button:CreateFontString(nil, "OVERLAY")
-	button.symbol:SetPoint("CENTER", button)
+	button.symbol:SetPoint("BOTTOMRIGHT", button)
     button.symbol:SetShadowOffset(1, -1)
 
 	if PhanxBorder then
@@ -186,7 +186,21 @@ function PhanxDebuffFrame:UpdateLayout()
 
 		button.count:SetFont(fontFace, 18 * fontScale, fontOutline)
 		button.timer:SetFont(fontFace, 14 * fontScale, fontOutline)
-		button.symbol:SetFont(fontFace, 16 * fontScale, fontOutline)
+		button.symbol:SetFont(fontFace, 16 * fontScale, fontOutline == "THICKOUTLINE" and fontOutline or "OUTLINE")
+
+		if fontOutline == "THICKOUTLINE" then
+			button.count:SetPoint("CENTER", button, "TOP", 2, -1)
+			button.timer:SetPoint("TOP", button, "BOTTOM", 2, -1)
+			button.symbol:SetPoint("BOTTOMRIGHT", 2, 0)
+		elseif fontOutline == "OUTLINE" then
+			button.count:SetPoint("CENTER", button, "TOP", 1, 0)
+			button.timer:SetPoint("TOP", button, "BOTTOM", 1, 0)
+			button.symbol:SetPoint("BOTTOMRIGHT", 0, 0)
+		else
+			button.count:SetPoint("CENTER", button, "TOP", 0, 0)
+			button.timer:SetPoint("TOP", button, "BOTTOM", 0, 0)
+			button.symbol:SetPoint("BOTTOMRIGHT", 0, 0)
+		end
 	end
 
 	self:ClearAllPoints()
