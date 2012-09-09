@@ -9,19 +9,23 @@
 
 local db
 local defaultDB = {
+	buffAnchorH = "RIGHT",
+	buffAnchorV = "TOP",
 	buffColumns = 20,
-	buffSize = 24,
+	buffSize    = 24,
+	buffSpacing = 3,
 
+	buffAnchorH   = "RIGHT",
+	buffAnchorV   = "TOP",
 	debuffColumns = 10,
-	debuffSize = 48,
-
-	iconSpacing = 3,
-	maxTimer = 30,
-	growthAnchor = "RIGHT",
+	debuffSize    = 48,
+	debuffSpacing = 3,
 
 	fontFace = "Friz Quadrata TT",
 	fontOutline = "OUTLINE",
 	fontScale = 1,
+
+	maxTimer = 30,
 
 	showBuffSources = true,
 	showTempEnchantSources = true,
@@ -68,18 +72,49 @@ local LibSharedMedia
 
 local fonts = {}
 
-local defaultFonts = {
-	["Arial Narrow"] = [[Fonts\ARIALN.TTF]],
-	["Friz Quadrata TT"] = [[Fonts\FRIZQT__.TTF]],
-	["Morpheus"] = [[Fonts\MORPHEUS.ttf]],
-	["Skurri"] = [[Fonts\skurri.ttf]],
-}
+local defaultFonts, defaultFont = {}
+if GetLocale() == "koKR" then
+	defaultFonts["굵은 글꼴"]  = [[Fonts\2002B.TTF]]
+	defaultFonts["기본 글꼴"]  = [[Fonts\2002.TTF]]
+	defaultFonts["데미지 글꼴"] = [[Fonts\K_Damage.TTF]]
+	defaultFonts["퀘스트 글꼴"] = [[Fonts\K_Pagetext.TTF]]
+
+	defaultFont = "기본 글꼴"
+elseif GetLocale() == "zhCN" then
+	defaultFonts["伤害数字"] = [[Fonts\ARKai_C.ttf]]
+	defaultFonts["默认"]    = [[Fonts\ARKai_T.ttf]]
+	defaultFonts["聊天"]    = [[Fonts\ARHei.ttf]]
+
+	defaultFont = "默认"
+elseif GetLocale() == "zhTW" then
+	defaultFonts["提示訊息"] = [[Fonts\bHEI00M.ttf]]
+	defaultFonts["聊天"]    = [[Fonts\bHEI01B.ttf]]
+	defaultFonts["傷害數字"] = [[Fonts\bKAI00M.ttf]]
+	defaultFonts["預設"]    = [[Fonts\bLEI00D.ttf]]
+
+	defaultFont = "預設"
+elseif GetLocale() == "ruRU" then
+	defaultFonts["Arial Narrow"]     = [[Fonts\ARIALN.TTF]]
+	defaultFonts["Friz Quadrata TT"] = [[Fonts\FRIZQT___CYR.TTF]]
+	defaultFonts["Morpheus"]         = [[Fonts\MORPHEUS_CYR.TTF]]
+	defaultFonts["Nimrod MT"]        = [[Fonts\NIM_____.ttf]]
+	defaultFonts["Skurri"]           = [[Fonts\SKURRI_CYR.TTF]]
+
+	defaultFont = "Friz Quadrata TT"
+else
+	defaultFonts["Arial Narrow"]     = [[Fonts\ARIALN.TTF]]
+	defaultFonts["Friz Quadrata TT"] = [[Fonts\FRIZQT__.TTF]]
+	defaultFonts["Morpheus"]         = [[Fonts\MORPHEUS_CYR.ttf]]
+	defaultFonts["Nimrod MT"]        = [[Fonts\NIM_____.ttf]]
+	defaultFonts["Skurri"]           = [[Fonts\SKURRI_CYR.TTF]]
+
+	defaultFont = "Friz Quadrata TT"
+end
 
 ------------------------------------------------------------------------
 
 local function GetFontFile(name)
-	local file = LibSharedMedia and LibSharedMedia:Fetch("font", name) or defaultFonts[name]
-	return file or [[Fonts\FRIZQT__.TTF]]
+	return LibSharedMedia and LibSharedMedia:Fetch("font", name) or defaultFonts[name] or defaultFonts[defaultFont]
 end
 
 local function SetButtonFonts(parent, face, outline)
@@ -234,6 +269,15 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 	local CreateScrollingDropdown = LibStub("PhanxConfig-ScrollingDropdown").CreateScrollingDropdown
 	local CreateSlider = LibStub("PhanxConfig-Slider").CreateSlider
 
+	local anchorsH = {
+		["LEFT"] = L["Left"],
+		["RIGHT"] = L["Right"],
+	}
+	local anchorsV = {
+		["TOP"] = L["Top"],
+		["BOTTOM"] = L["Bottom"],
+	}
+
 	--------------------------------------------------------------------
 
 	local title, notes = LibStub("PhanxConfig-Header").CreateHeader(self, ADDON_NAME, L["Use this panel to adjust some basic settings for buff, debuff, and weapon buff icons."])
@@ -253,10 +297,23 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 
 	--------------------------------------------------------------------
 
+	local buffSpacing = CreateSlider(self, L["Buff Spacing"], 0, 20, 1)
+	buffSpacing.desc = L["Adjust the space between buff icons."]
+	buffSpacing:SetPoint("TOPLEFT", buffSize, "BOTTOMLEFT", 0, -12)
+	buffSpacing:SetPoint("TOPRIGHT", buffSize, "BOTTOMRIGHT", 0, -12)
+
+	buffSpacing.OnValueChanged = function(self, value)
+		db.buffSpacing = value
+		PhanxBuffFrame:UpdateLayout()
+		PhanxTempEnchantFrame:UpdateLayout()
+	end
+
+	--------------------------------------------------------------------
+
 	local buffColumns = CreateSlider(self, L["Buff Columns"], 1, 40, 1)
 	buffColumns.desc = L["Adjust the number of buff icons to show on each row."]
-	buffColumns:SetPoint("TOPLEFT", buffSize, "BOTTOMLEFT", 0, -12)
-	buffColumns:SetPoint("TOPRIGHT", buffSize, "BOTTOMRIGHT", 0, -12)
+	buffColumns:SetPoint("TOPLEFT", buffSpacing, "BOTTOMLEFT", 0, -12)
+	buffColumns:SetPoint("TOPRIGHT", buffSpacing, "BOTTOMRIGHT", 0, -12)
 
 	buffColumns.OnValueChanged = function(self, value)
 		db.buffColumns = value
@@ -266,67 +323,54 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 
 	--------------------------------------------------------------------
 
-	local debuffSize = CreateSlider(self, L["Debuff Size"], 10, 60, 2)
-	debuffSize.desc = L["Adjust the size of each debuff icon."]
-	debuffSize:SetPoint("TOPLEFT", buffColumns, "BOTTOMLEFT", 0, -12)
-	debuffSize:SetPoint("TOPRIGHT", buffColumns, "BOTTOMRIGHT", 0, -12)
-
-	debuffSize.OnValueChanged = function(self, value)
-		db.debuffSize = value
-		PhanxDebuffFrame:UpdateLayout()
-	end
-
-	--------------------------------------------------------------------
-
-	local debuffColumns = CreateSlider(self, L["Debuff Columns"], 1, 40, 1)
-	debuffColumns.desc = L["Adjust the number of debuff icons to show on each row."]
-	debuffColumns:SetPoint("TOPLEFT", debuffSize, "BOTTOMLEFT", 0, -12)
-	debuffColumns:SetPoint("TOPRIGHT", debuffSize, "BOTTOMRIGHT", 0, -12)
-
-	debuffColumns.OnValueChanged = function(self, value)
-		db.debuffColumns = value
-		PhanxDebuffFrame:UpdateLayout()
-	end
-
-	--------------------------------------------------------------------
-
-	local iconSpacing = CreateSlider(self, L["Icon Spacing"], 0, 20, 1)
-	iconSpacing.desc = L["Adjust the space between icons."]
-	iconSpacing:SetPoint("TOPLEFT", debuffColumns, "BOTTOMLEFT", 0, -12)
-	iconSpacing:SetPoint("TOPRIGHT", debuffColumns, "BOTTOMRIGHT", 0, -12)
-
-	iconSpacing.OnValueChanged = function(self, value)
-		db.iconSpacing = value
-		PhanxBuffFrame:UpdateLayout()
-		PhanxDebuffFrame:UpdateLayout()
-		PhanxTempEnchantFrame:UpdateLayout()
-	end
-
-	--------------------------------------------------------------------
-
-	local anchors = {
-		["LEFT"] = L["Left"],
-		["RIGHT"] = L["Right"],
-	}
-
-	local growthAnchor
+	local buffAnchorV
 	do
 		local function OnClick(self)
 			local value = self.value
-
-			db.growthAnchor = value
-
+			db.buffAnchorV = value
+			buffAnchorV:SetValue(value, anchorsV[value])
 			PhanxBuffFrame:UpdateLayout()
-			PhanxDebuffFrame:UpdateLayout()
 			PhanxTempEnchantFrame:UpdateLayout()
-
-			growthAnchor:SetValue(self.value, self.text)
 		end
 
 		local info = {} -- UIDropDownMenu_CreateInfo()
 
-		growthAnchor = CreateDropdown(self, L["Growth Anchor"], function()
-			local selected = db.growthAnchor
+		buffAnchorV = CreateDropdown(self, L["Buff Anchor"], function()
+			local selected = db.buffAnchorV
+
+			info.text = L["Top"]
+			info.value = "TOP"
+			info.func = OnClick
+			info.checked = "TOP" == selected
+			UIDropDownMenu_AddButton(info)
+
+			info.text = L["Bottom"]
+			info.value = "BOTTOM"
+			info.func = OnClick
+			info.checked = "BOTTOM" == selected
+			UIDropDownMenu_AddButton(info)
+		end)
+	end
+	buffAnchorV.desc = L["Choose whether the buff icons grow from top to bottom, or bottom to top."]
+	buffAnchorV:SetPoint("TOPLEFT", buffColumns, "BOTTOMLEFT", 0, -14)
+	buffAnchorV:SetPoint("TOPRIGHT", buffColumns, "BOTTOM", 0, -14)
+
+	--------------------------------------------------------------------
+
+	local buffAnchorH
+	do
+		local function OnClick(self)
+			local value = self.value
+			db.buffAnchorH = value
+			buffAnchorH:SetValue(value, anchorsH[value])
+			PhanxBuffFrame:UpdateLayout()
+			PhanxTempEnchantFrame:UpdateLayout()
+		end
+
+		local info = {} -- UIDropDownMenu_CreateInfo()
+
+		buffAnchorH = CreateDropdown(self, "", function()
+			local selected = db.buffAnchorH
 
 			info.text = L["Right"]
 			info.value = "RIGHT"
@@ -341,16 +385,118 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 			UIDropDownMenu_AddButton(info)
 		end)
 	end
-	growthAnchor.desc = L["Set the side of the screen from which buffs and debuffs grow."]
-	growthAnchor:SetPoint("TOPLEFT", iconSpacing, "BOTTOMLEFT", 0, -14)
-	growthAnchor:SetPoint("TOPRIGHT", iconSpacing, "BOTTOMRIGHT", 0, -14)
+	buffAnchorH.desc = L["Choose whether the buff icons grow from left to right, or right to left."]
+	buffAnchorH:SetPoint("TOPLEFT", buffColumns, "BOTTOM", 0, -14)
+	buffAnchorH:SetPoint("TOPRIGHT", buffColumns, "BOTTOMRIGHT", 0, -14)
+
+	--------------------------------------------------------------------
+
+	local debuffSize = CreateSlider(self, L["Debuff Size"], 10, 60, 2)
+	debuffSize.desc = L["Adjust the size of each debuff icon."]
+	debuffSize:SetPoint("TOPLEFT", notes, "BOTTOM", 8, -8)
+	debuffSize:SetPoint("TOPRIGHT", notes, "BOTTOMRIGHT", 0, -8)
+
+	debuffSize.OnValueChanged = function(self, value)
+		db.debuffSize = value
+		PhanxDebuffFrame:UpdateLayout()
+	end
+
+	--------------------------------------------------------------------
+
+	local debuffSpacing = CreateSlider(self, L["Debuff Spacing"], 0, 20, 1)
+	debuffSpacing.desc = L["Adjust the space between debuff icons."]
+	debuffSpacing:SetPoint("TOPLEFT", debuffSize, "BOTTOMLEFT", 0, -12)
+	debuffSpacing:SetPoint("TOPRIGHT", debuffSize, "BOTTOMRIGHT", 0, -12)
+
+	debuffSpacing.OnValueChanged = function(self, value)
+		db.debuffSpacing = value
+		PhanxDebuffFrame:UpdateLayout()
+	end
+
+	--------------------------------------------------------------------
+
+	local debuffColumns = CreateSlider(self, L["Debuff Columns"], 1, 40, 1)
+	debuffColumns.desc = L["Adjust the number of debuff icons to show on each row."]
+	debuffColumns:SetPoint("TOPLEFT", debuffSpacing, "BOTTOMLEFT", 0, -12)
+	debuffColumns:SetPoint("TOPRIGHT", debuffSpacing, "BOTTOMRIGHT", 0, -12)
+
+	debuffColumns.OnValueChanged = function(self, value)
+		db.debuffColumns = value
+		PhanxDebuffFrame:UpdateLayout()
+	end
+
+	--------------------------------------------------------------------
+
+	local debuffAnchorV
+	do
+		local function OnClick(self)
+			local value = self.value
+			db.debuffAnchorV = value
+			debuffAnchorV:SetValue(value, anchorsV[value])
+			PhanxDebuffFrame:UpdateLayout()
+		end
+
+		local info = {} -- UIDropDownMenu_CreateInfo()
+
+		debuffAnchorV = CreateDropdown(self, L["Debuff Anchor"], function()
+			local selected = db.debuffAnchorV
+
+			info.text = L["Top"]
+			info.value = "TOP"
+			info.func = OnClick
+			info.checked = "TOP" == selected
+			UIDropDownMenu_AddButton(info)
+
+			info.text = L["Bottom"]
+			info.value = "BOTTOM"
+			info.func = OnClick
+			info.checked = "BOTTOM" == selected
+			UIDropDownMenu_AddButton(info)
+		end)
+	end
+	debuffAnchorV.desc = L["Choose whether the debuff icons grow from top to bottom, or bottom to top."]
+	debuffAnchorV:SetPoint("TOPLEFT", debuffColumns, "BOTTOMLEFT", 0, -14)
+	debuffAnchorV:SetPoint("TOPRIGHT", debuffColumns, "BOTTOM", 0, -14)
+
+	--------------------------------------------------------------------
+
+	local debuffAnchorH
+	do
+		local function OnClick(self)
+			local value = self.value
+			db.debuffAnchorH = value
+			debuffAnchorH:SetValue(value, anchorsH[value])
+			PhanxDebuffFrame:UpdateLayout()
+		end
+
+		local info = {} -- UIDropDownMenu_CreateInfo()
+
+		debuffAnchorH = CreateDropdown(self, "", function()
+			local selected = db.debuffAnchorH
+
+			info.text = L["Right"]
+			info.value = "RIGHT"
+			info.func = OnClick
+			info.checked = "RIGHT" == selected
+			UIDropDownMenu_AddButton(info)
+
+			info.text = L["Left"]
+			info.value = "LEFT"
+			info.func = OnClick
+			info.checked = "LEFT" == selected
+			UIDropDownMenu_AddButton(info)
+		end)
+	end
+	debuffAnchorH.desc = L["Choose whether the debuff icons grow from left to right, or right to left."]
+	debuffAnchorH:SetPoint("TOPLEFT", debuffColumns, "BOTTOM", 0, -14)
+	debuffAnchorH:SetPoint("TOPRIGHT", debuffColumns, "BOTTOMRIGHT", 0, -14)
 
 	--------------------------------------------------------------------
 
 	local fontFace = CreateScrollingDropdown(self, L["Typeface"], fonts)
 	fontFace.desc = L["Set the typeface for the stack count and timer text."]
-	fontFace:SetPoint("TOPLEFT", notes, "BOTTOM", 8, -8)
-	fontFace:SetPoint("TOPRIGHT", notes, "BOTTOMRIGHT", 0, -8)
+	fontFace:SetPoint("TOPLEFT", buffAnchorV, "BOTTOMLEFT", 0, -32)
+	fontFace:SetPoint("TOPRIGHT", buffAnchorH, "BOTTOMRIGHT", 0, -32)
 
 	do
 		local _, height, flags = fontFace.valueText:GetFont()
@@ -474,8 +620,8 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 
 	local maxTimer = CreateSlider(self, L["Max Timer Duration"], 0, 600, 30)
 	maxTimer.desc = L["Adjust the maximum remaining duration, in seconds, to show the timer text for a buff or debuff."]
-	maxTimer:SetPoint("TOPLEFT", fontScale, "BOTTOMLEFT", 0, -12)
-	maxTimer:SetPoint("TOPRIGHT", fontScale, "BOTTOMRIGHT", 0, -12)
+	maxTimer:SetPoint("TOPLEFT", fontScale, "BOTTOMLEFT", 0, -32)
+	maxTimer:SetPoint("TOPRIGHT", fontScale, "BOTTOMRIGHT", 0, -32)
 
 	maxTimer.OnValueChanged = function(self, value)
 		db.maxTimer = value
@@ -488,7 +634,7 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 
 	local showBuffSources = CreateCheckbox(self, L["Buff Sources"])
 	showBuffSources.desc = L["Show the name of the party or raid member who cast a buff on you in its tooltip."]
-	showBuffSources:SetPoint("TOPLEFT", maxTimer, "BOTTOMLEFT", 0, -12)
+	showBuffSources:SetPoint("TOPLEFT", debuffAnchorV, "BOTTOMLEFT", 0, -44)
 
 	showBuffSources.OnClick = function(self, checked)
 		db.showBuffSources = checked
@@ -588,11 +734,16 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 
 	self.refresh = function()
 		buffSize:SetValue(db.buffSize)
+		buffSpacing:SetValue(db.buffSpacing)
 		buffColumns:SetValue(db.buffColumns)
+		buffAnchorH:SetValue(db.buffAnchorH, anchorsH[db.buffAnchorH])
+		buffAnchorV:SetValue(db.buffAnchorV, anchorsV[db.buffAnchorV])
+
 		debuffSize:SetValue(db.debuffSize)
+		debuffSpacing:SetValue(db.debuffSpacing)
 		debuffColumns:SetValue(db.debuffColumns)
-		iconSpacing:SetValue(db.iconSpacing)
-		growthAnchor:SetValue(db.growthAnchor, anchors[db.growthAnchor])
+		debuffAnchorH:SetValue(db.debuffAnchorH, anchorsH[db.debuffAnchorH])
+		debuffAnchorV:SetValue(db.debuffAnchorV, anchorsV[db.debuffAnchorV])
 
 		fontFace:SetValue(db.fontFace)
 		fontOutline:SetValue(db.fontOutline, outlines[db.fontOutline])
