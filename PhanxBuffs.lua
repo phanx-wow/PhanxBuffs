@@ -154,6 +154,10 @@ eventFrame:SetScript("OnEvent", function(self)
 	if not PhanxBuffsDB then PhanxBuffsDB = {} end
 	db = copyTable(defaultDB, PhanxBuffsDB)
 
+	-- Remove old stuff
+	db.iconSpacing = nil
+	db.growthAnchor = nil
+
 	if not PhanxBuffsIgnoreDB then PhanxBuffsIgnoreDB = {} end
 	copyTable(defaultIgnore, PhanxBuffsIgnoreDB)
 
