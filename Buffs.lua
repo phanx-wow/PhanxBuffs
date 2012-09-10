@@ -143,7 +143,7 @@ function PhanxBuffFrame:UpdateLayout()
 	local anchorH = db.buffAnchorH
 	local anchorV = db.buffAnchorV
 	local size = db.buffSize
-	local spacing = db.iconSpacing
+	local spacing = db.buffSpacing
 	local cols = db.buffColumns
 	local rows = math.ceil(MAX_BUFFS / cols)
 

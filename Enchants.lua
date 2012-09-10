@@ -128,7 +128,7 @@ function PhanxTempEnchantFrame:UpdateLayout()
 	local anchorH = db.buffAnchorH
 	local anchorV = db.buffAnchorV
 	local size = db.buffSize
-	local spacing = db.iconSpacing
+	local spacing = db.buffSpacing
 
 	local fontFace = GetFontFile(db.fontFace)
 	local fontScale = db.fontScale
@@ -148,8 +148,8 @@ function PhanxTempEnchantFrame:UpdateLayout()
 
 	self:ClearAllPoints()
 	self:SetPoint(anchorV .. anchorH, PhanxBuffFrame, anchorV .. anchorH, 0, 0)
-	self:SetWidth((db.buffSize * 2) + spacing)
-	self:SetHeight(db.buffSize)
+	self:SetWidth((size * 2) + spacing)
+	self:SetHeight(size)
 end
 
 ------------------------------------------------------------------------
