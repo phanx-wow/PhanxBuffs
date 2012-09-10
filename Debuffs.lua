@@ -165,7 +165,7 @@ function PhanxDebuffFrame:UpdateLayout()
 	local anchorH = db.debuffAnchorH
 	local anchorV = db.debuffAnchorV
 	local size = db.debuffSize
-	local spacing = db.iconSpacing
+	local spacing = db.debuffSpacing
 	local cols = db.debuffColumns
 
 	local fontFace = GetFontFile(db.fontFace)
