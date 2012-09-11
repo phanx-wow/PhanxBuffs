@@ -15,8 +15,8 @@ local defaultDB = {
 	buffSize    = 24,
 	buffSpacing = 3,
 
-	buffAnchorH   = "RIGHT",
-	buffAnchorV   = "TOP",
+	debuffAnchorH = "RIGHT",
+	debuffAnchorV = "TOP",
 	debuffColumns = 10,
 	debuffSize    = 48,
 	debuffSpacing = 3,
