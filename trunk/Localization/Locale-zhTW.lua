@@ -7,7 +7,7 @@
 	http://www.curse.com/addons/wow/phanxbuffs
 ------------------------------------------------------------------------
 	Traditional Chinese Localization (繁體中文)
-	Last updated 2012-08-29 by BNSSNB @ CurseForge
+	Last updated 2012-09-10 by BNSSNB @ CurseForge
 	Previously updated by fmdsm @ CurseForge
 ----------------------------------------------------------------------]]
 
@@ -43,8 +43,8 @@ ns.L = {
 	["Buff Columns"] = "buff列數",
 	["Adjust the number of buff icons to show on each row."] = "設置buff圖示每行顯示的個數",
 	["Buff Anchor"] = "buff描點對齊",
---	["Choose whether the buff icons grow from left to right, or right to left."] = "",
---	["Choose whether the buff icons grow from top to bottom, or bottom to top."] = "",
+	["Choose whether the buff icons grow from left to right, or right to left."] = "選擇增益圖標是從左到右伸展，還是從右到左。",
+	["Choose whether the buff icons grow from top to bottom, or bottom to top."] = "選擇增益圖標是從上往下延展，還是從下到上。",
 
 	["Debuff Size"] = "debuff大小",
 	["Adjust the size of each debuff icon."] = "設置debuff圖示大小",
@@ -53,11 +53,11 @@ ns.L = {
 	["Debuff Columns"] = "debuff列數",
 	["Adjust the number of debuff icons to show on each row."] = "設置debuff圖示每行顯示的個數",
 	["Debuff Anchor"] = "debuff描點對齊",
---	["Choose whether the debuff icons grow from left to right, or right to left."] = "",
---	["Choose whether the debuff icons grow from top to bottom, or bottom to top."] = "",
+	["Choose whether the debuff icons grow from left to right, or right to left."] = "選擇減益圖標是從左到右伸展，還是從右到左。",
+	["Choose whether the debuff icons grow from top to bottom, or bottom to top."] = "選擇減益圖標是從上往下延展，還是從下到上。",
 
---	["Top"] = "",
---	["Bottom"] = "",
+	["Top"] = "頂部",
+	["Bottom"] = "底部",
 	["Left"] = "左",
 	["Right"] = "右",
 
