@@ -8,6 +8,7 @@
 ----------------------------------------------------------------------]]
 
 local db
+
 local defaultDB = {
 	buffAnchorH = "RIGHT",
 	buffAnchorV = "TOP",
@@ -30,6 +31,7 @@ local defaultDB = {
 	showBuffSources = true,
 	showTempEnchantSources = true,
 }
+
 local defaultIgnore = {
 	buffs = {},
 	debuffs = {
