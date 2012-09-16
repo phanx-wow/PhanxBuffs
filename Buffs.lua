@@ -347,22 +347,20 @@ PhanxBuffFrame:SetScript("OnEvent", function( self, event, unit )
 			dirty = true
 		end
 	elseif event == "PLAYER_ENTERING_WORLD" then
-		if ( UnitInVehicle( "player" ) and SecureCmdOptionParse( "[bonusbar:5]" ) ) then
+		if UnitHasVehicleUI( "player" ) then
 			buffUnit = "vehicle"
 		else
 			buffUnit = "player"
 		end
 		dirty = true
 	elseif event == "UNIT_ENTERED_VEHICLE" then
-		if unit == "player" and SecureCmdOptionParse( "[bonusbar:5]" ) then
+		if UnitHasVehicleUI( "player" ) then
 			buffUnit = "vehicle"
-			dirty = true
 		end
+		dirty = true
 	elseif event == "UNIT_EXITED_VEHICLE" then
-		if unit == "player" then
-			buffUnit = "player"
-			dirty = true
-		end
+		buffUnit = "player"
+		dirty = true
 	end
 end)
 
@@ -380,7 +378,7 @@ function PhanxBuffFrame:Load()
 	timerGroup:Play()
 
 	self:RegisterEvent( "PLAYER_ENTERING_WORLD" )
-	self:RegisterEvent( "UNIT_ENTERED_VEHICLE" )
-	self:RegisterEvent( "UNIT_EXITED_VEHICLE" )
-	self:RegisterEvent( "UNIT_AURA" )
+	self:RegisterUnitEvent( "UNIT_ENTERED_VEHICLE", "player" )
+	self:RegisterUnitEvent( "UNIT_EXITED_VEHICLE", "player" )
+	self:RegisterUnitEvent( "UNIT_AURA", "player", "vehicle" )
 end
