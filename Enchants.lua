@@ -7,8 +7,6 @@
 	http://www.curse.com/addons/wow/phanxbuffs
 ----------------------------------------------------------------------]]
 
-local WoW5 = select(4, GetBuildInfo()) >= 50000
-
 local PhanxTempEnchantFrame = CreateFrame("Frame", "PhanxTempEnchantFrame", UIParent)
 
 local db
@@ -19,13 +17,10 @@ local dirty, bagsDirty, spellsDirty, inVehicle
 
 local MAIN_HAND_SLOT = GetInventorySlotInfo("MainHandSlot")
 local OFF_HAND_SLOT = GetInventorySlotInfo("SecondaryHandSlot")
-local RANGED_SLOT = not WoW5 and GetInventorySlotInfo("RangedSlot")
 
 local _, ns = ...
 local GetFontFile = ns.GetFontFile
 local L = ns.L
-
-local WOW_VERSION = select(4, GetBuildInfo())
 
 ------------------------------------------------------------------------
 
@@ -65,17 +60,9 @@ end
 
 local function button_OnClick(self)
 	local id = self:GetID()
-	if WOW_VERSION < 40000 then
-		if id == MAIN_HAND_SLOT then
-			CancelItemTempEnchantment(1)
-		elseif id == OFF_HAND_SLOT then
-			CancelItemTempEnchantment(2)
-		end
-	else
-		local button = "TempEnchant" .. (id - 15)
-		_G[button]:SetID(id)
-		PhanxBuffsCancelButton:SetMacro(self, self.icon:GetTexture(), "/click " .. button .. " RightButton")
-	end
+	local button = "TempEnchant" .. (id - 15)
+	_G[button]:SetID(id)
+	PhanxBuffsCancelButton:SetMacro(self, self.icon:GetTexture(), "/click " .. button .. " RightButton")
 end
 
 local buttons = setmetatable({ }, { __index = function(t, i)
@@ -209,16 +196,10 @@ elseif playerClass == "ROGUE" then
 		[L["Anesthetic Poison"]] = true,
 		[L["Crippling Poison"]] = true,
 		[L["Deadly Poison"]] = true,
-		[L["Instant Poison"]] = true, -- Removed in 5.0
-		[L["Leeching Poison"]] = true, -- Added in 5.0
+		[L["Leeching Poison"]] = true,
 		[L["Mind-Numbing Poison"]] = true,
-		[L["Paralytic Poison"]] = true, -- Added in 5.0
+		[L["Paralytic Poison"]] = true,
 		[L["Wound Poison"]] = true,
-	}
-elseif playerClass == "WARLOCK" then
-	tempEnchantKeywords = {
-		[L["Firestone"]] = true,
-		[L["Spellstone"]] = true,
 	}
 end
 
@@ -301,32 +282,6 @@ function PhanxTempEnchantFrame:Update()
 		b:Show()
 	end
 
-	if thrownEnchant and not WoW5 then
-		numEnchants = numEnchants + 1
-		local b = buttons[numEnchants]
-
-		b.expires = GetTime() + (thrownExpiration / 1000)
-		b.icon:SetTexture(GetInventoryItemTexture("player", RANGED_SLOT))
-
-		b.arg1, b.arg2 = nil, nil
-		if tempEnchantKeywords and db.showTempEnchantSources then
-			self.tooltip:SetInventoryItem("player", RANGED_SLOT)
-			local tempEnchantString, tempEnchantFindFunc = FindTempEnchantString()
-			if tempEnchantString then
-				local icon, arg1, arg2 = tempEnchantFindFunc(tempEnchantString)
-				if icon and icon ~= "" then
-					b.icon:SetTexture(icon)
-					b.arg1 = arg1
-					b.arg2 = arg2
-				end
-			end
-		end
-
-		b.count:SetText(thrownCharges > 1 and thrownCharges or nil)
-		b:SetID(RANGED_SLOT)
-		b:Show()
-	end
-
 	if #buttons > numEnchants then
 		for i = numEnchants + 1, #buttons do
 			local f = buttons[i]
@@ -395,7 +350,7 @@ function PhanxTempEnchantFrame:UNIT_ENTERED_VEHICLE(unit)
 	if UnitHasVehicleUI(unit) then
 		inVehicle = true
 		self:Hide()
-		PhanxBuffFrame.buttons[1]:SetPoint("TOP" .. db.growthAnchor, PhanxBuffFrame)
+		PhanxBuffFrame.buttons[1]:SetPoint(db.buffAnchorV .. db.buffAnchorH, PhanxBuffFrame)
 	end
 end
 

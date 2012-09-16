@@ -15,7 +15,6 @@ local ignore
 local buffUnit = "player"
 
 local MAX_BUFFS = 40
-local WOW_VERSION = select(4, GetBuildInfo())
 
 local GetFontFile = ns.GetFontFile
 local floor = math.floor
