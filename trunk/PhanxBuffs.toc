@@ -7,6 +7,7 @@
 ## Notes-esMX: Sustitutos básicos de los iconos del jugador de beneficios, perjuicios y encancamientos de armas.
 ## Notes-ptBR: Substituições básicas para os ícones do jogador de bônus, penalidades e encantamentos de armas.
 ## Notes-ruRU: Простая замена иконки игрока баффы, дебаффы и чары, связанных с оружием.
+## Notes-zhTW: 基本的玩家增益、減益、與武器暫時附魔框架的替代品。
 
 ## Author: Phanx
 ## X-Email: addons@phanx.net
