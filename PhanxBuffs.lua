@@ -34,19 +34,7 @@ local defaultDB = {
 
 local defaultIgnore = {
 	buffs = {},
-	debuffs = {
-		[GetSpellInfo(64805)] = true, -- Bested Darnassus
-		[GetSpellInfo(64808)] = true, -- Bested the Exodar
-		[GetSpellInfo(64809)] = true, -- Bested Gnomeregan
-		[GetSpellInfo(64810)] = true, -- Bested Ironforge
-		[GetSpellInfo(64811)] = true, -- Bested Orgrimmar
-		[GetSpellInfo(64812)] = true, -- Bested Sen'jin
-		[GetSpellInfo(64813)] = true, -- Bested Silvermoon City
-		[GetSpellInfo(64814)] = true, -- Bested Stormwind
-		[GetSpellInfo(64815)] = true, -- Bested Thunder Bluff
-		[GetSpellInfo(64816)] = true, -- Bested the Undercity
-		[GetSpellInfo(69127)] = true, -- Chill of the Throne
-	},
+	debuffs = {},
 }
 
 ------------------------------------------------------------------------

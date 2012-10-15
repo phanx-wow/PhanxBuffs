@@ -360,6 +360,15 @@ function PhanxTempEnchantFrame:UNIT_EXITED_VEHICLE(unit)
 	self:Show()
 end
 
+function PhanxTempEnchantFrame:PET_BATTLE_OPENING_START()
+	self:Hide()
+end
+
+function PhanxTempEnchantFrame:PET_BATTLE_CLOSE()
+	dirty = true
+	self:Show()
+end
+
 function PhanxTempEnchantFrame:PLAYER_ENTERING_WORLD()
 	local inVehicleNow = UnitHasVehicleUI("player")
 	if inVehicle and not inVehicleNow then
@@ -440,6 +449,8 @@ function PhanxTempEnchantFrame:Load()
 	self:RegisterEvent("BAG_UPDATE")
 	self:RegisterEvent("PLAYER_ENTERING_WORLD")
 	self:RegisterEvent("SPELLS_CHANGED")
+	self:RegisterEvent("PET_BATTLE_OPENING_START")
+	self:RegisterEvent("PET_BATTLE_CLOSE")
 	self:RegisterUnitEvent("UNIT_ENTERED_VEHICLE", "player")
 	self:RegisterUnitEvent("UNIT_EXITED_VEHICLE", "player")
 	self:RegisterUnitEvent("UNIT_INVENTORY_CHANGED", "player")
