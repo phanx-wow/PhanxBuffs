@@ -360,6 +360,11 @@ PhanxBuffFrame:SetScript("OnEvent", function( self, event, unit )
 	elseif event == "UNIT_EXITED_VEHICLE" then
 		buffUnit = "player"
 		dirty = true
+	elseif event == "PET_BATTLE_OPENING_START" then
+		self:Hide()
+	elseif event == "PET_BATTLE_CLOSE" then
+		dirty = true
+		self:Show()
 	end
 end)
 
@@ -377,6 +382,8 @@ function PhanxBuffFrame:Load()
 	timerGroup:Play()
 
 	self:RegisterEvent( "PLAYER_ENTERING_WORLD" )
+	self:RegisterEvent( "PET_BATTLE_OPENING_START" )
+	self:RegisterEvent( "PET_BATTLE_CLOSE" )
 	self:RegisterUnitEvent( "UNIT_ENTERED_VEHICLE", "player" )
 	self:RegisterUnitEvent( "UNIT_EXITED_VEHICLE", "player" )
 	self:RegisterUnitEvent( "UNIT_AURA", "player", "vehicle" )
