@@ -22,9 +22,9 @@ local defaultDB = {
 	debuffSize    = 48,
 	debuffSpacing = 3,
 
-	fontFace = "Friz Quadrata TT",
+	fontFace    = "Friz Quadrata TT",
 	fontOutline = "OUTLINE",
-	fontScale = 1,
+	fontScale   = 1,
 
 	maxTimer = 30,
 
@@ -278,7 +278,7 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 
 	--------------------------------------------------------------------
 
-	local buffSize = CreateSlider(self, L["Buff Size"], 10, 60, 2)
+	local buffSize = CreateSlider(self, L["Buff Size"], 10, 80, 2)
 	buffSize.desc = L["Adjust the size of each buff icon."]
 	buffSize:SetPoint("TOPLEFT", notes, "BOTTOMLEFT", -4, -8)
 	buffSize:SetPoint("TOPRIGHT", notes, "BOTTOM", -8, -8)
@@ -385,7 +385,7 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 
 	--------------------------------------------------------------------
 
-	local debuffSize = CreateSlider(self, L["Debuff Size"], 10, 60, 2)
+	local debuffSize = CreateSlider(self, L["Debuff Size"], 10, 80, 2)
 	debuffSize.desc = L["Adjust the size of each debuff icon."]
 	debuffSize:SetPoint("TOPLEFT", notes, "BOTTOM", 8, -8)
 	debuffSize:SetPoint("TOPRIGHT", notes, "BOTTOMRIGHT", 0, -8)
