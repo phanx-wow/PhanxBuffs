@@ -274,12 +274,12 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 
 	--------------------------------------------------------------------
 
-	local title, notes = LibStub("PhanxConfig-Header").CreateHeader(self, ADDON_NAME, L["Use this panel to adjust some basic settings for buff, debuff, and weapon buff icons."])
+	local title, notes = LibStub("PhanxConfig-Header").CreateHeader(self, ADDON_NAME,
+		L["Use this panel to adjust some basic settings for buff, debuff, and weapon buff icons."])
 
 	--------------------------------------------------------------------
 
-	local buffSize = CreateSlider(self, L["Buff Size"], 10, 80, 2)
-	buffSize.desc = L["Adjust the size of each buff icon."]
+	local buffSize = CreateSlider(self, L["Buff Size"], L["Adjust the size of each buff icon."], 10, 80, 2)
 	buffSize:SetPoint("TOPLEFT", notes, "BOTTOMLEFT", -4, -8)
 	buffSize:SetPoint("TOPRIGHT", notes, "BOTTOM", -8, -8)
 
@@ -291,8 +291,7 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 
 	--------------------------------------------------------------------
 
-	local buffSpacing = CreateSlider(self, L["Buff Spacing"], 0, 20, 1)
-	buffSpacing.desc = L["Adjust the space between buff icons."]
+	local buffSpacing = CreateSlider(self, L["Buff Spacing"], L["Adjust the space between buff icons."], 0, 20, 1)
 	buffSpacing:SetPoint("TOPLEFT", buffSize, "BOTTOMLEFT", 0, -12)
 	buffSpacing:SetPoint("TOPRIGHT", buffSize, "BOTTOMRIGHT", 0, -12)
 
@@ -304,8 +303,7 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 
 	--------------------------------------------------------------------
 
-	local buffColumns = CreateSlider(self, L["Buff Columns"], 1, 40, 1)
-	buffColumns.desc = L["Adjust the number of buff icons to show on each row."]
+	local buffColumns = CreateSlider(self, L["Buff Columns"], L["Adjust the number of buff icons to show on each row."], 1, 40, 1)
 	buffColumns:SetPoint("TOPLEFT", buffSpacing, "BOTTOMLEFT", 0, -12)
 	buffColumns:SetPoint("TOPRIGHT", buffSpacing, "BOTTOMRIGHT", 0, -12)
 
@@ -327,9 +325,8 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 			PhanxTempEnchantFrame:UpdateLayout()
 		end
 
-		local info = {} -- UIDropDownMenu_CreateInfo()
-
-		buffAnchorV = CreateDropdown(self, L["Buff Anchor"], function()
+		buffAnchorV = CreateDropdown(self, L["Buff Anchor"], L["Choose whether the buff icons grow from top to bottom, or bottom to top."], function()
+			local info = UIDropDownMenu_CreateInfo()
 			local selected = db.buffAnchorV
 
 			info.text = L["Top"]
@@ -344,10 +341,9 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 			info.checked = "BOTTOM" == selected
 			UIDropDownMenu_AddButton(info)
 		end)
+		buffAnchorV:SetPoint("TOPLEFT", buffColumns, "BOTTOMLEFT", 0, -14)
+		buffAnchorV:SetPoint("TOPRIGHT", buffColumns, "BOTTOM", 0, -14)
 	end
-	buffAnchorV.desc = L["Choose whether the buff icons grow from top to bottom, or bottom to top."]
-	buffAnchorV:SetPoint("TOPLEFT", buffColumns, "BOTTOMLEFT", 0, -14)
-	buffAnchorV:SetPoint("TOPRIGHT", buffColumns, "BOTTOM", 0, -14)
 
 	--------------------------------------------------------------------
 
@@ -361,9 +357,8 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 			PhanxTempEnchantFrame:UpdateLayout()
 		end
 
-		local info = {} -- UIDropDownMenu_CreateInfo()
-
-		buffAnchorH = CreateDropdown(self, "", function()
+		buffAnchorH = CreateDropdown(self, "", L["Choose whether the buff icons grow from left to right, or right to left."], function()
+			local info = UIDropDownMenu_CreateInfo()
 			local selected = db.buffAnchorH
 
 			info.text = L["Right"]
@@ -378,15 +373,13 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 			info.checked = "LEFT" == selected
 			UIDropDownMenu_AddButton(info)
 		end)
+		buffAnchorH:SetPoint("TOPLEFT", buffColumns, "BOTTOM", 0, -14)
+		buffAnchorH:SetPoint("TOPRIGHT", buffColumns, "BOTTOMRIGHT", 0, -14)
 	end
-	buffAnchorH.desc = L["Choose whether the buff icons grow from left to right, or right to left."]
-	buffAnchorH:SetPoint("TOPLEFT", buffColumns, "BOTTOM", 0, -14)
-	buffAnchorH:SetPoint("TOPRIGHT", buffColumns, "BOTTOMRIGHT", 0, -14)
 
 	--------------------------------------------------------------------
 
-	local debuffSize = CreateSlider(self, L["Debuff Size"], 10, 80, 2)
-	debuffSize.desc = L["Adjust the size of each debuff icon."]
+	local debuffSize = CreateSlider(self, L["Debuff Size"], L["Adjust the size of each debuff icon."], 10, 80, 2)
 	debuffSize:SetPoint("TOPLEFT", notes, "BOTTOM", 8, -8)
 	debuffSize:SetPoint("TOPRIGHT", notes, "BOTTOMRIGHT", 0, -8)
 
@@ -397,8 +390,7 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 
 	--------------------------------------------------------------------
 
-	local debuffSpacing = CreateSlider(self, L["Debuff Spacing"], 0, 20, 1)
-	debuffSpacing.desc = L["Adjust the space between debuff icons."]
+	local debuffSpacing = CreateSlider(self, L["Debuff Spacing"], L["Adjust the space between debuff icons."], 0, 20, 1)
 	debuffSpacing:SetPoint("TOPLEFT", debuffSize, "BOTTOMLEFT", 0, -12)
 	debuffSpacing:SetPoint("TOPRIGHT", debuffSize, "BOTTOMRIGHT", 0, -12)
 
@@ -409,8 +401,7 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 
 	--------------------------------------------------------------------
 
-	local debuffColumns = CreateSlider(self, L["Debuff Columns"], 1, 40, 1)
-	debuffColumns.desc = L["Adjust the number of debuff icons to show on each row."]
+	local debuffColumns = CreateSlider(self, L["Debuff Columns"], L["Adjust the number of debuff icons to show on each row."], 1, 40, 1)
 	debuffColumns:SetPoint("TOPLEFT", debuffSpacing, "BOTTOMLEFT", 0, -12)
 	debuffColumns:SetPoint("TOPRIGHT", debuffSpacing, "BOTTOMRIGHT", 0, -12)
 
@@ -430,9 +421,8 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 			PhanxDebuffFrame:UpdateLayout()
 		end
 
-		local info = {} -- UIDropDownMenu_CreateInfo()
-
-		debuffAnchorV = CreateDropdown(self, L["Debuff Anchor"], function()
+		debuffAnchorV = CreateDropdown(self, L["Debuff Anchor"], L["Choose whether the debuff icons grow from top to bottom, or bottom to top."], function()
+			local info = UIDropDownMenu_CreateInfo()
 			local selected = db.debuffAnchorV
 
 			info.text = L["Top"]
@@ -447,10 +437,9 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 			info.checked = "BOTTOM" == selected
 			UIDropDownMenu_AddButton(info)
 		end)
+		debuffAnchorV:SetPoint("TOPLEFT", debuffColumns, "BOTTOMLEFT", 0, -14)
+		debuffAnchorV:SetPoint("TOPRIGHT", debuffColumns, "BOTTOM", 0, -14)
 	end
-	debuffAnchorV.desc = L["Choose whether the debuff icons grow from top to bottom, or bottom to top."]
-	debuffAnchorV:SetPoint("TOPLEFT", debuffColumns, "BOTTOMLEFT", 0, -14)
-	debuffAnchorV:SetPoint("TOPRIGHT", debuffColumns, "BOTTOM", 0, -14)
 
 	--------------------------------------------------------------------
 
@@ -463,9 +452,8 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 			PhanxDebuffFrame:UpdateLayout()
 		end
 
-		local info = {} -- UIDropDownMenu_CreateInfo()
-
-		debuffAnchorH = CreateDropdown(self, "", function()
+		debuffAnchorH = CreateDropdown(self, "", L["Choose whether the debuff icons grow from left to right, or right to left."], function()
+			local info = UIDropDownMenu_CreateInfo()
 			local selected = db.debuffAnchorH
 
 			info.text = L["Right"]
@@ -480,15 +468,13 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 			info.checked = "LEFT" == selected
 			UIDropDownMenu_AddButton(info)
 		end)
+		debuffAnchorH:SetPoint("TOPLEFT", debuffColumns, "BOTTOM", 0, -14)
+		debuffAnchorH:SetPoint("TOPRIGHT", debuffColumns, "BOTTOMRIGHT", 0, -14)
 	end
-	debuffAnchorH.desc = L["Choose whether the debuff icons grow from left to right, or right to left."]
-	debuffAnchorH:SetPoint("TOPLEFT", debuffColumns, "BOTTOM", 0, -14)
-	debuffAnchorH:SetPoint("TOPRIGHT", debuffColumns, "BOTTOMRIGHT", 0, -14)
 
 	--------------------------------------------------------------------
 
-	local fontFace = CreateScrollingDropdown(self, L["Typeface"], fonts)
-	fontFace.desc = L["Set the typeface for the stack count and timer text."]
+	local fontFace = CreateScrollingDropdown(self, L["Typeface"], L["Set the typeface for the stack count and timer text."], fonts)
 	fontFace:SetPoint("TOPLEFT", buffAnchorV, "BOTTOMLEFT", 0, -32)
 	fontFace:SetPoint("TOPRIGHT", buffAnchorH, "BOTTOMRIGHT", 0, -32)
 
@@ -567,9 +553,8 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 			fontOutline:SetValue(value, outlines[value])
 		end
 
-		local info = {} -- UIDropDownMenu_CreateInfo()
-
-		fontOutline = CreateDropdown(self, L["Text Outline"], function()
+		fontOutline = CreateDropdown(self, L["Text Outline"], L["Set the outline weight for the stack count and timer text."], function()
+			local info = UIDropDownMenu_CreateInfo()
 			local selected = db.fontOutline
 
 			info.text = L["None"]
@@ -590,21 +575,20 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 			info.checked = "THICKOUTLINE" == selected
 			UIDropDownMenu_AddButton(info)
 		end)
+		fontOutline:SetPoint("TOPLEFT", fontFace, "BOTTOMLEFT", 0, -12)
+		fontOutline:SetPoint("TOPRIGHT", fontFace, "BOTTOMRIGHT", 0, -12)
 	end
-	fontOutline.desc = L["Set the outline weight for the stack count and timer text."]
-	fontOutline:SetPoint("TOPLEFT", fontFace, "BOTTOMLEFT", 0, -12)
-	fontOutline:SetPoint("TOPRIGHT", fontFace, "BOTTOMRIGHT", 0, -12)
 
 	--------------------------------------------------------------------
 
-	local fontScale = CreateSlider(self, L["Text Size"], 0.5, 1.5, 0.05, true,
-		L["Adjust the size of the stack count and timer text."])
+	local fontScale = CreateSlider(self, L["Text Size"],
+		L["Adjust the size of the stack count and timer text."],
+		0.5, 1.5, 0.05, true)
 	fontScale:SetPoint("TOPLEFT", fontOutline, "BOTTOMLEFT", 0, -12)
 	fontScale:SetPoint("TOPRIGHT", fontOutline, "BOTTOMRIGHT", 0, -12)
 
 	fontScale.OnValueChanged = function(self, value)
 		db.fontScale = value
-
 		PhanxBuffFrame:UpdateLayout()
 		PhanxDebuffFrame:UpdateLayout()
 		PhanxTempEnchantFrame:UpdateLayout()
@@ -612,8 +596,9 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 
 	--------------------------------------------------------------------
 
-	local maxTimer = CreateSlider(self, L["Max Timer Duration"], 0, 600, 30)
-	maxTimer.desc = L["Adjust the maximum remaining duration, in seconds, to show the timer text for a buff or debuff."]
+	local maxTimer = CreateSlider(self, L["Max Timer Duration"],
+		L["Adjust the maximum remaining duration, in seconds, to show the timer text for a buff or debuff."],
+		0, 600, 30)
 	maxTimer:SetPoint("TOPLEFT", fontScale, "BOTTOMLEFT", 0, -32)
 	maxTimer:SetPoint("TOPRIGHT", fontScale, "BOTTOMRIGHT", 0, -32)
 
@@ -626,8 +611,7 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 
 	--------------------------------------------------------------------
 
-	local showBuffSources = CreateCheckbox(self, L["Buff Sources"])
-	showBuffSources.desc = L["Show the name of the party or raid member who cast a buff on you in its tooltip."]
+	local showBuffSources = CreateCheckbox(self, L["Buff Sources"], L["Show the name of the party or raid member who cast a buff on you in its tooltip."])
 	showBuffSources:SetPoint("TOPLEFT", debuffAnchorV, "BOTTOMLEFT", 0, -44)
 
 	showBuffSources.OnClick = function(self, checked)
@@ -636,8 +620,8 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 
 	--------------------------------------------------------------------
 
-	local showTempEnchantSources = CreateCheckbox(self, L["Weapon Buff Sources"])
-	showTempEnchantSources.desc = L["Show weapon buffs as the spell or item that buffed the weapon, instead of the weapon itself."]
+	local showTempEnchantSources = CreateCheckbox(self, L["Weapon Buff Sources"],
+		L["Show weapon buffs as the spell or item that buffed the weapon, instead of the weapon itself."])
 	showTempEnchantSources:SetPoint("TOPLEFT", showBuffSources, "BOTTOMLEFT", 0, -8)
 
 	showTempEnchantSources.OnClick = function(self, checked)
@@ -647,8 +631,8 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 
 	--------------------------------------------------------------------
 
-	local oneClickCancel = CreateCheckbox(self, L["One-Click Cancel"])
-	oneClickCancel.desc = L["Cancel unprotected buffs on the first click, instead of the second. Only works out of combat, and protected buffs like shapeshift forms and weapon buffs will still require two clicks."]
+	local oneClickCancel = CreateCheckbox(self, L["One-Click Cancel"],
+		L["Cancel unprotected buffs on the first click, instead of the second. Only works out of combat, and protected buffs like shapeshift forms and weapon buffs will still require two clicks."])
 	oneClickCancel:SetPoint("TOPLEFT", showTempEnchantSources, "BOTTOMLEFT", 0, -8)
 
 	oneClickCancel.OnClick = function(self, checked)
@@ -658,71 +642,73 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 
 	--------------------------------------------------------------------
 
-	local lockFrames = CreateCheckbox(self, L["Lock Frames"])
-	lockFrames.desc = L["Lock the buff and debuff frames in place, hiding the backdrop and preventing them from being moved."]
+	local lockFrames = CreateCheckbox(self, L["Lock Frames"],
+		L["Lock the buff and debuff frames in place, hiding the backdrop and preventing them from being moved."])
 	lockFrames:SetPoint("TOPLEFT", oneClickCancel, "BOTTOMLEFT", 0, -8)
 	lockFrames:SetChecked(true)
 
-	local dragBackdrop = {
-		bgFile="Interface\\Tooltips\\UI-Tooltip-Background"
-	}
+	do
+		local dragBackdrop = {
+			bgFile="Interface\\Tooltips\\UI-Tooltip-Background"
+		}
 
-	local function OnDragStart(self)
-		self:StartMoving()
-	end
-
-	local function OnDragStop(self)
-		self:StopMovingOrSizing()
-
-		local w, h, x, y = UIParent:GetWidth(), UIParent:GetHeight(), self:GetCenter()
-		w, h, x, y = math.floor(w + 0.5), math.floor(h + 0.5), math.floor(x + 0.5), math.floor(y + 0.5)
-		local hhalf, vhalf = (x > w / 2) and "RIGHT" or "LEFT", (y > h / 2) and "TOP" or "BOTTOM"
-		local dx = hhalf == "RIGHT" and math.floor(self:GetRight() + 0.5) - w or math.floor(self:GetLeft() + 0.5)
-		local dy = vhalf == "TOP" and math.floor(self:GetTop() + 0.5) - h or math.floor(self:GetBottom() + 0.5)
-
-		if self:GetName() == "PhanxDebuffFrame" then
-			db.debuffPoint, db.debuffX, db.debuffY = vhalf..hhalf, dx, dy
-		else
-			db.buffPoint, db.buffX, db.buffY = vhalf..hhalf, dx, dy
+		local function OnDragStart(self)
+			self:StartMoving()
 		end
 
-		self:ClearAllPoints()
-		self:SetPoint(vhalf..hhalf, UIParent, dx, dy)
-	end
+		local function OnDragStop(self)
+			self:StopMovingOrSizing()
 
-	lockFrames.OnClick = function(self, checked)
-		if checked then
-			PhanxBuffFrame:SetBackdrop(nil)
-			PhanxBuffFrame:SetMovable(false)
-			PhanxBuffFrame:SetScript("OnDragStart", nil)
-			PhanxBuffFrame:SetScript("OnDragStop", nil)
-			PhanxBuffFrame:EnableMouse(false)
-			PhanxBuffFrame:RegisterForDrag(nil)
+			local w, h, x, y = UIParent:GetWidth(), UIParent:GetHeight(), self:GetCenter()
+			w, h, x, y = math.floor(w + 0.5), math.floor(h + 0.5), math.floor(x + 0.5), math.floor(y + 0.5)
+			local hhalf, vhalf = (x > w / 2) and "RIGHT" or "LEFT", (y > h / 2) and "TOP" or "BOTTOM"
+			local dx = hhalf == "RIGHT" and math.floor(self:GetRight() + 0.5) - w or math.floor(self:GetLeft() + 0.5)
+			local dy = vhalf == "TOP" and math.floor(self:GetTop() + 0.5) - h or math.floor(self:GetBottom() + 0.5)
 
-			PhanxDebuffFrame:SetBackdrop(nil)
-			PhanxDebuffFrame:SetMovable(false)
-			PhanxDebuffFrame:SetScript("OnDragStart", nil)
-			PhanxDebuffFrame:SetScript("OnDragStop", nil)
-			PhanxDebuffFrame:EnableMouse(false)
-			PhanxDebuffFrame:RegisterForDrag(nil)
-		else
-			PhanxBuffFrame:SetBackdrop(dragBackdrop)
-			PhanxBuffFrame:SetBackdropColor(1, 1, 1, 1)
-			PhanxBuffFrame:SetClampedToScreen(true)
-			PhanxBuffFrame:SetMovable(true)
-			PhanxBuffFrame:SetScript("OnDragStart", OnDragStart)
-			PhanxBuffFrame:SetScript("OnDragStop", OnDragStop)
-			PhanxBuffFrame:EnableMouse(true)
-			PhanxBuffFrame:RegisterForDrag("LeftButton")
+			if self:GetName() == "PhanxDebuffFrame" then
+				db.debuffPoint, db.debuffX, db.debuffY = vhalf..hhalf, dx, dy
+			else
+				db.buffPoint, db.buffX, db.buffY = vhalf..hhalf, dx, dy
+			end
 
-			PhanxDebuffFrame:SetBackdrop(dragBackdrop)
-			PhanxDebuffFrame:SetBackdropColor(1, 1, 1, 1)
-			PhanxDebuffFrame:SetClampedToScreen(true)
-			PhanxDebuffFrame:SetMovable(true)
-			PhanxDebuffFrame:SetScript("OnDragStart", OnDragStart)
-			PhanxDebuffFrame:SetScript("OnDragStop", OnDragStop)
-			PhanxDebuffFrame:EnableMouse(true)
-			PhanxDebuffFrame:RegisterForDrag("LeftButton")
+			self:ClearAllPoints()
+			self:SetPoint(vhalf..hhalf, UIParent, dx, dy)
+		end
+
+		lockFrames.OnValueChanged = function(self, checked)
+			if checked then
+				PhanxBuffFrame:SetBackdrop(nil)
+				PhanxBuffFrame:SetMovable(false)
+				PhanxBuffFrame:SetScript("OnDragStart", nil)
+				PhanxBuffFrame:SetScript("OnDragStop", nil)
+				PhanxBuffFrame:EnableMouse(false)
+				PhanxBuffFrame:RegisterForDrag(nil)
+
+				PhanxDebuffFrame:SetBackdrop(nil)
+				PhanxDebuffFrame:SetMovable(false)
+				PhanxDebuffFrame:SetScript("OnDragStart", nil)
+				PhanxDebuffFrame:SetScript("OnDragStop", nil)
+				PhanxDebuffFrame:EnableMouse(false)
+				PhanxDebuffFrame:RegisterForDrag(nil)
+			else
+				PhanxBuffFrame:SetBackdrop(dragBackdrop)
+				PhanxBuffFrame:SetBackdropColor(1, 1, 1, 1)
+				PhanxBuffFrame:SetClampedToScreen(true)
+				PhanxBuffFrame:SetMovable(true)
+				PhanxBuffFrame:SetScript("OnDragStart", OnDragStart)
+				PhanxBuffFrame:SetScript("OnDragStop", OnDragStop)
+				PhanxBuffFrame:EnableMouse(true)
+				PhanxBuffFrame:RegisterForDrag("LeftButton")
+
+				PhanxDebuffFrame:SetBackdrop(dragBackdrop)
+				PhanxDebuffFrame:SetBackdropColor(1, 1, 1, 1)
+				PhanxDebuffFrame:SetClampedToScreen(true)
+				PhanxDebuffFrame:SetMovable(true)
+				PhanxDebuffFrame:SetScript("OnDragStart", OnDragStart)
+				PhanxDebuffFrame:SetScript("OnDragStop", OnDragStop)
+				PhanxDebuffFrame:EnableMouse(true)
+				PhanxDebuffFrame:RegisterForDrag("LeftButton")
+			end
 		end
 	end
 
@@ -765,12 +751,12 @@ SlashCmdList.PHANXBUFFS = function(input)
 		if cmd == L["buff"] then
 			local ignoring = not PhanxBuffsIgnoreDB.buffs[arg] and true or nil
 			PhanxBuffsIgnoreDB.buffs[arg] = ignoring
-			print("|cffffcc00PhanxBuffs:|r", string.format(ignoring and L["Now ignoring buff: %s."] or L["No longer ignoring buff: %s."], arg))
+			print("|cffffcc00PhanxBuffs:|r", format(ignoring and L["Now ignoring buff: %s."] or L["No longer ignoring buff: %s."], arg))
 			return PhanxBuffFrame:Update()
 		elseif cmd == L["debuff"] then
 			local ignoring = not PhanxBuffsIgnoreDB.debuffs[arg] and true or nil
 			PhanxBuffsIgnoreDB.debuffs[arg] = ignoring
-			print("|cffffcc00PhanxBuffs:|r", string.format(ignoring and L["Now ignoring debuff: %s."] or L["No longer ignoring debuff: %s."], arg))
+			print("|cffffcc00PhanxBuffs:|r", format(ignoring and L["Now ignoring debuff: %s."] or L["No longer ignoring debuff: %s."], arg))
 			return PhanxDebuffFrame:Update()
 		end
 		return
