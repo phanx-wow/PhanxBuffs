@@ -64,23 +64,23 @@ local fonts = {}
 
 local defaultFonts, defaultFont = {}
 if GetLocale() == "koKR" then
-	defaultFonts["굵은 글꼴"]  = [[Fonts\2002B.TTF]]
-	defaultFonts["기본 글꼴"]  = [[Fonts\2002.TTF]]
-	defaultFonts["데미지 글꼴"] = [[Fonts\K_Damage.TTF]]
-	defaultFonts["퀘스트 글꼴"] = [[Fonts\K_Pagetext.TTF]]
+	defaultFonts["굵은 글꼴"]	= [[Fonts\2002B.TTF]]
+	defaultFonts["기본 글꼴"]	= [[Fonts\2002.TTF]]
+	defaultFonts["데미지 글꼴"]	= [[Fonts\K_Damage.TTF]]
+	defaultFonts["퀘스트 글꼴"]	= [[Fonts\K_Pagetext.TTF]]
 
 	defaultFont = "기본 글꼴"
 elseif GetLocale() == "zhCN" then
-	defaultFonts["伤害数字"] = [[Fonts\ARKai_C.ttf]]
-	defaultFonts["默认"]    = [[Fonts\ARKai_T.ttf]]
-	defaultFonts["聊天"]    = [[Fonts\ARHei.ttf]]
+	defaultFonts["伤害数字"]	= [[Fonts\ARKai_C.ttf]]
+	defaultFonts["默认"]		= [[Fonts\ARKai_T.ttf]]
+	defaultFonts["聊天"]		= [[Fonts\ARHei.ttf]]
 
 	defaultFont = "默认"
 elseif GetLocale() == "zhTW" then
-	defaultFonts["提示訊息"] = [[Fonts\bHEI00M.ttf]]
-	defaultFonts["聊天"]    = [[Fonts\bHEI01B.ttf]]
-	defaultFonts["傷害數字"] = [[Fonts\bKAI00M.ttf]]
-	defaultFonts["預設"]    = [[Fonts\bLEI00D.ttf]]
+	defaultFonts["提示訊息"]	= [[Fonts\bHEI00M.ttf]]
+	defaultFonts["聊天"]		= [[Fonts\bHEI01B.ttf]]
+	defaultFonts["傷害數字"]	= [[Fonts\bKAI00M.ttf]]
+	defaultFonts["預設"]		= [[Fonts\bLEI00D.ttf]]
 
 	defaultFont = "預設"
 elseif GetLocale() == "ruRU" then

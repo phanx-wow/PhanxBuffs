@@ -12,7 +12,7 @@ local PhanxTempEnchantFrame = CreateFrame("Frame", "PhanxTempEnchantFrame", UIPa
 local db
 
 local enchants = { }
-local playerClass = select(2, UnitClass("player"))
+local _, playerClass = UnitClass("player")
 local dirty, bagsDirty, spellsDirty, inVehicle
 
 local MAIN_HAND_SLOT = GetInventorySlotInfo("MainHandSlot")
@@ -46,9 +46,9 @@ local function button_OnEnter(self)
 	end
 	if remaining then
 		if remaining > 59 then
-			GameTooltip:AddLine(L["%d minutes remaining"]:format(floor((remaining / 60) + 0.5)))
+			GameTooltip:AddLine(format(L["%d minutes remaining"], floor((remaining / 60) + 0.5)))
 		else
-			GameTooltip:AddLine(L["%d seconds remaining"]:format(floor(remaining + 0.5)))
+			GameTooltip:AddLine(format(L["%d seconds remaining"], floor(remaining + 0.5)))
 		end
 		GameTooltip:Show()
 	end
@@ -121,9 +121,10 @@ function PhanxTempEnchantFrame:UpdateLayout()
 	local fontScale = db.fontScale
 	local fontOutline = db.fontOutline
 
-	for i, button in ipairs(buttons) do
+	for i = 1, #buttons do
 		local x = (spacing + size) * (i - 1) * (anchorH == "LEFT" and 1 or -1)
 
+		local button = buttons[i]
 		button:ClearAllPoints()
 		button:SetPoint(anchorV .. anchorH, self, anchorV .. anchorH, x, 0)
 		button:SetWidth(size)
@@ -142,13 +143,14 @@ end
 ------------------------------------------------------------------------
 
 local function FindTempEnchantItem(findString)
-	findString = findString:gsub("%(.-%)", ""):trim():lower()
+	--print("FindTempEnchantItem", findString)
+	findString = strlower(strtrim(gsub(findString, "%(.-%)", "")))
 	for bag = 0, 4 do
 		for slot = 1, GetContainerNumSlots(bag) do
 			local icon, _, _, _, _, _, link = GetContainerItemInfo(bag, slot)
 			if link then
-				local name = link:match("%[(.+)%]")
-				if name:lower():match(findString) then
+				local name = strmatch(link, "%[(.+)%]")
+				if strmatch(strlower(name), findString) then
 					return icon, bag, slot
 				end
 			end
@@ -157,8 +159,9 @@ local function FindTempEnchantItem(findString)
 end
 
 local function FindTempEnchantSpell(findString)
-	local findRank = findString:match("%d+")
-	findString = findString:gsub("%d+", ""):trim()
+	--print("FindTempEnchantSpell", findString)
+	local findRank = strmatch(findString, "%d+")
+	findString = strtrim(gsub(findString, "%d+", ""))
 
 	local i = 1
 	while true do
@@ -167,7 +170,7 @@ local function FindTempEnchantSpell(findString)
 		if spellName:match(findString) then
 			if findRank then
 				if spellRank then
-					spellRank = spellRank:match("%d+")
+					spellRank = strmatch(spellRank, "%d+")
 					if spellRank == findRank then
 						local _, _, icon = GetSpellInfo(spellName)
 						return icon, i
@@ -207,13 +210,13 @@ local function FindTempEnchantString()
 	for i = 1, PhanxTempEnchantFrame.tooltip:NumLines() do
 		local line = PhanxTempEnchantFrame.tooltip.L[i]
 		for k, v in pairs(tempEnchantKeywords) do
-			if line:match(k) then
+			if strmatch(line, k) then
 				if type(v) == "string" then
 					local rank = line:match("( %d+)") or ""
-					-- print("Found temp enchant string " .. k .. " (spell " .. v .. ") rank " .. rank)
+					--print("Found temp enchant string " .. k .. " (spell " .. v .. ") rank " .. rank)
 					return v .. rank, FindTempEnchantSpell
 				else
-					-- print("Found temp enchant string " .. k .. " (item)")
+					--print("Found temp enchant string " .. k .. " (item)")
 					return k, FindTempEnchantItem
 				end
 			end
@@ -232,28 +235,29 @@ function PhanxTempEnchantFrame:Update()
 
 	if mainHandEnchant then
 		numEnchants = numEnchants + 1
-		local b = buttons[numEnchants]
+		local button = buttons[numEnchants]
 
-		b.expires = GetTime() + (mainHandExpiration / 1000)
-		b.icon:SetTexture(GetInventoryItemTexture("player", MAIN_HAND_SLOT))
+		button.expires = GetTime() + (mainHandExpiration / 1000)
+		button.icon:SetTexture(GetInventoryItemTexture("player", MAIN_HAND_SLOT))
 
-		b.arg1, b.arg2 = nil, nil
+		button.arg1, button.arg2 = nil, nil
 		if tempEnchantKeywords and db.showTempEnchantSources then
 			self.tooltip:SetInventoryItem("player", MAIN_HAND_SLOT)
 			local tempEnchantString, tempEnchantFindFunc = FindTempEnchantString()
 			if tempEnchantString then
 				local icon, arg1, arg2 = tempEnchantFindFunc(tempEnchantString)
 				if icon and icon ~= "" then
-					b.icon:SetTexture(icon)
-					b.arg1 = arg1
-					b.arg2 = arg2
+					--print("Found temp enchant:", tempEnchantString, arg1, arg2)
+					button.icon:SetTexture(icon)
+					button.arg1 = arg1
+					button.arg2 = arg2
 				end
 			end
 		end
 
-		b.count:SetText(mainHandCharges > 0 and mainHandCharges or nil)
-		b:SetID(MAIN_HAND_SLOT)
-		b:Show()
+		button.count:SetText(mainHandCharges > 0 and mainHandCharges or nil)
+		button:SetID(MAIN_HAND_SLOT)
+		button:Show()
 	end
 
 	if offHandEnchant then
