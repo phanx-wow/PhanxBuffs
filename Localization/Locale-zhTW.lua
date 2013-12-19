@@ -85,6 +85,8 @@ ns.L = {
 
 	["Cast by %s"] = "由 %s 施放",
 
+--	["buff"] = "buff",
+--	["debuff"] = "debuff",
 	["Now ignoring buff: %s"] = "現在忽略的buff：%s",
 	["Now ignoring debuff: %s"] = "現在忽略的debuff：%s",
 	["No longer ignoring buff: %s"] = "不再忽略的buff：%s",

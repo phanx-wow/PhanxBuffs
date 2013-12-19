@@ -84,6 +84,8 @@ ns.L = {
 
 	["Cast by %s"] = "시전자: %s",
 
+--	["buff"] = "buff",
+--	["debuff"] = "debuff",
 	["Now ignoring buff: %s"] = "버프 %s 님이 차단 목록에 등록되었습니다.",
 	["Now ignoring debuff: %s"] = "디버프 %s 님이 차단 목록에 등록되었습니다.",
 	["No longer ignoring buff: %s"] = "버프%s 님이 차단 목록에서 제외되었습니다.",

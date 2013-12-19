@@ -83,6 +83,8 @@ ns.L = {
 
 	["Cast by %s"] = "Incanté par %s",
 
+--	["buff"] = "buff",
+--	["debuff"] = "debuff",
 	["Now ignoring buff: %s"] = "Buff à présent ignoré : %s",
 	["Now ignoring debuff: %s"] = "Debuff à présent ignoré : %s",
 	["No longer ignoring buff: %s"] = "Buff n'étant à présent plus ignoré : %s",
