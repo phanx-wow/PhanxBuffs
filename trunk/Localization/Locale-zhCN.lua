@@ -84,6 +84,8 @@ ns.L = {
 
 	["Cast by %s"] = "来自 %s",
 
+--	["buff"] = "buff",
+--	["debuff"] = "debuff",
 --	["Now ignoring buff: %s"] = "",
 --	["Now ignoring debuff: %s"] = "",
 --	["No longer ignoring buff: %s"] = "",

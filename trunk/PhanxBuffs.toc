@@ -1,8 +1,9 @@
 ## Interface: 50400
-## Version: 5.4.1.wowi:revision
+## Version: 5.4.2.wowi:revision
 
 ## Title: PhanxBuffs
 ## Notes: Basic replacement for player buff, debuff, and temporary enchant frames.
+## Notes-deDE: Einfache Ersätze für die Stärkungszauber-, Schwächungszauber- und Waffenverzauberungssymbole des Spielers.
 ## Notes-esES: Sustitutos básicos de los iconos del jugador de beneficios, perjuicios y encancamientos de armas.
 ## Notes-esMX: Sustitutos básicos de los iconos del jugador de beneficios, perjuicios y encancamientos de armas.
 ## Notes-ptBR: Substituições básicas para os ícones do jogador de bônus, penalidades e encantamentos de armas.
@@ -14,7 +15,7 @@
 ## X-Copyright: Copyright (c) 2010-2013 Phanx. All rights reserved.
 ## X-License: See the accompanying LICENSE file for details.
 ## X-CompatibleLocales: deDE, enUS, esES, esMX, frFR, itIT, koKR, ptBR, ruRU, zhCN, zhTW
-## X-Localizations: enUS, esES, esMX, frFR, koKR, ptBR, ruRU, zhTW
+## X-Localizations: deDE, enUS, esES, esMX, frFR, koKR, ptBR, ruRU, zhTW
 ## X-Website: http://www.wowinterface.com/downloads/info16874-PhanxBuffs.html
 ## X-Curse-Project-ID: phanxbuffs
 ## X-WoWI-ID: 16874
