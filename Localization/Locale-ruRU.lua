@@ -84,6 +84,8 @@ ns.L = {
 
 	["Cast by %s"] = "Наносится %s",
 
+	["buff"] = "бафф",
+	["debuff"] = "дебафф",
 	["Now ignoring buff: %s"] = "Теперь игнорируя бафф: %s",
 	["Now ignoring debuff: %s"] = "Теперь игнорируя дебафф: %s",
 	["No longer ignoring buff: %s"] = "Больше не игнорируя бафф: %s",

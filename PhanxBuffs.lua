@@ -114,7 +114,8 @@ local function SetButtonFonts(parent, face, outline)
 	local file = GetFontFile(face)
 	local scale = db.fontScale
 
-	for i, button in ipairs(parent.buttons) do
+	for i = 1, #parent.buttons do
+		local button = parent.buttons[i]
 		button.count:SetFont(file, 18 * scale, outline)
 		button.timer:SetFont(file, 14 * scale, outline)
 		if button.symbol then
@@ -127,84 +128,97 @@ end
 
 local eventFrame = CreateFrame("Frame")
 eventFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
-eventFrame:SetScript("OnEvent", function(self)
-	local function copyTable(src, dst)
-		if type(src) ~= "table" then return dst or {} end
-		if type(dst) ~= "table" then dst = {} end
-		for k, v in pairs(src) do
-			if type(v) == "table" then
-				dst[k] = copyTable(v, dst[k])
-			elseif type(v) ~= type(dst[k]) then
-				dst[k] = v
+eventFrame:SetScript("OnEvent", function(self, event)
+	if event == "PLAYER_ENTERING_WORLD" then
+		local function initDB(db, defaults)
+			if type(db) ~= "table" then db = {} end
+			if type(defaults) ~= "table" then return db end
+			for k, v in pairs(defaults) do
+				if type(v) == "table" then
+					db[k] = initDB(db[k], v)
+				elseif type(v) ~= type(db[k]) then
+					db[k] = v
+				end
 			end
+			return db
 		end
-		return dst
-	end
 
-	if not PhanxBuffsDB then PhanxBuffsDB = {} end
-	db = copyTable(defaultDB, PhanxBuffsDB)
+		PhanxBuffsDB = initDB(PhanxBuffsDB, defaultDB)
+		db = PhanxBuffsDB
 
-	-- Remove old stuff
-	db.iconSpacing = nil
-	db.growthAnchor = nil
+		PhanxBuffsIgnoreDB = copyTable(PhanxBuffsIgnoreDB, defaultIgnore)
 
-	if not PhanxBuffsIgnoreDB then PhanxBuffsIgnoreDB = {} end
-	copyTable(defaultIgnore, PhanxBuffsIgnoreDB)
+		LibSharedMedia = LibStub("LibSharedMedia-3.0", true)
 
-	LibSharedMedia = LibStub("LibSharedMedia-3.0", true)
-
-	if LibSharedMedia then
-		for name, file in pairs(defaultFonts) do
-			if file:match("^Interface\\AddOns") then
-				LibSharedMedia:Register("font", name, file)
+		if LibSharedMedia then
+			for name, file in pairs(defaultFonts) do
+				if file:match("^Interface\\AddOns") then
+					LibSharedMedia:Register("font", name, file)
+				end
 			end
-		end
-		for i, v in pairs(LibSharedMedia:List("font")) do
-			table.insert(fonts, v)
-		end
-		table.sort(fonts)
-
-		function self:LibSharedMedia_Registered(_, mediaType, mediaName)
-			if mediaType == "font" then
-				table.insert(fonts, mediaName)
-				table.sort(fonts)
-
-				SetButtonFonts(PhanxBuffFrame)
-				SetButtonFonts(PhanxDebuffFrame)
-				SetButtonFonts(PhanxTempEnchantFrame)
+			for i, v in pairs(LibSharedMedia:List("font")) do
+				tinsert(fonts, v)
 			end
-		end
+			sort(fonts)
 
-		LibSharedMedia.RegisterCallback(self, "LibSharedMedia_Registered", "LibSharedMedia_Registered")
+			function self:LibSharedMedia_Registered(_, mediaType, mediaName)
+				if mediaType == "font" then
+					insert(fonts, mediaName)
+					sort(fonts)
 
-		function self:LibSharedMedia_SetGlobal(_, mediaType)
-			if mediaType == "font" then
-				SetButtonFonts(PhanxBuffFrame)
-				SetButtonFonts(PhanxDebuffFrame)
-				SetButtonFonts(PhanxTempEnchantFrame)
+					SetButtonFonts(PhanxBuffFrame)
+					SetButtonFonts(PhanxDebuffFrame)
+					SetButtonFonts(PhanxTempEnchantFrame)
+				end
 			end
+
+			LibSharedMedia.RegisterCallback(self, "LibSharedMedia_Registered", "LibSharedMedia_Registered")
+
+			function self:LibSharedMedia_SetGlobal(_, mediaType)
+				if mediaType == "font" then
+					SetButtonFonts(PhanxBuffFrame)
+					SetButtonFonts(PhanxDebuffFrame)
+					SetButtonFonts(PhanxTempEnchantFrame)
+				end
+			end
+
+			LibSharedMedia.RegisterCallback(self, "LibSharedMedia_SetGlobal",  "LibSharedMedia_SetGlobal")
+		else
+			for name in pairs(defaultFonts) do
+				tinsert(fonts, name)
+			end
+			sort(fonts)
 		end
 
-		LibSharedMedia.RegisterCallback(self, "LibSharedMedia_SetGlobal",  "LibSharedMedia_SetGlobal")
+		SetCVar("consolidateBuffs", 0)
+
+		BuffFrame:Hide()
+		TemporaryEnchantFrame:Hide()
+		BuffFrame:UnregisterAllEvents()
+
+		PhanxBuffFrame:Load()
+		PhanxDebuffFrame:Load()
+		PhanxTempEnchantFrame:Load()
+
+		self:UnregisterAllEvents()
+		self:RegisterEvent("PLAYER_LOGOUT")
 	else
-		for name in pairs(defaultFonts) do
-			table.insert(fonts, name)
+		local function cleanDB(db, defaults)
+			if type(db) ~= "table" then return {} end
+			if type(defaults) ~= "table" then return db end
+			for k, v in pairs(db) do
+				if type(v) == "table" then
+					if not next(cleanDB(v, defaults[k])) then
+						db[k] = nil
+					end
+				elseif v == defaults[k] then
+					db[k] = nil
+				end
+			end
+			return db
 		end
-		table.sort(fonts)
+		PhanxBuffsDB = cleanDB(PhanxBuffsDB, defaultDB)
 	end
-
-	SetCVar("consolidateBuffs", 0)
-
-	BuffFrame:Hide()
-	TemporaryEnchantFrame:Hide()
-	BuffFrame:UnregisterAllEvents()
-
-	PhanxBuffFrame:Load()
-	PhanxDebuffFrame:Load()
-	PhanxTempEnchantFrame:Load()
-
-	self:UnregisterAllEvents()
-	self:SetScript("OnEvent", nil)
 end)
 
 ------------------------------------------------------------------------
@@ -660,10 +674,10 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 			self:StopMovingOrSizing()
 
 			local w, h, x, y = UIParent:GetWidth(), UIParent:GetHeight(), self:GetCenter()
-			w, h, x, y = math.floor(w + 0.5), math.floor(h + 0.5), math.floor(x + 0.5), math.floor(y + 0.5)
+			w, h, x, y = floor(w + 0.5), floor(h + 0.5), floor(x + 0.5), floor(y + 0.5)
 			local hhalf, vhalf = (x > w / 2) and "RIGHT" or "LEFT", (y > h / 2) and "TOP" or "BOTTOM"
-			local dx = hhalf == "RIGHT" and math.floor(self:GetRight() + 0.5) - w or math.floor(self:GetLeft() + 0.5)
-			local dy = vhalf == "TOP" and math.floor(self:GetTop() + 0.5) - h or math.floor(self:GetBottom() + 0.5)
+			local dx = hhalf == "RIGHT" and floor(self:GetRight() + 0.5) - w or floor(self:GetLeft() + 0.5)
+			local dy = vhalf == "TOP" and floor(self:GetTop() + 0.5) - h or floor(self:GetBottom() + 0.5)
 
 			if self:GetName() == "PhanxDebuffFrame" then
 				db.debuffPoint, db.debuffX, db.debuffY = vhalf..hhalf, dx, dy
@@ -748,19 +762,19 @@ SlashCmdList.PHANXBUFFS = function(input)
 	cmd = cmd and cmd:lower()
 
 	if arg and arg ~= "" then
-		if cmd == L["buff"] then
+		if cmd == "buff" or cmd == L["buff"] then
 			local ignoring = not PhanxBuffsIgnoreDB.buffs[arg] and true or nil
 			PhanxBuffsIgnoreDB.buffs[arg] = ignoring
 			print("|cffffcc00PhanxBuffs:|r", format(ignoring and L["Now ignoring buff: %s."] or L["No longer ignoring buff: %s."], arg))
 			return PhanxBuffFrame:Update()
-		elseif cmd == L["debuff"] then
+		elseif cmd == "debuff" or cmd == L["debuff"] then
 			local ignoring = not PhanxBuffsIgnoreDB.debuffs[arg] and true or nil
 			PhanxBuffsIgnoreDB.debuffs[arg] = ignoring
 			print("|cffffcc00PhanxBuffs:|r", format(ignoring and L["Now ignoring debuff: %s."] or L["No longer ignoring debuff: %s."], arg))
 			return PhanxDebuffFrame:Update()
 		end
 		return
-	elseif cmd == L["buff"] then
+	elseif cmd == "buff" or cmd == L["buff"] then
 		local t = {}
 		for buff in pairs(PhanxBuffsIgnoreDB.buffs) do
 			t[#t + 1] = buff
@@ -768,14 +782,14 @@ SlashCmdList.PHANXBUFFS = function(input)
 		if #t == 0 then
 			print("|cffffcc00PhanxBuffs:|r", L["No buffs are being ignored."])
 		else
-			table.sort(t)
-			print("|cffffcc00PhanxBuffs:|r", L["%d |4buff:buffs; |4is:are; being ignored:"]:format(#t))
+			sort(t)
+			print("|cffffcc00PhanxBuffs:|r", format(L["%d |4buff:buffs; |4is:are; being ignored:"], #t))
 			for _, buff in ipairs(t) do
 				print("   ", buff)
 			end
 		end
 		return
-	elseif cmd == L["debuff"] then
+	elseif cmd == "debuff" or cmd == L["debuff"] then
 		local t = {}
 		for debuff in pairs(PhanxBuffsIgnoreDB.debuffs) do
 			t[#t + 1] = debuff
@@ -783,8 +797,8 @@ SlashCmdList.PHANXBUFFS = function(input)
 		if #t == 0 then
 			print("|cffffcc00PhanxBuffs:|r", L["No debuffs are being ignored."])
 		else
-			table.sort(t)
-			print("|cffffcc00PhanxBuffs:|r", L["%d |4debuff:debuffs; |4is:are; being ignored:"]:format(#t))
+			sort(t)
+			print("|cffffcc00PhanxBuffs:|r", format(L["%d |4debuff:debuffs; |4is:are; being ignored:"], #t))
 			for _, debuff in ipairs(t) do
 				print("   ", debuff)
 			end

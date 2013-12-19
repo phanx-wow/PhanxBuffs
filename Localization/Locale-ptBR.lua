@@ -84,6 +84,8 @@ ns.L = {
 
 	["Cast by %s"] = "Aplicada por %s",
 
+	["buff"] = "bônus",
+	["debuff"] = "penalidade",
 	["Now ignoring buff: %s"] = "Agora ignorando o bônus: %s",
 	["Now ignoring debuff: %s"] = "Agora ignorando o penalidade: %s",
 	["No longer ignoring buff: %s"] = "Já não ignorando o bônus: %s",
