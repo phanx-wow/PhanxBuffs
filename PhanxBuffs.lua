@@ -146,7 +146,7 @@ eventFrame:SetScript("OnEvent", function(self, event)
 		PhanxBuffsDB = initDB(PhanxBuffsDB, defaultDB)
 		db = PhanxBuffsDB
 
-		PhanxBuffsIgnoreDB = copyTable(PhanxBuffsIgnoreDB, defaultIgnore)
+		PhanxBuffsIgnoreDB = initDB(PhanxBuffsIgnoreDB, defaultIgnore)
 
 		LibSharedMedia = LibStub("LibSharedMedia-3.0", true)
 
@@ -163,7 +163,7 @@ eventFrame:SetScript("OnEvent", function(self, event)
 
 			function self:LibSharedMedia_Registered(_, mediaType, mediaName)
 				if mediaType == "font" then
-					insert(fonts, mediaName)
+					tinsert(fonts, mediaName)
 					sort(fonts)
 
 					SetButtonFonts(PhanxBuffFrame)
