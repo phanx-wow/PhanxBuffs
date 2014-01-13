@@ -18,7 +18,7 @@ hooksecurefunc(PhanxTempEnchantFrame, "Load", function(self)
 	if done then return end
 
 	local db = PhanxBuffsDB
-	if db.noButtonFacade then return end
+	if db.noMasque then return end
 	if db.skin then
 		-- print("Removing old skin data...")
 		db.skin = nil
