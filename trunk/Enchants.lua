@@ -66,44 +66,24 @@ local function button_OnClick(self)
 end
 
 local buttons = setmetatable({ }, { __index = function(t, i)
-	local button = CreateFrame("Button", nil, PhanxTempEnchantFrame)
+	local button = ns.CreateAuraIcon(PhanxTempEnchantFrame)
 	button:SetWidth(db.buffSize)
 	button:SetHeight(db.buffSize)
-	button:Show()
-
-	button:EnableMouse(true)
 	button:SetScript("OnEnter", button_OnEnter)
 	button:SetScript("OnLeave", button_OnLeave)
-
-	button:RegisterForClicks("RightButtonUp")
 	button:SetScript("OnClick", button_OnClick)
 
-	button.icon = button:CreateTexture(nil, "BACKGROUND")
-	button.icon:SetAllPoints(button)
-
-	button.count = button:CreateFontString(nil, "OVERLAY")
-    button.count:SetPoint("CENTER", button, "TOP")
-    button.count:SetShadowOffset(1, -1)
-
-	button.timer = button:CreateFontString(nil, "OVERLAY")
-	button.timer:SetPoint("TOP", button, "BOTTOM")
-    button.timer:SetShadowOffset(1, -1)
-
 	if PhanxBorder then
-		PhanxBorder.AddBorder(button)
-		button.icon:SetTexCoord(0.07, 0.93, 0.07, 0.93)
 		button:SetBorderColor(180 / 255, 76 / 255, 1) -- 118 / 255, 47 / 255, 170 / 255)
 	else
-		button.border = button:CreateTexture(nil, "OVERLAY")
+		button.border = button:CreateTexture(nil, "BORDER")
 		button.border:SetPoint("TOPLEFT", button, -2, 2)
 		button.border:SetPoint("BOTTOMRIGHT", button, 2, -2)
 		button.border:SetTexture("Interface\\Buttons\\UI-TempEnchant-Border")
 	end
 
 	t[i] = button
-
 	PhanxTempEnchantFrame:UpdateLayout()
-
 	return button
 end })
 

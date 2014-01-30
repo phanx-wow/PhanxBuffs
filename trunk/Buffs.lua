@@ -98,39 +98,16 @@ end
 local buttons = setmetatable({ }, { __index = function(t, i)
 	if type(i) ~= "number" then return end
 
-	local button = CreateFrame("Button", nil, PhanxBuffFrame)
+	local button = ns.CreateAuraIcon(PhanxBuffFrame)
 	button:SetID(i)
 	button:SetWidth(db.buffSize)
 	button:SetHeight(db.buffSize)
-	button:Show()
-
-	button:EnableMouse(true)
 	button:SetScript("OnEnter", button_OnEnter)
 	button:SetScript("OnLeave", button_OnLeave)
-
-	button:RegisterForClicks("RightButtonUp")
 	button:SetScript("OnClick", button_OnClick)
 
-	button.icon = button:CreateTexture(nil, "BACKGROUND")
-	button.icon:SetAllPoints(true)
-
-	button.count = button:CreateFontString(nil, "OVERLAY")
-    button.count:SetPoint("CENTER", button, "TOP")
-    button.count:SetShadowOffset(1, -1)
-
-	button.timer = button:CreateFontString(nil, "OVERLAY")
-	button.timer:SetPoint("TOP", button, "BOTTOM")
-    button.timer:SetShadowOffset(1, -1)
-
-	if PhanxBorder then
-		PhanxBorder.AddBorder(button)
-		button.icon:SetTexCoord(0.07, 0.93, 0.07, 0.93)
-	end
-
 	t[i] = button
-
 	PhanxBuffFrame:UpdateLayout()
-
 	return button
 end })
 
