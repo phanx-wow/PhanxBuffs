@@ -271,6 +271,33 @@ end)
 
 ------------------------------------------------------------------------
 
+function ns.CreateAuraIcon(parent)
+	local button = CreateFrame("Button", nil, parent)
+	button:EnableMouse(true)
+	button:RegisterForClicks("RightButtonUp")
+
+	button.icon = button:CreateTexture(nil, "BACKGROUND")
+	button.icon:SetAllPoints(button)
+
+	button.count = button:CreateFontString(nil, "OVERLAY")
+	button.count:SetPoint("CENTER", button, "TOP")
+	button.count:SetShadowOffset(1, -1)
+
+	button.timer = button:CreateFontString(nil, "OVERLAY")
+	button.timer:SetPoint("CENTER", button, "BOTTOM")
+	button.timer:SetShadowOffset(1, -1)
+
+	if PhanxBorder then
+		PhanxBorder.AddBorder(button)
+		button.icon:SetTexCoord(0.07, 0.93, 0.07, 0.93)
+	end
+
+	return button
+end
+
+
+------------------------------------------------------------------------
+
 local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDON_NAME, nil, function(self)
 	local CreateCheckbox = LibStub("PhanxConfig-Checkbox").CreateCheckbox
 	local CreateDropdown = LibStub("PhanxConfig-Dropdown").CreateDropdown
