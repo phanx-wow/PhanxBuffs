@@ -110,38 +110,19 @@ local function button_SetBorderColor(self, ...)
 end
 
 local buttons = setmetatable({ }, { __index = function(t, i)
-	local button = CreateFrame("Button", nil, PhanxDebuffFrame)
+	local button = ns.CreateAuraIcon(PhanxDebuffFrame)
 	button:SetID(i)
 	button:SetWidth(db.debuffSize)
 	button:SetHeight(db.debuffSize)
-	button:Show()
-
-	button:EnableMouse(true)
 	button:SetScript("OnEnter", button_OnEnter)
 	button:SetScript("OnLeave", button_OnLeave)
-
-	button:RegisterForClicks("RightButtonUp")
 	button:SetScript("OnClick", button_OnClick)
-
-	button.icon = button:CreateTexture(nil, "BACKGROUND")
-	button.icon:SetAllPoints(button)
-
-	button.count = button:CreateFontString(nil, "OVERLAY")
-    button.count:SetPoint("CENTER", button, "TOP")
-    button.count:SetShadowOffset(1, -1)
-
-	button.timer = button:CreateFontString(nil, "OVERLAY")
-	button.timer:SetPoint("TOP", button, "BOTTOM")
-    button.timer:SetShadowOffset(1, -1)
 
 	button.symbol = button:CreateFontString(nil, "OVERLAY")
 	button.symbol:SetPoint("BOTTOMRIGHT", button)
-    button.symbol:SetShadowOffset(1, -1)
+	button.symbol:SetShadowOffset(1, -1)
 
-	if PhanxBorder then
-		PhanxBorder.AddBorder(button)
-		button.icon:SetTexCoord(0.07, 0.93, 0.07, 0.93)
-	else
+	if not PhanxBorder then
 		button.border = button:CreateTexture(nil, "BORDER")
 		button.border:SetPoint("TOPLEFT", button, -3, 2)
 		button.border:SetPoint("BOTTOMRIGHT", button, 2, -2)
@@ -151,9 +132,7 @@ local buttons = setmetatable({ }, { __index = function(t, i)
 	end
 
 	t[i] = button
-
 	PhanxDebuffFrame:UpdateLayout()
-
 	return button
 end })
 
