@@ -107,23 +107,15 @@ eventFrame:SetScript("OnEvent", function(self, event)
 
 		PhanxBuffsIgnoreDB = initDB(PhanxBuffsIgnoreDB, defaultIgnore)
 
-		function self:LibSharedMedia_Registered(_, mediaType, mediaName)
+		local function MediaCallback(callbackName, mediaType, mediaName)
 			if mediaType == "font" then
 				SetButtonFonts(PhanxBuffFrame)
 				SetButtonFonts(PhanxDebuffFrame)
 				SetButtonFonts(PhanxTempEnchantFrame)
 			end
 		end
-		LibSharedMedia.RegisterCallback(self, "LibSharedMedia_Registered", "LibSharedMedia_Registered")
-
-		function self:LibSharedMedia_SetGlobal(_, mediaType)
-			if mediaType == "font" then
-				SetButtonFonts(PhanxBuffFrame)
-				SetButtonFonts(PhanxDebuffFrame)
-				SetButtonFonts(PhanxTempEnchantFrame)
-			end
-		end
-		LibSharedMedia.RegisterCallback(self, "LibSharedMedia_SetGlobal",  "LibSharedMedia_SetGlobal")
+		Media.RegisterCallback(self, "LibSharedMedia_Registered", MediaCallback)
+		Media.RegisterCallback(self, "LibSharedMedia_SetGlobal", MediaCallback)
 
 		SetCVar("consolidateBuffs", 0)
 
