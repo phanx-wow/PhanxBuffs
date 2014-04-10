@@ -24,7 +24,7 @@ local buffs, cantCancel = {}, {}
 local PhanxBuffFrame = CreateFrame("Frame", "PhanxBuffFrame", UIParent)
 
 local L = ns.L
-L["Cast by |cff%02x%02x%02x%s|r"] = L["Cast by %s"]:gsub( "%%s", "|cff%%02x%%02x%%02x%%s|r" )
+L["Cast by |cff%02x%02x%02x%s|r"] = gsub(L["Cast by %s"], "%%s", "|cff%%02x%%02x%%02x%%s|r")
 
 ------------------------------------------------------------------------
 
@@ -35,12 +35,12 @@ local unitNames = setmetatable({ }, { __index = function(t, unit)
 	if not name then return end
 
 	local _, class = UnitClass(unit)
-	if not class then return L["Cast by %s"]:format(name) end
+	if not class then return format(L["Cast by %s"], name) end
 
 	local color = (CUSTOM_CLASS_COLORS or RAID_CLASS_COLORS)[class]
-	if not color then return L["Cast by %s"]:format(name) end
+	if not color then return format(L["Cast by %s"], name) end
 
-	return L["Cast by |cff%02x%02x%02x%s|r"]:format(color.r * 255, color.g * 255, color.b * 255, name)
+	return format(L["Cast by |cff%02x%02x%02x%s|r"], color.r * 255, color.g * 255, color.b * 255, name)
 end })
 
 local function button_OnEnter(self)
@@ -84,7 +84,7 @@ local function button_OnClick(self)
 
 	if IsAltKeyDown() and IsShiftKeyDown() then
 		ignore[buff.name] = true
-		print("|cffffcc00PhanxBuffs:|r", string.format(ns.L["Now ignoring buff: %s"], buff.name))
+		print("|cffffcc00PhanxBuffs:|r", format(ns.L["Now ignoring buff: %s"], buff.name))
 		self:GetParent():Update()
 	elseif buff.noCancel or InCombatLockdown() then
 		-- do nothing

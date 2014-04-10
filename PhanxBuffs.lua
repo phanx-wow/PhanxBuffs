@@ -440,57 +440,27 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 	fontFace:SetPoint("TOPLEFT", buffAnchorV, "BOTTOMLEFT", 0, -32)
 	fontFace:SetPoint("TOPRIGHT", buffAnchorH, "BOTTOMRIGHT", 0, -32)
 
-	do
-		local _, height, flags = fontFace.valueText:GetFont()
-		fontFace.valueText:SetFont(GetFontFile(db.fontFace), height, flags)
+	function fontFace:Callback(value)
+		local _, height, flags = self.valueText:GetFont()
+		self.valueText:SetFont(GetFontFile(value), height, flags)
 
-		function fontFace:OnValueChanged(value)
-			db.fontFace = value
+		db.fontFace = value
+		SetButtonFonts(PhanxBuffFrame, value)
+		SetButtonFonts(PhanxDebuffFrame, value)
+		SetButtonFonts(PhanxTempEnchantFrame, value)
+	end
 
-			SetButtonFonts(PhanxBuffFrame, value)
-			SetButtonFonts(PhanxDebuffFrame, value)
-			SetButtonFonts(PhanxTempEnchantFrame, value)
-
-			local _, height, flags = self.valueText:GetFont()
-			self.valueText:SetFont(GetFontFile(value), height, flags)
+	function fontFace:ListButtonCallback(button, value, selected)
+		if button:IsShown() then
+			button:GetFontString():SetFont(Media:Fetch("font", value), UIDROPDOWNMENU_DEFAULT_TEXT_HEIGHT)
 		end
+	end
 
-		local button_OnClick = fontFace.button:GetScript("OnClick")
-		fontFace.button:SetScript("OnClick", function(self)
-			button_OnClick(self)
-			fontFace.dropdown.list:Hide()
-
-			local function SetButtonFonts(self)
-				local buttons = fontFace.dropdown.list.buttons
-				for i = 1, #buttons do
-					local button = buttons[i]
-					if button.value and button:IsShown() then
-						button.label:SetFont(GetFontFile(button.value), UIDROPDOWNMENU_DEFAULT_TEXT_HEIGHT)
-					end
-				end
-			end
-
-			local OnShow = fontFace.dropdown.list:GetScript("OnShow")
-			fontFace.dropdown.list:SetScript("OnShow", function(self)
-				OnShow(self)
-				SetButtonFonts(self)
-			end)
-
-			local OnVerticalScroll = fontFace.dropdown.list.scrollFrame:GetScript("OnVerticalScroll")
-			fontFace.dropdown.list.scrollFrame:SetScript("OnVerticalScroll", function(self, delta)
-				OnVerticalScroll(self, delta)
-				SetButtonFonts(self)
-			end)
-
-			local SetText = fontFace.dropdown.list.text.SetText
-			fontFace.dropdown.list.text.SetText = function(self, text)
-				self:SetFont(GetFontFile(text), UIDROPDOWNMENU_DEFAULT_TEXT_HEIGHT + 1)
-				SetText(self, text)
-			end
-
-			button_OnClick(self)
-			self:SetScript("OnClick", button_OnClick)
-		end)
+	fontFace.__SetValue = fontFace.SetValue
+	function fontFace:SetValue(value)
+		local _, height, flags = self.valueText:GetFont()
+		self.valueText:SetFont(GetFontFile(value), height, flags)
+		self:__SetValue(value)
 	end
 
 	--------------------------------------------------------------------
