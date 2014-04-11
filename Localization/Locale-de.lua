@@ -80,6 +80,8 @@ ns.L = {
 	["Max Timer Duration"] = "Höchstdauer",
 	["Adjust the maximum remaining duration, in seconds, to show the timer text for a buff or debuff."] = "Die maximale Dauer in Sekunden anpassen, um den Timertext einer Stärkungs- oder Schwächungszauber anzeigen.",
 
+	["Show stance icons"] = "Haltungssymbole",
+	["Show fake buff icons for warrior stances and paladin seals."] = "Gefälschten Stärkungszaubersymbole für den Kriegershaltungen und Paladinsiegel anzeigen.",
 	["Buff Sources"] = "Stärkungszauberquellen",
 	["Show the name of the party or raid member who cast a buff on you in its tooltip."] = "Den Name des Gruppen- oder Schlachtzugsmitglied in Stärkungszaubertooltips anzeigen, das es auf euch gewirkt.",
 	["Weapon Buff Sources"] = "Waffenverzauberungsquellen",
