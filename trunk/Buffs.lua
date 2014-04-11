@@ -26,11 +26,20 @@ local PhanxBuffFrame = CreateFrame("Frame", "PhanxBuffFrame", UIParent)
 local L = ns.L
 L["Cast by |cff%02x%02x%02x%s|r"] = gsub(L["Cast by %s"], "%%s", "|cff%%02x%%02x%%02x%%s|r")
 
+for id in pairs({ [2457] = true, [2458] = true, [71] = true }) do
+	GameTooltip:SetOwner(UIParent, "ANCHOR_NONE")
+	GameTooltip:SetSpellByID(id)
+	L[id] = gsub(GameTooltipTextLeft3:GetText(), "[\r\n]+", " ")
+end
+
 local fakes = {
 	[(GetSpellInfo(105361))] = 105361, -- PALADIN: Seal of Command
 	[(GetSpellInfo(20165))]  = 20165,  -- PALADIN: Seal of Insight
 	[(GetSpellInfo(20154))]  = 20154,  -- PALADIN: Seal of Righteousness
 	[(GetSpellInfo(31801))]  = 31801,  -- PALADIN: Seal of Truth
+	[(GetSpellInfo(2457))]   = 2457,   -- WARRIOR: Battle Stance
+	[(GetSpellInfo(2458))]   = 2458,   -- WARRIOR: Berserker Stance
+	[(GetSpellInfo(71))]     = 71,     -- WARRIOR: Defensive Strance
 }
 
 local protected = {
@@ -263,7 +272,7 @@ function PhanxBuffFrame:Update()
 		end
 	end
 
-	if formSpellID and not formHasBuff then
+	if formSpellID and not formHasBuff and db.showFakeBuffs then
 		local t = newTable()
 
 		local _, _, icon = GetSpellInfo(formSpellID)
@@ -376,7 +385,6 @@ PhanxBuffFrame:SetScript("OnEvent", function( self, event, unit )
 		else
 			formIcon, formName, formSpellID = nil, nil, nil
 		end
-		print(event, formIndex, formName, formIcon)
 		dirty = true
 	elseif event == "PLAYER_ENTERING_WORLD" then
 		if UnitHasVehicleUI( "player" ) then
