@@ -31,6 +31,13 @@ ns.L = {
 	["Paralytic Poison"] = "Betäubendes Gift",
 	["Wound Poison"] = "Wundgift",
 
+-- Fake buff tooltip text
+
+	[105361] = "Nahkampfangriffe verursachen Heiligschaden.", -- Siegel des Befehls
+	[20165] = "Zaubertempo um 10% erhöht.\nGewirkte Heilung um 5% erhöht.\nNahkampfangriffe haben eine Chance, Heilung hervorzurufen.", -- Siegel der Einsicht
+	[20154] = "Nahkampfangriffe fügen allen Zielen im Umkreis von 8 Metern Heiligschaden zu.", -- Siegel der Rechtschaffenheit
+	[31801] = "Nahkampfangriffe verursachen im Verlauf von 15 Sek. Heiligschaden.", -- Siegel der Wahrheit
+
 -- Configuration panel
 
 	["Use this panel to adjust some basic settings for buff, debuff, and weapon buff icons."] = "Mit diesen Optionen könnt Ihr die Stärkungszauber-, Schwächungszauber- und Waffenverzauberungssymbole dieses Addon konfigurieren.",

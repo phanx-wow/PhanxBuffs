@@ -31,6 +31,13 @@ ns.L = {
 	["Paralytic Poison"] = "Veneno Paralisante",
 	["Wound Poison"] = "Veneno Ferino",
 
+-- Fake buff tooltip text
+
+	[105361] = "Ataques corpo a corpo causam dano Sagrado.", -- Selo da Retidão
+	[20165] = "Aumenta em 10% a velocidade de lançamento.\nMelhora em 5% a cura.\nAtaques corpo a corpo podem curar.", -- Selo da Intuição
+	[20154] = "Ataques corpo a corpo causam dano Sagrado contra todos os alvos em um raio de 8 metros.", -- Selo da Retidão
+	[31801] = "Ataques corpo a corpo causam dano Sagrado ao longo de 15 s.", -- Selo da Verdade
+
 -- Configuration panel
 
 	["Use this panel to adjust some basic settings for buff, debuff, and weapon buff icons."] = "Estas opções permitem alterar algumas configurações básicas para os ícones de bônus, penalidades, e encantamentos de armas.",

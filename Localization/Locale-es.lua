@@ -31,6 +31,13 @@ ns.L = {
 	["Paralytic Poison"] = "Veneno paralizador",
 	["Wound Poison"] = "Veneno hiriente",
 
+-- Fake buff tooltip text
+
+	[105361] = "Los ataques cuerpo a cuerpo infligen daño Sagrado.", -- Sello de orden
+	[20165] = "Mejora un 10% la velocidad de lanzamiento.\nMejora la sanación un 5%.\nLos ataques cuerpo a cuerpo tienen una probabilidad de sanar.", -- Sello de Perspicacia
+	[20154] = "Los ataques cuerpo a cuerpo infligen daño Sagrado a todos los objetivos en un radio de 8 m.", -- Sello de Rectitud
+	[31801] = "Los ataques cuerpo a cuerpo infligen daño Sagrado durante 15 s.", -- Sello de Verdad
+
 -- Configuration panel text
 
 	["Use this panel to adjust some basic settings for buff, debuff, and weapon buff icons."] = "Estes opciones te permiten configurar los iconos de beneficios, perjuicios, y encancamientos de armas.",

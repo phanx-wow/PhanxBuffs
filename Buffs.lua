@@ -9,10 +9,10 @@
 
 local _, ns = ...
 
-local db
-local ignore
+local db, ignore
 
 local buffUnit = "player"
+local formIndex, formName, formIcon, formSpellID
 
 local MAX_BUFFS = 40
 
@@ -25,6 +25,50 @@ local PhanxBuffFrame = CreateFrame("Frame", "PhanxBuffFrame", UIParent)
 
 local L = ns.L
 L["Cast by |cff%02x%02x%02x%s|r"] = gsub(L["Cast by %s"], "%%s", "|cff%%02x%%02x%%02x%%s|r")
+
+local fakes = {
+	[(GetSpellInfo(105361))] = 105361, -- PALADIN: Seal of Command
+	[(GetSpellInfo(20165))]  = 20165,  -- PALADIN: Seal of Insight
+	[(GetSpellInfo(20154))]  = 20154,  -- PALADIN: Seal of Righteousness
+	[(GetSpellInfo(31801))]  = 31801,  -- PALADIN: Seal of Truth
+}
+
+local protected = {
+	[48263] = true, -- DEATHKNIGHT: Blood Presence
+	[48266] = true, -- DEATHKNIGHT: Frost Presence
+	[48265] = true, -- DEATHKNIGHT: Unholy Presence
+	[1066]  = true, -- DRUID: Aquatic Form
+	[5487]  = true, -- DRUID: Bear Form
+	[768]   = true, -- DRUID: Cat Form
+	[33943] = true, -- DRUID: Flight Form
+	[40120] = true, -- DRUID: Swift Flight Form
+	[783]   = true, -- DRUID: Travel Form
+	[33891] = true, -- DRUID: Tree of Life
+	[15473] = true, -- PRIEST: Shadowform
+	[1784]  = true, -- ROGUE: Stealth
+}
+
+------------------------------------------------------------------------
+
+local tablePool = { }
+
+local function newTable()
+	local t = next(tablePool) or {}
+	tablePool[t] = nil
+	return t
+end
+
+local function remTable(t)
+	if type(t) == "table" then
+		for k, v in pairs(t) do
+			t[k] = nil
+		end
+		t[true] = true
+		t[true] = nil
+		tablePool[t] = true
+	end
+	return nil
+end
 
 ------------------------------------------------------------------------
 
@@ -48,7 +92,18 @@ local function button_OnEnter(self)
 	if not buff then return end
 
 	GameTooltip:SetOwner(self, "ANCHOR_BOTTOMLEFT")
-	GameTooltip:SetUnitAura(buffUnit, buff.index, "HELPFUL")
+	if buff.isFake then
+		local text = rawget(L, formSpellID)
+		if text then
+			GameTooltip:AddLine(formName)
+			GameTooltip:AddLine(text, 1, 1, 1, true)
+			GameTooltip:Show()
+		else
+			GameTooltip:SetShapeshift(buff.index)
+		end
+	else
+		GameTooltip:SetUnitAura(buffUnit, buff.index, "HELPFUL")
+	end
 
 	if db.showBuffSources then
 		local caster = unitNames[buff.caster]
@@ -62,21 +117,6 @@ end
 local function button_OnLeave()
 	GameTooltip:Hide()
 end
-
-local protected = {
-	[48263] = true, -- DEATHKNIGHT Blood Presence
-	[48266] = true, -- DEATHKNIGHT Frost Presence
-	[48265] = true, -- DEATHKNIGHT Unholy Presence
-	[1066]  = true, -- DRUID Aquatic Form
-	[5487]  = true, -- DRUID Bear Form
-	[768]   = true, -- DRUID Cat Form
-	[33943] = true, -- DRUID Flight Form
-	[40120] = true, -- DRUID Swift Flight Form
-	[783]   = true, -- DRUID Travel Form
-	[33891] = true, -- DRUID Tree of Life
-	[15473] = true, -- PRIEST Shadowform
-	[1784]  = true, -- ROGUE Stealth
-}
 
 local function button_OnClick(self)
 	local buff = buffs[self:GetID()]
@@ -191,35 +231,20 @@ end
 
 ------------------------------------------------------------------------
 
-local tablePool = { }
-
-local function newTable()
-	local t = next(tablePool) or {}
-	tablePool[t] = nil
-	return t
-end
-
-local function remTable(t)
-	if type(t) == "table" then
-		for k, v in pairs(t) do
-			t[k] = nil
-		end
-		t[true] = true
-		t[true] = nil
-		tablePool[t] = true
-	end
-	return nil
-end
-
-------------------------------------------------------------------------
-
 function PhanxBuffFrame:Update()
-	for i, t in ipairs(buffs) do
-		buffs[i] = remTable(t)
+	for i = 1, #buffs do
+		buffs[i] = remTable(buffs[i])
 	end
+
+	local formHasBuff
+
 	for i = 1, 100 do
 		local name, _, icon, count, kind, duration, expires, caster, _, _, spellID = UnitAura(buffUnit, i, "HELPFUL")
 		if not name or not icon or icon == "" then break end
+
+		if name == formName and icon == formIcon then
+			formHasBuff = true
+		end
 
 		if not ignore[name] then
 			local t = newTable()
@@ -238,20 +263,39 @@ function PhanxBuffFrame:Update()
 		end
 	end
 
+	if formSpellID and not formHasBuff then
+		local t = newTable()
+
+		local _, _, icon = GetSpellInfo(formSpellID)
+
+		t.name = formName
+		t.icon = icon or formIcon
+		t.count = 1
+		-- no type
+		t.duration = 0
+		t.expires = 0
+		t.caster = "player"
+		t.spellID = formID
+		t.index = formIndex
+		t.isFake = true
+
+		buffs[#buffs + 1] = t
+	end
+
 	table.sort(buffs, BuffSort)
 
-	wipe(cantCancel)
 	for i = 1, 100 do
 		local name, _, icon = UnitAura(buffUnit, i, "HELPFUL NOT_CANCELABLE")
 		if not name or not icon or icon == "" then break end
 		cantCancel[name] = true
 	end
 
-	for i, buff in ipairs(buffs) do
+	for i = 1, #buffs do
 		local f = buttons[i]
+		local buff = buffs[i]
 		f.icon:SetTexture(buff.icon)
 
-		buff.noCancel = cantCancel[buff.name]
+		buff.noCancel = buff.isFake or cantCancel[buff.name]
 
 		if buff.count > 1 then
 			f.count:SetText(buff.count)
@@ -275,6 +319,7 @@ end
 ------------------------------------------------------------------------
 
 local dirty
+
 local timerGroup = PhanxBuffFrame:CreateAnimationGroup()
 local timer = timerGroup:CreateAnimation()
 timer:SetOrder(1)
@@ -286,7 +331,8 @@ timerGroup:SetScript("OnFinished", function(self, requested)
 		dirty = false
 	end
 	local max = db.maxTimer
-	for i, button in ipairs(buttons) do
+	for i = 1, #buttons do
+		local button = buttons[i]
 		if not button:IsShown() then break end
 		local buff = buffs[ button:GetID() ]
 		if buff then
@@ -294,7 +340,7 @@ timerGroup:SetScript("OnFinished", function(self, requested)
 				local remaining = buff.expires - GetTime()
 				if remaining < 0 then
 					-- bugged out, kill it
-					remTable( table.remove( buffs, button:GetID() ) )
+					remTable( tremove( buffs, button:GetID() ) )
 					dirty = true
 				elseif remaining <= max then
 					if remaining > 3600 then
@@ -322,13 +368,23 @@ PhanxBuffFrame:SetScript("OnEvent", function( self, event, unit )
 		if unit == buffUnit then
 			dirty = true
 		end
+	elseif event == "UPDATE_SHAPESHIFT_FORM" then
+		formIndex = GetShapeshiftForm()
+		if formIndex > 0 then
+			formIcon, formName = GetShapeshiftFormInfo(formIndex)
+			formSpellID = fakes[formName]
+		else
+			formIcon, formName, formSpellID = nil, nil, nil
+		end
+		print(event, formIndex, formName, formIcon)
+		dirty = true
 	elseif event == "PLAYER_ENTERING_WORLD" then
 		if UnitHasVehicleUI( "player" ) then
 			buffUnit = "vehicle"
 		else
 			buffUnit = "player"
 		end
-		dirty = true
+		self:GetScript("OnEvent")(self, "UPDATE_SHAPESHIFT_FORM")
 	elseif event == "UNIT_ENTERED_VEHICLE" then
 		if UnitHasVehicleUI( "player" ) then
 			buffUnit = "vehicle"
@@ -361,6 +417,7 @@ function PhanxBuffFrame:Load()
 	self:RegisterEvent( "PLAYER_ENTERING_WORLD" )
 	self:RegisterEvent( "PET_BATTLE_OPENING_START" )
 	self:RegisterEvent( "PET_BATTLE_CLOSE" )
+	self:RegisterEvent( "UPDATE_SHAPESHIFT_FORM" )
 	self:RegisterUnitEvent( "UNIT_ENTERED_VEHICLE", "player" )
 	self:RegisterUnitEvent( "UNIT_EXITED_VEHICLE", "player" )
 	self:RegisterUnitEvent( "UNIT_AURA", "player", "vehicle" )

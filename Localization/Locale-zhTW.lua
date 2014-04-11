@@ -32,6 +32,13 @@ ns.L = {
 	["Paralytic Poison"] = "麻痺毒藥",
 	["Wound Poison"] = "致傷",
 
+-- Fake buff tooltip text
+
+--	[105361] = "Melee attacks cause Holy damage.", -- Seal of Command
+--	[20165] = "Improves casting speed by 10%.\nImproves healing by 5%.\nMelee attacks have a chance to heal.", -- Seal of Insight
+--	[20154] = "Melee attacks cause Holy damage against all targets within 8 yards.", -- Seal of Righteousness
+--	[31801] = "Melee attacks cause Holy damage over 15 sec.", -- Seal of Truth
+
 -- Configuration panel
 
 	["Use this panel to adjust some basic settings for buff, debuff, and weapon buff icons."] = "這裡可以調整buff,debuff,武器附魔圖示的基本設置.",

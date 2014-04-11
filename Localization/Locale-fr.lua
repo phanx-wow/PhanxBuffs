@@ -31,6 +31,13 @@ ns.L = {
 --	["Paralytic Poison"] = "",
 	["Wound Poison"] = "Poison douloureux",
 
+-- Fake buff tooltip text
+
+	[105361] = "Les attaques de mêlée infligent des dégâts du Sacré.", -- Sceau d’autorité
+	[20165] = "Augmente la vitesse d’incantation de 10%.\nAugmente les soins de 5%.\nLes attaques de mêlée ont une chance de soigner.", -- Sceau de clairvoyance
+	[20154] = "Les attaques de mêlée infligent des dégâts du Sacré à toutes les cibles à moins de 8 mètres.", -- Sceau de piété
+	[31801] = "Les attaques de mêlée infligent des dégâts du Sacré en 15 s.", -- Sceau de vérité
+
 -- Configuration panel
 
 	["Use this panel to adjust some basic settings for buff, debuff, and weapon buff icons."] = "Utilisez cette fenêtre pour ajuster des réglages basiques pour les icônes de buffs, debuffs, et buffs d'arme.",
