@@ -79,8 +79,8 @@ ns.L = {
 	["Show weapon buffs as the spell or item that buffed the weapon, instead of the weapon itself."] = "Statt der Waffe den Zauber oder Gegenstand anziegen, der die Waffe verzaubern.",
 	["One-Click Cancel"] = "Mit einem Klick abbrechen",
 	["Cancel unprotected buffs on the first click, instead of the second. Only works out of combat, and protected buffs like shapeshift forms and weapon buffs will still require two clicks."] = "Stärkungszauber mit dem ersten Klick statt des zweiten abbrechen. Diese funktioniert nur außerhalb des Kampfes. Einige geschützten Zauber (zB Gestalten der Druiden und Waffenverzauberungen) noch benötigen zwei Klicks, um abzubrechen.",
-	["Lock Frames"] = "Symbole sperren",
-	["Lock the buff and debuff frames in place, hiding the backdrop and preventing them from being moved."] = "Die Stärkungs- und Schwächungszaubersymbole sperren, um den Hintergrund zu verstecken und die Bewegung zu verhindern.",
+	["Lock Frames"] = "Symbole fixieren",
+	["Lock the buff and debuff frames in place, hiding the backdrop and preventing them from being moved."] = "Die Stärkungs- und Schwächungszauber-Symbole fixieren, um den Hintergrund zu verstecken und die Bewegung zu verhindern.", -- @PHANX: extra hyphen in Schwächungszaubersymbole because Blizz sucks at tooltip wrapping
 
 	["Cast by %s"] = "Von %s aufgebracht",
 
