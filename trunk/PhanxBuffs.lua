@@ -319,7 +319,7 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 			PhanxTempEnchantFrame:UpdateLayout()
 		end
 
-		buffAnchorH = self:CreateDropdown("", L["Choose whether the buff icons grow from left to right, or right to left."], function()
+		buffAnchorH = self:CreateDropdown(L["Buff Anchor"], L["Choose whether the buff icons grow from left to right, or right to left."], function()
 			local info = UIDropDownMenu_CreateInfo()
 			local selected = db.buffAnchorH
 
@@ -337,6 +337,9 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 		end)
 		buffAnchorH:SetPoint("TOPLEFT", buffColumns, "BOTTOM", 0, -14)
 		buffAnchorH:SetPoint("TOPRIGHT", buffColumns, "BOTTOMRIGHT", 0, -14)
+
+		buffAnchorH.labelText:Hide()
+		buffAnchorV.labelText:SetPoint("TOPRIGHT", buffAnchorH, -5, 0)
 	end
 
 	--------------------------------------------------------------------
@@ -414,7 +417,7 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 			PhanxDebuffFrame:UpdateLayout()
 		end
 
-		debuffAnchorH = self:CreateDropdown("", L["Choose whether the debuff icons grow from left to right, or right to left."], function()
+		debuffAnchorH = self:CreateDropdown(L["Debuff Anchor"], L["Choose whether the debuff icons grow from left to right, or right to left."], function()
 			local info = UIDropDownMenu_CreateInfo()
 			local selected = db.debuffAnchorH
 
@@ -432,6 +435,9 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 		end)
 		debuffAnchorH:SetPoint("TOPLEFT", debuffColumns, "BOTTOM", 0, -14)
 		debuffAnchorH:SetPoint("TOPRIGHT", debuffColumns, "BOTTOMRIGHT", 0, -14)
+
+		debuffAnchorH.labelText:Hide()
+		debuffAnchorV.labelText:SetPoint("TOPRIGHT", debuffAnchorH, -5, 0)
 	end
 
 	--------------------------------------------------------------------
