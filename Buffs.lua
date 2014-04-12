@@ -26,12 +26,6 @@ local PhanxBuffFrame = CreateFrame("Frame", "PhanxBuffFrame", UIParent)
 local L = ns.L
 L["Cast by |cff%02x%02x%02x%s|r"] = gsub(L["Cast by %s"], "%%s", "|cff%%02x%%02x%%02x%%s|r")
 
-for id in pairs({ [2457] = true, [2458] = true, [71] = true }) do
-	GameTooltip:SetOwner(UIParent, "ANCHOR_NONE")
-	GameTooltip:SetSpellByID(id)
-	L[id] = gsub(GameTooltipTextLeft3:GetText(), "[\r\n]+", " ")
-end
-
 local fakes = {
 	[(GetSpellInfo(105361))] = 105361, -- PALADIN: Seal of Command
 	[(GetSpellInfo(20165))]  = 20165,  -- PALADIN: Seal of Insight
@@ -416,6 +410,14 @@ function PhanxBuffFrame:Load()
 
 	db = PhanxBuffsDB
 	ignore = PhanxBuffsIgnoreDB.buffs
+
+	-- populate L strings for warrior stance fake buffs
+	GameTooltip:SetOwner(UIParent, "ANCHOR_NONE")
+	for id in pairs({ [2457] = true, [2458] = true, [71] = true }) do
+		GameTooltip:SetSpellByID(id)
+		L[id] = strmatch(GameTooltipTextLeft3:GetText() or "TRANSLATION SERVER ERROR", "\r\n\r\n(.+)")
+	end
+	GameTooltip:Hide()
 
 	self:GetScript("OnEvent")(self, "PLAYER_ENTERING_WORLD")
 
