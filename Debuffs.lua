@@ -283,11 +283,11 @@ function PhanxDebuffFrame:Update()
 		if debuffTypeColor then
 			local r, g, b = unpack(debuffTypeColor)
 			f:SetBorderColor(r, g, b, 1)
-			if ENABLE_COLORBLIND_MODE == "1" then
+			if ENABLE_COLORBLIND_MODE == "0" then
+				f.symbol:Hide()
+			else
 				f.symbol:Show()
 				f.symbol:SetText(DebuffTypeSymbol[debuff.kind])
-			else
-				f.symbol:Hide()
 			end
 		else
 			f:SetBorderColor(1, 0, 0, 1)
