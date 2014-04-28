@@ -207,7 +207,7 @@ function ns.CreateAuraIcon(parent)
 	button.count:SetShadowOffset(1, -1)
 
 	button.timer = button:CreateFontString(nil, "OVERLAY")
-	button.timer:SetPoint("CENTER", button, "BOTTOM")
+	button.timer:SetPoint("TOP", button, "BOTTOM")
 	button.timer:SetShadowOffset(1, -1)
 
 	if PhanxBorder then
