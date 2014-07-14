@@ -27,6 +27,9 @@ local L = ns.L
 L["Cast by |cff%02x%02x%02x%s|r"] = gsub(L["Cast by %s"], "%%s", "|cff%%02x%%02x%%02x%%s|r")
 
 local fakes = {
+	[(GetSpellInfo(103985))] = 103985, -- MONK: Stance of the Fierce Tiger
+	[(GetSpellInfo(115069))] = 115069, -- MONK: Stance of the Sturdy Ox
+	[(GetSpellInfo(115070))] = 115070, -- MONK: Stance of the Wise Serpent
 	[(GetSpellInfo(105361))] = 105361, -- PALADIN: Seal of Command
 	[(GetSpellInfo(20165))]  = 20165,  -- PALADIN: Seal of Insight
 	[(GetSpellInfo(20154))]  = 20154,  -- PALADIN: Seal of Righteousness
