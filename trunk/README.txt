@@ -1,18 +1,16 @@
 PhanxBuffs
-==========
+=============
 
-* Copyright (c) 2010-2014 Phanx <addons@phanx.net>. All rights reserved.
-* See the accompanying LICENSE file for more information.
-* http://www.wowinterface.com/downloads/info16874-PhanxBuffs.html
-* http://www.curse.com/addons/wow/phanxbuffs
+* [WoWInterface](http://www.wowinterface.com/downloads/info16874-PhanxBuffs.html)
+* [Curse](http://www.curse.com/addons/wow/phanxbuffs)
 
 
 Description
------------
+--------------
 
-PhanxBuffs is a basic replacement for the default UI’s buff, debuff, and
-temporary enchant (weapon buff) frames. It looks and acts basically like
-the default buff frames, with a few improvements:
+Basic replacement for the default UI’s buff, debuff, and temporary
+enchant (weapon buff) frames. It looks and acts basically like the
+default buff frames, with a few improvements:
 
 * Buff and debuff icons are sorted by their remaining duration
 * Text timers are shown only when less than 30 seconds remain
@@ -27,7 +25,7 @@ the default buff frames, with a few improvements:
 
 
 Usage
------
+--------
 
 Type “/pbuff” for options, or browse to the PhanxBuffs panel in the
 standard Interface Options window.
@@ -41,7 +39,7 @@ capitalized, and punctuated.
 
 
 Cancelling Buffs
-----------------
+-------------------
 
 Due to Blizzard restrictions, you cannot right-click to cancel buffs
 while in combat when using addons that filter or sort the buff display.
@@ -60,31 +58,35 @@ cancelling buffs, this feature only works out of combat.
 
 
 Localization
-------------
+---------------
 
-Compatible with English, Deutsch, Español (EU & AL), Français, Italiano,
-Português, Русский, 한국어, 简体中文, and 繁體中文 game clients.
+Compatible with all localized game clients.
 
-Translated into English, Español, Français, Português, Русский, 한국어,
-and 繁體中文.
+Translated into English, Español, Français, Português, Русский,
+한국어 and 繁體中文.
 
-To add or update translations for any language, see the Localization tab
-on the CurseForge project page:
-	<http://wow.curseforge.com/addons/phanxbuffs/localization/>
+You can add or update translations on the [CurseForge project page] [1].
+
+	[1]: http://wow.curseforge.com/addons/phanxbuffs/localization/
 
 
 Feedback
---------
+-----------
 
-Bugs, errors, or other problems:
-	Submit a bug report ticket on either download page.
+Post a ticket on either download site, or a comment on WoWInterface.
 
-Feature requests or other suggestions:
-	Submit a feature request ticket system on either download page.
+If you are reporting a bug, please include directions I can follow to
+reproduce the bug, whether it still happens when all other addons are
+disabled, and the exact text of the related error message (if any) from 
+[BugSack](http://www.wowinterface.com/downloads/info5995-BugSack.html).
 
-General questions or comments:
-	Post a comment on the WoWInterface download page.
+If you need to contact me privately, you can send me a private message
+on either download site, or email me at <addons@phanx.net>.
 
-If you need to contact me privately for a reason other than those listed
-above, you can send me a private message on either download site, or
-email me at <addons@phanx.net>.
+
+License
+----------
+
+Copyright (c) 2010-2014 Phanx. All rights reserved.  
+See the accompanying LICENSE file for information about the conditions
+under which redistribution and modification may be allowed.
