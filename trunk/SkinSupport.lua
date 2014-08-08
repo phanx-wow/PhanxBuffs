@@ -1,7 +1,7 @@
 --[[--------------------------------------------------------------------
 	PhanxBuffs
 	Replacement player buff, debuff, and temporary enchant frames.
-	Copyright (c) 2010-2014 Phanx <addons@phanx.net>. All rights reserved.
+	Copyright (c) 2010-2014 Phanx. All rights reserved.
 	See the accompanying README and LICENSE files for more information.
 	http://www.wowinterface.com/downloads/info16874-PhanxBuffs.html
 	http://www.curse.com/addons/wow/phanxbuffs
@@ -32,14 +32,14 @@ hooksecurefunc(PhanxTempEnchantFrame, "Load", function(self)
 		if PhanxBorder then
 			f.icon:SetTexCoord(0, 1, 0, 1)
 			if f.BorderTextures then
-				for i, tex in ipairs(f.BorderTextures) do
+				for i, tex in pairs(f.BorderTextures) do
 					tex:SetTexture(nil)
 					tex:Hide()
 				end
 				f.BorderTextures = nil
 			end
 			if f.ShadowTextures then
-				for i, tex in ipairs(f.ShadowTextures) do
+				for i, tex in pairs(f.ShadowTextures) do
 					tex:SetTexture(nil)
 					tex:Hide()
 				end
@@ -53,8 +53,8 @@ hooksecurefunc(PhanxTempEnchantFrame, "Load", function(self)
 		end
 
 		f.buttonData = { Icon = f.icon }
-		for i, layer in ipairs(buttonDataLayers) do
-			f.buttonData[layer] = false
+		for i = 1, #buttonDataLayers do
+			f.buttonData[buttonDataLayers[i]] = false
 		end
 
 		if f:GetParent() == PhanxBuffFrame then
@@ -86,9 +86,9 @@ hooksecurefunc(PhanxTempEnchantFrame, "Load", function(self)
 		-- print("Skinning frame " .. frame:GetName() .. "...")
 		local buttons = frame.buttons
 
-		for i, button in ipairs(buttons) do
+		for i = 1, #buttons do
 			-- print("Skinning button " .. i .. " in frame " .. frame:GetName() .. "...")
-			SkinButton(button)
+			SkinButton(buttons[i])
 		end
 
 		local oldmetatable = getmetatable(buttons).__index
@@ -98,6 +98,16 @@ hooksecurefunc(PhanxTempEnchantFrame, "Load", function(self)
 			SkinButton(f)
 			return f
 		end })
+	end
+
+	local hooked
+	local function ReSkin(button, size)
+		size = floor(size)
+		if size ~= button.prevsize then
+			-- print("reskinning on size change", button.prevsize, "=>", size)
+			button.prevsize = size
+			Masque:Group("PhanxBuffs"):ReSkin()
+		end
 	end
 
 	local function OnSkinChanged(_, _, skin, gloss, backdrop, colors, fonts)
@@ -111,6 +121,12 @@ hooksecurefunc(PhanxTempEnchantFrame, "Load", function(self)
 		PhanxBuffFrame:Update()
 		PhanxDebuffFrame:Update()
 		PhanxTempEnchantFrame:Update()
+
+		if not hooked then
+			hooksecurefunc(PhanxBuffFrame.buttons[1], "SetHeight", ReSkin)
+			hooksecurefunc(PhanxDebuffFrame.buttons[1], "SetHeight", ReSkin)
+			hooked = true
+		end
 	end
 
 	Masque:Register("PhanxBuffs", OnSkinChanged)
@@ -118,28 +134,6 @@ hooksecurefunc(PhanxTempEnchantFrame, "Load", function(self)
 	SkinFrame(PhanxBuffFrame)
 	SkinFrame(PhanxDebuffFrame)
 	SkinFrame(PhanxTempEnchantFrame)
-
-	local hookedOptionsPanel
-	ns.optionsPanel:HookScript("OnShow", function(panel)
-		if hookedOptionsPanel then return end
-
-		local L = ns.L
-		for i = 1, panel:GetNumChildren() do
-			local child = select(i, panel:GetChildren())
-			if type(child) == "table" and child.OnValueChanged and child.labelText then
-				local name = child.labelText:GetText()
-				if name == L["Buff Size"] or name == L["Debuff Size"] then
-					local OnValueChanged = child.OnValueChanged
-					child.OnValueChanged = function(...)
-						OnValueChanged(...)
-						Masque:Group("PhanxBuffs"):ReSkin()
-					end
-				end
-			end
-		end
-
-		hookedOptionsPanel = true
-	end)
 
 	done = true
 end)
