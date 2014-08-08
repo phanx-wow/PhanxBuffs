@@ -1,7 +1,7 @@
 --[[--------------------------------------------------------------------
 	PhanxBuffs
 	Replacement player buff, debuff, and temporary enchant frames.
-	Copyright (c) 2010-2014 Phanx <addons@phanx.net>. All rights reserved.
+	Copyright (c) 2010-2014 Phanx. All rights reserved.
 	See the accompanying README and LICENSE files for more information.
 	http://www.wowinterface.com/downloads/info16874-PhanxBuffs.html
 	http://www.curse.com/addons/wow/phanxbuffs
@@ -10,6 +10,8 @@
 local PhanxTempEnchantFrame = CreateFrame("Frame", "PhanxTempEnchantFrame", UIParent)
 
 local db
+
+local floor = floor
 
 local enchants = { }
 local _, playerClass = UnitClass("player")
@@ -303,7 +305,8 @@ timerGroup:SetScript("OnFinished", function(self, requested)
 		PhanxTempEnchantFrame:Update()
 		dirty = false
 	end
-	for i, button in ipairs(buttons) do
+	for i = 1, #buttons do
+		local button = buttons[i]
 		if not button:IsShown() then break end
 		if button.expires and button.expires > 0 then
 			local remaining = button.expires - GetTime()

@@ -1,7 +1,7 @@
 --[[--------------------------------------------------------------------
 	PhanxBuffs
 	Replacement player buff, debuff, and temporary enchant frames.
-	Copyright (c) 2010-2014 Phanx <addons@phanx.net>. All rights reserved.
+	Copyright (c) 2010-2014 Phanx. All rights reserved.
 	See the accompanying README and LICENSE files for more information.
 	http://www.wowinterface.com/downloads/info16874-PhanxBuffs.html
 	http://www.curse.com/addons/wow/phanxbuffs
@@ -12,10 +12,11 @@ local PhanxDebuffFrame = CreateFrame("Frame", "PhanxDebuffFrame", UIParent)
 local db
 local ignore
 
+local ceil, floor, next, pairs, sort, tremove, type = ceil, floor, next, pairs, sort, tremove, type
+local UnitAura = UnitAura
+
 local debuffs = { }
 local debuffUnit = "player"
-
-local floor = math.floor
 
 local DebuffTypeColor = {
 	["Curse"]	= { 0.6, 0.0, 1 },
@@ -95,7 +96,7 @@ local function button_OnClick(self)
 
 	if IsAltKeyDown() and IsShiftKeyDown() then
 		ignore[debuff.name] = true
-		print("|cffffcc00PhanxBuffs:|r", string.format(ns.L["Now ignoring debuff:"], debuff.name))
+		print("|cffffcc00PhanxBuffs:|r", format(ns.L["Now ignoring debuff:"], debuff.name))
 		self:GetParent():Update()
 	elseif not InCombatLockdown() then
 		local macro = GetDispelMacro and GetDispelMacro(debuff.kind)
@@ -151,9 +152,10 @@ function PhanxDebuffFrame:UpdateLayout()
 	local fontScale = db.fontScale
 	local fontOutline = db.fontOutline
 
-	for i, button in ipairs(buttons) do
+	for i = 1, #buttons do
+		local button = buttons[i]
 		local col = (i - 1) % cols
-		local row = math.ceil(i / cols) - 1
+		local row = ceil(i / cols) - 1
 
 		local x = floor(col * (spacing + size) * (anchorH == "LEFT" and 1 or -1) + 0.5)
 		local y = floor(row * (spacing + (size * 1.5)) + 0.5)
@@ -186,7 +188,7 @@ function PhanxDebuffFrame:UpdateLayout()
 	if db.debuffPoint and db.debuffX and db.debuffY then
 		self:SetPoint(db.debuffPoint, UIParent, db.debuffX, db.debuffY + 0.5)
 	else
-		self:SetPoint("BOTTOMRIGHT", UIParent, -70 - math.floor(Minimap:GetWidth() + 0.5), math.floor(UIParent:GetHeight() + 0.5) - math.floor(Minimap:GetHeight() + 0.5) - 62)
+		self:SetPoint("BOTTOMRIGHT", UIParent, -70 - floor(Minimap:GetWidth() + 0.5), floor(UIParent:GetHeight() + 0.5) - floor(Minimap:GetHeight() + 0.5) - 62)
 	end
 	self:SetWidth((size * cols) + (spacing * (cols - 1)))
 	self:SetHeight(size)
@@ -239,8 +241,8 @@ end
 ------------------------------------------------------------------------
 
 function PhanxDebuffFrame:Update()
-	for i, t in ipairs(debuffs) do
-		debuffs[i] = remTable(t)
+	for i = 1, #debuffs do
+		debuffs[i] = remTable(debuffs[i])
 	end
 
 	local i = 1
@@ -267,9 +269,10 @@ function PhanxDebuffFrame:Update()
 		i = i + 1
 	end
 
-	table.sort(debuffs, DebuffSort)
+	sort(debuffs, DebuffSort)
 
-	for i, debuff in ipairs(debuffs) do
+	for i = 1, #debuffs do
+		local debuff = debuffs[i]
 		local f = buttons[i]
 		f.icon:SetTexture(debuff.icon)
 
@@ -281,7 +284,7 @@ function PhanxDebuffFrame:Update()
 
 		local debuffTypeColor = DebuffTypeColor[debuff.kind]
 		if debuffTypeColor then
-			local r, g, b = unpack(debuffTypeColor)
+			local r, g, b = debuffTypeColor[1], debuffTypeColor[2], debuffTypeColor[3]
 			f:SetBorderColor(r, g, b, 1)
 			if ENABLE_COLORBLIND_MODE == "0" then
 				f.symbol:Hide()
@@ -320,8 +323,9 @@ timerGroup:SetScript("OnFinished", function(self, requested)
 		PhanxDebuffFrame:Update()
 		dirty = false
 	end
-	local max = db.maxTimer
-	for i, button in ipairs(buttons) do
+	local maxTimer = db.maxTimer
+	for i = 1, #buttons do
+		local button = buttons[i]
 		if not button:IsShown() then break end
 		local debuff = debuffs[button:GetID()]
 		if debuff then
@@ -329,9 +333,9 @@ timerGroup:SetScript("OnFinished", function(self, requested)
 				local remaining = debuff.expires - GetTime()
 				if remaining < 0 then
 					-- bugged out, kill it
-					remTable( table.remove(debuffs, button:GetID()) )
+					remTable( tremove(debuffs, button:GetID()) )
 					dirty = true
-				elseif remaining <= max then
+				elseif remaining <= maxTimer then
 					if remaining > 3600 then
 						button.timer:SetFormattedText( HOUR_ONELETTER_ABBR, floor( ( remaining / 60 ) + 0.5 ) )
 					elseif remaining > 60 then

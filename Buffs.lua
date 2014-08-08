@@ -1,7 +1,7 @@
 --[[--------------------------------------------------------------------
 	PhanxBuffs
 	Replacement player buff, debuff, and temporary enchant frames.
-	Copyright (c) 2010-2014 Phanx <addons@phanx.net>. All rights reserved.
+	Copyright (c) 2010-2014 Phanx. All rights reserved.
 	See the accompanying README and LICENSE files for more information.
 	http://www.wowinterface.com/downloads/info16874-PhanxBuffs.html
 	http://www.curse.com/addons/wow/phanxbuffs
@@ -174,7 +174,8 @@ function PhanxBuffFrame:UpdateLayout()
 	local fontOutline = db.fontOutline
 
 	local numEnchants = PhanxTempEnchantFrame.numEnchants or 0
-	for i, button in ipairs(buttons) do
+	for i = 1, #buttons do
+		local button = buttons[i]
 		local j = i + numEnchants
 
 		local col = (j - 1) % cols
@@ -434,4 +435,6 @@ function PhanxBuffFrame:Load()
 	self:RegisterUnitEvent( "UNIT_ENTERED_VEHICLE", "player" )
 	self:RegisterUnitEvent( "UNIT_EXITED_VEHICLE", "player" )
 	self:RegisterUnitEvent( "UNIT_AURA", "player", "vehicle" )
+
+	self.loaded = true
 end
