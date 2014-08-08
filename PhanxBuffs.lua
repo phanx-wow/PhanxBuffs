@@ -1,7 +1,7 @@
 --[[--------------------------------------------------------------------
 	PhanxBuffs
 	Replacement player buff, debuff, and temporary enchant frames.
-	Copyright (c) 2010-2014 Phanx <addons@phanx.net>. All rights reserved.
+	Copyright (c) 2010-2014 Phanx. All rights reserved.
 	See the accompanying README and LICENSE files for more information.
 	http://www.wowinterface.com/downloads/info16874-PhanxBuffs.html
 	http://www.curse.com/addons/wow/phanxbuffs
@@ -210,7 +210,7 @@ function ns.CreateAuraIcon(parent)
 	button.timer:SetPoint("TOP", button, "BOTTOM")
 	button.timer:SetShadowOffset(1, -1)
 
-	if PhanxBorder then
+	if PhanxBorder and db.noMasque then
 		PhanxBorder.AddBorder(button)
 		button.icon:SetTexCoord(0.07, 0.93, 0.07, 0.93)
 	end
@@ -710,8 +710,8 @@ SlashCmdList.PHANXBUFFS = function(input)
 		else
 			sort(t)
 			print("|cffffcc00PhanxBuffs:|r", format(L["%d |4buff:buffs; |4is:are; being ignored:"], #t))
-			for _, buff in ipairs(t) do
-				print("   ", buff)
+			for i = 1, #t do
+				print("   ", t[i])
 			end
 		end
 		return
@@ -725,8 +725,8 @@ SlashCmdList.PHANXBUFFS = function(input)
 		else
 			sort(t)
 			print("|cffffcc00PhanxBuffs:|r", format(L["%d |4debuff:debuffs; |4is:are; being ignored:"], #t))
-			for _, debuff in ipairs(t) do
-				print("   ", debuff)
+			for i = 1, #t do
+				print("   ", t[i])
 			end
 		end
 		return
