@@ -3,7 +3,7 @@
 
 ## Title: PhanxBuffs
 ## Notes: Basic replacement for player buff, debuff, and temporary enchant frames.
-## Notes-deDE: Einfache Ersätze für die Stärkungszauber-, Schwächungszauber- und Waffenverzauberungssymbole des Spielers.
+## Notes-deDE: Einfacher Ersätze für die Stärkungszauber-, Schwächungszauber- und Waffenverzauberungssymbole des Spielers.
 ## Notes-esES: Sustitutos básicos de los iconos del jugador de beneficios, perjuicios y encancamientos de armas.
 ## Notes-esMX: Sustitutos básicos de los iconos del jugador de beneficios, perjuicios y encancamientos de armas.
 ## Notes-ptBR: Substituições básicas para os ícones do jogador de bônus, penalidades e encantamentos de armas.
