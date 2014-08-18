@@ -7,7 +7,7 @@
 	http://www.curse.com/addons/wow/phanxbuffs
 ------------------------------------------------------------------------
 	Russian Localization (Русский)
-	Last updated 2011-03-14 by Akkorian
+	Last updated 2014-08-18 by Yafis
 ----------------------------------------------------------------------]]
 
 if GetLocale() ~= "ruRU" then return end
@@ -26,9 +26,9 @@ ns.L = {
 
 	["Crippling Poison"] = "Калечащий яд",
 	["Deadly Poison"] = "Смертельный яд",
---	["Leeching Poison"] = "",
+	["Leeching Poison"] = "Накладывает яд",
 	["Mind-Numbing Poison"] = "Дурманящий яд",
---	["Paralytic Poison"] = "",
+	["Paralytic Poison"] = "Паралитический Яд",
 	["Wound Poison"] = "Нейтрализующий яд",
 
 -- Fake buff tooltip text
@@ -48,9 +48,9 @@ ns.L = {
 	["Adjust the space between buff icons."] = "Настроить расстояния между значков положительного эффекта.",
 	["Buff Columns"] = "Столбцов баффы",
 	["Adjust the number of buff icons to show on each row."] = "Настроить числа положительный эффект значков для отображения на каждой строке.",
---	["Buff Anchor"] = "",
---	["Choose whether the buff icons grow from left to right, or right to left."] = "",
---	["Choose whether the buff icons grow from top to bottom, or bottom to top."] = "",
+	["Buff Anchor"] = "Бафф Якорь",
+	["Choose whether the buff icons grow from left to right, or right to left."] = "Будут ли иконки баффа расти с лева на право или с права на лева.",
+	["Choose whether the buff icons grow from top to bottom, or bottom to top."] = "Будут ли иконки баффа расти с верху в низ или с низу в верх.",
 
 	["Debuff Size"] = "Размер дебаффы",
 	["Adjust the size of each debuff icon."] = "Настроить размера значков отрицательного эффекта.",
@@ -58,9 +58,9 @@ ns.L = {
 	["Adjust the space between debuff icons."] = "Настроить расстояния между значков отрицательного эффекта.",
 	["Debuff Columns"] = "Столбцов дебаффы",
 	["Adjust the number of debuff icons to show on each row."] = "Настроить числа отрицательных эффекта значков для отображения на каждой строке.",
---	["Debuff Anchor"] = "",
---	["Choose whether the debuff icons grow from left to right, or right to left."] = "",
---	["Choose whether the debuff icons grow from top to bottom, or bottom to top."] = "",
+	["Debuff Anchor"] = "Дебафф Якорь",
+	["Choose whether the debuff icons grow from left to right, or right to left."] = "Будут ли иконки дебаффа расти с лева на право или с права на лева.",
+	["Choose whether the debuff icons grow from top to bottom, or bottom to top."] = "Будут ли иконки дебаффа расти с верху в низ или с низу в верх.",
 
 	["Top"] = "Верх",
 	["Bottom"] = "Низ",
@@ -86,7 +86,7 @@ ns.L = {
 	["Show the name of the party or raid member who cast a buff on you in its tooltip."] = "Показать имя персонажа который наложил положительный эффект на вас во всплывающих подсказках.",
 	["Weapon Buff Sources"] = "Источники чарами",
 	["Show weapon buffs as the spell or item that buffed the weapon, instead of the weapon itself."] = "Отображать чары, связанных с оружием, а не оружия.",
---	["One-Click Cancel"] = "",
+	["One-Click Cancel"] = "Одно нажатие - отмена",
 --	["Cancel unprotected buffs on the first click, instead of the second. Only works out of combat, and protected buffs like shapeshift forms and weapon buffs will still require two clicks."] = "",
 	["Lock Frames"] = "Заблокировать значки",
 	["Lock the buff and debuff frames in place, hiding the backdrop and preventing them from being moved."] = "Заблокировать значки, предотвращение перемещения и скрытия фона.",
