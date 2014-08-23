@@ -35,9 +35,11 @@ local fakes = {
 	[(GetSpellInfo(20154))]  = 20154,  -- PALADIN: Seal of Righteousness
 	[(GetSpellInfo(31801))]  = 31801,  -- PALADIN: Seal of Truth
 	[(GetSpellInfo(2457))]   = 2457,   -- WARRIOR: Battle Stance
-	[(GetSpellInfo(2458))]   = 2458,   -- WARRIOR: Berserker Stance
 	[(GetSpellInfo(71))]     = 71,     -- WARRIOR: Defensive Strance
 }
+if select(4, GetBuildInfo()) < 60000 then
+	fakes[(GetSpellInfo(2458))] = 2458 -- WARRIOR: Berserker Stance, removed in WoD
+end
 
 local protected = {
 	[48263] = true, -- DEATHKNIGHT: Blood Presence
