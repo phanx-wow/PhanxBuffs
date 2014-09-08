@@ -9,14 +9,17 @@
 
 local PhanxDebuffFrame = CreateFrame("Frame", "PhanxDebuffFrame", UIParent)
 
-local db
-local ignore
+local _, ns = ...
+local GetFontFile = ns.GetFontFile
 
-local ceil, floor, next, pairs, sort, tremove, type = ceil, floor, next, pairs, sort, tremove, type
-local UnitAura = UnitAura
+local db, ignore
 
-local debuffs = { }
 local debuffUnit = "player"
+local debuffs = {}
+
+local ceil, floor, next, pairs, sort, tremove, type = math.ceil, math.floor, next, pairs, table.sort, table.remove, type -- Lua
+local UnitAura = UnitAura -- WoW
+local DebuffTypeSymbol = DebuffTypeSymbol -- FrameXML
 
 local DebuffTypeColor = {
 	["Curse"]	= { 0.6, 0.0, 1 },
@@ -73,9 +76,6 @@ do
 	end
 end
 
-local _, ns = ...
-local GetFontFile = ns.GetFontFile
-
 ------------------------------------------------------------------------
 
 local function button_OnEnter(self)
@@ -110,7 +110,7 @@ local function button_SetBorderColor(self, ...)
 	return self.border:SetVertexColor(...)
 end
 
-local buttons = setmetatable({ }, { __index = function(t, i)
+local buttons = setmetatable({}, { __index = function(t, i)
 	local button = ns.CreateAuraIcon(PhanxDebuffFrame)
 	button:SetID(i)
 	button:SetWidth(db.debuffSize)
@@ -218,10 +218,10 @@ end
 
 ------------------------------------------------------------------------
 
-local tablePool = { }
+local tablePool = {}
 
 local function newTable()
-	local t = next(tablePool) or { }
+	local t = next(tablePool) or {}
 	tablePool[t] = nil
 	return t
 end
@@ -333,15 +333,15 @@ timerGroup:SetScript("OnFinished", function(self, requested)
 				local remaining = debuff.expires - GetTime()
 				if remaining < 0 then
 					-- bugged out, kill it
-					remTable( tremove(debuffs, button:GetID()) )
+					remTable(tremove(debuffs, button:GetID()))
 					dirty = true
 				elseif remaining <= maxTimer then
 					if remaining > 3600 then
-						button.timer:SetFormattedText( HOUR_ONELETTER_ABBR, floor( ( remaining / 60 ) + 0.5 ) )
+						button.timer:SetFormattedText(HOUR_ONELETTER_ABBR, floor((remaining / 60) + 0.5))
 					elseif remaining > 60 then
-						button.timer:SetFormattedText( MINUTE_ONELETTER_ABBR, floor( ( remaining / 60 ) + 0.5 ) )
+						button.timer:SetFormattedText(MINUTE_ONELETTER_ABBR, floor((remaining / 60) + 0.5))
 					else
-						button.timer:SetText( floor( remaining + 0.5 ) )
+						button.timer:SetText(floor(remaining + 0.5))
 					end
 				else
 					button.timer:SetText()
@@ -354,20 +354,20 @@ timerGroup:SetScript("OnFinished", function(self, requested)
 	self:Play() -- start it over again
 end)
 
-PhanxDebuffFrame:SetScript("OnEvent", function( self, event, unit )
+PhanxDebuffFrame:SetScript("OnEvent", function(self, event, unit)
 	if event == "UNIT_AURA" then
 		if unit == debuffUnit then
 			dirty = true
 		end
 	elseif event == "PLAYER_ENTERING_WORLD" then
-		if UnitHasVehicleUI( "player" ) then
+		if UnitHasVehicleUI("player") then
 			buffUnit = "vehicle"
 		else
 			buffUnit = "player"
 		end
 		dirty = true
 	elseif event == "UNIT_ENTERED_VEHICLE" then
-		if UnitHasVehicleUI( "player" ) then
+		if UnitHasVehicleUI("player") then
 			buffUnit = "vehicle"
 		end
 		dirty = true
@@ -395,10 +395,10 @@ function PhanxDebuffFrame:Load()
 	dirty = true
 	timerGroup:Play()
 
-	self:RegisterEvent( "PLAYER_ENTERING_WORLD" )
-	self:RegisterEvent( "PET_BATTLE_OPENING_START" )
-	self:RegisterEvent( "PET_BATTLE_CLOSE" )
-	self:RegisterUnitEvent( "UNIT_ENTERED_VEHICLE", "player" )
-	self:RegisterUnitEvent( "UNIT_EXITED_VEHICLE", "player" )
-	self:RegisterUnitEvent( "UNIT_AURA", "player", "vehicle" )
+	self:RegisterEvent("PLAYER_ENTERING_WORLD")
+	self:RegisterEvent("PET_BATTLE_OPENING_START")
+	self:RegisterEvent("PET_BATTLE_CLOSE")
+	self:RegisterUnitEvent("UNIT_ENTERED_VEHICLE", "player")
+	self:RegisterUnitEvent("UNIT_EXITED_VEHICLE", "player")
+	self:RegisterUnitEvent("UNIT_AURA", "player", "vehicle")
 end
