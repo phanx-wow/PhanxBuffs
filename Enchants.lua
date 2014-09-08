@@ -9,20 +9,18 @@
 
 local PhanxTempEnchantFrame = CreateFrame("Frame", "PhanxTempEnchantFrame", UIParent)
 
-local db
-
-local floor = floor
-
-local enchants = { }
-local _, playerClass = UnitClass("player")
-local dirty, bagsDirty, spellsDirty, inVehicle
-
-local MAIN_HAND_SLOT = GetInventorySlotInfo("MainHandSlot")
-local OFF_HAND_SLOT = GetInventorySlotInfo("SecondaryHandSlot")
-
 local _, ns = ...
 local GetFontFile = ns.GetFontFile
 local L = ns.L
+
+local db
+local dirty, bagsDirty, spellsDirty, inVehicle
+
+local enchants = {}
+local _, playerClass = UnitClass("player")
+
+local MAIN_HAND_SLOT = GetInventorySlotInfo("MainHandSlot")
+local OFF_HAND_SLOT = GetInventorySlotInfo("SecondaryHandSlot")
 
 ------------------------------------------------------------------------
 
@@ -67,7 +65,7 @@ local function button_OnClick(self)
 	PhanxBuffsCancelButton:SetMacro(self, self.icon:GetTexture(), "/click " .. button .. " RightButton")
 end
 
-local buttons = setmetatable({ }, { __index = function(t, i)
+local buttons = setmetatable({}, { __index = function(t, i)
 	local button = ns.CreateAuraIcon(PhanxTempEnchantFrame)
 	button:SetWidth(db.buffSize)
 	button:SetHeight(db.buffSize)
@@ -205,7 +203,7 @@ local function FindTempEnchantString()
 		for k, v in pairs(tempEnchantKeywords) do
 			if strmatch(line, k) then
 				if type(v) == "string" then
-					local rank = line:match("( %d+)") or ""
+					local rank = line:match("(%d+)") or ""
 					--print("Found temp enchant string " .. k .. " (spell " .. v .. ") rank " .. rank)
 					return v .. rank, FindTempEnchantSpell
 				else
@@ -314,11 +312,11 @@ timerGroup:SetScript("OnFinished", function(self, requested)
 				dirty = true
 			elseif remaining <= db.maxTimer then
 				if remaining > 3600 then
-					button.timer:SetFormattedText( HOUR_ONELETTER_ABBR, floor( ( remaining / 60 ) + 0.5 ) )
+					button.timer:SetFormattedText(HOUR_ONELETTER_ABBR, floor((remaining / 60) + 0.5))
 				elseif remaining > 60 then
-					button.timer:SetFormattedText( MINUTE_ONELETTER_ABBR, floor( ( remaining / 60 ) + 0.5 ) )
+					button.timer:SetFormattedText(MINUTE_ONELETTER_ABBR, floor((remaining / 60) + 0.5))
 				else
-					button.timer:SetText( floor( remaining + 0.5 ) )
+					button.timer:SetText(floor(remaining + 0.5))
 				end
 			else
 				button.timer:SetText()
@@ -388,7 +386,7 @@ if tempEnchantKeywords then
 	PhanxTempEnchantFrame.tooltip = CreateFrame("GameTooltip")
 	PhanxTempEnchantFrame.tooltip:SetOwner(WorldFrame, "ANCHOR_NONE")
 
-	local lcache, rcache = { }, { }
+	local lcache, rcache = {}, {}
 	for i = 1, 30 do
 		lcache[i], rcache[i] = PhanxTempEnchantFrame.tooltip:CreateFontString(), PhanxTempEnchantFrame.tooltip:CreateFontString()
 		lcache[i]:SetFontObject(GameFontNormal)
@@ -396,7 +394,7 @@ if tempEnchantKeywords then
 		PhanxTempEnchantFrame.tooltip:AddFontStrings(lcache[i], rcache[i])
 	end
 
-	PhanxTempEnchantFrame.tooltip.L = setmetatable({ }, {
+	PhanxTempEnchantFrame.tooltip.L = setmetatable({}, {
 		__index = function(t, key)
 			if PhanxTempEnchantFrame.tooltip:NumLines() >= key and lcache[key] then
 				local v = lcache[key]:GetText()

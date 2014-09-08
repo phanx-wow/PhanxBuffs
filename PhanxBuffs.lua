@@ -113,8 +113,6 @@ eventFrame:SetScript("OnEvent", function(self, event)
 		Media.RegisterCallback(self, "LibSharedMedia_Registered", MediaCallback)
 		Media.RegisterCallback(self, "LibSharedMedia_SetGlobal", MediaCallback)
 
-		SetCVar("consolidateBuffs", 0)
-
 		BuffFrame:Hide()
 		TemporaryEnchantFrame:Hide()
 		BuffFrame:UnregisterAllEvents()
@@ -541,9 +539,21 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 	end
 
 	--------------------------------------------------------------------
+	
+	local consolidateBuffs = self:CreateCheckbox(CONSOLIDATE_BUFFS_TEXT, OPTION_TOOLTIP_CONSOLIDATE_BUFFS)
+	consolidateBuffs:SetPoint("TOPLEFT", debuffAnchorV, "BOTTOMLEFT", 0, -44)
+	
+	function consolidateBuffs:Callback(checked)
+		SetCVar("consolidateBuffs", checked and 1 or 0)
+		InterfaceOptionsBuffsPanelConsolidateBuffs:SetChecked(checked)
+		BlizzardOptionsPanel_CheckButton_SetNewValue(InterfaceOptionsBuffsPanelConsolidateBuffs)
+		-- no need to manually update PhanxBuffFrame, SetCVar hook will catch it
+	end
+
+	--------------------------------------------------------------------
 
 	local showFakeBuffs = self:CreateCheckbox(L["Show stance icons"], L["Show fake buff icons for warrior stances and paladin seals."])
-	showFakeBuffs:SetPoint("TOPLEFT", debuffAnchorV, "BOTTOMLEFT", 0, -44)
+	showFakeBuffs:SetPoint("TOPLEFT", consolidateBuffs, "BOTTOMLEFT", 0, -8)
 
 	function showFakeBuffs:Callback(checked)
 		db.showFakeBuffs = checked
@@ -668,9 +678,11 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 		fontScale:SetValue(db.fontScale)
 		maxTimer:SetValue(db.maxTimer)
 
+		consolidateBuffs:SetChecked(GetCVarBool("consolidateBuffs"))
 		showFakeBuffs:SetChecked(db.showFakeBuffs)
 		showBuffSources:SetChecked(db.showBuffSources)
 		showTempEnchantSources:SetChecked(db.showTempEnchantSources)
+		oneClickCancel:SetChecked(db.oneClickCancel)
 	end
 end)
 
