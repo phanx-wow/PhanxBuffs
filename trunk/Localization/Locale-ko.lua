@@ -81,7 +81,7 @@ ns.L = {
 	["Adjust the maximum remaining duration, in seconds, to show the timer text for a buff or debuff."] = "최대 시간, 초, 타이머를 표시합니다.",
 
 --	["Show stance icons"] = "",
---	["Show fake buff icons for warrior stances and paladin seals."] = "",
+--	["Show fake buff icons for monk and warrior stances and paladin seals."] = "",
 	["Buff Sources"] = "버프 출처",
 	["Show the name of the party or raid member who cast a buff on you in its tooltip."] = "파티원 또는 공격대원 중 당신에게 버프를 시전한 누군가의 이름을 툴팁에 보여줍니다.",
 	["Weapon Buff Sources"] = "무기 버프 출처",

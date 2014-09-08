@@ -81,7 +81,7 @@ ns.L = {
 	["Adjust the maximum remaining duration, in seconds, to show the timer text for a buff or debuff."] = "Ajustar el máximo de tiempo restante, en segundos, para mostrar el texto de tiempo.",
 
 	["Show stance icons"] = "Iconos de actitudes",
-	["Show fake buff icons for warrior stances and paladin seals."] = "Mostrar iconos falsos para los actitudes de guerreros y los sellos de paladins.",
+	["Show fake buff icons for monk and warrior stances and paladin seals."] = "Mostrar iconos falsos para los actitudes de monjes y guerreros y los sellos de paladins.",
 	["Buff Sources"] = "Taumaturgos de beneficios",
 	["Show the name of the party or raid member who cast a buff on you in its tooltip."] = "Mostrar el nombre del miembro del grupo o banda que ha aplicado un beneficio a te en su descripción.",
 	["Weapon Buff Sources"] = "Fuentes de encantamientos",

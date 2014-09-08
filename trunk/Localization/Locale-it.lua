@@ -81,7 +81,7 @@ ns.L = {
 --	["Adjust the maximum remaining duration, in seconds, to show the timer text for a buff or debuff."] = "Adjust the maximum remaining duration, in seconds, to show the timer text for a buff or debuff.",
 
 --	["Show stance icons"] = "",
---	["Show fake buff icons for warrior stances and paladin seals."] = "",
+--	["Show fake buff icons for monk and warrior stances and paladin seals."] = "",
 	["Buff Sources"] = "Origini di benefici",
 --	["Show the name of the party or raid member who cast a buff on you in its tooltip."] = "Show the name of the party or raid member who cast a buff on you in its tooltip.",
 	["Weapon Buff Sources"] = "Origini di incantamenti di armi",
