@@ -81,7 +81,7 @@ ns.L = {
 	["Adjust the maximum remaining duration, in seconds, to show the timer text for a buff or debuff."] = "Установите максимальное количество времени в секундах, чтобы показать отметчик времени для эффект.",
 
 --	["Show stance icons"] = "",
---	["Show fake buff icons for warrior stances and paladin seals."] = "",
+--	["Show fake buff icons for monk and warrior stances and paladin seals."] = "",
 	["Buff Sources"] = "Источники баффы",
 	["Show the name of the party or raid member who cast a buff on you in its tooltip."] = "Показать имя персонажа который наложил положительный эффект на вас во всплывающих подсказках.",
 	["Weapon Buff Sources"] = "Источники чарами",
