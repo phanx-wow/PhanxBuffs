@@ -7,24 +7,24 @@
 	http://www.curse.com/addons/wow/phanxbuffs
 ----------------------------------------------------------------------]]
 
+local PhanxBuffFrame = CreateFrame("Frame", "PhanxBuffFrame", UIParent)
+
 local _, ns = ...
+local GetFontFile = ns.GetFontFile
+local L = ns.L
+L["Cast by |cff%02x%02x%02x%s|r"] = gsub(L["Cast by %s"], "%%s", "|cff%%02x%%02x%%02x%%s|r")
 
 local db, ignore
-
-local buffUnit = "player"
 local formIndex, formName, formIcon, formSpellID
+local buffUnit = "player"
+local buffs, cantCancel = {}, {}
 
 local MAX_BUFFS = 40
 
-local GetFontFile = ns.GetFontFile
-local floor = math.floor
-
-local buffs, cantCancel = {}, {}
-
-local PhanxBuffFrame = CreateFrame("Frame", "PhanxBuffFrame", UIParent)
-
-local L = ns.L
-L["Cast by |cff%02x%02x%02x%s|r"] = gsub(L["Cast by %s"], "%%s", "|cff%%02x%%02x%%02x%%s|r")
+local ceil, floor, next, pairs, sort, tonumber, type = math.ceil, math.floor, next, pairs, table.sort, tonumber, type -- Lua functions
+local GetSpellInfo, UnitAura = GetSpellInfo, UnitAura -- API functions
+local RaidBuffTray_Update, ShouldShowConsolidatedBuffFrame = RaidBuffTray_Update, ShouldShowConsolidatedBuffFrame -- FrameXML functions
+local ConsolidatedBuffsCount = ConsolidatedBuffsCount -- FrameXML objects
 
 local fakes = {
 	[(GetSpellInfo(103985))] = 103985, -- MONK: Stance of the Fierce Tiger
@@ -58,7 +58,7 @@ local protected = {
 
 ------------------------------------------------------------------------
 
-local tablePool = { }
+local tablePool = {}
 
 local function newTable()
 	local t = next(tablePool) or {}
@@ -80,7 +80,7 @@ end
 
 ------------------------------------------------------------------------
 
-local unitNames = setmetatable({ }, { __index = function(t, unit)
+local unitNames = setmetatable({}, { __index = function(t, unit)
 	if not unit then return end
 
 	local name = UnitName(unit)
@@ -95,11 +95,37 @@ local unitNames = setmetatable({ }, { __index = function(t, unit)
 	return format(L["Cast by |cff%02x%02x%02x%s|r"], color.r * 255, color.g * 255, color.b * 255, name)
 end })
 
+local function button_OnUpdate(self) -- only used for consolidated buffs icon
+	if not self:IsMouseOver(6, -6, -6, 6) and not ConsolidatedBuffsTooltip:IsMouseOver() then
+		ConsolidatedBuffsTooltip:Hide()
+		self:SetScript("OnUpdate", nil)
+	end
+end
+
+local function button_OnHide(self) -- only used for consolidated buffs icon
+	ConsolidatedBuffsTooltip:Hide()
+	self:SetScript("OnUpdate", nil)
+end
+
 local function button_OnEnter(self)
-	local buff = buffs[self:GetID()]
+	local anchorH = db.buffAnchorH
+	local anchorV = db.buffAnchorV
+	local anchorPoint = (anchorV == "TOP" and "BOTTOM" or "TOP") .. anchorH
+
+	local id = self:GetID()
+	if id == 0 then
+		RaidBuffTray_Update()
+		ConsolidatedBuffsTooltip:ClearAllPoints()
+		ConsolidatedBuffsTooltip:SetPoint(anchorV .. anchorH, self, anchorPoint, 0, -6)
+		ConsolidatedBuffsTooltip:Show()
+		self:SetScript("OnUpdate", button_OnUpdate)
+	return end
+
+	local buff = buffs[id]
 	if not buff then return end
 
-	GameTooltip:SetOwner(self, "ANCHOR_BOTTOMLEFT")
+	GameTooltip:SetOwner(self, "ANCHOR_NONE")
+	GameTooltip:SetPoint(anchorV .. anchorH, self, anchorPoint, 0, -6)
 	if buff.isFake then
 		local text = rawget(L, formSpellID)
 		if text then
@@ -134,7 +160,7 @@ local function button_OnClick(self)
 		ignore[buff.name] = true
 		print("|cffffcc00PhanxBuffs:|r", format(ns.L["Now ignoring buff: %s"], buff.name))
 		self:GetParent():Update()
-	elseif buff.noCancel or InCombatLockdown() then
+	elseif buff.isFake or cantCancel[buff.name] or InCombatLockdown() then
 		-- do nothing
 	elseif db.oneClickCancel and not protected[buff.spellID] then
 		CancelUnitBuff(buffUnit, buff.index, "HELPFUL")
@@ -143,11 +169,10 @@ local function button_OnClick(self)
 	end
 end
 
-local buttons = setmetatable({ }, { __index = function(t, i)
+local buttons = setmetatable({}, { __index = function(t, i)
 	if type(i) ~= "number" then return end
 
 	local button = ns.CreateAuraIcon(PhanxBuffFrame)
-	button:SetID(i)
 	button:SetWidth(db.buffSize)
 	button:SetHeight(db.buffSize)
 	button:SetScript("OnEnter", button_OnEnter)
@@ -169,19 +194,19 @@ function PhanxBuffFrame:UpdateLayout()
 	local size = db.buffSize
 	local spacing = db.buffSpacing
 	local cols = db.buffColumns
-	local rows = math.ceil(MAX_BUFFS / cols)
+	local rows = ceil(MAX_BUFFS / cols)
 
 	local fontFace = GetFontFile(db.fontFace)
 	local fontScale = db.fontScale
 	local fontOutline = db.fontOutline
 
-	local numEnchants = PhanxTempEnchantFrame.numEnchants or 0
+	local offset = PhanxTempEnchantFrame.numEnchants or 0
 	for i = 1, #buttons do
 		local button = buttons[i]
-		local j = i + numEnchants
+		local j = i + offset
 
 		local col = (j - 1) % cols
-		local row = math.ceil(j / cols) - 1
+		local row = ceil(j / cols) - 1
 
 		local x = floor(col * (spacing + size) * (anchorH == "LEFT" and 1 or -1) + 0.5)
 		local y = floor(row * (spacing + (size * 1.5)) + 0.5)
@@ -245,17 +270,18 @@ function PhanxBuffFrame:Update()
 		buffs[i] = remTable(buffs[i])
 	end
 
+	local consolidate = ShouldShowConsolidatedBuffFrame()
 	local formHasBuff
 
 	for i = 1, 100 do
-		local name, _, icon, count, kind, duration, expires, caster, _, _, spellID = UnitAura(buffUnit, i, "HELPFUL")
+		local name, _, icon, count, kind, duration, expires, caster, _, shouldConsolidate, spellID = UnitAura(buffUnit, i, "HELPFUL")
 		if not name or not icon or icon == "" then break end
 
 		if name == formName and icon == formIcon then
 			formHasBuff = true
 		end
 
-		if not ignore[name] then
+		if not ignore[name] and not (consolidate and shouldConsolidate) then
 			local t = newTable()
 
 			t.name = name
@@ -291,7 +317,7 @@ function PhanxBuffFrame:Update()
 		buffs[#buffs + 1] = t
 	end
 
-	table.sort(buffs, BuffSort)
+	sort(buffs, BuffSort)
 
 	for i = 1, 100 do
 		local name, _, icon = UnitAura(buffUnit, i, "HELPFUL NOT_CANCELABLE")
@@ -299,24 +325,41 @@ function PhanxBuffFrame:Update()
 		cantCancel[name] = true
 	end
 
-	for i = 1, #buffs do
-		local f = buttons[i]
-		local buff = buffs[i]
-		f.icon:SetTexture(buff.icon)
+	if consolidate then
+		RaidBuffTray_Update()
 
-		buff.noCancel = buff.isFake or cantCancel[buff.name]
-
-		if buff.count > 1 then
-			f.count:SetText(buff.count)
+		local f = buttons[1]
+		f:SetID(0)
+		f:SetScript("OnHide", button_OnHide)
+		f.icon:SetTexture("Interface\\Buttons\\BuffConsolidation")
+		f.icon:SetTexCoord(21/128, 44/128, 20/64, 43/64)
+		local have, total = strsplit("/", ConsolidatedBuffsCount:GetText() or "")
+		have, total = have and tonumber(have) or 0, total and tonumber(total) or 0
+		if have < total then
+			f.count:SetFormattedText("|cffffaaaa%s", total - have)
 		else
 			f.count:SetText()
 		end
+		f.timer:SetText()
+		f:Show()
+	else
+		local f = buttons[1]
+		f:SetScript("OnHide", nil)
+		f.icon:SetTexCoord(buttons[2].icon:GetTexCoord())
+	end
 
+	local offset = consolidate and 1 or 0
+	for i = 1, #buffs do
+		local buff = buffs[i]
+		local f = buttons[i + offset]
+		f:SetID(i)
+		f.icon:SetTexture(buff.icon)
+		f.count:SetText(buff.count > 1 and buff.count or nil)
 		f:Show()
 	end
 
 	if #buttons > #buffs then
-		for i = #buffs + 1, #buttons do
+		for i = #buffs + 1 + offset, #buttons do
 			local f = buttons[i]
 			f.icon:SetTexture()
 			f.count:SetText()
@@ -343,21 +386,21 @@ timerGroup:SetScript("OnFinished", function(self, requested)
 	for i = 1, #buttons do
 		local button = buttons[i]
 		if not button:IsShown() then break end
-		local buff = buffs[ button:GetID() ]
+		local buff = buffs[button:GetID()]
 		if buff then
 			if buff.expires > 0 then
 				local remaining = buff.expires - GetTime()
 				if remaining < 0 then
 					-- bugged out, kill it
-					remTable( tremove( buffs, button:GetID() ) )
+					remTable(tremove(buffs, button:GetID()))
 					dirty = true
 				elseif remaining <= max then
 					if remaining > 3600 then
-						button.timer:SetFormattedText( HOUR_ONELETTER_ABBR, floor( ( remaining / 60 ) + 0.5 ) )
+						button.timer:SetFormattedText(HOUR_ONELETTER_ABBR, floor((remaining / 60) + 0.5))
 					elseif remaining > 60 then
-						button.timer:SetFormattedText( MINUTE_ONELETTER_ABBR, floor( ( remaining / 60 ) + 0.5 ) )
+						button.timer:SetFormattedText(MINUTE_ONELETTER_ABBR, floor((remaining / 60) + 0.5))
 					else
-						button.timer:SetText( floor( remaining + 0.5 ) )
+						button.timer:SetText(floor(remaining + 0.5))
 					end
 				else
 					button.timer:SetText()
@@ -372,7 +415,7 @@ end)
 
 ------------------------------------------------------------------------
 
-PhanxBuffFrame:SetScript("OnEvent", function( self, event, unit )
+PhanxBuffFrame:SetScript("OnEvent", function(self, event, unit)
 	if event == "UNIT_AURA" then
 		if unit == buffUnit then
 			dirty = true
@@ -387,14 +430,14 @@ PhanxBuffFrame:SetScript("OnEvent", function( self, event, unit )
 		end
 		dirty = true
 	elseif event == "PLAYER_ENTERING_WORLD" then
-		if UnitHasVehicleUI( "player" ) then
+		if UnitHasVehicleUI("player") then
 			buffUnit = "vehicle"
 		else
 			buffUnit = "player"
 		end
 		self:GetScript("OnEvent")(self, "UPDATE_SHAPESHIFT_FORM")
 	elseif event == "UNIT_ENTERED_VEHICLE" then
-		if UnitHasVehicleUI( "player" ) then
+		if UnitHasVehicleUI("player") then
 			buffUnit = "vehicle"
 		end
 		dirty = true
@@ -425,18 +468,54 @@ function PhanxBuffFrame:Load()
 	end
 	GameTooltip:Hide()
 
+	ConsolidatedBuffs:Hide()
+	ConsolidatedBuffs:SetScript("OnShow", ConsolidatedBuffs.Hide)
+
+	ConsolidatedBuffsTooltip:SetScript("OnUpdate", nil)
+	ConsolidatedBuffsTooltip:SetScale(1)
+
+	local maxWidthEven, maxWidthOdd = 70, 70
+	for i = 1, NUM_LE_RAID_BUFF_TYPES do
+		local line = ConsolidatedBuffsTooltip["Buff"..i]
+		local text = gsub(line.labelString, "%-?%s*[\r\n]+", "")
+		line.labelString = text
+		line.label:SetText(text)
+		if i % 2 == 0 then
+			maxWidthEven = max(maxWidthEven, line.label:GetStringWidth())
+		else
+			maxWidthOdd = max(maxWidthOdd, line.label:GetStringWidth())
+		end
+	end
+	for i = 1, NUM_LE_RAID_BUFF_TYPES do
+		local line = ConsolidatedBuffsTooltip["Buff"..i]
+		if i % 2 == 0 then
+			line.label:SetWidth(maxWidthEven)
+			line:SetWidth(maxWidthEven + 30)
+		else
+			line.label:SetWidth(maxWidthOdd)
+			line:SetWidth(maxWidthOdd + 30)
+		end
+	end
+	ConsolidatedBuffsTooltip:SetWidth(ConsolidatedBuffsTooltip:GetWidth() + (maxWidthEven - 70) + (maxWidthOdd - 70))
+
 	self:GetScript("OnEvent")(self, "PLAYER_ENTERING_WORLD")
 
 	dirty = true
 	timerGroup:Play()
 
-	self:RegisterEvent( "PLAYER_ENTERING_WORLD" )
-	self:RegisterEvent( "PET_BATTLE_OPENING_START" )
-	self:RegisterEvent( "PET_BATTLE_CLOSE" )
-	self:RegisterEvent( "UPDATE_SHAPESHIFT_FORM" )
-	self:RegisterUnitEvent( "UNIT_ENTERED_VEHICLE", "player" )
-	self:RegisterUnitEvent( "UNIT_EXITED_VEHICLE", "player" )
-	self:RegisterUnitEvent( "UNIT_AURA", "player", "vehicle" )
+	self:RegisterEvent("PLAYER_ENTERING_WORLD")
+	self:RegisterEvent("PET_BATTLE_OPENING_START")
+	self:RegisterEvent("PET_BATTLE_CLOSE")
+	self:RegisterEvent("UPDATE_SHAPESHIFT_FORM")
+	self:RegisterUnitEvent("UNIT_ENTERED_VEHICLE", "player")
+	self:RegisterUnitEvent("UNIT_EXITED_VEHICLE", "player")
+	self:RegisterUnitEvent("UNIT_AURA", "player", "vehicle")
+
+	hooksecurefunc("SetCVar", function(k, v)
+		if k == "consolidateBuffs" then
+			dirty = true
+		end
+	end)
 
 	self.loaded = true
 end
