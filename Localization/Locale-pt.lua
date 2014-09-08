@@ -7,7 +7,7 @@
 	http://www.curse.com/addons/wow/phanxbuffs
 ------------------------------------------------------------------------
 	Portuguese Localization (Português)
-	Last updated 2012-09-09 by Phanx
+	Last updated 2014-08-27 by Tercioo
 ----------------------------------------------------------------------]]
 
 if GetLocale() ~= "ptBR" then return end
@@ -80,8 +80,8 @@ ns.L = {
 	["Max Timer Duration"] = "Duração máxima da cronometrista",
 	["Adjust the maximum remaining duration, in seconds, to show the timer text for a buff or debuff."] = "Alterar o máximo de tempo restante, em segundos, para mostrar o texto de tempo para um bônus ou penalidade.",
 
---	["Show stance icons"] = "",
---	["Show fake buff icons for warrior stances and paladin seals."] = "",
+	["Show stance icons"] = "Mostrar ícones de posturas",
+	["Show fake buff icons for monk and warrior stances and paladin seals."] = "Mostrar auras representando posturas de guerreiros e monges e selos de paladinos.",
 	["Buff Sources"] = "Origens dos bônus",
 	["Show the name of the party or raid member who cast a buff on you in its tooltip."] = "Mostrar na dica o nome do membro do grupo que aplicou em você o bônus.",
 	["Weapon Buff Sources"] = "Origens dos encantamentos",
