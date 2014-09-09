@@ -39,7 +39,9 @@ local function button_OnEnter(self)
 			PhanxTempEnchantFrame:Update()
 			spellsDirty = nil
 		end
-		GameTooltip:SetSpellBookItem(self.arg1, BOOKTYPE_SPELL)
+		GameTooltip:SetHyperlink(self.arg1)
+		GameTooltipTextLeft1:SetTextColor(1, 0.82, 0)
+		GameTooltipTextLeft4:SetTextColor(1, 1, 1)
 		remaining = self.expires - GetTime()
 	else
 		GameTooltip:SetInventoryItem("player", self:GetID())
@@ -151,28 +153,28 @@ end
 
 local function FindTempEnchantSpell(findString)
 	--print("FindTempEnchantSpell", findString)
-	local findRank = strmatch(findString, "%d+")
-	findString = strtrim(gsub(findString, "%d+", ""))
-
-	local i = 1
-	while true do
-		local spellName, spellRank = GetSpellBookItemName(i, BOOKTYPE_SPELL)
-		if not spellName then break end
-		if spellName:match(findString) then
-			if findRank then
-				if spellRank then
-					spellRank = strmatch(spellRank, "%d+")
-					if spellRank == findRank then
-						local _, _, icon = GetSpellInfo(spellName)
-						return icon, i
-					end
+	local _, _, offset, numSpells = GetSpellTabInfo(GetNumSpellTabs())
+	for i = 1, offset + numSpells do
+		local abilityType, id = GetSpellBookItemInfo(i, BOOKTYPE_SPELL)
+		if abilityType == "FLYOUT" then
+			local _, _, numFlyoutSpells = GetFlyoutInfo(id)
+			for j = 1, numFlyoutSpells do
+				local spell = GetFlyoutSlotInfo(id, j)
+				local name, _, icon = GetSpellInfo(spell)
+				if strmatch(name, findString) then
+					local link = GetSpellLink(spell)
+					--print("Found", link)
+					return icon, link
 				end
-			else
-				local _, _, icon = GetSpellInfo(spellName)
-				return icon, i
+			end
+		else
+			local name, _, icon = GetSpellInfo(id)
+			if strmatch(name, findString) then
+				local link = GetSpellLink(id)
+				--print("Found", link)
+				return icon, link
 			end
 		end
-		i = i + 1
 	end
 end
 
@@ -199,13 +201,12 @@ end
 
 local function FindTempEnchantString()
 	for i = 1, PhanxTempEnchantFrame.tooltip:NumLines() do
-		local line = PhanxTempEnchantFrame.tooltip.L[i]
+		local line = gsub(PhanxTempEnchantFrame.tooltip.L[i], "%(.+%)", "") -- remove duration
 		for k, v in pairs(tempEnchantKeywords) do
 			if strmatch(line, k) then
 				if type(v) == "string" then
-					local rank = line:match("(%d+)") or ""
-					--print("Found temp enchant string " .. k .. " (spell " .. v .. ") rank " .. rank)
-					return v .. rank, FindTempEnchantSpell
+					--print("Found temp enchant string " .. k .. " (spell " .. v .. ")")
+					return v, FindTempEnchantSpell
 				else
 					--print("Found temp enchant string " .. k .. " (item)")
 					return k, FindTempEnchantItem
