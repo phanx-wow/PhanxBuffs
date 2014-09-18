@@ -38,6 +38,11 @@ ns.L = {
 	[20154] = "Les attaques de mêlée infligent des dégâts du Sacré à toutes les cibles à moins de 8 mètres.", -- Sceau de piété
 	[31801] = "Les attaques de mêlée infligent des dégâts du Sacré en 15 s.", -- Sceau de vérité
 
+-- Broker tooltip
+
+--	["Click to lock or unlock the frames."] = "",
+--	["Right-click for options."] = "",
+
 -- Configuration panel
 
 	["Use this panel to adjust some basic settings for buff, debuff, and weapon buff icons."] = "Utilisez cette fenêtre pour ajuster des réglages basiques pour les icônes de buffs, debuffs, et buffs d'arme.",
@@ -92,6 +97,10 @@ ns.L = {
 
 	["Cast by %s"] = "Incanté par %s",
 
+-- Slash commands
+
+--	["lock"] = "",
+--	["unlock"] = "",
 --	["buff"] = "buff",
 --	["debuff"] = "debuff",
 	["Now ignoring buff: %s"] = "Buff à présent ignoré : %s",

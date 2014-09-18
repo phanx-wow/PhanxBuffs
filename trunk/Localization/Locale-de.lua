@@ -38,6 +38,11 @@ ns.L = {
 	[20154] = "Nahkampfangriffe fügen allen Zielen im Umkreis von 8 Metern Heiligschaden zu.", -- Siegel der Rechtschaffenheit
 	[31801] = "Nahkampfangriffe verursachen im Verlauf von 15 Sek. Heiligschaden.", -- Siegel der Wahrheit
 
+-- Broker tooltip
+
+	["Click to lock or unlock the frames."] = "Klick, die Symbole zu fixieren oder freigeben.",
+	["Right-click for options."] = "Rechtsklick für Optionen.",
+
 -- Configuration panel
 
 	["Use this panel to adjust some basic settings for buff, debuff, and weapon buff icons."] = "Mit diesen Optionen könnt Ihr die Stärkungszauber-, Schwächungszauber- und Waffenverzauberungssymbole dieses Addon konfigurieren.",
@@ -93,6 +98,10 @@ ns.L = {
 
 	["Cast by %s"] = "Von %s aufgebracht",
 
+-- Slash commands
+
+	["lock"] = "fixieren",
+	["unlock"] = "freigeben",
 	["buff"] = "stärkungszauber",
 	["debuff"] = "schwächungszauber",
 	["Now ignoring buff: %s"] = "Der Stärkungszauber '%s' wird jetzt ignoriert.",

@@ -38,6 +38,11 @@ ns.L = {
 	[20154] = "Ataques corpo a corpo causam dano Sagrado contra todos os alvos em um raio de 8 metros.", -- Selo da Retidão
 	[31801] = "Ataques corpo a corpo causam dano Sagrado ao longo de 15 s.", -- Selo da Verdade
 
+-- Broker tooltip
+
+--	["Click to lock or unlock the frames."] = "",
+--	["Right-click for options."] = "",
+
 -- Configuration panel
 
 	["Use this panel to adjust some basic settings for buff, debuff, and weapon buff icons."] = "Estas opções permitem alterar algumas configurações básicas para os ícones de bônus, penalidades, e encantamentos de armas.",
@@ -93,6 +98,10 @@ ns.L = {
 
 	["Cast by %s"] = "Aplicada por %s",
 
+-- Slash commands
+
+--	["lock"] = "",
+--	["unlock"] = "",
 	["buff"] = "bônus",
 	["debuff"] = "penalidade",
 	["Now ignoring buff: %s"] = "Agora ignorando o bônus: %s",
