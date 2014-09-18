@@ -38,6 +38,11 @@ ns.L = {
 	[20154] = "Los ataques cuerpo a cuerpo infligen daño Sagrado a todos los objetivos en un radio de 8 m.", -- Sello de Rectitud
 	[31801] = "Los ataques cuerpo a cuerpo infligen daño Sagrado durante 15 s.", -- Sello de Verdad
 
+-- Broker tooltip
+
+	["Click to lock or unlock the frames."] = "Clic para bloquear o desbloquear los iconos.",
+	["Right-click for options."] = "Clic derecho para opciones.",
+
 -- Configuration panel text
 
 	["Use this panel to adjust some basic settings for buff, debuff, and weapon buff icons."] = "Estes opciones te permiten configurar los iconos de beneficios, perjuicios, y encancamientos de armas.",
@@ -93,6 +98,10 @@ ns.L = {
 
 	["Cast by %s"] = "Aplicada por %s",
 
+-- Slash commands
+
+	["lock"] = "bloquear",
+	["unlock"] = "desbloquear",
 	["buff"] = "beneficio",
 	["debuff"] = "perjuicio",
 	["Now ignoring buff: %s"] = "Estás ignorando al beneficio: %s",

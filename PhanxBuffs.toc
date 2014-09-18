@@ -3,7 +3,7 @@
 
 ## Title: PhanxBuffs
 ## Notes: Basic replacement for player buff, debuff, and temporary enchant frames.
-## Notes-deDE: Einfacher Ersätze für die Stärkungszauber-, Schwächungszauber- und Waffenverzauberungssymbole des Spielers.
+## Notes-deDE: Ein einfacher Ersatz für die Stärkungszauber-, Schwächungszauber- und Waffenverzauberungssymbole des Charakters.
 ## Notes-esES: Sustitutos básicos de los iconos del jugador de beneficios, perjuicios y encancamientos de armas.
 ## Notes-esMX: Sustitutos básicos de los iconos del jugador de beneficios, perjuicios y encancamientos de armas.
 ## Notes-ptBR: Substituições básicas para os ícones do jogador de bônus, penalidades e encantamentos de armas.
@@ -20,12 +20,14 @@
 ## X-Curse-Project-ID: phanxbuffs
 ## X-WoWI-ID: 16874
 
-## OptionalDependencies: LibAboutPanel, LibSharedMedia-3.0, PhanxConfigWidgets, ButtonFacade
+## OptionalDependencies: LibAboutPanel, LibSharedMedia-3.0, PhanxConfigWidgets, Masque
 ## SavedVariables: PhanxBuffsDB
 ## SavedVariablesPerCharacter: PhanxBuffsIgnoreDB
 
 Libs\LibStub\LibStub.lua
 Libs\CallbackHandler-1.0\CallbackHandler-1.0.lua
+Libs\LibAboutPanel\LibAboutPanel.lua
+Libs\LibDataBroker-1.1\LibDataBroker-1.1.lua
 Libs\LibSharedMedia-3.0\LibSharedMedia-3.0.lua
 Libs\PhanxConfig-Checkbox\PhanxConfig-Checkbox.lua
 Libs\PhanxConfig-Dropdown\PhanxConfig-Dropdown.lua
@@ -34,7 +36,6 @@ Libs\PhanxConfig-Header\PhanxConfig-Header.lua
 Libs\PhanxConfig-OptionsPanel\PhanxConfig-OptionsPanel.lua
 Libs\PhanxConfig-ScrollingDropdown\PhanxConfig-ScrollingDropdown.lua
 Libs\PhanxConfig-Slider\PhanxConfig-Slider.lua
-Libs\LibAboutPanel\LibAboutPanel.lua
 
 Localization\Locale-en.lua
 Localization\Locale-de.lua

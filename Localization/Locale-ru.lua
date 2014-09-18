@@ -38,6 +38,11 @@ ns.L = {
 	[20154] = "Атаки ближнего боя наносят урон от светлой магии всем целям в радиусе 8 м.", -- Печать праведности
 	[31801] = "Атаки ближнего боя дополнительно наносят урон от светлой магии в течение 15 сек.", -- Печать правды
 
+-- Broker tooltip
+
+--	["Click to lock or unlock the frames."] = "",
+--	["Right-click for options."] = "",
+
 -- Configuration panel
 
 	["Use this panel to adjust some basic settings for buff, debuff, and weapon buff icons."] = "Эти настройки позволяют настроить значков для положительных и отрицательных эффектов, и чар, связанных с оружием.",
@@ -93,6 +98,10 @@ ns.L = {
 
 	["Cast by %s"] = "Наносится %s",
 
+-- Slash commands
+
+--	["lock"] = "",
+--	["unlock"] = "",
 	["buff"] = "бафф",
 	["debuff"] = "дебафф",
 	["Now ignoring buff: %s"] = "Теперь игнорируя бафф: %s",

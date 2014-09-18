@@ -38,6 +38,11 @@ ns.L = {
 --	[20154] = "Melee attacks cause Holy damage against all targets within 8 yards.", -- Seal of Righteousness
 --	[31801] = "Melee attacks cause Holy damage over 15 sec.", -- Seal of Truth
 
+-- Broker tooltip
+
+--	["Click to lock or unlock the frames."] = "",
+--	["Right-click for options."] = "",
+
 -- Configuration panel
 
 --	["Use this panel to adjust some basic settings for buff, debuff, and weapon buff icons."] = "",
@@ -93,6 +98,10 @@ ns.L = {
 
 	["Cast by %s"] = "来自 %s",
 
+-- Slash commands
+
+--	["lock"] = "",
+--	["unlock"] = "",
 --	["buff"] = "buff",
 --	["debuff"] = "debuff",
 --	["Now ignoring buff: %s"] = "",
