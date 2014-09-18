@@ -38,6 +38,11 @@ ns.L = {
 	[20154] = "Gli attacchi in mischia infliggono danni da sacro contro tutti i bersagli entro 8 m.", -- Sigillo della Rettitudine
 	[31801] = "Danni da sacro inflitti dagli attacchi in mischia in 15 s.", -- Sigillo della Verità
 
+-- Broker tooltip
+
+--	["Click to lock or unlock the frames."] = "",
+--	["Right-click for options."] = "",
+
 -- Configuration panel
 
 --	["Use this panel to adjust some basic settings for buff, debuff, and weapon buff icons."] = "Use this panel to adjust some basic settings for buff, debuff, and weapon buff icons.",
@@ -93,6 +98,10 @@ ns.L = {
 
 	["Cast by %s"] = "Lanciato da %s",
 
+-- Slash commands
+
+--	["lock"] = "",
+--	["unlock"] = "",
 	["buff"] = "beneficio",
 	["debuff"] = "maleficio",
 	["Now ignoring buff: %s"] = "Ora ignorando il beneficio: %s",

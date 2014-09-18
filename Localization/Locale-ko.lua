@@ -38,6 +38,11 @@ ns.L = {
 --	[20154] = "Melee attacks cause Holy damage against all targets within 8 yards.", -- Seal of Righteousness
 --	[31801] = "Melee attacks cause Holy damage over 15 sec.", -- Seal of Truth
 
+-- Broker tooltip
+
+--	["Click to lock or unlock the frames."] = "",
+--	["Right-click for options."] = "",
+
 -- Configuration panel
 
 	["Use this panel to adjust some basic settings for buff, debuff, and weapon buff icons."] = "이 패널을 이용해서 버프, 디버프 그리고 무기 버프 아이콘을 위해 약간의 간단한 설정을 조정하세요.",
@@ -93,6 +98,10 @@ ns.L = {
 
 	["Cast by %s"] = "시전자: %s",
 
+-- Slash commands
+
+--	["lock"] = "",
+--	["unlock"] = "",
 --	["buff"] = "buff",
 --	["debuff"] = "debuff",
 	["Now ignoring buff: %s"] = "버프 %s 님이 차단 목록에 등록되었습니다.",
