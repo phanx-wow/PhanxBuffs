@@ -1,9 +1,9 @@
-## Interface: 50400
-## Version: 5.4.8.wowi:revision
+## Interface: 60000
+## Version: 6.0.2.wowi:revision
 
 ## Title: PhanxBuffs
-## Notes: Basic replacement for player buff, debuff, and temporary enchant frames.
-## Notes-deDE: Ein einfacher Ersatz für die Stärkungszauber-, Schwächungszauber- und Waffenverzauberungssymbole des Charakters.
+## Notes: Basic replacement for the player buff, debuff, and temporary enchant frames.
+## Notes-deDE: Einfacher Ersatz für die Stärkungszauber-, Schwächungszauber- und Waffenverzauberungssymbole des Spielers.
 ## Notes-esES: Sustitutos básicos de los iconos del jugador de beneficios, perjuicios y encancamientos de armas.
 ## Notes-esMX: Sustitutos básicos de los iconos del jugador de beneficios, perjuicios y encancamientos de armas.
 ## Notes-ptBR: Substituições básicas para os ícones do jogador de bônus, penalidades e encantamentos de armas.

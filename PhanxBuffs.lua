@@ -230,7 +230,7 @@ function ns.CreateAuraIcon(parent)
 	button.timer:SetPoint("TOP", button, "BOTTOM")
 	button.timer:SetShadowOffset(1, -1)
 
-	if PhanxBorder and db.noMasque then
+	if PhanxBorder and (db.noMasque or not LibStub("Masque", true)) then
 		PhanxBorder.AddBorder(button)
 		button.icon:SetTexCoord(0.07, 0.93, 0.07, 0.93)
 	end
