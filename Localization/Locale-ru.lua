@@ -14,23 +14,6 @@ if GetLocale() ~= "ruRU" then return end
 local _, ns = ...
 ns.L = {
 
--- Shaman weapon enchant keywords
-
-	["Earthliving"] = "[Жж]изн[ьи] [Зз]емли",
-	["Flametongue"] = "[Яя]зыка? пламени",
-	["Frostbrand"] = "[Лл]едяно[ег]о? клейм[оа]",
-	["Rockbiter"] = "[Кк]амнедробител[яь]",
-	["Windfury"] = "[Нн]еистовств[ао] ветра",
-
--- Rogue weapon enchant keywords
-
-	["Crippling Poison"] = "Калечащий яд",
-	["Deadly Poison"] = "Смертельный яд",
-	["Leeching Poison"] = "Накладывает яд",
-	["Mind-Numbing Poison"] = "Дурманящий яд",
-	["Paralytic Poison"] = "Паралитический Яд",
-	["Wound Poison"] = "Нейтрализующий яд",
-
 -- Fake buff tooltip text
 
 	[105361] = "Атаки ближнего боя дополнительно наносят урон от светлой магии.", -- Печать повиновения
@@ -85,12 +68,10 @@ ns.L = {
 	["Max Timer Duration"] = "Максимальное время",
 	["Adjust the maximum remaining duration, in seconds, to show the timer text for a buff or debuff."] = "Установите максимальное количество времени в секундах, чтобы показать отметчик времени для эффект.",
 
---	["Show stance icons"] = "",
+--	["Show Stance Icons"] = "",
 --	["Show fake buff icons for monk and warrior stances and paladin seals."] = "",
 	["Buff Sources"] = "Источники баффы",
 	["Show the name of the party or raid member who cast a buff on you in its tooltip."] = "Показать имя персонажа который наложил положительный эффект на вас во всплывающих подсказках.",
-	["Weapon Buff Sources"] = "Источники чарами",
-	["Show weapon buffs as the spell or item that buffed the weapon, instead of the weapon itself."] = "Отображать чары, связанных с оружием, а не оружия.",
 	["One-Click Cancel"] = "Одно нажатие - отмена",
 --	["Cancel unprotected buffs on the first click, instead of the second. Only works out of combat, and protected buffs like shapeshift forms and weapon buffs will still require two clicks."] = "",
 	["Lock Frames"] = "Заблокировать значки",

@@ -14,23 +14,6 @@ if GetLocale() ~= "ptBR" then return end
 local _, ns = ...
 ns.L = {
 
--- Shaman weapon enchant keywords
-
-	["Earthliving"] = "Terraviva",
-	["Flametongue"] = "Labardeas",
-	["Frostbrand"] = "Marca Gélida",
-	["Rockbiter"] = "Trinca-pedra",
-	["Windfury"] = "Fúria dos Ventos",
-
--- Rogue weapon enchant keywords
-
-	["Crippling Poison"] = "Veneno Debilitante",
-	["Deadly Poison"] = "Veneno Mortal",
-	["Leeching Poison"] = "Veneno Sorvedouro",
-	["Mind-Numbing Poison"] = "Veneno Entorpecente",
-	["Paralytic Poison"] = "Veneno Paralisante",
-	["Wound Poison"] = "Veneno Ferino",
-
 -- Fake buff tooltip text
 
 	[105361] = "Ataques corpo a corpo causam dano Sagrado.", -- Selo da Retidão
@@ -85,12 +68,10 @@ ns.L = {
 	["Max Timer Duration"] = "Duração máxima da cronometrista",
 	["Adjust the maximum remaining duration, in seconds, to show the timer text for a buff or debuff."] = "Alterar o máximo de tempo restante, em segundos, para mostrar o texto de tempo para um bônus ou penalidade.",
 
-	["Show stance icons"] = "Mostrar ícones de posturas",
+	["Show Stance Icons"] = "Mostrar ícones de posturas",
 	["Show fake buff icons for monk and warrior stances and paladin seals."] = "Mostrar auras representando posturas de guerreiros e monges e selos de paladinos.",
 	["Buff Sources"] = "Origens dos bônus",
 	["Show the name of the party or raid member who cast a buff on you in its tooltip."] = "Mostrar na dica o nome do membro do grupo que aplicou em você o bônus.",
-	["Weapon Buff Sources"] = "Origens dos encantamentos",
-	["Show weapon buffs as the spell or item that buffed the weapon, instead of the weapon itself."] = "Mostrar encantamentos de armas como a feitiço ou item que encantou a arma, em vez de como a arma em si.",
 	["One-Click Cancel"] = "Só clique para cancelar",
 	["Cancel unprotected buffs on the first click, instead of the second. Only works out of combat, and protected buffs like shapeshift forms and weapon buffs will still require two clicks."] = "Cancelar bónus desprotegidos no primeiro clique, em vez do segundo. Isso só funciona fora de combate, e bônus protegidas como formas e encantamentos de armas ainda requerem dois cliques.",
 	["Lock Frames"] = "Travar ícones",

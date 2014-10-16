@@ -14,23 +14,6 @@ if GetLocale() ~= "zhCN" then return end
 local _, ns = ...
 ns.L = {
 
--- Shaman weapon enchant keywords
-
---	["Earthliving"] = "",
---	["Flametongue"] = "",
---	["Frostbrand"] = "",
---	["Rockbiter"] = "",
---	["Windfury"] = "",
-
--- Rogue weapon enchant keywords
-
---	["Crippling Poison"] = "",
---	["Deadly Poison"] = "",
---	["Leeching Poison"] = "",
---	["Mind-Numbing Poison"] = "",
---	["Paralytic Poison"] = "",
---	["Wound Poison"] = "",
-
 -- Fake buff tooltip text
 
 --	[105361] = "Melee attacks cause Holy damage.", -- Seal of Command
@@ -85,14 +68,12 @@ ns.L = {
 --	["Max Timer Duration"] = "",
 --	["Adjust the maximum remaining duration, in seconds, to show the timer text for a buff or debuff."] = "",
 
---	["Show stance icons"] = "",
+--	["Show Stance Icons"] = "",
 --	["Show fake buff icons for monk and warrior stances and paladin seals."] = "",
 	["Buff Sources"] = "Buff 来源",
 --	["Show the name of the party or raid member who cast a buff on you in its tooltip."] = "",
 --	["Weapon Buff Sources"] = "",
 --	["Show weapon buffs as the spell or item that buffed the weapon, instead of the weapon itself."] = "",
---	["One-Click Cancel"] = "",
---	["Cancel unprotected buffs on the first click, instead of the second. Only works out of combat, and protected buffs like shapeshift forms and weapon buffs will still require two clicks."] = "",
 	["Lock Frames"] = "锁定框体",
 --	["Lock the buff and debuff frames in place, hiding the backdrop and preventing them from being moved."] = "",
 

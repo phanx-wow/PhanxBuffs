@@ -14,23 +14,6 @@ if GetLocale() ~= "esES" and GetLocale() ~= "esMX" then return end
 local _, ns = ...
 ns.L = {
 
--- Shaman weapon enchant keywords
-
-	["Earthliving"] = "Vida terrestre",
-	["Flametongue"] = "Lengua de Fuego",
-	["Frostbrand"] = "Estigma de Escarcha",
-	["Rockbiter"] = "Muerdepiedras",
-	["Windfury"] = "Viento Furioso",
-
--- Rogue weapon enchant keywords
-
-	["Crippling Poison"] = "Veneno entorpecedor",
-	["Deadly Poison"] = "Veneno mortal",
-	["Leeching Poison"] = "Veneno parasitante",
-	["Mind-Numbing Poison"] = "Veneno de aturdimiento mental",
-	["Paralytic Poison"] = "Veneno paralizador",
-	["Wound Poison"] = "Veneno hiriente",
-
 -- Fake buff tooltip text
 
 	[105361] = "Los ataques cuerpo a cuerpo infligen daño Sagrado.", -- Sello de orden
@@ -85,12 +68,10 @@ ns.L = {
 	["Max Timer Duration"] = "Tiempo máximo",
 	["Adjust the maximum remaining duration, in seconds, to show the timer text for a buff or debuff."] = "Ajustar el máximo de tiempo restante, en segundos, para mostrar el texto de tiempo.",
 
-	["Show stance icons"] = "Iconos de actitudes",
+	["Show Stance Icons"] = "Iconos de actitudes",
 	["Show fake buff icons for monk and warrior stances and paladin seals."] = "Mostrar iconos falsos para los actitudes de monjes y guerreros y los sellos de paladins.",
 	["Buff Sources"] = "Taumaturgos de beneficios",
 	["Show the name of the party or raid member who cast a buff on you in its tooltip."] = "Mostrar el nombre del miembro del grupo o banda que ha aplicado un beneficio a te en su descripción.",
-	["Weapon Buff Sources"] = "Fuentes de encantamientos",
-	["Show weapon buffs as the spell or item that buffed the weapon, instead of the weapon itself."] = "Mostrar los beneficios del arma como el encanto o el artículo que encantaron el arma, en vez del arma sí mismo.",
 	["One-Click Cancel"] = "Solo clic para cancelar",
 	["Cancel unprotected buffs on the first click, instead of the second. Only works out of combat, and protected buffs like shapeshift forms and weapon buffs will still require two clicks."] = "Cancelar beneficios desprotegidos en el primer clic, en vez del segundo. Esto sólo funciona fuera de combate y los beneficios protegidos, como las cambiados de forma y los encantamientos de armas, todavía requieren dos clics para cancelar.",
 	["Lock Frames"] = "Bloquear iconos",
