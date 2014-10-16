@@ -276,6 +276,9 @@ do
 			lock = not isLocked
 		end
 
+		PhanxBuffFrame:UpdateLayout()
+		PhanxDebuffFrame:UpdateLayout()
+
 		if lock then
 			PhanxBuffFrame:SetBackdrop(nil)
 			PhanxBuffFrame:SetMovable(false)
