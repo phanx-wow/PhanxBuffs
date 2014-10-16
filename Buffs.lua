@@ -37,9 +37,6 @@ local fakes = {
 	[(GetSpellInfo(2457))]   = 2457,   -- WARRIOR: Battle Stance
 	[(GetSpellInfo(71))]     = 71,     -- WARRIOR: Defensive Strance
 }
-if select(4, GetBuildInfo()) < 60000 then
-	fakes[(GetSpellInfo(2458))] = 2458 -- WARRIOR: Berserker Stance, removed in WoD
-end
 
 local protected = {
 	[48263] = true, -- DEATHKNIGHT: Blood Presence
@@ -146,10 +143,20 @@ local function button_OnEnter(self)
 			GameTooltip:Show()
 		end
 	end
+
+	if db.oneClickCancel and protected[buff.spellID]
+	and not buff.isFake and not cantCancel[buff.name]
+	and not InCombatLockdown()
+	and not (IsAltKeyDown() and IsShiftKeyDown()) then
+		PhanxBuffsCancelButton:SetMacro(self, buff.icon, "/cancelaura " .. buff.name)
+	end
 end
 
 local function button_OnLeave()
 	GameTooltip:Hide()
+	if not InCombatLockdown() then
+		PhanxBuffsCancelButton:Hide()
+	end
 end
 
 local function button_OnClick(self)

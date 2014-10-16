@@ -17,7 +17,6 @@ local db
 local dirty, bagsDirty, spellsDirty, inVehicle
 
 local enchants = {}
-local _, playerClass = UnitClass("player")
 
 local MAIN_HAND_SLOT = GetInventorySlotInfo("MainHandSlot")
 local OFF_HAND_SLOT = GetInventorySlotInfo("SecondaryHandSlot")
@@ -26,34 +25,7 @@ local OFF_HAND_SLOT = GetInventorySlotInfo("SecondaryHandSlot")
 
 local function button_OnEnter(self)
 	GameTooltip:SetOwner(self, "ANCHOR_BOTTOMLEFT")
-	local remaining
-	if self.arg1 and self.arg2 then
-		if bagsDirty then
-			PhanxTempEnchantFrame:Update()
-			bagsDirty = nil
-		end
-		GameTooltip:SetBagItem(self.arg1, self.arg2)
-		remaining = self.expires - GetTime()
-	elseif self.arg1 then
-		if spellsDirty then
-			PhanxTempEnchantFrame:Update()
-			spellsDirty = nil
-		end
-		GameTooltip:SetHyperlink(self.arg1)
-		GameTooltipTextLeft1:SetTextColor(1, 0.82, 0)
-		GameTooltipTextLeft4:SetTextColor(1, 1, 1)
-		remaining = self.expires - GetTime()
-	else
-		GameTooltip:SetInventoryItem("player", self:GetID())
-	end
-	if remaining then
-		if remaining > 59 then
-			GameTooltip:AddLine(format(L["%d minutes remaining"], floor((remaining / 60) + 0.5)))
-		else
-			GameTooltip:AddLine(format(L["%d seconds remaining"], floor(remaining + 0.5)))
-		end
-		GameTooltip:Show()
-	end
+	GameTooltip:SetInventoryItem("player", self:GetID())
 end
 
 local function button_OnLeave()
@@ -135,118 +107,18 @@ end
 
 ------------------------------------------------------------------------
 
-local function FindTempEnchantItem(findString)
-	--print("FindTempEnchantItem", findString)
-	findString = strlower(strtrim(gsub(findString, "%(.-%)", "")))
-	for bag = 0, 4 do
-		for slot = 1, GetContainerNumSlots(bag) do
-			local icon, _, _, _, _, _, link = GetContainerItemInfo(bag, slot)
-			if link then
-				local name = strmatch(link, "%[(.+)%]")
-				if strmatch(strlower(name), findString) then
-					return icon, bag, slot
-				end
-			end
-		end
-	end
-end
-
-local function FindTempEnchantSpell(findString)
-	--print("FindTempEnchantSpell", findString)
-	local _, _, offset, numSpells = GetSpellTabInfo(GetNumSpellTabs())
-	for i = 1, offset + numSpells do
-		local abilityType, id = GetSpellBookItemInfo(i, BOOKTYPE_SPELL)
-		if abilityType == "FLYOUT" then
-			local _, _, numFlyoutSpells = GetFlyoutInfo(id)
-			for j = 1, numFlyoutSpells do
-				local spell = GetFlyoutSlotInfo(id, j)
-				local name, _, icon = GetSpellInfo(spell)
-				if strmatch(name, findString) then
-					local link = GetSpellLink(spell)
-					--print("Found", link)
-					return icon, link
-				end
-			end
-		else
-			local name, _, icon = GetSpellInfo(id)
-			if strmatch(name, findString) then
-				local link = GetSpellLink(id)
-				--print("Found", link)
-				return icon, link
-			end
-		end
-	end
-end
-
-local tempEnchantKeywords
-if playerClass == "SHAMAN" then
-	tempEnchantKeywords = {
-		[L["Earthliving"]] = GetSpellInfo(51730),
-		[L["Flametongue"]] = GetSpellInfo(8024),
-		[L["Frostbrand"]]  = GetSpellInfo(8033),
-		[L["Rockbiter"]]   = GetSpellInfo(8017),
-		[L["Windfury"]]    = GetSpellInfo(8232),
-	}
-elseif playerClass == "ROGUE" then
-	tempEnchantKeywords = {
-		[L["Anesthetic Poison"]] = true,
-		[L["Crippling Poison"]] = true,
-		[L["Deadly Poison"]] = true,
-		[L["Leeching Poison"]] = true,
-		[L["Mind-Numbing Poison"]] = true,
-		[L["Paralytic Poison"]] = true,
-		[L["Wound Poison"]] = true,
-	}
-end
-
-local function FindTempEnchantString()
-	for i = 1, PhanxTempEnchantFrame.tooltip:NumLines() do
-		local line = gsub(PhanxTempEnchantFrame.tooltip.L[i], "%(.+%)", "") -- remove duration
-		for k, v in pairs(tempEnchantKeywords) do
-			if strmatch(line, k) then
-				if type(v) == "string" then
-					--print("Found temp enchant string " .. k .. " (spell " .. v .. ")")
-					return v, FindTempEnchantSpell
-				else
-					--print("Found temp enchant string " .. k .. " (item)")
-					return k, FindTempEnchantItem
-				end
-			end
-		end
-	end
-end
-
-------------------------------------------------------------------------
-
 function PhanxTempEnchantFrame:Update()
 	local mainHandEnchant, mainHandExpiration, mainHandCharges,
-		offHandEnchant, offHandExpiration, offHandCharges,
-		thrownEnchant, thrownExpiration, thrownCharges = GetWeaponEnchantInfo()
+		offHandEnchant, offHandExpiration, offHandCharges = GetWeaponEnchantInfo()
 
 	local numEnchants = 0
 
 	if mainHandEnchant then
 		numEnchants = numEnchants + 1
-		local button = buttons[numEnchants]
 
+		local button = buttons[numEnchants]
 		button.expires = GetTime() + (mainHandExpiration / 1000)
 		button.icon:SetTexture(GetInventoryItemTexture("player", MAIN_HAND_SLOT))
-
-		button.arg1, button.arg2 = nil, nil
-		if tempEnchantKeywords and db.showTempEnchantSources then
-			self.tooltip:SetInventoryItem("player", MAIN_HAND_SLOT)
-			local tempEnchantString, tempEnchantFindFunc = FindTempEnchantString()
-			if tempEnchantString then
-				local icon, arg1, arg2 = tempEnchantFindFunc(tempEnchantString)
-				if icon and icon ~= "" then
-					--print("Found temp enchant:", tempEnchantString, arg1, arg2)
-					button.icon:SetTexture(icon)
-					button.arg1 = arg1
-					button.arg2 = arg2
-				end
-			end
-		end
-
 		button.count:SetText(mainHandCharges > 0 and mainHandCharges or nil)
 		button:SetID(MAIN_HAND_SLOT)
 		button:Show()
@@ -254,25 +126,10 @@ function PhanxTempEnchantFrame:Update()
 
 	if offHandEnchant then
 		numEnchants = numEnchants + 1
-		local b = buttons[numEnchants]
 
+		local b = buttons[numEnchants]
 		b.expires = GetTime() + (offHandExpiration / 1000)
 		b.icon:SetTexture(GetInventoryItemTexture("player", OFF_HAND_SLOT))
-
-		b.arg1, b.arg2 = nil, nil
-		if tempEnchantKeywords and db.showTempEnchantSources then
-			self.tooltip:SetInventoryItem("player", OFF_HAND_SLOT)
-			local tempEnchantString, tempEnchantFindFunc = FindTempEnchantString()
-			if tempEnchantString then
-				local icon, arg1, arg2 = tempEnchantFindFunc(tempEnchantString)
-				if icon and icon ~= "" then
-					b.icon:SetTexture(icon)
-					b.arg1 = arg1
-					b.arg2 = arg2
-				end
-			end
-		end
-
 		b.count:SetText(offHandCharges > 0 and offHandCharges or nil)
 		b:SetID(OFF_HAND_SLOT)
 		b:Show()
@@ -283,7 +140,7 @@ function PhanxTempEnchantFrame:Update()
 			local f = buttons[i]
 			f.icon:SetTexture()
 			f.count:SetText()
-			f.arg1, f.arg2, f.tempEnchantString, f.expires = nil, nil, nil, nil
+			f.expires = nil
 			f:Hide()
 		end
 	end
@@ -379,57 +236,6 @@ end
 PhanxTempEnchantFrame:SetScript("OnEvent", function(self, event, unit)
 	return self[event] and self[event](self, unit)
 end)
-
-------------------------------------------------------------------------
---	TinyGratuity, ripped from CrowBar by Ammo
-
-if tempEnchantKeywords then
-	PhanxTempEnchantFrame.tooltip = CreateFrame("GameTooltip")
-	PhanxTempEnchantFrame.tooltip:SetOwner(WorldFrame, "ANCHOR_NONE")
-
-	local lcache, rcache = {}, {}
-	for i = 1, 30 do
-		lcache[i], rcache[i] = PhanxTempEnchantFrame.tooltip:CreateFontString(), PhanxTempEnchantFrame.tooltip:CreateFontString()
-		lcache[i]:SetFontObject(GameFontNormal)
-		rcache[i]:SetFontObject(GameFontNormal)
-		PhanxTempEnchantFrame.tooltip:AddFontStrings(lcache[i], rcache[i])
-	end
-
-	PhanxTempEnchantFrame.tooltip.L = setmetatable({}, {
-		__index = function(t, key)
-			if PhanxTempEnchantFrame.tooltip:NumLines() >= key and lcache[key] then
-				local v = lcache[key]:GetText()
-				t[key] = v
-				return v
-			end
-			return nil
-		end,
-	})
-
-	local origSetBagItem = PhanxTempEnchantFrame.tooltip.SetBagItem
-	PhanxTempEnchantFrame.tooltip.SetBagItem = function(self, ...)
-		self:ClearLines()
-		for i in pairs(self.L) do
-			self.L[i] = nil
-		end
-		if not self:IsOwned(WorldFrame) then
-			self:SetOwner(WorldFrame, "ANCHOR_NONE")
-		end
-		return origSetBagItem(self, ...)
-	end
-
-	local origSetInventoryItem = PhanxTempEnchantFrame.tooltip.SetInventoryItem
-	PhanxTempEnchantFrame.tooltip.SetInventoryItem = function(self, ...)
-		self:ClearLines()
-		for i in pairs(self.L) do
-			self.L[i] = nil
-		end
-		if not self:IsOwned(WorldFrame) then
-			self:SetOwner(WorldFrame, "ANCHOR_NONE")
-		end
-		return origSetInventoryItem(self, ...)
-	end
-end
 
 ------------------------------------------------------------------------
 

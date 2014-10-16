@@ -14,23 +14,6 @@ if GetLocale() ~= "deDE" then return end
 local _, ns = ...
 ns.L = {
 
--- Shaman weapon enchant keywords
-
-	["Earthliving"] = "Lebensgeister",
-	["Flametongue"] = "Flammenzunge",
-	["Frostbrand"] = "Frostbrand",
-	["Rockbiter"] = "Felsbeißer",
-	["Windfury"] = "Windzorn",
-
--- Rogue weapon enchant keywords
-
-	["Crippling Poison"] = "Verkrüppel[nu][dn][eg]s%s?[Gg]ift", -- item is Verkrüppelndes Gift, enchant is Verkrüppelungsgift
-	["Deadly Poison"] = "Tödliches Gift",
-	["Leeching Poison"] = "Egelgift",
-	["Mind-Numbing Poison"] = "Gedankenbenebelndes Gift",
-	["Paralytic Poison"] = "Betäubendes Gift",
-	["Wound Poison"] = "Wundgift",
-
 -- Fake buff tooltip text
 
 	[105361] = "Nahkampfangriffe verursachen Heiligschaden.", -- Siegel des Befehls
@@ -85,12 +68,10 @@ ns.L = {
 	["Max Timer Duration"] = "Höchstdauer",
 	["Adjust the maximum remaining duration, in seconds, to show the timer text for a buff or debuff."] = "Die maximale Dauer in Sekunden anpassen, um den Timertext einer Stärkungs- oder Schwächungszauber anzeigen.",
 
-	["Show stance icons"] = "Haltungssymbole",
+	["Show Stance Icons"] = "Haltungssymbole",
 	["Show fake buff icons for monk and warrior stances and paladin seals."] = "Gefälschten Stärkungszaubersymbole für den Mönchs- und Kriegershaltungen und Paladinsiegel anzeigen.",
 	["Buff Sources"] = "Stärkungszauberquellen",
 	["Show the name of the party or raid member who cast a buff on you in its tooltip."] = "Den Name des Gruppen- oder Schlachtzugsmitglied in Stärkungszaubertooltips anzeigen, das es auf euch gewirkt.",
-	["Weapon Buff Sources"] = "Waffenverzauberungsquellen",
-	["Show weapon buffs as the spell or item that buffed the weapon, instead of the weapon itself."] = "Statt der Waffe den Zauber oder Gegenstand anziegen, der die Waffe verzaubern.",
 	["One-Click Cancel"] = "Mit einem Klick abbrechen",
 	["Cancel unprotected buffs on the first click, instead of the second. Only works out of combat, and protected buffs like shapeshift forms and weapon buffs will still require two clicks."] = "Stärkungszauber mit dem ersten Klick statt des zweiten abbrechen. Diese funktioniert nur außerhalb des Kampfes. Einige geschützten Zauber (zB Gestalten der Druiden und Waffenverzauberungen) noch benötigen zwei Klicks, um abzubrechen.",
 	["Lock Frames"] = "Symbole fixieren",

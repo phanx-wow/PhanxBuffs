@@ -30,7 +30,7 @@ local defaultDB = {
 
 	showFakeBuffs = true,
 	showBuffSources = true,
-	showTempEnchantSources = true,
+	oneClickCancel = true,
 
 	minimapIcon = {},
 }
@@ -174,7 +174,7 @@ cancelButton:Hide()
 cancelButton:RegisterForClicks("LeftButtonDown", "RightButtonDown")
 cancelButton:SetAttribute("unit", "player")
 cancelButton:SetAttribute("*type1", "macro")
-cancelButton:SetAttribute("*macrotext1", "/run if not InCombatLockdown() then PhanxBuffsCancelButton:Hide() end")
+cancelButton:SetAttribute("*macrotext1", "/run if not db.oneClickCancel and not InCombatLockdown() then PhanxBuffsCancelButton:Hide() end")
 cancelButton:SetAttribute("*type2", "macro")
 
 cancelButton.overlay = cancelButton:CreateTexture(nil, "BACKGROUND")
@@ -183,17 +183,16 @@ cancelButton.overlay:SetTexture(1, 0, 0, 0.5)
 
 cancelButton.icon = cancelButton:CreateTexture(nil, "BACKGROUND")
 cancelButton.icon:SetAllPoints(true)
-cancelButton.icon:Hide()
 
-function cancelButton:SetMacro(button, icon, macro)
-	if db.noCancel or InCombatLockdown() then return end
+function cancelButton:SetMacro(button, macro)
+	if InCombatLockdown() then return end
 
 	self:ClearAllPoints()
 	self:SetPoint("TOPLEFT", button, "TOPLEFT", -2, 2)
 	self:SetPoint("BOTTOMRIGHT", button, "BOTTOMRIGHT", 2, -2)
 	self:SetFrameLevel(100)
 
-	self.icon:SetTexture(icon)
+	self.overlay:SetShown(not db.oneClickCancel)
 
 	self:SetAttribute("*macrotext2", macro .. "\n/run if not InCombatLockdown() then PhanxBuffsCancelButton:Hide() end")
 
@@ -202,7 +201,7 @@ end
 
 cancelButton:SetScript("OnHide", function(self)
 	self:ClearAllPoints()
-	self:SetPoint("CENTER", UIParent, "CENTER", 0, 0)
+	self:SetPoint("CENTER", UIParent, 0, 0)
 end)
 
 cancelButton:RegisterEvent("PLAYER_REGEN_DISABLED")
@@ -654,7 +653,7 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 
 	---------------------------------------------------------------------
 
-	local showFakeBuffs = self:CreateCheckbox(L["Show stance icons"], L["Show fake buff icons for warrior stances and paladin seals."])
+	local showFakeBuffs = self:CreateCheckbox(L["Show Stance Icons"], L["Show fake buff icons for warrior stances and paladin seals."])
 	showFakeBuffs:SetPoint("TOPLEFT", consolidateBuffs, "BOTTOMLEFT", 0, -8)
 
 	function showFakeBuffs:Callback(checked)
@@ -673,18 +672,8 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 
 	---------------------------------------------------------------------
 
-	local showTempEnchantSources = self:CreateCheckbox(L["Weapon Buff Sources"], L["Show weapon buffs as the spell or item that buffed the weapon, instead of the weapon itself."])
-	showTempEnchantSources:SetPoint("TOPLEFT", showBuffSources, "BOTTOMLEFT", 0, -8)
-
-	function showTempEnchantSources:Callback(checked)
-		db.showTempEnchantSources = checked
-		PhanxTempEnchantFrame:Update()
-	end
-
-	---------------------------------------------------------------------
-
 	local oneClickCancel = self:CreateCheckbox(L["One-Click Cancel"], L["Cancel unprotected buffs on the first click, instead of the second. Only works out of combat, and protected buffs like shapeshift forms and weapon buffs will still require two clicks."])
-	oneClickCancel:SetPoint("TOPLEFT", showTempEnchantSources, "BOTTOMLEFT", 0, -8)
+	oneClickCancel:SetPoint("TOPLEFT", showBuffSources, "BOTTOMLEFT", 0, -8)
 
 	function oneClickCancel:Callback(checked)
 		db.oneClickCancel = checked
@@ -724,7 +713,6 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 		consolidateBuffs:SetChecked(GetCVarBool("consolidateBuffs"))
 		showFakeBuffs:SetChecked(db.showFakeBuffs)
 		showBuffSources:SetChecked(db.showBuffSources)
-		showTempEnchantSources:SetChecked(db.showTempEnchantSources)
 		oneClickCancel:SetChecked(db.oneClickCancel)
 	end
 end)
