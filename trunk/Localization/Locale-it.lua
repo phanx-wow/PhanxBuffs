@@ -14,23 +14,6 @@ if GetLocale() ~= "itIT" then return end
 local _, ns = ...
 ns.L = {
 
--- Shaman weapon enchant keywords
-
-	["Earthliving"] = "Terra Benefica",
-	["Flametongue"] = "Lingua di Fuoco",
-	["Frostbrand"] = "Marchio del Gelo",
-	["Rockbiter"] = "Roccia Dura",
-	["Windfury"] = "Furia del Vento",
-
--- Rogue weapon enchant keywords
-
---	["Crippling Poison"] = "Crippling Poison",
---	["Deadly Poison"] = "Deadly Poison",
---	["Leeching Poison"] = "Leeching Poison",
---	["Mind-Numbing Poison"] = "Mind-Numbing Poison",
---	["Paralytic Poison"] = "Paralytic Poison",
---	["Wound Poison"] = "Wound Poison",
-
 -- Fake buff tooltip text
 
 	[105361] = "Danni da sacro inflitti dagli attacchi in mischia.", -- Sigillo di Comando
@@ -85,12 +68,10 @@ ns.L = {
 	["Max Timer Duration"] = "Durata massima per testo",
 --	["Adjust the maximum remaining duration, in seconds, to show the timer text for a buff or debuff."] = "Adjust the maximum remaining duration, in seconds, to show the timer text for a buff or debuff.",
 
---	["Show stance icons"] = "",
+--	["Show Stance Icons"] = "",
 --	["Show fake buff icons for monk and warrior stances and paladin seals."] = "",
 	["Buff Sources"] = "Origini di benefici",
 --	["Show the name of the party or raid member who cast a buff on you in its tooltip."] = "Show the name of the party or raid member who cast a buff on you in its tooltip.",
-	["Weapon Buff Sources"] = "Origini di incantamenti di armi",
---	["Show weapon buffs as the spell or item that buffed the weapon, instead of the weapon itself."] = "Show weapon buffs as the spell or item that buffed the weapon, instead of the weapon itself.",
 	["One-Click Cancel"] = "Rimuovi con un click",
 --	["Cancel unprotected buffs on the first click, instead of the second. Only works out of combat, and protected buffs like shapeshift forms and weapon buffs will still require two clicks."] = "Cancel unprotected buffs on the first click, instead of the second. Only works out of combat, and protected buffs like shapeshift forms and weapon buffs will still require two clicks.",
 	["Lock Frames"] = "Blocca icone",

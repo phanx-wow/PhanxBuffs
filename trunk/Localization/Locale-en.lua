@@ -14,10 +14,6 @@ ns.L = L
 
 if not strmatch(GetLocale(), "en") then return end
 
--- Rogue weapon enchant keywords
-
-L["Mind-Numbing Poison"] = "Mind[%-%s]Numbing Poison"
-
 -- Fake buff tooltip text
 
 L[105361] = "Melee attacks cause Holy damage." -- Seal of Command

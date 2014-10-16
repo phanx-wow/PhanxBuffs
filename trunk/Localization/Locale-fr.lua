@@ -14,23 +14,6 @@ if GetLocale() ~= "frFR" then return end
 local _, ns = ...
 ns.L = {
 
--- Shaman weapon enchant keywords
-
-	["Earthliving"] = "Viveterre",
-	["Flametongue"] = "Langue de feu",
-	["Frostbrand"] = "Arme de givre",
-	["Rockbiter"] = "Croque-roc",
-	["Windfury"] = "Furie-des-vents",
-
--- Rogue weapon enchant keywords
-
-	["Crippling Poison"] = "Poison affaiblissant",
-	["Deadly Poison"] = "Poison mortel",
---	["Leeching Poison"] = "",
-	["Mind-Numbing Poison"] = "Poison de [Dd]istraction mentale", -- item name has lowercase d
---	["Paralytic Poison"] = "",
-	["Wound Poison"] = "Poison douloureux",
-
 -- Fake buff tooltip text
 
 	[105361] = "Les attaques de mêlée infligent des dégâts du Sacré.", -- Sceau d’autorité
@@ -84,12 +67,10 @@ ns.L = {
 --	["Max Timer Duration"] = "",
 --	["Adjust the maximum remaining duration, in seconds, to show the timer text for a buff or debuff."] = "",
 
---	["Show stance icons"] = "",
+--	["Show Stance Icons"] = "",
 --	["Show fake buff icons for monk and warrior stances and paladin seals."] = "",
 	["Buff Sources"] = "Origines des Buffs",
 	["Show the name of the party or raid member who cast a buff on you in its tooltip."] = "Affiche dans le tooltip du buff le nom du membre du groupe ou raid qui l'a incanté.",
-	["Weapon Buff Sources"] = "Origine des Buffs d'Arme",
-	["Show weapon buffs as the spell or item that buffed the weapon, instead of the weapon itself."] = "Affiche les Buffs d'Arme en tant que sort buffé par l'arme, et non comme l'Arme elle-même.",
 --	["One-Click Cancel"] = "",
 --	["Cancel unprotected buffs on the first click, instead of the second. Only works out of combat, and protected buffs like shapeshift forms and weapon buffs will still require two clicks."] = "",
 	["Lock Frames"] = "Verrouiller les cadres",

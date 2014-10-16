@@ -14,23 +14,6 @@ if GetLocale() ~= "koKR" then return end
 local _, ns = ...
 ns.L = {
 
--- Shaman weapon enchant keywords
-
-	["Earthliving"] = "대지생명의 무기",
-	["Flametongue"] = "불꽃의 무기",
-	["Frostbrand"] = "냉기의 무기",
-	["Rockbiter"] = "대지의 무기", -- Needs check
-	["Windfury"] = "질풍의 무기",
-
--- Rogue weapon enchant keywords
-
-	["Crippling Poison"] = "신경 마비 독",
-	["Deadly Poison"] = "맹독",
---	["Leeching Poison"] = "",
-	["Mind-Numbing Poison"] = "정신 마비 독",
---	["Paralytic Poison"] = "",
-	["Wound Poison"] = "상처 감염 독",
-
 -- Fake buff tooltip text
 
 --	[105361] = "Melee attacks cause Holy damage.", -- Seal of Command
@@ -85,12 +68,10 @@ ns.L = {
 	["Max Timer Duration"] = "최대 시간",
 	["Adjust the maximum remaining duration, in seconds, to show the timer text for a buff or debuff."] = "최대 시간, 초, 타이머를 표시합니다.",
 
---	["Show stance icons"] = "",
+--	["Show Stance Icons"] = "",
 --	["Show fake buff icons for monk and warrior stances and paladin seals."] = "",
 	["Buff Sources"] = "버프 출처",
 	["Show the name of the party or raid member who cast a buff on you in its tooltip."] = "파티원 또는 공격대원 중 당신에게 버프를 시전한 누군가의 이름을 툴팁에 보여줍니다.",
-	["Weapon Buff Sources"] = "무기 버프 출처",
-	["Show weapon buffs as the spell or item that buffed the weapon, instead of the weapon itself."] = "무기 자체를 대신하는 주문에 의한 무기 버프 또는 아이템에 의해 버프된 무기를 보여줍니다.",
 --	["One-Click Cancel"] = "",
 --	["Cancel unprotected buffs on the first click, instead of the second. Only works out of combat, and protected buffs like shapeshift forms and weapon buffs will still require two clicks."] = "",
 	["Lock Frames"] = "프레임 잠금",

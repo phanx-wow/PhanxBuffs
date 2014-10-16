@@ -15,23 +15,6 @@ if GetLocale() ~= "zhTW" then return end
 local _, ns = ...
 ns.L = {
 
--- Shaman weapon enchant keywords
-
-	["Earthliving"] = "大地生命",
-	["Flametongue"] = "火舌",
-	["Frostbrand"] = "冰封",
-	["Rockbiter"] = "石化",
-	["Windfury"] = "風怒",
-
--- Rogue weapon enchant keywords
-
-	["Crippling Poison"] = "致殘",
-	["Deadly Poison"] = "致命",
-	["Leeching Poison"] = "吸血毒藥",
-	["Mind-Numbing Poison"] = "麻痹",
-	["Paralytic Poison"] = "麻痺毒藥",
-	["Wound Poison"] = "致傷",
-
 -- Fake buff tooltip text
 
 --	[105361] = "Melee attacks cause Holy damage.", -- Seal of Command
@@ -86,12 +69,10 @@ ns.L = {
 	["Max Timer Duration"] = "最大計時期間",
 	["Adjust the maximum remaining duration, in seconds, to show the timer text for a buff or debuff."] = "調整顯示buff或debuff的計時文字，最大的提醒期間，以秒數計。",
 
---	["Show stance icons"] = "",
+--	["Show Stance Icons"] = "",
 --	["Show fake buff icons for monk and warrior stances and paladin seals."] = "",
 	["Buff Sources"] = "buff來源",
 	["Show the name of the party or raid member who cast a buff on you in its tooltip."] = "在提示上顯示buff施放者的名字",
-	["Weapon Buff Sources"] = "武器附魔來源",
-	["Show weapon buffs as the spell or item that buffed the weapon, instead of the weapon itself."] = "顯示武器附魔圖示用附魔物品或法術來取代武器本身",
 	["One-Click Cancel"] = "一鍵取消",
 	["Cancel unprotected buffs on the first click, instead of the second. Only works out of combat, and protected buffs like shapeshift forms and weapon buffs will still require two clicks."] = "單次點擊取消未受保護的buffs而不是兩次，但只有非戰鬥時有用，並且受保護的buffs類似形狀改變的型態與武器buffs仍然需要兩次點擊。",
 	["Lock Frames"] = "鎖定框架",
