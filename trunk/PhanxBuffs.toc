@@ -12,15 +12,15 @@
 
 ## Author: Phanx
 ## X-Email: addons@phanx.net
-## X-Copyright: Copyright (c) 2010-2014 Phanx. All rights reserved.
-## X-License: See the accompanying LICENSE file for details.
+## X-Copyright: Copyright (c) 2010-2014 Phanx.
+## X-License: All rights reserved.
 ## X-CompatibleLocales: deDE, enUS, esES, esMX, frFR, itIT, koKR, ptBR, ruRU, zhCN, zhTW
 ## X-Localizations: deDE, enUS, esES, esMX, frFR, itIT, koKR, ptBR, ruRU, zhTW
 ## X-Website: http://www.wowinterface.com/downloads/info16874-PhanxBuffs.html
 ## X-Curse-Project-ID: phanxbuffs
 ## X-WoWI-ID: 16874
 
-## OptionalDependencies: LibAboutPanel, LibSharedMedia-3.0, PhanxConfigWidgets, Masque
+## OptionalDependencies: LibAboutPanel, LibSharedMedia-3.0, Masque
 ## SavedVariables: PhanxBuffsDB
 ## SavedVariablesPerCharacter: PhanxBuffsIgnoreDB
 
@@ -36,21 +36,9 @@ Libs\PhanxConfig-Header\PhanxConfig-Header.lua
 Libs\PhanxConfig-OptionsPanel\PhanxConfig-OptionsPanel.lua
 Libs\PhanxConfig-Slider\PhanxConfig-Slider.lua
 
-Localization\Locale-en.lua
-Localization\Locale-de.lua
-Localization\Locale-es.lua
-Localization\Locale-fr.lua
-Localization\Locale-it.lua
-Localization\Locale-pt.lua
-Localization\Locale-ru.lua
-Localization\Locale-ko.lua
-Localization\Locale-zhCN.lua
-Localization\Locale-zhTW.lua
-
+Localization.lua
 PhanxBuffs.lua
-
 Buffs.lua
 Debuffs.lua
 Enchants.lua
-
 SkinSupport.lua
