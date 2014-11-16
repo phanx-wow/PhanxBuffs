@@ -74,7 +74,7 @@ local function SetButtonFonts(parent, face, outline)
 	if not face then face = db.fontFace end
 	if not outline then outline = db.fontOutline end
 
-	local file = GetFontFile(face)
+	local file = Media:Fetch("font", face)
 	local scale = db.fontScale
 
 	for i = 1, #parent.buttons do
@@ -327,18 +327,6 @@ end
 ------------------------------------------------------------------------
 
 local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDON_NAME, nil, function(self)
-	local keyToText = {
-		["LEFT"] = L["Left"],
-		["RIGHT"] = L["Right"],
-		["TOP"] = L["Top"],
-		["BOTTOM"] = L["Bottom"],
-		["NONE"] = L["None"],
-		["OUTLINE"] = L["Thin"],
-		["THICKOUTLINE"] = L["Thick"],
-	}
-
-	---------------------------------------------------------------------
-
 	local title, notes = self:CreateHeader(ADDON_NAME, L["Use this panel to adjust some basic settings for buff, debuff, and weapon buff icons."])
 
 	---------------------------------------------------------------------
@@ -380,7 +368,6 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 	---------------------------------------------------------------------
 
 	local buffAnchorV = self:CreateDropdown(L["Buff Anchor"], L["Choose whether the buff icons grow from top to bottom, or bottom to top."])
-
 	buffAnchorV:SetPoint("TOPLEFT", buffColumns, "BOTTOMLEFT", 0, -14)
 	buffAnchorV:SetPoint("TOPRIGHT", buffColumns, "BOTTOM", 0, -14)
 
@@ -491,7 +478,7 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 
 	function fontFace:OnValueChanged(value)
 		local _, height, flags = self.valueText:GetFont()
-		self.valueText:SetFont(GetFontFile(value), height, flags)
+		self.valueText:SetFont(Media:Fetch("font", value), height, flags)
 
 		db.fontFace = value
 		SetButtonFonts(PhanxBuffFrame, value)
@@ -501,14 +488,16 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 
 	function fontFace:OnListButtonChanged(button, value, selected)
 		if button:IsShown() then
-			button:GetFontString():SetFont(Media:Fetch("font", value), UIDROPDOWNMENU_DEFAULT_TEXT_HEIGHT)
+			local buttonText = button:GetFontString()
+			local _, height, flags = buttonText:GetFont()
+			buttonText:SetFont(Media:Fetch("font", value), height, flags)
 		end
 	end
 
 	fontFace.__SetValue = fontFace.SetValue
 	function fontFace:SetValue(value)
 		local _, height, flags = self.valueText:GetFont()
-		self.valueText:SetFont(GetFontFile(value), height, flags)
+		self.valueText:SetFont(Media:Fetch("font", value), height, flags)
 		self:__SetValue(value)
 	end
 
@@ -581,7 +570,7 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 
 	---------------------------------------------------------------------
 
-	local showBuffSources = self:CreateCheckbox(L["Buff Sources"], L["Show the name of the party or raid member who cast a buff on you in its tooltip."])
+	local showBuffSources = self:CreateCheckbox(L["Show Buff Sources"], L["Show the name of the party or raid member who cast a buff on you in its tooltip."])
 	showBuffSources:SetPoint("TOPLEFT", showFakeBuffs, "BOTTOMLEFT", 0, -8)
 
 	function showBuffSources:OnValueChanged(checked)
@@ -604,17 +593,17 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 		buffSize:SetValue(db.buffSize)
 		buffSpacing:SetValue(db.buffSpacing)
 		buffColumns:SetValue(db.buffColumns)
-		buffAnchorH:SetValue(db.buffAnchorH, keyToText[db.buffAnchorH])
-		buffAnchorV:SetValue(db.buffAnchorV, keyToText[db.buffAnchorV])
+		buffAnchorH:SetValue(db.buffAnchorH)
+		buffAnchorV:SetValue(db.buffAnchorV)
 
 		debuffSize:SetValue(db.debuffSize)
 		debuffSpacing:SetValue(db.debuffSpacing)
 		debuffColumns:SetValue(db.debuffColumns)
-		debuffAnchorH:SetValue(db.debuffAnchorH, keyToText[db.debuffAnchorH])
-		debuffAnchorV:SetValue(db.debuffAnchorV, keyToText[db.debuffAnchorV])
+		debuffAnchorH:SetValue(db.debuffAnchorH)
+		debuffAnchorV:SetValue(db.debuffAnchorV)
 
 		fontFace:SetValue(db.fontFace)
-		fontOutline:SetValue(db.fontOutline, keyToText[db.fontOutline])
+		fontOutline:SetValue(db.fontOutline)
 		fontScale:SetValue(db.fontScale)
 		maxTimer:SetValue(db.maxTimer)
 

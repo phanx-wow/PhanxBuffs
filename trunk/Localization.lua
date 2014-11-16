@@ -19,8 +19,12 @@ ns.L = L
 if LOCALE == "enUS" then
 
 -- Fake buff tooltip text
+L[103985] = "Damage dealt increased by 10%.\nMovement speed increased by 10%." -- Stance of the Fierce Tiger
+L[115069] = "Armor increased by 50%.\nStamina increased by 25%.\nMagic damage taken reduced by 10%." -- Stance of the Sturdy Ox
+L[115070] = "Healing done increased by 20%." -- Stance of the Wise Serpent
+L[154436] = "50% of all damage you deal with your melee attacks and abilities, including multistrikes, will be converted into healing on an injured ally within 20 yards." -- Stance of the Spirited Crane
 L[105361] = "Melee attacks cause Holy damage." -- Seal of Command
-L[20165] = "Improves casting speed by 10%.\nImproves healing by 5%.\nMelee attacks have a chance to heal." -- Seal of Insight
+L[20165] = "Casting speed improved by 10%.\nHealing done increased by 5%.\nMelee attacks have a chance to heal." -- Seal of Insight
 L[20154] = "Melee attacks cause Holy damage against all targets within 8 yards." -- Seal of Righteousness
 L[31801] = "Melee attacks cause Holy damage over 15 sec." -- Seal of Truth
 
@@ -34,8 +38,12 @@ return end
 if LOCALE == "deDE" then
 
 -- Fake buff tooltip text
+L[103985] = "Sämtlichen verursachten Schaden um 10% erhöht.\nBewegungsgeschwindigkeit um 10% erhöht." -- Der wilde Tiger
+L[115069] = "Rüstung um 50% erhöht.\nAusdauer um 25% erhöht.\nErlittenen magischen Schaden um 10% verringert." -- Der starke Ochse
+L[115070] = "Hervorgerufene Heilung um 20% erhöht." -- Die weise Schlange
+L[154436] = "50% des Schadens, den Ihr mit Euren Nahkampfangriffen und Fähigkeiten verursacht, einschließlich Mehrfachschlägen, heilt ein verletztes Ziel innerhalb von 20 Metern." -- Der edle Kranich
 L[105361] = "Nahkampfangriffe verursachen Heiligschaden." -- Siegel des Befehls
-L[20165] = "Zaubertempo um 10% erhöht.\nGewirkte Heilung um 5% erhöht.\nNahkampfangriffe haben eine Chance, Heilung hervorzurufen." -- Siegel der Einsicht
+L[20165] = "Zaubertempo um 10% erhöht.\nHervorgerufene Heilung um 5% erhöht.\nNahkampfangriffe haben eine Chance, Heilung hervorzurufen." -- Siegel der Einsicht
 L[20154] = "Nahkampfangriffe fügen allen Zielen im Umkreis von 8 Metern Heiligschaden zu." -- Siegel der Rechtschaffenheit
 L[31801] = "Nahkampfangriffe verursachen im Verlauf von 15 Sek. Heiligschaden." -- Siegel der Wahrheit
 
@@ -79,8 +87,8 @@ L["Adjust the size of the stack count and timer text."] = "Die Größe des Zahle
 L["Max Timer Duration"] = "Höchstdauer"
 L["Adjust the maximum remaining duration, in seconds, to show the timer text for a buff or debuff."] = "Die maximale Dauer in Sekunden anpassen, um den Timertext einer Stärkungs- oder Schwächungszauber anzeigen."
 L["Show Stance Icons"] = "Haltungssymbole"
-L["Show fake buff icons for monk and warrior stances and paladin seals."] = "Gefälschten Stärkungszaubersymbole für den Mönchs- und Kriegershaltungen und Paladinsiegel anzeigen."
-L["Buff Sources"] = "Stärkungszauberquellen"
+L["Show fake buff icons for monk stances and paladin seals."] = "Gefälschten Stärkungszaubersymbole für den Mönchshaltungen und Paladinsiegel anzeigen."
+L["Show Buff Sources"] = "Stärkungszauberquellen"
 L["Show the name of the party or raid member who cast a buff on you in its tooltip."] = "Den Name des Gruppen- oder Schlachtzugsmitglied in Stärkungszaubertooltips anzeigen, das es auf euch gewirkt."
 L["Cast by %s"] = "Von %s aufgebracht"
 L["Lock Frames"] = "Symbole fixieren"
@@ -110,10 +118,14 @@ return end
 if LOCALE == "esES" or LOCALE == "esMX" then
 
 -- Fake buff tooltip text
-L[105361] = "Los ataques cuerpo a cuerpo infligen daño Sagrado." -- Sello de orden
-L[20165] = "Mejora un 10% la velocidad de lanzamiento.\nMejora la sanación un 5%.\nLos ataques cuerpo a cuerpo tienen una probabilidad de sanar." -- Sello de Perspicacia
-L[20154] = "Los ataques cuerpo a cuerpo infligen daño Sagrado a todos los objetivos en un radio de 8 m." -- Sello de Rectitud
-L[31801] = "Los ataques cuerpo a cuerpo infligen daño Sagrado durante 15 s." -- Sello de Verdad
+L[103985] = "Daño infligido aumentada un 10%.\nVelocidad de movimiento aumentada un 10%." -- Estilo del tigre fiero
+L[115069] = "Armadura aumentada un 50%.\nAguante aumentada un 25%.\nDaño mágico recibido reducido un 10%." -- Estilo del buey robusto
+L[115070] = "Sanación realizada mejorada um 20%." -- Estilo del dragón sabio
+L[154436] = "Un 50% de todo el daño que inflijas con tus facultades y tus ataques cuerpo a cuerpo, multigolpes incluidos, se convertirá en sanación sobre un aliado herido en un radio de 20 m." -- Estilo de la grulla resuelta
+L[105361] = "Ataques cuerpo a cuerpo infligen daño Sagrado." -- Sello de orden
+L[20165] = "Velocidad de lanzamiento mejorada un 10%.\nSanación realizada mejorada un 5%.\nLos ataques cuerpo a cuerpo tienen una probabilidad de sanar." -- Sello de Perspicacia
+L[20154] = "Ataques cuerpo a cuerpo infligen daño Sagrado a todos los objetivos en un radio de 8 m." -- Sello de Rectitud
+L[31801] = "Ataques cuerpo a cuerpo infligen daño Sagrado durante 15 s." -- Sello de Verdad
 
 -- Broker tooltip
 L["Click to lock or unlock the frames."] = "Clic para bloquear o desbloquear los iconos."
@@ -155,8 +167,8 @@ L["Adjust the size of the stack count and timer text."] = "Ajustar el tamaño de
 L["Max Timer Duration"] = "Tiempo máximo"
 L["Adjust the maximum remaining duration, in seconds, to show the timer text for a buff or debuff."] = "Ajustar el máximo de tiempo restante, en segundos, para mostrar el texto de tiempo."
 L["Show Stance Icons"] = "Iconos de actitudes"
-L["Show fake buff icons for monk and warrior stances and paladin seals."] = "Mostrar iconos falsos para los actitudes de monjes y guerreros y los sellos de paladins."
-L["Buff Sources"] = "Taumaturgos de beneficios"
+L["Show fake buff icons for monk stances and paladin seals."] = "Mostrar iconos falsos para los actitudes de monjes y los sellos de paladins."
+L["Show Buff Sources"] = "Taumaturgos de beneficios"
 L["Show the name of the party or raid member who cast a buff on you in its tooltip."] = "Mostrar el nombre del miembro del grupo o banda que ha aplicado un beneficio a te en su descripción."
 L["Cast by %s"] = "Aplicada por %s"
 L["Lock Frames"] = "Bloquear iconos"
@@ -186,10 +198,14 @@ return end
 if LOCALE == "frFR" then
 
 -- Fake buff tooltip text
-L[105361] = "Les attaques de mêlée infligent des dégâts du Sacré." -- Sceau d’autorité
-L[20165] = "Augmente la vitesse d’incantation de 10%.\nAugmente les soins de 5%.\nLes attaques de mêlée ont une chance de soigner." -- Sceau de clairvoyance
-L[20154] = "Les attaques de mêlée infligent des dégâts du Sacré à toutes les cibles à moins de 8 mètres." -- Sceau de piété
-L[31801] = "Les attaques de mêlée infligent des dégâts du Sacré en 15 s." -- Sceau de vérité
+L[103985] = "Dégâts infligés augmentée de 10%.\nVitesse de déplacement augmentée de 10%." -- Posture du tigre féroce
+L[115069] = "Armure augmentée de 50%.\nEndurance augmentée de 25%.\nDégâts magiques subis réduite de 10%." -- Posture du buffle vigoureux
+L[115070] = "Soins prodigués augmentés de 20%." -- Posture du serpent avisé
+L[154436] = "50% de tous les dégâts que vous infligez avec vos techniques et attaques en mêlée, y compris les frappes multiples, sont convertis en soins pour un allié blessé à moins de 20 mètres." -- Posture de la grue fougueuse
+L[105361] = "Attaques de mêlée infligent des dégâts du Sacré." -- Sceau d’autorité
+L[20165] = "Vitesse d’incantation augmentée de 10%.\nSoins prodigués augmentés de 5%.\nLes attaques de mêlée ont une chance de soigner." -- Sceau de clairvoyance
+L[20154] = "Attaques de mêlée infligent des dégâts du Sacré à toutes les cibles à moins de 8 mètres." -- Sceau de piété
+L[31801] = "Attaques de mêlée infligent des dégâts du Sacré en 15 s." -- Sceau de vérité
 
 -- Broker tooltip
 --L["Click to lock or unlock the frames."] = ""
@@ -231,8 +247,8 @@ L["Thick"] = "Epais"
 --L["Max Timer Duration"] = ""
 --L["Adjust the maximum remaining duration, in seconds, to show the timer text for a buff or debuff."] = ""
 --L["Show Stance Icons"] = ""
---L["Show fake buff icons for monk and warrior stances and paladin seals."] = ""
-L["Buff Sources"] = "Origines des Buffs"
+--L["Show fake buff icons for monk stances and paladin seals."] = ""
+L["Show Buff Sources"] = "Origines des Buffs"
 L["Show the name of the party or raid member who cast a buff on you in its tooltip."] = "Affiche dans le tooltip du buff le nom du membre du groupe ou raid qui l'a incanté."
 L["Cast by %s"] = "Incanté par %s"
 L["Lock Frames"] = "Verrouiller les cadres"
@@ -262,6 +278,10 @@ return end
 if LOCALE == "itIT" then
 
 -- Fake buff tooltip text
+L[103985] = "Danni inflitti aumentata del 10%.\nVelocità di movimento aumentata del 10%." -- Stile della Tigre
+L[115069] = "Armatura aumentata del 50%.\nTempra aumentata del 25%.\nDanni magici subiti ridotta del 10%." -- Stile dello Yak
+L[115070] = "Cure fornite aumentate del 20%." -- Stile della Serpe
+L[154436] = "Il 50% di tutti i danni inflitti in mischia e con le abilità, inclusi i danni replicati, vengono convertiti in cure per un bersaglio alleato ferito entro 20 m." -- Stile della Gru
 L[105361] = "Danni da sacro inflitti dagli attacchi in mischia." -- Sigillo di Comando
 L[20165] = "Velocità di lancio d'incantesimi aumentata del 10%.\nCure fornite aumentate del 5%.\nGli attacchi in mischia hanno una probabilità di curare." -- Sigillo della Consapevolezza
 L[20154] = "Gli attacchi in mischia infliggono danni da sacro contro tutti i bersagli entro 8 m." -- Sigillo della Rettitudine
@@ -307,8 +327,8 @@ L["Text Size"] = "Dimensione di carattere"
 L["Max Timer Duration"] = "Durata massima per testo"
 --L["Adjust the maximum remaining duration, in seconds, to show the timer text for a buff or debuff."] = "Adjust the maximum remaining duration, in seconds, to show the timer text for a buff or debuff."
 --L["Show Stance Icons"] = ""
---L["Show fake buff icons for monk and warrior stances and paladin seals."] = ""
-L["Buff Sources"] = "Origini di benefici"
+--L["Show fake buff icons for monk stances and paladin seals."] = ""
+L["Show Buff Sources"] = "Origini di benefici"
 --L["Show the name of the party or raid member who cast a buff on you in its tooltip."] = "Show the name of the party or raid member who cast a buff on you in its tooltip."
 L["Cast by %s"] = "Lanciato da %s"
 L["Lock Frames"] = "Blocca icone"
@@ -338,8 +358,12 @@ return end
 if LOCALE == "ptBR" then
 
 -- Fake buff tooltip text
+L[103985] = "Dano causado aumentada em 10%.\nVelocidade de movimento aumentada em 10%." -- Postura do Tigre Agressivo
+L[115069] = "Armadura aumentada em 50%.\nVigor aumentada em 25%.\nDano mágico recebido reduzido em 10%." -- Postura do Boi Resistente
+L[115070] = "Cura realizada aumentada em 20%." -- Postura da Serpente Sábia
+L[154436] = "50% de todo o dano causado por ataques e habilidades corpo a corpo, inclusive de Golpes Múltiplos, é convertido em cura para um aliado ferido em um raio de 20 m." -- Postura da Garça Impetuosa
 L[105361] = "Ataques corpo a corpo causam dano Sagrado." -- Selo da Retidão
-L[20165] = "Aumenta em 10% a velocidade de lançamento.\nMelhora em 5% a cura.\nAtaques corpo a corpo podem curar." -- Selo da Intuição
+L[20165] = "Velocidade de lançamento aumentada em 10%.\nCura realizada aumentada em 5%.\nAtaques corpo a corpo têm chance curar." -- Selo da Intuição
 L[20154] = "Ataques corpo a corpo causam dano Sagrado contra todos os alvos em um raio de 8 metros." -- Selo da Retidão
 L[31801] = "Ataques corpo a corpo causam dano Sagrado ao longo de 15 s." -- Selo da Verdade
 
@@ -383,8 +407,8 @@ L["Adjust the size of the stack count and timer text."] = "Ajustar o tamanho do 
 L["Max Timer Duration"] = "Duração máxima da cronometrista"
 L["Adjust the maximum remaining duration, in seconds, to show the timer text for a buff or debuff."] = "Alterar o máximo de tempo restante, em segundos, para mostrar o texto de tempo para um bônus ou penalidade."
 L["Show Stance Icons"] = "Mostrar ícones de posturas"
-L["Show fake buff icons for monk and warrior stances and paladin seals."] = "Mostrar auras representando posturas de guerreiros e monges e selos de paladinos."
-L["Buff Sources"] = "Origens dos bônus"
+L["Show fake buff icons for monk stances and paladin seals."] = "Mostrar auras representando posturas de monges e selos de paladinos."
+L["Show Buff Sources"] = "Origens dos bônus"
 L["Show the name of the party or raid member who cast a buff on you in its tooltip."] = "Mostrar na dica o nome do membro do grupo que aplicou em você o bônus."
 L["Cast by %s"] = "Aplicada por %s"
 L["Lock Frames"] = "Travar ícones"
@@ -414,19 +438,20 @@ return end
 if LOCALE == "ruRU" then
 
 -- Fake buff tooltip text
-
+L[103985] = "Наносимый урон увеличивается на 10%.\nСкорость передвижения повышается на 10%." -- Стойка разъяренного тигра
+L[115069] = "Показатель брони увеличивается на 50%.\nВыносливость повышается на 25%.\nПолучаемый урон от магии уменьшается на 10%." -- Стойка упорного быка
+L[115070] = "Эффективность лечения повышена на 20%." -- Стойка мудрой змеи
+L[154436] = "50% от урона, нанесенного вашими атаками ближнего боя и способностями, включая многократные атаки, восполняется в виде здоровья раненому союзнику, находящемуся в радиусе 20 м." -- Стойка смелого журавля
 L[105361] = "Атаки ближнего боя дополнительно наносят урон от светлой магии." -- Печать повиновения
-L[20165] = "Скорость произнесения заклинаний повышена на 10%.\nЭффективность исцеления повышена на 5%.\nАтаки ближнего боя могут исцелить вас." -- Печать прозрения
+L[20165] = "Скорость произнесения заклинаний повышена на 10%.\nЭффективность лечения повышена на 5%.\nАтаки ближнего боя могут исцелить вас." -- Печать прозрения
 L[20154] = "Атаки ближнего боя наносят урон от светлой магии всем целям в радиусе 8 м." -- Печать праведности
 L[31801] = "Атаки ближнего боя дополнительно наносят урон от светлой магии в течение 15 сек." -- Печать правды
 
 -- Broker tooltip
-
 --L["Click to lock or unlock the frames."] = ""
 --L["Right-click for options."] = ""
 
 -- Configuration panel
-
 L["Use this panel to adjust some basic settings for buff, debuff, and weapon buff icons."] = "Эти настройки позволяют настроить значков для положительных и отрицательных эффектов, и чар, связанных с оружием."
 L["Buff Size"] = "Размер баффы"
 L["Adjust the size of each buff icon."] = "Настроить размера значков положительного эффекта."
@@ -462,15 +487,14 @@ L["Adjust the size of the stack count and timer text."] = "Настроить р
 L["Max Timer Duration"] = "Максимальное время"
 L["Adjust the maximum remaining duration, in seconds, to show the timer text for a buff or debuff."] = "Установите максимальное количество времени в секундах, чтобы показать отметчик времени для эффект."
 --L["Show Stance Icons"] = ""
---L["Show fake buff icons for monk and warrior stances and paladin seals."] = ""
-L["Buff Sources"] = "Источники баффы"
+--L["Show fake buff icons for monk stances and paladin seals."] = ""
+L["Show Buff Sources"] = "Источники баффы"
 L["Show the name of the party or raid member who cast a buff on you in its tooltip."] = "Показать имя персонажа который наложил положительный эффект на вас во всплывающих подсказках."
 L["Cast by %s"] = "Наносится %s"
 L["Lock Frames"] = "Заблокировать значки"
 L["Lock the buff and debuff frames in place, hiding the backdrop and preventing them from being moved."] = "Заблокировать значки, предотвращение перемещения и скрытия фона."
 
 -- Slash commands
-
 L["lock"] = "заблокировать"
 L["unlock"] = "разблокировать"
 L["buff"] = "бафф"
@@ -494,8 +518,12 @@ return end
 if LOCALE == "koKR" then
 
 -- Fake buff tooltip text
+--L[103985] = "Damage dealt increased by 10%.\nMovement speed increased by 10%." -- Stance of the Fierce Tiger
+--L[115069] = "Armor increased by 50%.\nStamina increased by 25%.\nMagic damage taken reduced by 10%." -- Stance of the Sturdy Ox
+--L[115070] = "Healing done increased by 20%." -- Stance of the Wise Serpent
+--L[154436] = "50% of all damage you deal with your melee attacks and abilities, including multistrikes, will be converted into healing on an injured ally within 20 yards." -- Stance of the Spirited Crane
 --L[105361] = "Melee attacks cause Holy damage." -- Seal of Command
---L[20165] = "Improves casting speed by 10%.\nImproves healing by 5%.\nMelee attacks have a chance to heal." -- Seal of Insight
+--L[20165] = "Casting speed improved by 10%.\nHealing done increased by 5%.\nMelee attacks have a chance to heal." -- Seal of Insight
 --L[20154] = "Melee attacks cause Holy damage against all targets within 8 yards." -- Seal of Righteousness
 --L[31801] = "Melee attacks cause Holy damage over 15 sec." -- Seal of Truth
 
@@ -539,8 +567,8 @@ L["Adjust the size of the stack count and timer text."] = "중첩 카운트와 �
 L["Max Timer Duration"] = "최대 시간"
 L["Adjust the maximum remaining duration, in seconds, to show the timer text for a buff or debuff."] = "최대 시간, 초, 타이머를 표시합니다."
 --L["Show Stance Icons"] = ""
---L["Show fake buff icons for monk and warrior stances and paladin seals."] = ""
-L["Buff Sources"] = "버프 출처"
+--L["Show fake buff icons for monk stances and paladin seals."] = ""
+L["Show Buff Sources"] = "버프 출처"
 L["Show the name of the party or raid member who cast a buff on you in its tooltip."] = "파티원 또는 공격대원 중 당신에게 버프를 시전한 누군가의 이름을 툴팁에 보여줍니다."
 L["Cast by %s"] = "시전자: %s"
 L["Lock Frames"] = "프레임 잠금"
@@ -570,8 +598,12 @@ return end
 if LOCALE == "zhCN" then
 
 -- Fake buff tooltip text
+--L[103985] = "Damage dealt increased by 10%.\nMovement speed increased by 10%." -- Stance of the Fierce Tiger
+--L[115069] = "Armor increased by 50%.\nStamina increased by 25%.\nMagic damage taken reduced by 10%." -- Stance of the Sturdy Ox
+--L[115070] = "Healing done increased by 20%." -- Stance of the Wise Serpent
+--L[154436] = "50% of all damage you deal with your melee attacks and abilities, including multistrikes, will be converted into healing on an injured ally within 20 yards." -- Stance of the Spirited Crane
 --L[105361] = "Melee attacks cause Holy damage." -- Seal of Command
---L[20165] = "Improves casting speed by 10%.\nImproves healing by 5%.\nMelee attacks have a chance to heal." -- Seal of Insight
+--L[20165] = "Casting speed improved by 10%.\nHealing done increased by 5%.\nMelee attacks have a chance to heal." -- Seal of Insight
 --L[20154] = "Melee attacks cause Holy damage against all targets within 8 yards." -- Seal of Righteousness
 --L[31801] = "Melee attacks cause Holy damage over 15 sec." -- Seal of Truth
 
@@ -615,8 +647,8 @@ L["Left"] = "左侧"
 --L["Max Timer Duration"] = ""
 --L["Adjust the maximum remaining duration, in seconds, to show the timer text for a buff or debuff."] = ""
 --L["Show Stance Icons"] = ""
---L["Show fake buff icons for monk and warrior stances and paladin seals."] = ""
-L["Buff Sources"] = "Buff 来源"
+--L["Show fake buff icons for monk stances and paladin seals."] = ""
+L["Show Buff Sources"] = "Buff 来源"
 --L["Show the name of the party or raid member who cast a buff on you in its tooltip."] = ""
 L["Cast by %s"] = "来自 %s"
 --L["Weapon Buff Sources"] = ""
@@ -648,8 +680,12 @@ return end
 if LOCALE == "zhTW" then
 
 -- Fake buff tooltip text
+--L[103985] = "Damage dealt increased by 10%.\nMovement speed increased by 10%." -- Stance of the Fierce Tiger
+--L[115069] = "Armor increased by 50%.\nStamina increased by 25%.\nMagic damage taken reduced by 10%." -- Stance of the Sturdy Ox
+--L[115070] = "Healing done increased by 20%." -- Stance of the Wise Serpent
+--L[154436] = "50% of all damage you deal with your melee attacks and abilities, including multistrikes, will be converted into healing on an injured ally within 20 yards." -- Stance of the Spirited Crane
 --L[105361] = "Melee attacks cause Holy damage." -- Seal of Command
---L[20165] = "Improves casting speed by 10%.\nImproves healing by 5%.\nMelee attacks have a chance to heal." -- Seal of Insight
+--L[20165] = "Casting speed improved by 10%.\nHealing done increased by 5%.\nMelee attacks have a chance to heal." -- Seal of Insight
 --L[20154] = "Melee attacks cause Holy damage against all targets within 8 yards." -- Seal of Righteousness
 --L[31801] = "Melee attacks cause Holy damage over 15 sec." -- Seal of Truth
 
@@ -693,8 +729,8 @@ L["Adjust the size of the stack count and timer text."] = "調整堆疊計數和
 L["Max Timer Duration"] = "最大計時期間"
 L["Adjust the maximum remaining duration, in seconds, to show the timer text for a buff or debuff."] = "調整顯示buff或debuff的計時文字，最大的提醒期間，以秒數計。"
 L["Show Stance Icons"] = "顯示姿態圖標"
-L["Show fake buff icons for monk and warrior stances and paladin seals."] = "為武僧與戰士姿態以及聖騎士章顯示假造的增益圖標。"
-L["Buff Sources"] = "buff來源"
+L["Show fake buff icons for monk stances and paladin seals."] = "為武僧姿態以及聖騎士章顯示假造的增益圖標。" -- NEEDS CHECK
+L["Show Buff Sources"] = "buff來源"
 L["Show the name of the party or raid member who cast a buff on you in its tooltip."] = "在提示上顯示buff施放者的名字"
 L["Cast by %s"] = "由 %s 施放"
 L["Lock Frames"] = "鎖定框架"

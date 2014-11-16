@@ -23,7 +23,7 @@ L["Cast by |cff%02x%02x%02x%s|r"] = gsub(L["Cast by %s"], "%%s", "|cff%%02x%%02x
 local db, ignore
 local formIndex, formName, formIcon, formSpellID
 local buffUnit = "player"
-local buffs, cantCancel = {}, {}
+local buffs = {}
 
 local MAX_BUFFS = 40
 
@@ -33,30 +33,14 @@ local RaidBuffTray_Update, ShouldShowConsolidatedBuffFrame = RaidBuffTray_Update
 local ConsolidatedBuffsCount = ConsolidatedBuffsCount -- FrameXML objects
 
 local fakes = {
-	[(GetSpellInfo(103985))] = 103985, -- MONK: Stance of the Fierce Tiger
+	[(GetSpellInfo(103985))] = 103985, -- MONK: Stance of the Fierce Tiger -- show instead of halfassed "Windwalking" buff
 	[(GetSpellInfo(115069))] = 115069, -- MONK: Stance of the Sturdy Ox
 	[(GetSpellInfo(115070))] = 115070, -- MONK: Stance of the Wise Serpent
+	[(GetSpellInfo(154436))] = 154436, -- MONK: Stance of the Spirited Crane
 	[(GetSpellInfo(105361))] = 105361, -- PALADIN: Seal of Command
 	[(GetSpellInfo(20165))]  = 20165,  -- PALADIN: Seal of Insight
 	[(GetSpellInfo(20154))]  = 20154,  -- PALADIN: Seal of Righteousness
 	[(GetSpellInfo(31801))]  = 31801,  -- PALADIN: Seal of Truth
-	[(GetSpellInfo(2457))]   = 2457,   -- WARRIOR: Battle Stance
-	[(GetSpellInfo(71))]     = 71,     -- WARRIOR: Defensive Strance
-}
-
-local protected = {
-	[48263] = true, -- DEATHKNIGHT: Blood Presence
-	[48266] = true, -- DEATHKNIGHT: Frost Presence
-	[48265] = true, -- DEATHKNIGHT: Unholy Presence
-	[1066]  = true, -- DRUID: Aquatic Form
-	[5487]  = true, -- DRUID: Bear Form
-	[768]   = true, -- DRUID: Cat Form
-	[33943] = true, -- DRUID: Flight Form
-	[40120] = true, -- DRUID: Swift Flight Form
-	[783]   = true, -- DRUID: Travel Form
-	[33891] = true, -- DRUID: Tree of Life
-	[15473] = true, -- PRIEST: Shadowform
-	[1784]  = true, -- ROGUE: Stealth
 }
 
 ------------------------------------------------------------------------
@@ -149,36 +133,27 @@ local function button_OnEnter(self)
 			GameTooltip:Show()
 		end
 	end
-
-	if db.oneClickCancel and protected[buff.spellID]
-	and not buff.isFake and not cantCancel[buff.name]
-	and not InCombatLockdown()
-	and not (IsAltKeyDown() and IsShiftKeyDown()) then
-		PhanxBuffsCancelButton:SetMacro(self, buff.icon, "/cancelaura " .. buff.name)
-	end
 end
 
 local function button_OnLeave()
 	GameTooltip:Hide()
-	if not InCombatLockdown() then
-		PhanxBuffsCancelButton:Hide()
+end
+
+local function button_PreClick(self, btn)
+	local buff = buffs[self:GetID()]
+	if not buff then return end
+	if btn == "RightButton" and not InCombatLockdown() and not (IsAltKeyDown() and IsShiftKeyDown()) then
+		PhanxBuffsCancelButton:SetMacro(self, buff.icon, "/cancelaura " .. buff.name)
 	end
 end
 
 local function button_OnClick(self)
 	local buff = buffs[self:GetID()]
 	if not buff then return end
-
 	if IsAltKeyDown() and IsShiftKeyDown() then
 		ignore[buff.name] = true
 		print("|cffffcc00PhanxBuffs:|r", format(ns.L["Now ignoring buff: %s"], buff.name))
 		self:GetParent():Update()
-	elseif buff.isFake or cantCancel[buff.name] or InCombatLockdown() then
-		-- do nothing
-	elseif db.oneClickCancel and not protected[buff.spellID] then
-		CancelUnitBuff(buffUnit, buff.index, "HELPFUL")
-	else
-		PhanxBuffsCancelButton:SetMacro(self, buff.icon, "/cancelaura " .. buff.name)
 	end
 end
 
@@ -190,6 +165,7 @@ local buttons = setmetatable({}, { __index = function(t, i)
 	button:SetHeight(db.buffSize)
 	button:SetScript("OnEnter", button_OnEnter)
 	button:SetScript("OnLeave", button_OnLeave)
+	button:SetScript("PreClick", button_PreClick)
 	button:SetScript("OnClick", button_OnClick)
 
 	t[i] = button
@@ -284,17 +260,13 @@ function PhanxBuffFrame:Update()
 	end
 
 	local consolidate = ShouldShowConsolidatedBuffFrame()
-	local formHasBuff
 
 	for i = 1, 100 do
 		local name, _, icon, count, kind, duration, expires, caster, _, shouldConsolidate, spellID = UnitAura(buffUnit, i, "HELPFUL")
 		if not name or not icon or icon == "" then break end
 
-		if name == formName and icon == formIcon then
-			formHasBuff = true
-		end
-
-		if not ignore[name] and not (consolidate and shouldConsolidate) then
+		-- Hardcode exception for "Windwalking" buff, show Stance of the Fierce Tiger fake buff instead
+		if not ignore[name] and not (spellID == 166646 and db.showFakeBuffs) and not (consolidate and shouldConsolidate) then
 			local t = newTable()
 
 			t.name = name
@@ -311,7 +283,7 @@ function PhanxBuffFrame:Update()
 		end
 	end
 
-	if formSpellID and not formHasBuff and db.showFakeBuffs then
+	if formSpellID and db.showFakeBuffs then
 		local t = newTable()
 
 		local _, _, icon = GetSpellInfo(formSpellID)
@@ -331,12 +303,6 @@ function PhanxBuffFrame:Update()
 	end
 
 	sort(buffs, BuffSort)
-
-	for i = 1, 100 do
-		local name, _, icon = UnitAura(buffUnit, i, "HELPFUL NOT_CANCELABLE")
-		if not name or not icon or icon == "" then break end
-		cantCancel[name] = true
-	end
 
 	if consolidate then
 		RaidBuffTray_Update()
