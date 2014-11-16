@@ -1,5 +1,5 @@
 ## Interface: 60000
-## Version: 6.0.2.wowi:revision
+## Version: 6.0.2.167
 
 ## Title: PhanxBuffs
 ## Notes: Basic replacement for the player buff, debuff, and temporary enchant frames.
@@ -12,15 +12,10 @@
 
 ## Author: Phanx
 ## X-Email: addons@phanx.net
-## X-Copyright: Copyright (c) 2010-2014 Phanx.
-## X-License: All rights reserved.
-## X-CompatibleLocales: deDE, enUS, esES, esMX, frFR, itIT, koKR, ptBR, ruRU, zhCN, zhTW
-## X-Localizations: deDE, enUS, esES, esMX, frFR, itIT, koKR, ptBR, ruRU, zhTW
-## X-Website: http://www.wowinterface.com/downloads/info16874-PhanxBuffs.html
-## X-Curse-Project-ID: phanxbuffs
-## X-WoWI-ID: 16874
+## X-Copyright: Copyright (c) 2010-2014 Phanx. All rights reserved.
+## X-Website: https://github.com/Phanx/PhanxBuffs
 
-## OptionalDependencies: LibAboutPanel, LibSharedMedia-3.0, Masque
+## OptionalDependencies: Masque, LibAboutPanel, LibSharedMedia-3.0, PhanxConfigWidgets
 ## SavedVariables: PhanxBuffsDB
 ## SavedVariablesPerCharacter: PhanxBuffsIgnoreDB
 
