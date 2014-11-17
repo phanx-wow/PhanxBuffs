@@ -108,8 +108,8 @@ end
 ------------------------------------------------------------------------
 
 function PhanxTempEnchantFrame:Update()
-	local mainHandEnchant, mainHandExpiration, mainHandCharges,
-		offHandEnchant, offHandExpiration, offHandCharges = GetWeaponEnchantInfo()
+	local mainHandEnchant, mainHandExpiration, mainHandCharges, mainHandEnchantID,
+		offHandEnchant, offHandExpiration, offHandCharges offHandEnchantID = GetWeaponEnchantInfo()
 
 	local numEnchants = 0
 
