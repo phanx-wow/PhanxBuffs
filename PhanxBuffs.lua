@@ -30,7 +30,6 @@ local defaultDB = {
 
 	showFakeBuffs = true,
 	showBuffSources = true,
-	oneClickCancel = true,
 
 	minimapIcon = {},
 }
@@ -173,13 +172,12 @@ cancelButton:Hide()
 
 cancelButton:RegisterForClicks("LeftButtonDown", "RightButtonDown")
 cancelButton:SetAttribute("unit", "player")
-cancelButton:SetAttribute("*type1", "macro")
-cancelButton:SetAttribute("*macrotext1", "/run if not db.oneClickCancel and not InCombatLockdown() then PhanxBuffsCancelButton:Hide() end")
-cancelButton:SetAttribute("*type2", "macro")
+cancelButton:SetAttribute("type2", "macro")
 
 cancelButton.overlay = cancelButton:CreateTexture(nil, "BACKGROUND")
 cancelButton.overlay:SetAllPoints(true)
 cancelButton.overlay:SetTexture(1, 0, 0, 0.5)
+cancelButton.overlay:Hide()
 
 cancelButton.icon = cancelButton:CreateTexture(nil, "BACKGROUND")
 cancelButton.icon:SetAllPoints(true)
@@ -192,9 +190,8 @@ function cancelButton:SetMacro(button, macro)
 	self:SetPoint("BOTTOMRIGHT", button, "BOTTOMRIGHT", 2, -2)
 	self:SetFrameLevel(100)
 
-	self.overlay:SetShown(not db.oneClickCancel)
-
-	self:SetAttribute("*macrotext2", macro .. "\n/run if not InCombatLockdown() then PhanxBuffsCancelButton:Hide() end")
+	self.owner = button
+	self:SetAttribute("macrotext2", macro .. "\n/run if not InCombatLockdown() then PhanxBuffsCancelButton:Hide() end")
 
 	self:Show()
 end
@@ -202,6 +199,20 @@ end
 cancelButton:SetScript("OnHide", function(self)
 	self:ClearAllPoints()
 	self:SetPoint("CENTER", UIParent, 0, 0)
+	if self.owner and self.owner:IsMouseOver() then
+		self.owner:GetScript("OnEnter")(self.owner)
+	else
+		self.owner:GetScript("OnLeave")(self.owner)
+	end
+	self.owner = nil
+end)
+
+cancelButton:SetScript("OnEnter", function(self)
+	return self.owner:GetScript("OnEnter")(self.owner)
+end)
+
+cancelButton:SetScript("OnLeave", function(self)
+	self:Hide()
 end)
 
 cancelButton:RegisterEvent("PLAYER_REGEN_DISABLED")
