@@ -127,17 +127,15 @@ local function button_OnEnter(self)
 			GameTooltip:Show()
 		end
 	end
+
+	if not InCombatLockdown() and (PhanxBuffsCancelButton.owner ~= self) then
+		PhanxBuffsCancelButton:SetMacro(self, "/cancelaura " .. buff.name)
+	end
 end
 
-local function button_OnLeave()
-	GameTooltip:Hide()
-end
-
-local function button_PreClick(self, btn)
-	local buff = buffs[self:GetID()]
-	if not buff then return end
-	if btn == "RightButton" and not InCombatLockdown() and not (IsAltKeyDown() and IsShiftKeyDown()) then
-		PhanxBuffsCancelButton:SetMacro(self, buff.icon, "/cancelaura " .. buff.name)
+local function button_OnLeave(self)
+	if not self:IsMouseOver() then
+		GameTooltip:Hide()
 	end
 end
 
