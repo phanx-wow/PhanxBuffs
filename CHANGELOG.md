@@ -1,3 +1,9 @@
+### Version 6.0.3.40
+
+* Updated fake stance/seal buffs for WoD changes
+* Removed support for two-click cancelling -- buffs are now cancelled immediately on right-click
+* Removed support for showing weapon buff sources, since they now exist only as fishing lures and useless low-level legacy items
+
 ### Version 6.0.2.167
 
 * Updated for WoW 6.0
