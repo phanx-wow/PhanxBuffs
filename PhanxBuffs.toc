@@ -1,5 +1,5 @@
 ## Interface: 60000
-## Version: 6.0.2.167
+## Version: @project-version@
 
 ## Title: PhanxBuffs
 ## Notes: Basic replacement for the player buff, debuff, and temporary enchant frames.
