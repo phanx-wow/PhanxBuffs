@@ -16,9 +16,9 @@ externals:
    Libs/LibDataBroker-1.1: git://git.wowace.com/wow/libdatabroker-1-1/mainline.git
    Libs/LibSharedMedia-3.0: svn://svn.wowace.com/wow/libsharedmedia-3-0/mainline/trunk/LibSharedMedia-3.0
    Libs/LibStub: svn://svn.wowace.com/wow/libstub/mainline/tags/1.0
-   Libs/PhanxConfig-Checkbox: https://github.com/Phanx/PhanxConfig-Checkbox.git
-   Libs/PhanxConfig-Dropdown: https://github.com/Phanx/PhanxConfig-Dropdown.git
-   Libs/PhanxConfig-EditBox: https://github.com/Phanx/PhanxConfig-EditBox.git
-   Libs/PhanxConfig-Header: https://github.com/Phanx/PhanxConfig-Header.git
-   Libs/PhanxConfig-OptionsPanel: https://github.com/Phanx/PhanxConfig-OptionsPanel.git
-   Libs/PhanxConfig-Slider: https://github.com/Phanx/PhanxConfig-Slider.git
+   Libs/PhanxConfig-Checkbox: git://github.com/Phanx/PhanxConfig-Checkbox.git
+   Libs/PhanxConfig-Dropdown: git://github.com/Phanx/PhanxConfig-Dropdown.git
+   Libs/PhanxConfig-EditBox: git://github.com/Phanx/PhanxConfig-EditBox.git
+   Libs/PhanxConfig-Header: git://github.com/Phanx/PhanxConfig-Header.git
+   Libs/PhanxConfig-OptionsPanel: git://github.com/Phanx/PhanxConfig-OptionsPanel.git
+   Libs/PhanxConfig-Slider: git://github.com/Phanx/PhanxConfig-Slider.git
