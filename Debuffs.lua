@@ -133,7 +133,10 @@ local buttons = setmetatable({}, { __index = function(t, i)
 	button.symbol:SetPoint("BOTTOMRIGHT", button)
 	button.symbol:SetShadowOffset(1, -1)
 
-	if not PhanxBorder then
+	local file, scale, outline = GetFontFile(), db.fontScale, db.fontOutline
+	button.symbol:SetFont(file, ns.SYMBOL_SIZE * scale, outline)
+
+	if not PhanxBorder or (IsAddOnLoaded("Masque") and not db.noMasque) then
 		button.border = button:CreateTexture(nil, "BORDER")
 		button.border:SetPoint("TOPLEFT", button, -3, 2)
 		button.border:SetPoint("BOTTOMRIGHT", button, 2, -2)

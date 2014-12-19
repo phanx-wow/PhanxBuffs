@@ -1,3 +1,7 @@
+### Version 6.0.3.41
+
+* Fixed an issue with Masque support
+
 ### Version 6.0.3.40
 
 * Updated fake stance/seal buffs for WoD changes

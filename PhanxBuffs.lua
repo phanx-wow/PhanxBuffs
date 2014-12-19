@@ -57,6 +57,10 @@ L["%d seconds remaining"] = SPELL_TIME_REMAINING_SEC -- "%d |4second:seconds; re
 
 local Media = LibStub("LibSharedMedia-3.0")
 
+ns.COUNT_SIZE  = 18
+ns.TIMER_SIZE  = 14
+ns.SYMBOL_SIZE = 16
+
 ------------------------------------------------------------------------
 
 local function GetFontFile(name)
@@ -72,10 +76,10 @@ local function SetButtonFonts(parent, face, outline)
 
 	for i = 1, #parent.buttons do
 		local button = parent.buttons[i]
-		button.count:SetFont(file, 18 * scale, outline)
-		button.timer:SetFont(file, 14 * scale, outline)
+		button.count:SetFont(file, ns.COUNT_SIZE * scale, outline)
+		button.timer:SetFont(file, ns.TIMER_SIZE * scale, outline)
 		if button.symbol then
-			button.symbol:SetFont(file, 16 * scale, outline)
+			button.symbol:SetFont(file, ns.SYMBOL_SIZE * scale, outline)
 		end
 	end
 end
@@ -133,6 +137,7 @@ eventFrame:SetScript("OnEvent", function(self, event)
 		end
 		Media.RegisterCallback(self, "LibSharedMedia_Registered", MediaCallback)
 		Media.RegisterCallback(self, "LibSharedMedia_SetGlobal", MediaCallback)
+		MediaCallback(event, "font")
 
 		BuffFrame:Hide()
 		TemporaryEnchantFrame:Hide()
@@ -239,6 +244,10 @@ function ns.CreateAuraIcon(parent)
 	button.timer = button:CreateFontString(nil, "OVERLAY")
 	button.timer:SetPoint("TOP", button, "BOTTOM")
 	button.timer:SetShadowOffset(1, -1)
+
+	local file, scale, outline = GetFontFile(), db.fontScale, db.fontOutline
+	button.count:SetFont(file, ns.COUNT_SIZE * scale, outline)
+	button.timer:SetFont(file, ns.TIMER_SIZE * scale, outline)
 
 	if PhanxBorder and (db.noMasque or not LibStub("Masque", true)) then
 		PhanxBorder.AddBorder(button)
