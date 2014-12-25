@@ -157,7 +157,6 @@ local buttons = setmetatable({}, { __index = function(t, i)
 	button:SetHeight(db.buffSize)
 	button:SetScript("OnEnter", button_OnEnter)
 	button:SetScript("OnLeave", button_OnLeave)
-	button:SetScript("PreClick", button_PreClick)
 	button:SetScript("OnClick", button_OnClick)
 
 	t[i] = button

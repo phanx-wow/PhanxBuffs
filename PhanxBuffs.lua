@@ -175,20 +175,30 @@ cancelButton:SetPoint("CENTER")
 cancelButton:SetSize(64, 64)
 cancelButton:Hide()
 
-cancelButton:RegisterForClicks("LeftButtonDown", "RightButtonDown")
-cancelButton:SetAttribute("unit", "player")
-cancelButton:SetAttribute("type2", "macro")
+function cancelButton:Setup()
+	self:RegisterForClicks("RightButtonUp")
+	self:SetAttribute("unit", "player")
+	self:SetAttribute("type2", "macro")
 
-cancelButton.overlay = cancelButton:CreateTexture(nil, "BACKGROUND")
-cancelButton.overlay:SetAllPoints(true)
-cancelButton.overlay:SetTexture(1, 0, 0, 0.5)
-cancelButton.overlay:Hide()
+	self.overlay = self:CreateTexture(nil, "BACKGROUND")
+	self.overlay:SetAllPoints(true)
+	self.overlay:SetTexture(1, 0, 0, 0.5)
+	self.overlay:Hide()
 
-cancelButton.icon = cancelButton:CreateTexture(nil, "BACKGROUND")
-cancelButton.icon:SetAllPoints(true)
+	self:SetScript("PreClick", function(self, button)
+		self.owner:Click(button)
+	end)
+	
+	self:SetScript("PostClick", function(self, button)
+		return not InCombatLockdown() and self:Hide()
+	end)
+
+	self.Setup = nil
+end
 
 function cancelButton:SetMacro(button, macro)
 	if InCombatLockdown() then return end
+	if self.Setup then self:Setup() end
 
 	self:ClearAllPoints()
 	self:SetPoint("TOPLEFT", button, "TOPLEFT", -2, 2)
@@ -196,7 +206,7 @@ function cancelButton:SetMacro(button, macro)
 	self:SetFrameLevel(100)
 
 	self.owner = button
-	self:SetAttribute("macrotext2", macro .. "\n/run if not InCombatLockdown() then PhanxBuffsCancelButton:Hide() end")
+	self:SetAttribute("macrotext2", "/stopmacro [mod:alt,mod:shift]\n" .. macro)
 
 	self:Show()
 end

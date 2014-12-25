@@ -85,7 +85,7 @@ local function button_OnEnter(self)
 	GameTooltip:SetOwner(self, "ANCHOR_BOTTOMLEFT")
 	GameTooltip:SetUnitAura(debuffUnit, debuff.index, "HARMFUL")
 
-	if db.oneClickCancel and not InCombatLockdown() and not (IsAltKeyDown() and IsShiftKeyDown()) then
+	if not InCombatLockdown() and (PhanxBuffsCancelButton.owner ~= self) then
 		local macro = GetDispelMacro and GetDispelMacro(debuff.kind)
 		if macro then
 			PhanxBuffsCancelButton:SetMacro(self, debuff.icon, macro)
