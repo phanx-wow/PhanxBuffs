@@ -1,6 +1,7 @@
 ### Version 6.0.3.41
 
 * Fixed an issue with Masque support
+* Fixed an issue with Alt + Shift + rightclick to ignore
 
 ### Version 6.0.3.40
 
