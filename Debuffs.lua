@@ -102,17 +102,10 @@ end
 
 local function button_OnClick(self)
 	local debuff = debuffs[self:GetID()]
-	if not debuff then return end
-
-	if IsAltKeyDown() and IsShiftKeyDown() then
+	if debuff and IsAltKeyDown() and IsShiftKeyDown() then
 		ignore[debuff.name] = true
 		print("|cffffcc00PhanxBuffs:|r", format(ns.L["Now ignoring debuff:"], debuff.name))
 		self:GetParent():Update()
-	elseif not InCombatLockdown() then
-		local macro = GetDispelMacro and GetDispelMacro(debuff.kind)
-		if macro then
-			PhanxBuffsCancelButton:SetMacro(self, debuff.icon, macro)
-		end
 	end
 end
 

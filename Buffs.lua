@@ -141,8 +141,7 @@ end
 
 local function button_OnClick(self)
 	local buff = buffs[self:GetID()]
-	if not buff then return end
-	if IsAltKeyDown() and IsShiftKeyDown() then
+	if buff and IsAltKeyDown() and IsShiftKeyDown() then
 		ignore[buff.name] = true
 		print("|cffffcc00PhanxBuffs:|r", format(ns.L["Now ignoring buff: %s"], buff.name))
 		self:GetParent():Update()
