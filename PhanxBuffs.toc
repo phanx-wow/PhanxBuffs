@@ -22,7 +22,6 @@
 Libs\LibStub\LibStub.lua
 Libs\CallbackHandler-1.0\CallbackHandler-1.0.lua
 Libs\LibAboutPanel\LibAboutPanel.lua
-Libs\LibDataBroker-1.1\LibDataBroker-1.1.lua
 Libs\LibSharedMedia-3.0\LibSharedMedia-3.0.lua
 Libs\PhanxConfig-Checkbox\PhanxConfig-Checkbox.lua
 Libs\PhanxConfig-Dropdown\PhanxConfig-Dropdown.lua

@@ -106,25 +106,28 @@ eventFrame:SetScript("OnEvent", function(self, event)
 		PhanxBuffsDB = initDB(PhanxBuffsDB, defaultDB)
 		db = PhanxBuffsDB
 
-		self.broker = LibStub("LibDataBroker-1.1"):NewDataObject(ADDON_NAME, {
-			type = "launcher",
-			icon = "Interface\\Icons\\Ability_Warrior_ShieldMastery",
-			OnTooltipShow = function(tooltip)
-				tooltip:AddLine(ADDON_NAME, 1, 1, 1)
-				tooltip:AddLine(L["Click to lock or unlock the frames."])
-				tooltip:AddLine(L["Right-click for options."])
-				tooltip:Show()
-			end,
-			OnClick = function(_, button)
-				if button == "RightButton" then
-					-- double up to work around Blizz bug
-					InterfaceOptionsFrame_OpenToCategory(ns.optionsPanel)
-					InterfaceOptionsFrame_OpenToCategory(ns.optionsPanel)
-				else
-					ns.ToggleFrameLocks()
-				end
-			end,
-		})
+		local LDB = LibStub("LibDataBroker-1.1", true)
+		if LDB then
+			LDB:NewDataObject(ADDON_NAME, {
+				type = "launcher",
+				icon = "Interface\\Icons\\Ability_Warrior_ShieldMastery",
+				OnTooltipShow = function(tooltip)
+					tooltip:AddLine(ADDON_NAME, 1, 1, 1)
+					tooltip:AddLine(L["Click to lock or unlock the frames."])
+					tooltip:AddLine(L["Right-click for options."])
+					tooltip:Show()
+				end,
+				OnClick = function(_, button)
+					if button == "RightButton" then
+						-- double up to work around Blizz bug
+						InterfaceOptionsFrame_OpenToCategory(ns.optionsPanel)
+						InterfaceOptionsFrame_OpenToCategory(ns.optionsPanel)
+					else
+						ns.ToggleFrameLocks()
+					end
+				end,
+			})
+		end
 
 		PhanxBuffsIgnoreDB = initDB(PhanxBuffsIgnoreDB, defaultIgnore)
 
