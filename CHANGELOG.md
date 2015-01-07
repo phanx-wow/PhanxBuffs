@@ -1,7 +1,8 @@
 ### Version 6.0.3.41
 
 * Fixed an issue with Masque support
-* Fixed an issue with Alt + Shift + rightclick to ignore
+* Fixed an issue with ignoring buffs with Alt+Shift+Right-Click
+* Removed embedded LibDataBroker -- it's still supported with a launcher icon, just not required
 
 ### Version 6.0.3.40
 
