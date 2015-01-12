@@ -3,7 +3,7 @@
 
 ## Title: PhanxBuffs
 ## Notes: Basic replacement for the player buff, debuff, and temporary enchant frames.
-## Notes-deDE: Einfacher Ersatz für die Stärkungszauber-, Schwächungszauber- und Waffenverzauberungssymbole des Spielers.
+## Notes-deDE: Einfacher Ersatz für die Stärkungszauber-, Schwächungszauber- und Waffenverzauberungs-Anzeige des Spielers.
 ## Notes-esES: Sustitutos básicos de los iconos del jugador de beneficios, perjuicios y encancamientos de armas.
 ## Notes-esMX: Sustitutos básicos de los iconos del jugador de beneficios, perjuicios y encancamientos de armas.
 ## Notes-ptBR: Substituições básicas para os ícones do jogador de bônus, penalidades e encantamentos de armas.
@@ -27,6 +27,7 @@ Libs\PhanxConfig-Checkbox\PhanxConfig-Checkbox.lua
 Libs\PhanxConfig-Dropdown\PhanxConfig-Dropdown.lua
 Libs\PhanxConfig-EditBox\PhanxConfig-EditBox.lua
 Libs\PhanxConfig-Header\PhanxConfig-Header.lua
+Libs\PhanxConfig-MediaDropdown\PhanxConfig-MediaDropdown.lua
 Libs\PhanxConfig-OptionsPanel\PhanxConfig-OptionsPanel.lua
 Libs\PhanxConfig-Slider\PhanxConfig-Slider.lua
 

@@ -499,33 +499,15 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 
 	---------------------------------------------------------------------
 
-	local fontFace = self:CreateDropdown(L["Typeface"], L["Set the typeface for the stack count and timer text."], Media:List("font"))
+	local fontFace = self:CreateMediaDropdown(L["Typeface"], L["Set the typeface for the stack count and timer text."], "font")
 	fontFace:SetPoint("TOPLEFT", buffAnchorV, "BOTTOMLEFT", 0, -32)
 	fontFace:SetPoint("TOPRIGHT", buffAnchorH, "BOTTOMRIGHT", 0, -32)
 
 	function fontFace:OnValueChanged(value)
-		local _, height, flags = self.valueText:GetFont()
-		self.valueText:SetFont(Media:Fetch("font", value), height, flags)
-
 		db.fontFace = value
 		SetButtonFonts(PhanxBuffFrame, value)
 		SetButtonFonts(PhanxDebuffFrame, value)
 		SetButtonFonts(PhanxTempEnchantFrame, value)
-	end
-
-	function fontFace:OnListButtonChanged(button, value, selected)
-		if button:IsShown() then
-			local buttonText = button:GetFontString()
-			local _, height, flags = buttonText:GetFont()
-			buttonText:SetFont(Media:Fetch("font", value), height, flags)
-		end
-	end
-
-	fontFace.__SetValue = fontFace.SetValue
-	function fontFace:SetValue(value)
-		local _, height, flags = self.valueText:GetFont()
-		self.valueText:SetFont(Media:Fetch("font", value), height, flags)
-		self:__SetValue(value)
 	end
 
 	---------------------------------------------------------------------
