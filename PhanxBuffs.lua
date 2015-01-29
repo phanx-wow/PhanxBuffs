@@ -395,8 +395,8 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 	---------------------------------------------------------------------
 
 	local buffAnchorV = self:CreateDropdown(L["Buff Anchor"], L["Choose whether the buff icons grow from top to bottom, or bottom to top."])
-	buffAnchorV:SetPoint("TOPLEFT", buffColumns, "BOTTOMLEFT", 0, -14)
-	buffAnchorV:SetPoint("TOPRIGHT", buffColumns, "BOTTOM", 0, -14)
+	buffAnchorV:SetPoint("TOPLEFT", buffColumns, "BOTTOMLEFT", 0, -12)
+	buffAnchorV:SetPoint("TOPRIGHT", buffColumns, "BOTTOM", 0, -12)
 
 	buffAnchorV:SetList({
 		{ value = "TOP",    text = L["Top"]    },
@@ -412,8 +412,8 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 	---------------------------------------------------------------------
 
 	local buffAnchorH = self:CreateDropdown(L["Buff Anchor"], L["Choose whether the buff icons grow from left to right, or right to left."])
-	buffAnchorH:SetPoint("TOPLEFT", buffColumns, "BOTTOM", 0, -14)
-	buffAnchorH:SetPoint("TOPRIGHT", buffColumns, "BOTTOMRIGHT", 0, -14)
+	buffAnchorH:SetPoint("TOPLEFT", buffColumns, "BOTTOM", 0, -12)
+	buffAnchorH:SetPoint("TOPRIGHT", buffColumns, "BOTTOMRIGHT", 0, -12)
 
 	buffAnchorH:SetList({
 		{ value = "LEFT",  text = L["Left"]  },
@@ -465,8 +465,8 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 	---------------------------------------------------------------------
 
 	local debuffAnchorV = self:CreateDropdown(L["Debuff Anchor"], L["Choose whether the debuff icons grow from top to bottom, or bottom to top."])
-	debuffAnchorV:SetPoint("TOPLEFT", debuffColumns, "BOTTOMLEFT", 0, -14)
-	debuffAnchorV:SetPoint("TOPRIGHT", debuffColumns, "BOTTOM", 0, -14)
+	debuffAnchorV:SetPoint("TOPLEFT", debuffColumns, "BOTTOMLEFT", 0, -12)
+	debuffAnchorV:SetPoint("TOPRIGHT", debuffColumns, "BOTTOM", 0, -12)
 
 	debuffAnchorV:SetList({
 		{ value = "TOP",    text = L["Top"]    },
@@ -481,8 +481,8 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 	---------------------------------------------------------------------
 
 	local debuffAnchorH = self:CreateDropdown(L["Debuff Anchor"], L["Choose whether the debuff icons grow from left to right, or right to left."])
-	debuffAnchorH:SetPoint("TOPLEFT", debuffColumns, "BOTTOM", 0, -14)
-	debuffAnchorH:SetPoint("TOPRIGHT", debuffColumns, "BOTTOMRIGHT", 0, -14)
+	debuffAnchorH:SetPoint("TOPLEFT", debuffColumns, "BOTTOM", 0, -12)
+	debuffAnchorH:SetPoint("TOPRIGHT", debuffColumns, "BOTTOMRIGHT", 0, -12)
 
 	debuffAnchorH:SetList({
 		{ value = "LEFT",  text = L["Left"]  },
@@ -545,8 +545,8 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 	---------------------------------------------------------------------
 
 	local maxTimer = self:CreateSlider(L["Max Timer Duration"], L["Adjust the maximum remaining duration, in seconds, to show the timer text for a buff or debuff."], 0, 600, 30)
-	maxTimer:SetPoint("TOPLEFT", fontScale, "BOTTOMLEFT", 0, -32)
-	maxTimer:SetPoint("TOPRIGHT", fontScale, "BOTTOMRIGHT", 0, -32)
+	maxTimer:SetPoint("TOPLEFT", debuffAnchorV, "BOTTOMLEFT", 0, -32)
+	maxTimer:SetPoint("TOPRIGHT", debuffAnchorH, "BOTTOMRIGHT", 0, -32)
 
 	function maxTimer:OnValueChanged(value)
 		db.maxTimer = value
@@ -558,7 +558,7 @@ local optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDO
 	---------------------------------------------------------------------
 
 	local consolidateBuffs = self:CreateCheckbox(CONSOLIDATE_BUFFS_TEXT, OPTION_TOOLTIP_CONSOLIDATE_BUFFS)
-	consolidateBuffs:SetPoint("TOPLEFT", debuffAnchorV, "BOTTOMLEFT", 0, -44)
+	consolidateBuffs:SetPoint("TOPLEFT", maxTimer, "BOTTOMLEFT", 0, -8)
 
 	function consolidateBuffs:OnValueChanged(checked)
 		SetCVar("consolidateBuffs", checked and 1 or 0)
