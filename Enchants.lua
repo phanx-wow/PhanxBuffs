@@ -1,7 +1,7 @@
 --[[--------------------------------------------------------------------
 	PhanxBuffs
 	Replacement player buff, debuff, and temporary enchant frames.
-	Copyright (c) 2010-2014 Phanx <addons@phanx.net>. All rights reserved.
+	Copyright (c) 2010-2015 Phanx <addons@phanx.net>. All rights reserved.
 	http://www.wowinterface.com/downloads/info16874-PhanxBuffs.html
 	http://www.curse.com/addons/wow/phanxbuffs
 	https://github.com/Phanx/PhanxBuffs
@@ -109,7 +109,7 @@ end
 
 function PhanxTempEnchantFrame:Update()
 	local mainHandEnchant, mainHandExpiration, mainHandCharges, mainHandEnchantID,
-		offHandEnchant, offHandExpiration, offHandCharges offHandEnchantID = GetWeaponEnchantInfo()
+		offHandEnchant, offHandExpiration, offHandCharges, offHandEnchantID = GetWeaponEnchantInfo()
 
 	local numEnchants = 0
 
