@@ -1,4 +1,4 @@
-## Interface: 60000
+## Interface: 60100
 ## Version: @project-version@
 
 ## Title: PhanxBuffs
@@ -12,7 +12,7 @@
 
 ## Author: Phanx
 ## X-Email: addons@phanx.net
-## X-Copyright: Copyright (c) 2010-2014 Phanx. All rights reserved.
+## X-Copyright: Copyright (c) 2010-2015 Phanx. All rights reserved.
 ## X-Website: https://github.com/Phanx/PhanxBuffs
 
 ## OptionalDependencies: Masque, LibAboutPanel, LibSharedMedia-3.0, PhanxConfigWidgets
