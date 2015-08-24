@@ -217,15 +217,16 @@ end
 cancelButton:SetScript("OnHide", function(self)
 	self:ClearAllPoints()
 	self:SetPoint("CENTER", UIParent, 0, 0)
-	if self.owner and self.owner:IsMouseOver() then
-		self.owner:GetScript("OnEnter")(self.owner)
-	else
-		self.owner:GetScript("OnLeave")(self.owner)
+	if self.owner then
+		self.owner:GetScript(self.owner:IsMouseOver() and "OnEnter" or "OnLeave")(self.owner)
 	end
 	self.owner = nil
 end)
 
 cancelButton:SetScript("OnEnter", function(self)
+	if not self.owner then
+		return self:Hide()
+	end
 	return self.owner:GetScript("OnEnter")(self.owner)
 end)
 
