@@ -1,10 +1,10 @@
 --[[--------------------------------------------------------------------
 	PhanxBuffs
 	Replacement player buff, debuff, and temporary enchant frames.
-	Copyright (c) 2010-2015 Phanx <addons@phanx.net>. All rights reserved.
-	http://www.wowinterface.com/downloads/info16874-PhanxBuffs.html
-	http://www.curse.com/addons/wow/phanxbuffs
+	Copyright (c) 2010-2016 Phanx <addons@phanx.net>. All rights reserved.
 	https://github.com/Phanx/PhanxBuffs
+	http://mods.curse.com/addons/wow/phanxbuffs
+	http://www.wowinterface.com/downloads/info16874-PhanxBuffs.html
 ----------------------------------------------------------------------]]
 
 local PhanxDebuffFrame = CreateFrame("Frame", "PhanxDebuffFrame", UIParent)
@@ -82,7 +82,7 @@ local function button_OnEnter(self)
 	local debuff = debuffs[self:GetID()]
 	if not debuff then return end
 
-	GameTooltip:SetOwner(self, "ANCHOR_BOTTOMLEFT")
+	GameTooltip:SetOwner(self, "ANCHOR_" .. (db.buffAnchorV == "TOP" and "BOTTOM" or "TOP") .. (db.buffAnchorH == "RIGHT" and "LEFT" or "RIGHT"))
 	GameTooltip:SetUnitAura(debuffUnit, debuff.index, "HARMFUL")
 
 	if not InCombatLockdown() and (PhanxBuffsCancelButton.owner ~= self) then
@@ -247,17 +247,17 @@ end
 ------------------------------------------------------------------------
 
 function PhanxDebuffFrame:Update()
-	for i = 1, #debuffs do
-		debuffs[i] = remTable(debuffs[i])
-	end
-
-	local i = 1
-	while true do
+	for i = 1, 40 do
 		local name, _, icon, count, kind, duration, expires, caster, _, _, spellID = UnitAura(debuffUnit, i, "HARMFUL")
-		if not icon or icon == "" then break end
+		if not icon or icon == "" then
+			for j = i, #debuffs do
+				debuffs[i] = remTable(debuffs[i])
+			end
+			break
+		end
 
 		if not ignore[name] then
-			local t = newTable()
+			local t = debuffs[i] or newTable()
 
 			t.name = name
 			t.icon = icon
@@ -269,10 +269,8 @@ function PhanxDebuffFrame:Update()
 			t.spellID = spellID
 			t.index = i
 
-			debuffs[#debuffs + 1] = t
+			debuffs[i] = t
 		end
-
-		i = i + 1
 	end
 
 	sort(debuffs, DebuffSort)

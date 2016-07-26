@@ -8,5 +8,5 @@ PhanxBuffs
 **RU** — Простая замена иконки игрока баффы, дебаффы и чары, связанных с оружием.  
 **ZH-TW** — 基本的玩家增益、減益、與武器暫時附魔框架的替代品。
 
-* [Download from Curse](http://www.curse.com/addons/wow/phanxbuffs)
+* [Download from Curse](http://mods.curse.com/addons/wow/phanxbuffs)
 * [Download from WoWInterface](http://www.wowinterface.com/downloads/info16874-PhanxBuffs.html)

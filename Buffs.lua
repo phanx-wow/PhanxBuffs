@@ -23,10 +23,8 @@ local MAX_BUFFS = 40
 
 local ceil, floor, next, pairs, sort, tonumber, type = math.ceil, math.floor, next, pairs, table.sort, tonumber, type -- Lua functions
 local GetSpellInfo, UnitAura = GetSpellInfo, UnitAura -- API functions
-local RaidBuffTray_Update, ShouldShowConsolidatedBuffFrame = RaidBuffTray_Update, ShouldShowConsolidatedBuffFrame -- FrameXML functions
-local ConsolidatedBuffsCount = ConsolidatedBuffsCount -- FrameXML objects
 
-local fakes = {
+local fakes = {--[==[
 	[(GetSpellInfo(103985))] = 103985, -- MONK: Stance of the Fierce Tiger -- show instead of halfassed "Windwalking" buff
 	[(GetSpellInfo(115069))] = 115069, -- MONK: Stance of the Sturdy Ox
 	[(GetSpellInfo(115070))] = 115070, -- MONK: Stance of the Wise Serpent
@@ -34,7 +32,7 @@ local fakes = {
 	[(GetSpellInfo(105361))] = 105361, -- PALADIN: Seal of Command
 	[(GetSpellInfo(20165))]  = 20165,  -- PALADIN: Seal of Insight
 	[(GetSpellInfo(20154))]  = 20154,  -- PALADIN: Seal of Righteousness
-	[(GetSpellInfo(31801))]  = 31801,  -- PALADIN: Seal of Truth
+	[(GetSpellInfo(31801))]  = 31801,  -- PALADIN: Seal of Truth]==]
 }
 
 ------------------------------------------------------------------------
@@ -76,37 +74,11 @@ local unitNames = setmetatable({}, { __index = function(t, unit)
 	return format(L["Cast by |cff%02x%02x%02x%s|r"], color.r * 255, color.g * 255, color.b * 255, name)
 end })
 
-local function button_OnUpdate(self) -- only used for consolidated buffs icon
-	if not self:IsMouseOver(6, -6, -6, 6) and not ConsolidatedBuffsTooltip:IsMouseOver() then
-		ConsolidatedBuffsTooltip:Hide()
-		self:SetScript("OnUpdate", nil)
-	end
-end
-
-local function button_OnHide(self) -- only used for consolidated buffs icon
-	ConsolidatedBuffsTooltip:Hide()
-	self:SetScript("OnUpdate", nil)
-end
-
 local function button_OnEnter(self)
-	local anchorH = db.buffAnchorH
-	local anchorV = db.buffAnchorV
-	local anchorPoint = (anchorV == "TOP" and "BOTTOM" or "TOP") .. anchorH
-
-	local id = self:GetID()
-	if id == 0 then
-		RaidBuffTray_Update()
-		ConsolidatedBuffsTooltip:ClearAllPoints()
-		ConsolidatedBuffsTooltip:SetPoint(anchorV .. anchorH, self, anchorPoint, 0, -6)
-		ConsolidatedBuffsTooltip:Show()
-		self:SetScript("OnUpdate", button_OnUpdate)
-	return end
-
-	local buff = buffs[id]
+	local buff = buffs[self:GetID()]
 	if not buff then return end
 
-	GameTooltip:SetOwner(self, "ANCHOR_NONE")
-	GameTooltip:SetPoint(anchorV .. anchorH, self, anchorPoint, 0, -6)
+	GameTooltip:SetOwner(self, "ANCHOR_" .. (db.buffAnchorV == "TOP" and "BOTTOM" or "TOP") .. (db.buffAnchorH == "RIGHT" and "LEFT" or "RIGHT"))
 	if buff.isFake then
 		local text = rawget(L, formSpellID)
 		if text then
@@ -245,19 +217,18 @@ end
 ------------------------------------------------------------------------
 
 function PhanxBuffFrame:Update()
-	for i = 1, #buffs do
-		buffs[i] = remTable(buffs[i])
-	end
-
-	local consolidate = ShouldShowConsolidatedBuffFrame()
-
-	for i = 1, 100 do
-		local name, _, icon, count, kind, duration, expires, caster, _, shouldConsolidate, spellID = UnitAura(buffUnit, i, "HELPFUL")
-		if not name or not icon or icon == "" then break end
+	for i = 1, 40 do
+		local name, _, icon, count, kind, duration, expires, caster, _, _, spellID = UnitAura(buffUnit, i, "HELPFUL")
+		if not icon or icon == "" then
+			for j = i, #buffs do
+				buffs[i] = remTable(buffs[i])
+			end
+			break
+		end
 
 		-- Hardcode exception for "Windwalking" buff, show Stance of the Fierce Tiger fake buff instead
-		if not ignore[name] and not (spellID == 166646 and db.showFakeBuffs) and not (consolidate and shouldConsolidate) then
-			local t = newTable()
+		if not ignore[name] and not (spellID == 166646 and db.showFakeBuffs) then
+			local t = buffs[i] or newTable()
 
 			t.name = name
 			t.icon = icon
@@ -269,7 +240,7 @@ function PhanxBuffFrame:Update()
 			t.spellID = spellID
 			t.index = i
 
-			buffs[#buffs + 1] = t
+			buffs[i] = t
 		end
 	end
 
@@ -294,33 +265,9 @@ function PhanxBuffFrame:Update()
 
 	sort(buffs, BuffSort)
 
-	if consolidate then
-		RaidBuffTray_Update()
-
-		local f = buttons[1]
-		f:SetID(0)
-		f:SetScript("OnHide", button_OnHide)
-		f.icon:SetTexture("Interface\\Buttons\\BuffConsolidation")
-		f.icon:SetTexCoord(21/128, 44/128, 20/64, 43/64)
-		local have, total = strsplit("/", ConsolidatedBuffsCount:GetText() or "")
-		have, total = have and tonumber(have) or 0, total and tonumber(total) or 0
-		if have < total then
-			f.count:SetFormattedText("|cffffaaaa%s", total - have)
-		else
-			f.count:SetText()
-		end
-		f.timer:SetText()
-		f:Show()
-	else
-		local f = buttons[1]
-		f:SetScript("OnHide", nil)
-		f.icon:SetTexCoord(buttons[2].icon:GetTexCoord())
-	end
-
-	local offset = consolidate and 1 or 0
 	for i = 1, #buffs do
 		local buff = buffs[i]
-		local f = buttons[i + offset]
+		local f = buttons[i]
 		f:SetID(i)
 		f.icon:SetTexture(buff.icon)
 		f.count:SetText(buff.count > 1 and buff.count or nil)
@@ -328,7 +275,7 @@ function PhanxBuffFrame:Update()
 	end
 
 	if #buttons > #buffs then
-		for i = #buffs + 1 + offset, #buttons do
+		for i = #buffs + 1, #buttons do
 			local f = buttons[i]
 			f.icon:SetTexture()
 			f.count:SetText()
@@ -437,36 +384,6 @@ function PhanxBuffFrame:Load()
 	end
 	GameTooltip:Hide()
 
-	ConsolidatedBuffs:Hide()
-	ConsolidatedBuffs:SetScript("OnShow", ConsolidatedBuffs.Hide)
-
-	ConsolidatedBuffsTooltip:SetScript("OnUpdate", nil)
-	ConsolidatedBuffsTooltip:SetScale(1)
-
-	local maxWidthEven, maxWidthOdd = 70, 70
-	for i = 1, NUM_LE_RAID_BUFF_TYPES do
-		local line = ConsolidatedBuffsTooltip["Buff"..i]
-		local text = gsub(line.labelString, "%-?%s*[\r\n]+", "")
-		line.labelString = text
-		line.label:SetText(text)
-		if i % 2 == 0 then
-			maxWidthEven = max(maxWidthEven, line.label:GetStringWidth())
-		else
-			maxWidthOdd = max(maxWidthOdd, line.label:GetStringWidth())
-		end
-	end
-	for i = 1, NUM_LE_RAID_BUFF_TYPES do
-		local line = ConsolidatedBuffsTooltip["Buff"..i]
-		if i % 2 == 0 then
-			line.label:SetWidth(maxWidthEven)
-			line:SetWidth(maxWidthEven + 30)
-		else
-			line.label:SetWidth(maxWidthOdd)
-			line:SetWidth(maxWidthOdd + 30)
-		end
-	end
-	ConsolidatedBuffsTooltip:SetWidth(ConsolidatedBuffsTooltip:GetWidth() + (maxWidthEven - 70) + (maxWidthOdd - 70))
-
 	self:GetScript("OnEvent")(self, "PLAYER_ENTERING_WORLD")
 
 	dirty = true
@@ -479,12 +396,6 @@ function PhanxBuffFrame:Load()
 	self:RegisterUnitEvent("UNIT_ENTERED_VEHICLE", "player")
 	self:RegisterUnitEvent("UNIT_EXITED_VEHICLE", "player")
 	self:RegisterUnitEvent("UNIT_AURA", "player", "vehicle")
-
-	hooksecurefunc("SetCVar", function(k, v)
-		if k == "consolidateBuffs" then
-			dirty = true
-		end
-	end)
 
 	self.loaded = true
 end

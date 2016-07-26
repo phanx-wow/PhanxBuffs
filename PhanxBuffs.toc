@@ -1,4 +1,4 @@
-## Interface: 60200
+## Interface: 70000
 ## Version: @project-version@
 
 ## Title: PhanxBuffs
@@ -12,16 +12,15 @@
 
 ## Author: Phanx
 ## X-Email: addons@phanx.net
-## X-Copyright: Copyright (c) 2010-2015 Phanx. All rights reserved.
+## X-Copyright: Copyright (c) 2010-2016 Phanx. All rights reserved.
 ## X-Website: https://github.com/Phanx/PhanxBuffs
 
-## OptionalDependencies: Masque, LibAboutPanel, LibSharedMedia-3.0, PhanxConfigWidgets
+## OptionalDependencies: Masque, LibSharedMedia-3.0
 ## SavedVariables: PhanxBuffsDB
 ## SavedVariablesPerCharacter: PhanxBuffsIgnoreDB
 
 Libs\LibStub\LibStub.lua
 Libs\CallbackHandler-1.0\CallbackHandler-1.0.lua
-Libs\LibAboutPanel\LibAboutPanel.lua
 Libs\LibSharedMedia-3.0\LibSharedMedia-3.0.lua
 Libs\PhanxConfig-Checkbox\PhanxConfig-Checkbox.lua
 Libs\PhanxConfig-Dropdown\PhanxConfig-Dropdown.lua
@@ -32,8 +31,9 @@ Libs\PhanxConfig-OptionsPanel\PhanxConfig-OptionsPanel.lua
 Libs\PhanxConfig-Slider\PhanxConfig-Slider.lua
 
 Localization.lua
-PhanxBuffs.lua
+Core.lua
 Buffs.lua
 Debuffs.lua
 Enchants.lua
+Options.lua
 SkinSupport.lua

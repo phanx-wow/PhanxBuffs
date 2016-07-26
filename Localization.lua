@@ -1,10 +1,10 @@
 --[[--------------------------------------------------------------------
 	PhanxBuffs
 	Replacement player buff, debuff, and temporary enchant frames.
-	Copyright (c) 2010-2015 Phanx <addons@phanx.net>. All rights reserved.
-	http://www.wowinterface.com/downloads/info16874-PhanxBuffs.html
-	http://www.curse.com/addons/wow/phanxbuffs
+	Copyright (c) 2010-2016 Phanx <addons@phanx.net>. All rights reserved.
 	https://github.com/Phanx/PhanxBuffs
+	http://mods.curse.com/addons/wow/phanxbuffs
+	http://www.wowinterface.com/downloads/info16874-PhanxBuffs.html
 ----------------------------------------------------------------------]]
 
 local L, LOCALE, _, ns = {}, GetLocale(), ...
@@ -25,8 +25,7 @@ L[31801] = "Melee attacks cause Holy damage over 15 sec." -- Seal of Truth
 return end
 
 ------------------------------------------------------------------------
---	German
--- Contributors: Phanx
+-- German
 ------------------------------------------------------------------------
 
 if LOCALE == "deDE" then
@@ -105,8 +104,7 @@ L["%d |4debuff:debuffs; |4is:are; being ignored:"] = "%d Schwächungszauber werd
 return end
 
 ------------------------------------------------------------------------
---	Spanish
--- Contributors: Akkorian, Phanx
+-- Spanish
 ------------------------------------------------------------------------
 
 if LOCALE == "esES" or LOCALE == "esMX" then
@@ -185,7 +183,7 @@ L["%d |4debuff:debuffs; |4is:are; being ignored:"] = "Estás ignorando a %d |per
 return end
 
 ------------------------------------------------------------------------
---	French
+-- French
 -- Contributors: Strigx
 ------------------------------------------------------------------------
 
@@ -265,8 +263,7 @@ L["%d |4debuff:debuffs; |4is:are; being ignored:"] = "%d debuffs actuellement ig
 return end
 
 ------------------------------------------------------------------------
---	Italian
--- Contributors: Phanx
+-- Italian
 ------------------------------------------------------------------------
 
 if LOCALE == "itIT" then
@@ -345,8 +342,8 @@ L["%d |4debuff:debuffs; |4is:are; being ignored:"] = "%d |4maleficio viene ignor
 return end
 
 ------------------------------------------------------------------------
---	Portuguese
--- Contributors: Phanx, Tercioo
+-- Portuguese
+-- Contributors: Tercioo
 ------------------------------------------------------------------------
 
 if LOCALE == "ptBR" then
@@ -425,7 +422,7 @@ L["%d |4debuff:debuffs; |4is:are; being ignored:"] = "%d |4penalidade:penalidade
 return end
 
 ------------------------------------------------------------------------
---	Russian
+-- Russian
 -- Contributors: Yafis
 ------------------------------------------------------------------------
 
@@ -505,7 +502,7 @@ L["%d |4debuff:debuffs; |4is:are; being ignored:"] = "Вы игнорирует�
 return end
 
 ------------------------------------------------------------------------
---	Korean
+-- Korean
 -- Contributors: Bruteforce
 ------------------------------------------------------------------------
 
@@ -585,7 +582,7 @@ L["%d |4debuff:debuffs; |4is:are; being ignored:"] = "%d 디버프가 차단 목
 return end
 
 ------------------------------------------------------------------------
---	Simplified Chinese
+-- Simplified Chinese
 -- Contributors: wowuicn
 ------------------------------------------------------------------------
 
@@ -667,7 +664,7 @@ L["unlock"] = "解锁"
 return end
 
 ------------------------------------------------------------------------
---	Traditional Chinese
+-- Traditional Chinese
 -- Contributors: BNSSNB, fmdsm
 ------------------------------------------------------------------------
 
