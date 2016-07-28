@@ -8,8 +8,11 @@
 ----------------------------------------------------------------------]]
 
 local ADDON_NAME, ns = ...
+local L = ns.L
 
 ns.optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDON_NAME, nil, function(self)
+	local db = PhanxBuffsDB
+
 	local title, notes = self:CreateHeader(ADDON_NAME, L["Use this panel to adjust some basic settings for buff, debuff, and weapon buff icons."])
 
 	---------------------------------------------------------------------
