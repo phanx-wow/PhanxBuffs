@@ -195,7 +195,11 @@ end
 ------------------------------------------------------------------------
 
 local function BuffSort(a, b)
-	if a.duration == 0 then
+	if a and not b then
+		return true
+	elseif b and not a then
+		return false
+	elseif a.duration == 0 then
 		if b.duration == 0 then
 			-- both timeless, sort by name REVERSE
 			return a.name < b.name
