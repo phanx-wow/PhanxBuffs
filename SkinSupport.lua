@@ -101,10 +101,12 @@ hooksecurefunc(PhanxTempEnchantFrame, "Load", function(self)
 	end
 
 	local hooked
-	local function ReSkin(button, size)
-		size = floor(size)
+	local function ReSkin(self)
+		local button = self.buttons[1]
+		if not button then return end
+		local size = floor(button:GetHeight() + 0.5)
 		if size ~= button.prevsize then
-			-- print("reskinning on size change", button.prevsize, "=>", size)
+			--print("reskinning on size change", button.prevsize, "=>", size)
 			button.prevsize = size
 			Masque:Group("PhanxBuffs"):ReSkin()
 		end
@@ -123,8 +125,8 @@ hooksecurefunc(PhanxTempEnchantFrame, "Load", function(self)
 		PhanxTempEnchantFrame:Update()
 
 		if not hooked then
-			hooksecurefunc(PhanxBuffFrame.buttons[1], "SetHeight", ReSkin)
-			hooksecurefunc(PhanxDebuffFrame.buttons[1], "SetHeight", ReSkin)
+			hooksecurefunc(PhanxBuffFrame, "UpdateLayout", ReSkin)
+			hooksecurefunc(PhanxDebuffFrame, "UpdateLayout", ReSkin)
 			hooked = true
 		end
 	end
