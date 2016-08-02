@@ -29,19 +29,12 @@ local DebuffTypeColor = {
 }
 
 local GetDispelMacro
-do
+do--[=[
 	local _, class = UnitClass("player")
 	if class == "DRUID" then
 		local macro = "/cast [@player] " .. (GetSpellInfo(2782)) -- Remove Corruption
 		GetDispelMacro = function(kind)
 			if kind == "Curse" or kind == "Poison" or (kind == "Magic" and GetSpecialization() == 4 and UnitLevel("player") >= 22) then
-				return macro
-			end
-		end
-	elseif class == "MAGE" then
-		local macro = "/cast [@player] " .. (GetSpellInfo(475)) -- Remove Curse
-		GetDispelMacro = function(kind)
-			if kind == "Curse" then
 				return macro
 			end
 		end
@@ -73,7 +66,7 @@ do
 				return macro
 			end
 		end
-	end
+	end]=]
 end
 
 ------------------------------------------------------------------------
