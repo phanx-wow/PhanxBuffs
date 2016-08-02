@@ -24,17 +24,6 @@ local MAX_BUFFS = 40
 local ceil, floor, next, pairs, sort, tonumber, type = math.ceil, math.floor, next, pairs, table.sort, tonumber, type -- Lua functions
 local GetSpellInfo, UnitAura = GetSpellInfo, UnitAura -- API functions
 
-local fakes = {--[==[
-	[(GetSpellInfo(103985))] = 103985, -- MONK: Stance of the Fierce Tiger -- show instead of halfassed "Windwalking" buff
-	[(GetSpellInfo(115069))] = 115069, -- MONK: Stance of the Sturdy Ox
-	[(GetSpellInfo(115070))] = 115070, -- MONK: Stance of the Wise Serpent
-	[(GetSpellInfo(154436))] = 154436, -- MONK: Stance of the Spirited Crane
-	[(GetSpellInfo(105361))] = 105361, -- PALADIN: Seal of Command
-	[(GetSpellInfo(20165))]  = 20165,  -- PALADIN: Seal of Insight
-	[(GetSpellInfo(20154))]  = 20154,  -- PALADIN: Seal of Righteousness
-	[(GetSpellInfo(31801))]  = 31801,  -- PALADIN: Seal of Truth]==]
-}
-
 ------------------------------------------------------------------------
 
 local tablePool = {}
@@ -79,18 +68,7 @@ local function button_OnEnter(self)
 	if not buff then return end
 
 	GameTooltip:SetOwner(self, "ANCHOR_" .. (db.buffAnchorV == "TOP" and "BOTTOM" or "TOP") .. (db.buffAnchorH == "RIGHT" and "LEFT" or "RIGHT"))
-	if buff.isFake then
-		local text = rawget(L, formSpellID)
-		if text then
-			GameTooltip:AddLine(formName)
-			GameTooltip:AddLine(text, 1, 1, 1, true)
-			GameTooltip:Show()
-		else
-			GameTooltip:SetShapeshift(buff.index)
-		end
-	else
-		GameTooltip:SetUnitAura(buffUnit, buff.index, "HELPFUL")
-	end
+	GameTooltip:SetUnitAura(buffUnit, buff.index, "HELPFUL")
 
 	if db.showBuffSources then
 		local caster = unitNames[buff.caster]
@@ -230,8 +208,7 @@ function PhanxBuffFrame:Update()
 			break
 		end
 
-		-- Hardcode exception for "Windwalking" buff, show Stance of the Fierce Tiger fake buff instead
-		if not ignore[name] and not (spellID == 166646 and db.showFakeBuffs) then
+		if not ignore[name] then
 			local t = buffs[i] or newTable()
 
 			t.name = name
@@ -246,25 +223,6 @@ function PhanxBuffFrame:Update()
 
 			buffs[i] = t
 		end
-	end
-
-	if formSpellID and db.showFakeBuffs then
-		local t = newTable()
-
-		local _, _, icon = GetSpellInfo(formSpellID)
-
-		t.name = formName
-		t.icon = icon or formIcon
-		t.count = 1
-		-- no type
-		t.duration = 0
-		t.expires = 0
-		t.caster = "player"
-		t.spellID = formID
-		t.index = formIndex
-		t.isFake = true
-
-		buffs[#buffs + 1] = t
 	end
 
 	sort(buffs, BuffSort)
@@ -340,15 +298,6 @@ PhanxBuffFrame:SetScript("OnEvent", function(self, event, unit)
 		if unit == buffUnit then
 			dirty = true
 		end
-	elseif event == "UPDATE_SHAPESHIFT_FORM" then
-		formIndex = GetShapeshiftForm()
-		if formIndex > 0 then
-			formIcon, formName = GetShapeshiftFormInfo(formIndex)
-			formSpellID = fakes[formName]
-		else
-			formIcon, formName, formSpellID = nil, nil, nil
-		end
-		dirty = true
 	elseif event == "PLAYER_ENTERING_WORLD" then
 		if UnitHasVehicleUI("player") then
 			buffUnit = "vehicle"
@@ -380,14 +329,6 @@ function PhanxBuffFrame:Load()
 	db = PhanxBuffsDB
 	ignore = PhanxBuffsIgnoreDB.buffs
 
-	-- populate L strings for warrior stance fake buffs
-	GameTooltip:SetOwner(UIParent, "ANCHOR_NONE")
-	for id in pairs({ [2457] = true, [2458] = true, [71] = true }) do
-		GameTooltip:SetSpellByID(id)
-		L[id] = strmatch(GameTooltipTextLeft3:GetText() or "TRANSLATION SERVER ERROR", "\r\n\r\n(.+)")
-	end
-	GameTooltip:Hide()
-
 	self:GetScript("OnEvent")(self, "PLAYER_ENTERING_WORLD")
 
 	dirty = true
@@ -396,7 +337,6 @@ function PhanxBuffFrame:Load()
 	self:RegisterEvent("PLAYER_ENTERING_WORLD")
 	self:RegisterEvent("PET_BATTLE_OPENING_START")
 	self:RegisterEvent("PET_BATTLE_CLOSE")
-	self:RegisterEvent("UPDATE_SHAPESHIFT_FORM")
 	self:RegisterUnitEvent("UNIT_ENTERED_VEHICLE", "player")
 	self:RegisterUnitEvent("UNIT_EXITED_VEHICLE", "player")
 	self:RegisterUnitEvent("UNIT_AURA", "player", "vehicle")

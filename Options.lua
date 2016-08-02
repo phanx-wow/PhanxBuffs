@@ -216,18 +216,8 @@ ns.optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDON_N
 
 	---------------------------------------------------------------------
 
-	local showFakeBuffs = self:CreateCheckbox(L["Show Stance Icons"], L["Show fake buff icons for warrior stances and paladin seals."])
-	showFakeBuffs:SetPoint("TOPLEFT", maxTimer, "BOTTOMLEFT", 0, -8)
-
-	function showFakeBuffs:OnValueChanged(checked)
-		db.showFakeBuffs = checked
-		PhanxBuffFrame:Update()
-	end
-
-	---------------------------------------------------------------------
-
 	local showBuffSources = self:CreateCheckbox(L["Show Buff Sources"], L["Show the name of the party or raid member who cast a buff on you in its tooltip."])
-	showBuffSources:SetPoint("TOPLEFT", showFakeBuffs, "BOTTOMLEFT", 0, -8)
+	showBuffSources:SetPoint("TOPLEFT", maxTimer, "BOTTOMLEFT", 0, -8)
 
 	function showBuffSources:OnValueChanged(checked)
 		db.showBuffSources = checked
@@ -263,7 +253,6 @@ ns.optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDON_N
 		fontScale:SetValue(db.fontScale)
 		maxTimer:SetValue(db.maxTimer)
 
-		showFakeBuffs:SetChecked(db.showFakeBuffs)
 		showBuffSources:SetChecked(db.showBuffSources)
 	end
 end)

@@ -28,7 +28,6 @@ local defaultDB = {
 
 	maxTimer = 30,
 
-	showFakeBuffs = true,
 	showBuffSources = true,
 
 	minimapIcon = {},
