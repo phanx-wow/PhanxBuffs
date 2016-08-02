@@ -203,7 +203,7 @@ function PhanxBuffFrame:Update()
 			t.count = count
 			t.kind = kind
 			t.duration = duration or 0
-			t.expires = expires
+			t.expires = expires or 0
 			t.caster = caster
 			t.spellID = spellID
 			t.index = i

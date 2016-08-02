@@ -1,3 +1,7 @@
+### Version 7.0.3.3
+
+- Fixed an error when ignoring buffs with alt-shift-right-click
+
 ### Version 7.0.3.2
 
 - Fixed Masque support
