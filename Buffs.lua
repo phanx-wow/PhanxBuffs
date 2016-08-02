@@ -10,12 +10,12 @@
 local PhanxBuffFrame = CreateFrame("Frame", "PhanxBuffFrame", UIParent)
 
 local _, ns = ...
+local newTable = ns.newTable
+local remTable = ns.remTable
 local GetFontFile = ns.GetFontFile
-local L = ns.L
-L["Cast by |cff%02x%02x%02x%s|r"] = gsub(L["Cast by %s"], "%%s", "|cff%%02x%%02x%%02x%%s|r")
 
 local db, ignore
-local formIndex, formName, formIcon, formSpellID
+
 local buffUnit = "player"
 local buffs = {}
 
@@ -24,27 +24,8 @@ local MAX_BUFFS = 40
 local ceil, floor, next, pairs, sort, tonumber, type = math.ceil, math.floor, next, pairs, table.sort, tonumber, type -- Lua functions
 local GetSpellInfo, UnitAura = GetSpellInfo, UnitAura -- API functions
 
-------------------------------------------------------------------------
-
-local tablePool = {}
-
-local function newTable()
-	local t = next(tablePool) or {}
-	tablePool[t] = nil
-	return t
-end
-
-local function remTable(t)
-	if type(t) == "table" then
-		for k, v in pairs(t) do
-			t[k] = nil
-		end
-		t[true] = true
-		t[true] = nil
-		tablePool[t] = true
-	end
-	return nil
-end
+local L = ns.L
+L["Cast by |cff%02x%02x%02x%s|r"] = gsub(L["Cast by %s"], "%%s", "|cff%%02x%%02x%%02x%%s|r")
 
 ------------------------------------------------------------------------
 
@@ -141,9 +122,9 @@ function PhanxBuffFrame:UpdateLayout()
 		local y = floor(row * (spacing + (size * 1.5)) + 0.5)
 
 		button:ClearAllPoints()
-		button:SetWidth(size)
-		button:SetHeight(size)
+		button:SetSize(size, size)
 		button:SetPoint(anchorV .. anchorH, self, anchorV .. anchorH, x, anchorV == "BOTTOM" and y or -y)
+		button:SetHitRectInsets(-spacing * 0.5, -spacing * 0.5, -spacing * 0.5, -spacing * 0.5)
 
 		button.count:SetFont(fontFace, 18 * fontScale, fontOutline)
 		button.timer:SetFont(fontFace, 14 * fontScale, fontOutline)
@@ -198,13 +179,19 @@ end
 
 ------------------------------------------------------------------------
 
+local updating, doItAgain
+
 function PhanxBuffFrame:Update()
+	if updating then -- somehow happens during loading screens / end of taxi
+		doItAgain = true
+	end
+	updating = true
+
+	local numDisplayedBuffs = 0
+
 	for i = 1, 40 do
 		local name, _, icon, count, kind, duration, expires, caster, _, _, spellID = UnitAura(buffUnit, i, "HELPFUL")
 		if not icon or icon == "" then
-			for j = i, #buffs do
-				buffs[i] = remTable(buffs[i])
-			end
 			break
 		end
 
@@ -221,8 +208,13 @@ function PhanxBuffFrame:Update()
 			t.spellID = spellID
 			t.index = i
 
-			buffs[i] = t
+			numDisplayedBuffs = numDisplayedBuffs + 1
+			buffs[numDisplayedBuffs] = t
 		end
+	end
+
+	for i = numDisplayedBuffs + 1, #buffs do
+		buffs[i] = remTable(buffs[i])
 	end
 
 	sort(buffs, BuffSort)
@@ -243,6 +235,12 @@ function PhanxBuffFrame:Update()
 			f.count:SetText()
 			f:Hide()
 		end
+	end
+	
+	updating = nil
+	if doItAgain then
+		doItAgain = nil
+		dirty = true
 	end
 end
 

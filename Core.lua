@@ -8,6 +8,7 @@
 ----------------------------------------------------------------------]]
 
 local ADDON_NAME, ns = ...
+local L = ns.L
 local db
 
 local defaultDB = {
@@ -46,6 +47,25 @@ local Media = LibStub("LibSharedMedia-3.0")
 ns.COUNT_SIZE  = 18
 ns.TIMER_SIZE  = 14
 ns.SYMBOL_SIZE = 16
+
+------------------------------------------------------------------------
+
+local tablePool = {}
+
+local function newTable()
+	local t = next(tablePool) or {}
+	tablePool[t] = nil
+	return t
+end
+
+local function remTable(t)
+	if type(t) == "table" then
+		tablePool[wipe(t)] = true
+	end
+end
+
+ns.newTable = newTable
+ns.remTable = remTable
 
 ------------------------------------------------------------------------
 

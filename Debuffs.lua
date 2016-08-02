@@ -10,6 +10,8 @@
 local PhanxDebuffFrame = CreateFrame("Frame", "PhanxDebuffFrame", UIParent)
 
 local _, ns = ...
+local newTable = ns.newTable
+local remTable = ns.remTable
 local GetFontFile = ns.GetFontFile
 
 local db, ignore
@@ -160,9 +162,9 @@ function PhanxDebuffFrame:UpdateLayout()
 		local y = floor(row * (spacing + (size * 1.5)) + 0.5)
 
 		button:ClearAllPoints()
-		button:SetWidth(size)
-		button:SetHeight(size)
+		button:SetSize(size, size)
 		button:SetPoint(anchorV .. anchorH, self, anchorV .. anchorH, x, anchorV == "BOTTOM" and y or -y)
+		button:SetHitRectInsets(-spacing * 0.5, -spacing * 0.5, -spacing * 0.5, -spacing * 0.5)
 
 		button.count:SetFont(fontFace, 18 * fontScale, fontOutline)
 		button.timer:SetFont(fontFace, 14 * fontScale, fontOutline)
@@ -221,35 +223,11 @@ end
 
 ------------------------------------------------------------------------
 
-local tablePool = {}
-
-local function newTable()
-	local t = next(tablePool) or {}
-	tablePool[t] = nil
-	return t
-end
-
-local function remTable(t)
-	if type(t) == "table" then
-		for k, v in pairs(t) do
-			t[k] = nil
-		end
-		t[true] = true
-		t[true] = nil
-		tablePool[t] = true
-	end
-	return nil
-end
-
-------------------------------------------------------------------------
-
 function PhanxDebuffFrame:Update()
+	local numDisplayedDebuffs = 0
 	for i = 1, 40 do
 		local name, _, icon, count, kind, duration, expires, caster, _, _, spellID = UnitAura(debuffUnit, i, "HARMFUL")
 		if not icon or icon == "" then
-			for j = i, #debuffs do
-				debuffs[i] = remTable(debuffs[i])
-			end
 			break
 		end
 
@@ -266,8 +244,13 @@ function PhanxDebuffFrame:Update()
 			t.spellID = spellID
 			t.index = i
 
-			debuffs[i] = t
+			numDisplayedDebuffs = numDisplayedDebuffs + 1
+			debuffs[numDisplayedDebuffs] = t
 		end
+	end
+
+	for i = numDisplayedDebuffs + 1, #debuffs do
+		debuffs[i] = remTable(debuffs[i])
 	end
 
 	sort(debuffs, DebuffSort)
