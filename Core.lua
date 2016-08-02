@@ -7,6 +7,7 @@
 	http://www.wowinterface.com/downloads/info16874-PhanxBuffs.html
 ----------------------------------------------------------------------]]
 
+local ADDON_NAME, ns = ...
 local db
 
 local defaultDB = {
@@ -37,20 +38,6 @@ local defaultIgnore = {
 	buffs = {},
 	debuffs = {},
 }
-
-------------------------------------------------------------------------
-
-local ADDON_NAME, ns = ...
-
-local L = setmetatable(ns.L, { __index = function(t, k)
-	if not k then return "" end
-	local v = tostring(k)
-	t[k] = v
-	return v
-end })
-
-L["%d minutes remaining"] = SPELL_TIME_REMAINING_MIN -- "%d |4minute:minutes; remaining"
-L["%d seconds remaining"] = SPELL_TIME_REMAINING_SEC -- "%d |4second:seconds; remaining"
 
 ------------------------------------------------------------------------
 
