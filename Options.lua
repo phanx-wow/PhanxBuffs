@@ -164,9 +164,9 @@ ns.optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDON_N
 
 	function fontFace:OnValueChanged(value)
 		db.fontFace = value
-		SetButtonFonts(PhanxBuffFrame, value)
-		SetButtonFonts(PhanxDebuffFrame, value)
-		SetButtonFonts(PhanxTempEnchantFrame, value)
+		ns.SetButtonFonts(PhanxBuffFrame, value)
+		ns.SetButtonFonts(PhanxDebuffFrame, value)
+		ns.SetButtonFonts(PhanxTempEnchantFrame, value)
 	end
 
 	---------------------------------------------------------------------
@@ -183,9 +183,9 @@ ns.optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDON_N
 
 	function fontOutline:OnValueChanged(value, text)
 		db.fontOutline = value
-		SetButtonFonts(PhanxBuffFrame, nil, value)
-		SetButtonFonts(PhanxDebuffFrame, nil, value)
-		SetButtonFonts(PhanxTempEnchantFrame, nil, value)
+		ns.SetButtonFonts(PhanxBuffFrame, nil, value)
+		ns.SetButtonFonts(PhanxDebuffFrame, nil, value)
+		ns.SetButtonFonts(PhanxTempEnchantFrame, nil, value)
 	end
 
 	---------------------------------------------------------------------
