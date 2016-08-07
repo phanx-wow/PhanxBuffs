@@ -48,6 +48,8 @@ ns.COUNT_SIZE  = 18
 ns.TIMER_SIZE  = 14
 ns.SYMBOL_SIZE = 16
 
+ns.auraFrames = {}
+
 ------------------------------------------------------------------------
 
 local tablePool = {}
@@ -141,9 +143,9 @@ eventFrame:SetScript("OnEvent", function(self, event)
 
 		local function MediaCallback(callbackName, mediaType, mediaName)
 			if mediaType == "font" then
-				SetButtonFonts(PhanxBuffFrame)
-				SetButtonFonts(PhanxDebuffFrame)
-				SetButtonFonts(PhanxTempEnchantFrame)
+				for i = 1, #ns.auraFrames do
+					SetButtonFonts(ns.auraFrames[i])
+				end
 			end
 		end
 		Media.RegisterCallback(self, "LibSharedMedia_Registered", MediaCallback)
@@ -154,9 +156,14 @@ eventFrame:SetScript("OnEvent", function(self, event)
 		TemporaryEnchantFrame:Hide()
 		BuffFrame:UnregisterAllEvents()
 
-		PhanxBuffFrame:Load()
-		PhanxDebuffFrame:Load()
-		PhanxTempEnchantFrame:Load()
+		for i = 1, #ns.auraFrames do
+			ns.auraFrames[i]:Initialize()
+			ns.auraFrames[i]:ApplySettings()
+		end
+
+		if ns.SkinWithMasque then
+			ns.SkinWithMasque()
+		end
 
 		self:UnregisterAllEvents()
 		self:RegisterEvent("PLAYER_LOGOUT")
@@ -235,11 +242,11 @@ cancelButton:SetScript("OnEnter", function(self)
 	if not self.owner then
 		return self:Hide()
 	end
-	return self.owner:GetScript("OnEnter")(self.owner)
+	self.owner:GetScript("OnEnter")(self.owner)
 end)
 
 cancelButton:SetScript("OnLeave", function(self)
-	self:Hide()
+	self.owner:GetScript("OnLeave")(self.owner)
 end)
 
 cancelButton:RegisterEvent("PLAYER_REGEN_DISABLED")
@@ -251,11 +258,23 @@ end)
 
 ------------------------------------------------------------------------
 
-function ns.CreateAuraIcon(parent)
-	local button = CreateFrame("Button", nil, parent)
+local function AuraButton_OnLeave(self)
+	if not self:IsMouseOver() then
+		GameTooltip:Hide()
+		if PhanxBuffsCancelButton.owner == self and not InCombatLockdown() then
+			PhanxBuffsCancelButton:Hide()
+		end
+	end
+end
+
+local function CreateAuraButton(self)
+	local button = CreateFrame("Button", nil, self)
+	button.owner = self
+
+	button:Hide()
 	button:EnableMouse(true)
 	button:RegisterForClicks("RightButtonUp")
-	button:Hide()
+	button:SetScript("OnLeave", AuraButton_OnLeave)
 
 	button.icon = button:CreateTexture(nil, "BACKGROUND")
 	button.icon:SetAllPoints(button)
@@ -277,85 +296,298 @@ function ns.CreateAuraIcon(parent)
 		button.icon:SetTexCoord(0.07, 0.93, 0.07, 0.93)
 	end
 
+	if self.PostCreateAuraButton then
+		self:PostCreateAuraButton(button)
+	end
+
 	return button
 end
 
 ------------------------------------------------------------------------
 
-do
-	local dragBackdrop = {
-		bgFile = "Interface\\Tooltips\\UI-Tooltip-Background"
-	}
+local function AuraFrame_UpdateLayout(self)
+	local anchorH     = self.anchorH
+	local anchorV     = self.anchorV
+	local size        = self.size
+	local spacing     = self.spacing
+	local cols        = self.columns
+	local rows        = ceil(self.max / cols)
 
-	local function OnDragStart(self)
-		self:StartMoving()
-	end
+	local fontFace    = GetFontFile(db.fontFace)
+	local fontScale   = db.fontScale
+	local fontOutline = db.fontOutline
 
-	local function OnDragStop(self)
-		self:StopMovingOrSizing()
+	local offset = self.GetLayoutOffset and self:GetLayoutOffset() or 0
+	for i = 1, #self.buttons do
+		local button = self.buttons[i]
+		local j = i + offset
 
-		local w, h, x, y = UIParent:GetWidth(), UIParent:GetHeight(), self:GetCenter()
-		w, h, x, y = floor(w + 0.5), floor(h + 0.5), floor(x + 0.5), floor(y + 0.5)
-		local hhalf, vhalf = (x > w / 2) and "RIGHT" or "LEFT", (y > h / 2) and "TOP" or "BOTTOM"
-		local dx = hhalf == "RIGHT" and floor(self:GetRight() + 0.5) - w or floor(self:GetLeft() + 0.5)
-		local dy = vhalf == "TOP" and floor(self:GetTop() + 0.5) - h or floor(self:GetBottom() + 0.5)
+		local col = (j - 1) % cols
+		local row = ceil(j / cols) - 1
 
-		if self:GetName() == "PhanxDebuffFrame" then
-			db.debuffPoint, db.debuffX, db.debuffY = vhalf..hhalf, dx, dy
+		local x = floor(col * (spacing + size) * (anchorH == "LEFT" and 1 or -1) + 0.5)
+		local y = floor(row * (spacing + (size * 1.5)) + 0.5)
+
+		button:ClearAllPoints()
+		button:SetSize(size, size)
+		button:SetPoint(anchorV .. anchorH, self, anchorV .. anchorH, x, anchorV == "BOTTOM" and y or -y)
+		button:SetHitRectInsets(-spacing * 0.5, -spacing * 0.5, -spacing * 0.5, -spacing * 0.5)
+
+		button.count:SetFont(fontFace, 18 * fontScale, fontOutline)
+		button.timer:SetFont(fontFace, 14 * fontScale, fontOutline)
+
+		if fontOutline == "THICKOUTLINE" then
+			button.count:SetPoint("CENTER", button, "TOP", 2, -1)
+			button.timer:SetPoint("TOP", button, "BOTTOM", 2, -1)
+		elseif fontOutline == "OUTLINE" then
+			button.count:SetPoint("CENTER", button, "TOP", 1, 0)
+			button.timer:SetPoint("TOP", button, "BOTTOM", 1, 0)
 		else
-			db.buffPoint, db.buffX, db.buffY = vhalf..hhalf, dx, dy
+			button.count:SetPoint("CENTER", button, "TOP", 0, 0)
+			button.timer:SetPoint("TOP", button, "BOTTOM", 0, 0)
 		end
-
-		self:ClearAllPoints()
-		self:SetPoint(vhalf..hhalf, UIParent, dx, dy)
 	end
 
-	local isLocked = true
+	self:SetWidth((size * cols) + (spacing * (cols - 1)))
+	self:SetHeight((size * rows) + (spacing * (rows - 1)))
 
-	function ns.ToggleFrameLocks(lock)
-		if lock == nil then
-			lock = not isLocked
-		end
+	self:ClearAllPoints()
+	self:PostUpdateLayout()
+end
 
-		PhanxBuffFrame:UpdateLayout()
-		PhanxDebuffFrame:UpdateLayout()
+------------------------------------------------------------------------
 
-		if lock then
-			PhanxBuffFrame:SetBackdrop(nil)
-			PhanxBuffFrame:SetMovable(false)
-			PhanxBuffFrame:SetScript("OnDragStart", nil)
-			PhanxBuffFrame:SetScript("OnDragStop", nil)
-			PhanxBuffFrame:EnableMouse(false)
-			PhanxBuffFrame:RegisterForDrag(nil)
-
-			PhanxDebuffFrame:SetBackdrop(nil)
-			PhanxDebuffFrame:SetMovable(false)
-			PhanxDebuffFrame:SetScript("OnDragStart", nil)
-			PhanxDebuffFrame:SetScript("OnDragStop", nil)
-			PhanxDebuffFrame:EnableMouse(false)
-			PhanxDebuffFrame:RegisterForDrag(nil)
-
-			isLocked = true
+local function SortAuras(a, b)
+	if a.duration == 0 then
+		if b.duration == 0 then
+			-- both timeless, sort by name REVERSE
+			return a.name < b.name
 		else
-			PhanxBuffFrame:SetBackdrop(dragBackdrop)
-			PhanxBuffFrame:SetBackdropColor(1, 1, 1, 1)
-			PhanxBuffFrame:SetClampedToScreen(true)
-			PhanxBuffFrame:SetMovable(true)
-			PhanxBuffFrame:SetScript("OnDragStart", OnDragStart)
-			PhanxBuffFrame:SetScript("OnDragStop", OnDragStop)
-			PhanxBuffFrame:EnableMouse(true)
-			PhanxBuffFrame:RegisterForDrag("LeftButton")
-
-			PhanxDebuffFrame:SetBackdrop(dragBackdrop)
-			PhanxDebuffFrame:SetBackdropColor(1, 1, 1, 1)
-			PhanxDebuffFrame:SetClampedToScreen(true)
-			PhanxDebuffFrame:SetMovable(true)
-			PhanxDebuffFrame:SetScript("OnDragStart", OnDragStart)
-			PhanxDebuffFrame:SetScript("OnDragStop", OnDragStop)
-			PhanxDebuffFrame:EnableMouse(true)
-			PhanxDebuffFrame:RegisterForDrag("LeftButton")
-
-			isLocked = false
+			-- a timeless, b not
+			return true
+		end
+	else
+		if b.duration == 0 then
+			-- b timeless, a not
+			return false
+		else
+			-- neither timeless, sort by expiry time
+			return a.expires > b.expires
 		end
 	end
+end
+
+local function AuraFrame_Update(self)
+	if self.updating then -- somehow happens during loading screens / end of taxi
+		return --print("STOP RECURSION NOW")
+	end
+	self.updating = true
+
+	--print("~~~~~~~~~~~~~~~")
+	local auras = self.auras
+	local buttons = self.buttons
+	local ignore = self.ignoreList
+
+	local numDisplayedAuras = 0
+
+	for i = 1, self.max do
+		local name, _, icon, count, dispelType, duration, expires, caster, _, _, spellID = UnitAura(self.unit, i, self.filter)
+		if not icon or icon == "" then
+			break
+		end
+
+		if not ignore[name] then
+			numDisplayedAuras = numDisplayedAuras + 1
+
+			local t = auras[numDisplayedAuras] or newTable()
+
+			t.caster     = caster
+			t.count      = count and count > 0 and count or 1
+			t.duration   = duration or 0
+			t.expires    = expires or 0
+			t.icon       = icon
+			t.index      = i
+			t.dispelType = dispelType
+			t.name       = name
+			t.spellID    = spellID
+
+			auras[numDisplayedAuras] = t
+			--print("+++", numDisplayedAuras, name, count, duration)
+		end
+	end
+
+	for i = numDisplayedAuras + 1, #auras do
+		auras[i] = remTable(auras[i])
+		--print("——", i, auras[i])
+	end
+
+	sort(auras, SortAuras)
+	--print("===", #auras, "<=>", numDisplayedAuras, #auras == numDisplayedAuras and "|cff22ff22OK" or "|cffff4444MISMATCH!")
+
+	for i = 1, #auras do
+		local aura = auras[i]
+		local f = buttons[i]
+		--print(">>>", i, aura.name, aura.count, aura.duration)
+
+		f.caster     = aura.caster
+		f.dispelType = aura.dispelType
+		f.expires    = aura.expires
+		f.index      = aura.index
+		f.name       = aura.name
+
+		f.icon:SetTexture(aura.icon)
+		f.count:SetText(aura.count > 1 and aura.count or nil)
+
+		if f.PostUpdateAuraButton then
+			f:PostUpdateAuraButton(f, true)
+		end
+
+		f:Show()
+	end
+
+	if #buttons > #auras then
+		for i = #auras + 1, #buttons do
+			local f = buttons[i]
+
+			f:Hide()
+			f.icon:SetTexture("")
+			f.count:SetText("")
+
+			f.caster     = nil
+			f.dispelType = nil
+			f.expires    = nil
+			f.index      = nil
+			f.name       = nil
+
+			if f.PostUpdateAuraButton then
+				f:PostUpdateAuraButton(f, false)
+			end
+		end
+	end
+	
+	self.updating = nil
+end
+
+------------------------------------------------------------------------
+
+local function AuraFrameUpdater_OnFinished(self, requested)
+	local f = self.owner
+	if f.needsUpdate then
+		f:Update()
+		f.needsUpdate = false
+	end
+	local maxTime = db.maxTimer
+	local hasVisibleButton = false
+	for i = 1, #f.buttons do
+		local button = f.buttons[i]
+		if button:IsShown() then
+			hasVisibleButton = true
+			if button.expires > 0 then
+				local remaining = button.expires - GetTime()
+				if remaining < 0 then
+					-- bugged out, queue an update
+					f.needsUpdate = true
+				elseif remaining <= maxTime then
+					if remaining > 3600 then
+						button.timer:SetFormattedText(HOUR_ONELETTER_ABBR, floor((remaining / 60) + 0.5))
+					elseif remaining > 60 then
+						button.timer:SetFormattedText(MINUTE_ONELETTER_ABBR, floor((remaining / 60) + 0.5))
+					else
+						button.timer:SetText(floor(remaining + 0.5))
+					end
+				else
+					button.timer:SetText()
+				end
+			else
+				button.timer:SetText()
+			end
+		end
+	end
+	if hasVisibleButton or f.needsUpdate then
+		self:Play()
+	end
+end
+
+local function AuraFrame_OnEvent(self, event, unit)
+	if event == "UNIT_AURA" then
+		if unit == self.unit then
+			self.needsUpdate = true
+			self:Update() -- self.updater:Play()
+		end
+	elseif event == "PLAYER_ENTERING_WORLD" then
+		if UnitHasVehicleUI("player") then
+			self.unit = "vehicle"
+		else
+			self.unit = "player"
+		end
+	elseif event == "UNIT_ENTERED_VEHICLE" then
+		if UnitHasVehicleUI("player") then
+			self.unit = "vehicle"
+		end
+		self.needsUpdate = true
+		self:Update() -- self.updater:Play()
+	elseif event == "UNIT_EXITED_VEHICLE" then
+		self.unit = "player"
+		self.needsUpdate = true
+		self:Update() -- self.updater:Play()
+	elseif event == "PET_BATTLE_OPENING_START" then
+		self:Hide()
+		-- self.updater:Stop()
+	elseif event == "PET_BATTLE_CLOSE" then
+		self.needsUpdate = true
+		self:Show()
+		self:Update() -- self.updater:Play()
+	end
+end
+
+local function AuraFrame_Initialize(self)
+	if self.loaded then return end
+
+	self:SetScript("OnEvent", AuraFrame_OnEvent)
+
+	self:RegisterEvent("PLAYER_ENTERING_WORLD")
+	self:RegisterEvent("PET_BATTLE_OPENING_START")
+	self:RegisterEvent("PET_BATTLE_CLOSE")
+	self:RegisterUnitEvent("UNIT_ENTERED_VEHICLE", "player")
+	self:RegisterUnitEvent("UNIT_EXITED_VEHICLE", "player")
+	self:RegisterUnitEvent("UNIT_AURA", "player", "vehicle")
+
+	if self.PostInitialize then
+		self:PostInitialize()
+	end
+
+	AuraFrame_OnEvent(self, "PLAYER_ENTERING_WORLD")
+	self:ApplySettings()
+	self.loaded = true
+
+	self.needsUpdate = true
+	self:Update() -- self.updater:Play()
+end
+
+function ns.CreateAuraFrame(name)
+	local f = CreateFrame("Frame", name, UIParent)
+	f.Initialize   = AuraFrame_Initialize
+	f.UpdateLayout = AuraFrame_UpdateLayout
+	f.Update       = AuraFrame_Update
+
+	f.auras = {}
+
+	f.buttons = setmetatable({}, { __index = function(t, i)
+		local button = CreateAuraButton(f)
+		t[i] = button
+		f:UpdateLayout()
+		return button
+	end })
+
+	f.updater = f:CreateAnimationGroup()
+	f.updater.owner = f
+	f.updater:SetScript("OnFinished", AuraFrameUpdater_OnFinished)
+
+	f.updater.timer = f.updater:CreateAnimation()
+	f.updater.timer:SetOrder(1)
+	f.updater.timer:SetDuration(0.1)
+
+	f:SetScript("OnEvent", AuraFrame_OnEvent)
+	tinsert(ns.auraFrames, f)
+	return f
 end

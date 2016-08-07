@@ -15,6 +15,13 @@ ns.optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDON_N
 
 	local title, notes = self:CreateHeader(ADDON_NAME, L["Use this panel to adjust some basic settings for buff, debuff, and weapon buff icons."])
 
+	local function ApplySettings()
+		for i = 1, #ns.auraFrames do
+			ns.auraFrames[i]:ApplySettings()
+			ns.auraFrames[i]:UpdateLayout()
+		end
+	end
+
 	---------------------------------------------------------------------
 
 	local buffSize = self:CreateSlider(L["Buff Size"], L["Adjust the size of each buff icon."], 10, 80, 2)
@@ -23,8 +30,7 @@ ns.optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDON_N
 
 	function buffSize:OnValueChanged(value)
 		db.buffSize = value
-		PhanxBuffFrame:UpdateLayout()
-		PhanxTempEnchantFrame:UpdateLayout()
+		ApplySettings()
 	end
 
 	---------------------------------------------------------------------
@@ -35,8 +41,7 @@ ns.optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDON_N
 
 	function buffSpacing:OnValueChanged(value)
 		db.buffSpacing = value
-		PhanxBuffFrame:UpdateLayout()
-		PhanxTempEnchantFrame:UpdateLayout()
+		ApplySettings()
 	end
 
 	---------------------------------------------------------------------
@@ -47,8 +52,7 @@ ns.optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDON_N
 
 	function buffColumns:OnValueChanged(value)
 		db.buffColumns = value
-		PhanxBuffFrame:UpdateLayout()
-		PhanxTempEnchantFrame:UpdateLayout()
+		ApplySettings()
 	end
 
 	---------------------------------------------------------------------
@@ -64,8 +68,7 @@ ns.optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDON_N
 
 	function buffAnchorV:OnValueChanged(value, text)
 		db.buffAnchorV = value
-		PhanxBuffFrame:UpdateLayout()
-		PhanxTempEnchantFrame:UpdateLayout()
+		ApplySettings()
 	end
 
 	---------------------------------------------------------------------
@@ -81,8 +84,7 @@ ns.optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDON_N
 
 	function buffAnchorH:OnValueChanged(value, text)
 		db.buffAnchorH = value
-		PhanxBuffFrame:UpdateLayout()
-		PhanxTempEnchantFrame:UpdateLayout()
+		ApplySettings()
 	end
 
 	buffAnchorH.labelText:Hide()
@@ -96,7 +98,7 @@ ns.optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDON_N
 
 	function debuffSize:OnValueChanged(value)
 		db.debuffSize = value
-		PhanxDebuffFrame:UpdateLayout()
+		ApplySettings()
 	end
 
 	---------------------------------------------------------------------
@@ -107,7 +109,7 @@ ns.optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDON_N
 
 	function debuffSpacing:OnValueChanged(value)
 		db.debuffSpacing = value
-		PhanxDebuffFrame:UpdateLayout()
+		ApplySettings()
 	end
 
 	---------------------------------------------------------------------
@@ -118,7 +120,7 @@ ns.optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDON_N
 
 	function debuffColumns:OnValueChanged(value)
 		db.debuffColumns = value
-		PhanxDebuffFrame:UpdateLayout()
+		ApplySettings()
 	end
 
 	---------------------------------------------------------------------
@@ -134,7 +136,7 @@ ns.optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDON_N
 
 	function debuffAnchorV:OnValueChanged(value, text)
 		db.debuffAnchorV = value
-		PhanxDebuffFrame:UpdateLayout()
+		ApplySettings()
 	end
 
 	---------------------------------------------------------------------
@@ -150,7 +152,7 @@ ns.optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDON_N
 
 	function debuffAnchorH:OnValueChanged(value, text)
 		db.debuffAnchorH = value
-		PhanxDebuffFrame:UpdateLayout()
+		ApplySettings()
 	end
 
 	debuffAnchorH.labelText:Hide()
@@ -164,9 +166,9 @@ ns.optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDON_N
 
 	function fontFace:OnValueChanged(value)
 		db.fontFace = value
-		ns.SetButtonFonts(PhanxBuffFrame, value)
-		ns.SetButtonFonts(PhanxDebuffFrame, value)
-		ns.SetButtonFonts(PhanxTempEnchantFrame, value)
+		for i = 1, ns.auraFrames do
+			ns.SetButtonFonts(ns.auraFrames[i], value)
+		end
 	end
 
 	---------------------------------------------------------------------
@@ -183,9 +185,9 @@ ns.optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDON_N
 
 	function fontOutline:OnValueChanged(value, text)
 		db.fontOutline = value
-		ns.SetButtonFonts(PhanxBuffFrame, nil, value)
-		ns.SetButtonFonts(PhanxDebuffFrame, nil, value)
-		ns.SetButtonFonts(PhanxTempEnchantFrame, nil, value)
+		for i = 1, ns.auraFrames do
+			ns.SetButtonFonts(ns.auraFrames[i], nil, value)
+		end
 	end
 
 	---------------------------------------------------------------------
@@ -196,9 +198,7 @@ ns.optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDON_N
 
 	function fontScale:OnValueChanged(value)
 		db.fontScale = value
-		PhanxBuffFrame:UpdateLayout()
-		PhanxDebuffFrame:UpdateLayout()
-		PhanxTempEnchantFrame:UpdateLayout()
+		ApplySettings()
 	end
 
 	---------------------------------------------------------------------
@@ -209,9 +209,7 @@ ns.optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDON_N
 
 	function maxTimer:OnValueChanged(value)
 		db.maxTimer = value
-		PhanxBuffFrame:UpdateLayout()
-		PhanxDebuffFrame:UpdateLayout()
-		PhanxTempEnchantFrame:UpdateLayout()
+		ApplySettings()
 	end
 
 	---------------------------------------------------------------------
@@ -256,6 +254,86 @@ ns.optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDON_N
 		showBuffSources:SetChecked(db.showBuffSources)
 	end
 end)
+
+------------------------------------------------------------------------
+
+do
+	local dragBackdrop = {
+		bgFile = "Interface\\Tooltips\\UI-Tooltip-Background"
+	}
+
+	local function OnDragStart(self)
+		self:StartMoving()
+	end
+
+	local function OnDragStop(self)
+		self:StopMovingOrSizing()
+
+		local w, h, x, y = UIParent:GetWidth(), UIParent:GetHeight(), self:GetCenter()
+		w, h, x, y = floor(w + 0.5), floor(h + 0.5), floor(x + 0.5), floor(y + 0.5)
+		local hhalf, vhalf = (x > w / 2) and "RIGHT" or "LEFT", (y > h / 2) and "TOP" or "BOTTOM"
+		local dx = hhalf == "RIGHT" and floor(self:GetRight() + 0.5) - w or floor(self:GetLeft() + 0.5)
+		local dy = vhalf == "TOP" and floor(self:GetTop() + 0.5) - h or floor(self:GetBottom() + 0.5)
+
+		if self:GetName() == "PhanxDebuffFrame" then
+			db.debuffPoint, db.debuffX, db.debuffY = vhalf..hhalf, dx, dy
+		else
+			db.buffPoint, db.buffX, db.buffY = vhalf..hhalf, dx, dy
+		end
+
+		self:ClearAllPoints()
+		self:SetPoint(vhalf..hhalf, UIParent, dx, dy)
+	end
+
+	local isLocked = true
+
+	function ns.ToggleFrameLocks(lock)
+		if lock == nil then
+			lock = not isLocked
+		end
+
+		PhanxBuffFrame:UpdateLayout()
+		PhanxDebuffFrame:UpdateLayout()
+
+		if lock then
+			PhanxBuffFrame:SetBackdrop(nil)
+			PhanxBuffFrame:SetMovable(false)
+			PhanxBuffFrame:SetScript("OnDragStart", nil)
+			PhanxBuffFrame:SetScript("OnDragStop", nil)
+			PhanxBuffFrame:EnableMouse(false)
+			PhanxBuffFrame:RegisterForDrag(nil)
+
+			PhanxDebuffFrame:SetBackdrop(nil)
+			PhanxDebuffFrame:SetMovable(false)
+			PhanxDebuffFrame:SetScript("OnDragStart", nil)
+			PhanxDebuffFrame:SetScript("OnDragStop", nil)
+			PhanxDebuffFrame:EnableMouse(false)
+			PhanxDebuffFrame:RegisterForDrag(nil)
+
+			isLocked = true
+		else
+			PhanxBuffFrame:SetBackdrop(dragBackdrop)
+			PhanxBuffFrame:SetBackdropColor(1, 1, 1, 1)
+			PhanxBuffFrame:SetClampedToScreen(true)
+			PhanxBuffFrame:SetMovable(true)
+			PhanxBuffFrame:SetScript("OnDragStart", OnDragStart)
+			PhanxBuffFrame:SetScript("OnDragStop", OnDragStop)
+			PhanxBuffFrame:EnableMouse(true)
+			PhanxBuffFrame:RegisterForDrag("LeftButton")
+
+			PhanxDebuffFrame:SetBackdrop(dragBackdrop)
+			PhanxDebuffFrame:SetBackdropColor(1, 1, 1, 1)
+			PhanxDebuffFrame:SetClampedToScreen(true)
+			PhanxDebuffFrame:SetMovable(true)
+			PhanxDebuffFrame:SetScript("OnDragStart", OnDragStart)
+			PhanxDebuffFrame:SetScript("OnDragStop", OnDragStop)
+			PhanxDebuffFrame:EnableMouse(true)
+			PhanxDebuffFrame:RegisterForDrag("LeftButton")
+
+			isLocked = false
+		end
+	end
+end
 
 ------------------------------------------------------------------------
 

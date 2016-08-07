@@ -13,7 +13,7 @@ if not Masque then return end
 local done
 local _, ns = ...
 
-hooksecurefunc(PhanxTempEnchantFrame, "Load", function(self)
+function ns.SkinWithMasque()
 	-- print("Initializing skin support...")
 	if done then return end
 
@@ -24,35 +24,33 @@ hooksecurefunc(PhanxTempEnchantFrame, "Load", function(self)
 		db.skin = nil
 	end
 
-	local buttonDataLayers = { "AutoCast", "AutoCastable", "Backdrop", "Checked", "Cooldown", "Count", "Disabled", "Flash", "Highlight", "HotKey", "Name", "Pushed" }
+	local buttonDataLayers = {
+		"AutoCast",
+		"AutoCastable",
+		"Backdrop",
+		"Checked",
+		"Cooldown",
+		"Count",
+		"Disabled",
+		"Flash",
+		"Highlight",
+		"HotKey",
+		"Name",
+		"Pushed"
+	}
 
 	local function SkinButton(f)
 		-- print("Skinning button in frame " .. f:GetParent():GetName() .. "...")
 
-		if PhanxBorder then
-			f.icon:SetTexCoord(0, 1, 0, 1)
-			if f.BorderTextures then
-				for i, tex in pairs(f.BorderTextures) do
-					tex:SetTexture(nil)
-					tex:Hide()
-				end
-				f.BorderTextures = nil
-			end
-			if f.ShadowTextures then
-				for i, tex in pairs(f.ShadowTextures) do
-					tex:SetTexture(nil)
-					tex:Hide()
-				end
-				f.ShadowTextures = nil
-			end
-			f.SetBorderSize = nil
-		elseif f.border then
+		if f.border then
 			f.border:SetTexture(nil)
 			f.border:Hide()
 			f.border = nil
 		end
 
-		f.buttonData = { Icon = f.icon }
+		f.buttonData = {
+			Icon = f.icon 
+		}
 		for i = 1, #buttonDataLayers do
 			f.buttonData[buttonDataLayers[i]] = false
 		end
@@ -120,22 +118,23 @@ hooksecurefunc(PhanxTempEnchantFrame, "Load", function(self)
 			PhanxTempEnchantFrame.buttons[i].border:SetVertexColor(0.46, 0.18, 0.67, 1)
 		end
 
-		PhanxBuffFrame:Update()
-		PhanxDebuffFrame:Update()
-		PhanxTempEnchantFrame:Update()
+		for i = 1, #ns.auraFrames do
+			ns.auraFrames[i]:Update()
+		end
 
 		if not hooked then
-			hooksecurefunc(PhanxBuffFrame, "UpdateLayout", ReSkin)
-			hooksecurefunc(PhanxDebuffFrame, "UpdateLayout", ReSkin)
+			for i = 1, #ns.auraFrames do
+				hooksecurefunc(ns.auraFrames[i], "UpdateLayout", ReSkin)
+			end
 			hooked = true
 		end
 	end
 
 	Masque:Register("PhanxBuffs", OnSkinChanged)
 
-	SkinFrame(PhanxBuffFrame)
-	SkinFrame(PhanxDebuffFrame)
-	SkinFrame(PhanxTempEnchantFrame)
+	for i = 1, #ns.auraFrames do
+		SkinFrame(ns.auraFrames[i])
+	end
 
 	done = true
-end)
+end

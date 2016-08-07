@@ -1,6 +1,7 @@
 ### Version 7.0.3.3
 
 - Fixed an error when ignoring buffs with alt-shift-right-click
+- Fixed an error causing icons to sometimes be duplicated
 
 ### Version 7.0.3.2
 
