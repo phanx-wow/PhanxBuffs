@@ -377,6 +377,31 @@ local function SortAuras(a, b)
 	end
 end
 
+local function AuraFrame_OnUpdate(self, elapsed)
+	local t = (self.timeSinceLastUpdate or 0) + elapsed
+	if t < 0.1 then return end
+	self.timeSinceLastUpdate = t
+
+	local maxTimeToShow = db.maxTimer
+	local now = GetTime()
+
+	for i = 1, #self.auras do
+		local button = self.buttons[i]
+		local remaining = button.expires - now
+		if remaining <= maxTimeToShow and remaining > 0 then
+			if remaining > 3600 then
+				button.timer:SetFormattedText(HOUR_ONELETTER_ABBR, floor((remaining / 60) + 0.5))
+			elseif remaining > 60 then
+				button.timer:SetFormattedText(MINUTE_ONELETTER_ABBR, floor((remaining / 60) + 0.5))
+			else
+				button.timer:SetFormattedText("%d", remaining + 0.5)
+			end
+		else
+			button.timer:SetText()
+		end
+	end
+end
+
 local function AuraFrame_Update(self)
 	if self.updating then -- somehow happens during loading screens / end of taxi
 		return --print("STOP RECURSION NOW")
@@ -465,78 +490,33 @@ local function AuraFrame_Update(self)
 		end
 	end
 	
+	self:SetScript("OnUpdate", numDisplayedAuras > 0 and AuraFrame_OnUpdate or nil)
+
 	self.updating = nil
-end
-
-------------------------------------------------------------------------
-
-local function AuraFrameUpdater_OnFinished(self, requested)
-	local f = self.owner
-	if f.needsUpdate then
-		f:Update()
-		f.needsUpdate = false
-	end
-	local maxTime = db.maxTimer
-	local hasVisibleButton = false
-	for i = 1, #f.buttons do
-		local button = f.buttons[i]
-		if button:IsShown() then
-			hasVisibleButton = true
-			if button.expires > 0 then
-				local remaining = button.expires - GetTime()
-				if remaining < 0 then
-					-- bugged out, queue an update
-					f.needsUpdate = true
-				elseif remaining <= maxTime then
-					if remaining > 3600 then
-						button.timer:SetFormattedText(HOUR_ONELETTER_ABBR, floor((remaining / 60) + 0.5))
-					elseif remaining > 60 then
-						button.timer:SetFormattedText(MINUTE_ONELETTER_ABBR, floor((remaining / 60) + 0.5))
-					else
-						button.timer:SetText(floor(remaining + 0.5))
-					end
-				else
-					button.timer:SetText()
-				end
-			else
-				button.timer:SetText()
-			end
-		end
-	end
-	if hasVisibleButton or f.needsUpdate then
-		self:Play()
-	end
 end
 
 local function AuraFrame_OnEvent(self, event, unit)
 	if event == "UNIT_AURA" then
-		if unit == self.unit then
-			self.needsUpdate = true
-			self:Update() -- self.updater:Play()
+		self:Update()
+	elseif event == "UNIT_ENTERED_VEHICLE" then
+		if UnitHasVehicleUI("player") then
+			self.unit = "vehicle"
 		end
+		self:Update()
+	elseif event == "UNIT_EXITED_VEHICLE" then
+		self.unit = "player"
+		self:Update()
 	elseif event == "PLAYER_ENTERING_WORLD" then
 		if UnitHasVehicleUI("player") then
 			self.unit = "vehicle"
 		else
 			self.unit = "player"
 		end
-	elseif event == "UNIT_ENTERED_VEHICLE" then
-		if UnitHasVehicleUI("player") then
-			self.unit = "vehicle"
-		end
-		self.needsUpdate = true
-		self:Update() -- self.updater:Play()
-	elseif event == "UNIT_EXITED_VEHICLE" then
-		self.unit = "player"
-		self.needsUpdate = true
-		self:Update() -- self.updater:Play()
 	elseif event == "PET_BATTLE_OPENING_START" then
 		self:Hide()
-		-- self.updater:Stop()
 	elseif event == "PET_BATTLE_CLOSE" then
-		self.needsUpdate = true
 		self:Show()
-		self:Update() -- self.updater:Play()
+		self:Update()
 	end
 end
 
@@ -545,12 +525,13 @@ local function AuraFrame_Initialize(self)
 
 	self:SetScript("OnEvent", AuraFrame_OnEvent)
 
+	self:RegisterUnitEvent("UNIT_AURA", "player", "vehicle")
+	self:RegisterUnitEvent("UNIT_ENTERED_VEHICLE", "player")
+	self:RegisterUnitEvent("UNIT_EXITED_VEHICLE", "player")
+
 	self:RegisterEvent("PLAYER_ENTERING_WORLD")
 	self:RegisterEvent("PET_BATTLE_OPENING_START")
 	self:RegisterEvent("PET_BATTLE_CLOSE")
-	self:RegisterUnitEvent("UNIT_ENTERED_VEHICLE", "player")
-	self:RegisterUnitEvent("UNIT_EXITED_VEHICLE", "player")
-	self:RegisterUnitEvent("UNIT_AURA", "player", "vehicle")
 
 	if self.PostInitialize then
 		self:PostInitialize()
@@ -560,8 +541,7 @@ local function AuraFrame_Initialize(self)
 	self:ApplySettings()
 	self.loaded = true
 
-	self.needsUpdate = true
-	self:Update() -- self.updater:Play()
+	self:Update()
 end
 
 function ns.CreateAuraFrame(name)
@@ -578,14 +558,6 @@ function ns.CreateAuraFrame(name)
 		f:UpdateLayout()
 		return button
 	end })
-
-	f.updater = f:CreateAnimationGroup()
-	f.updater.owner = f
-	f.updater:SetScript("OnFinished", AuraFrameUpdater_OnFinished)
-
-	f.updater.timer = f.updater:CreateAnimation()
-	f.updater.timer:SetOrder(1)
-	f.updater.timer:SetDuration(0.1)
 
 	f:SetScript("OnEvent", AuraFrame_OnEvent)
 	tinsert(ns.auraFrames, f)
