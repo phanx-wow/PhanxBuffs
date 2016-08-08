@@ -451,41 +451,41 @@ local function AuraFrame_Update(self)
 
 	for i = 1, #auras do
 		local aura = auras[i]
-		local f = buttons[i]
+		local button = buttons[i]
 		--print(">>>", i, aura.name, aura.count, aura.duration)
 
-		f.caster     = aura.caster
-		f.dispelType = aura.dispelType
-		f.expires    = aura.expires
-		f.index      = aura.index
-		f.name       = aura.name
+		button.caster     = aura.caster
+		button.dispelType = aura.dispelType
+		button.expires    = aura.expires
+		button.index      = aura.index
+		button.name       = aura.name
 
-		f.icon:SetTexture(aura.icon)
-		f.count:SetText(aura.count > 1 and aura.count or nil)
+		button.icon:SetTexture(aura.icon)
+		button.count:SetText(aura.count > 1 and aura.count or nil)
 
-		if f.PostUpdateAuraButton then
-			f:PostUpdateAuraButton(f, true)
+		if self.PostUpdateAuraButton then
+			self:PostUpdateAuraButton(button, true)
 		end
 
-		f:Show()
+		button:Show()
 	end
 
 	if #buttons > #auras then
 		for i = #auras + 1, #buttons do
-			local f = buttons[i]
+			local button = buttons[i]
 
-			f:Hide()
-			f.icon:SetTexture("")
-			f.count:SetText("")
+			button:Hide()
+			button.icon:SetTexture("")
+			button.count:SetText("")
 
-			f.caster     = nil
-			f.dispelType = nil
-			f.expires    = nil
-			f.index      = nil
-			f.name       = nil
+			button.caster     = nil
+			button.dispelType = nil
+			button.expires    = nil
+			button.index      = nil
+			button.name       = nil
 
-			if f.PostUpdateAuraButton then
-				f:PostUpdateAuraButton(f, false)
+			if self.PostUpdateAuraButton then
+				self:PostUpdateAuraButton(button, false)
 			end
 		end
 	end

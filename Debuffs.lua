@@ -151,11 +151,10 @@ local function AuraButton_OnEnter(self)
 end
 
 local function AuraButton_OnClick(self)
-	local debuff = debuffs[self:GetID()]
-	if debuff and IsAltKeyDown() and IsShiftKeyDown() then
-		ignore[debuff.name] = true
-		print("|cffffcc00PhanxBuffs:|r", format(ns.L["Now ignoring debuff:"], debuff.name))
-		self:GetParent():Update()
+	if self.name and IsAltKeyDown() and IsShiftKeyDown() then
+		ignore[self.name] = true
+		print("|cffffcc00PhanxBuffs:|r", format(ns.L["Now ignoring debuff:"], self.name))
+		self.owner:Update()
 	end
 end
 
@@ -186,6 +185,30 @@ end
 
 ------------------------------------------------------------------------
 
+function PhanxDebuffFrame:PostUpdateAuraButton(button, isShown)
+	if isShown then
+		local color = DebuffTypeColor[button.dispelType]
+		if color then
+			button:SetBorderColor(color[1], color[2], color[3], 1)
+			if ENABLE_COLORBLIND_MODE == "0" then
+				button.symbol:Hide()
+			else
+				button.symbol:SetText(DebuffTypeSymbol[button.dispelType])
+				button.symbol:Show()
+			end
+		else
+			button:SetBorderColor(1, 0, 0, 1)
+			button.symbol:Hide()
+		end
+	else
+		button:SetBorderColor(1, 0, 0, 1)
+		button.symbol:Hide()
+		button.symbol:SetText()
+	end
+end
+
+------------------------------------------------------------------------
+
 function PhanxDebuffFrame:PostUpdateLayout()
 	local fontFace = GetFontFile(db.fontFace)
 	local fontScale = db.fontScale
@@ -207,29 +230,5 @@ function PhanxDebuffFrame:PostUpdateLayout()
 		self:SetPoint(db.debuffPoint, UIParent, db.debuffX, db.debuffY + 0.5)
 	else
 		self:SetPoint("BOTTOMRIGHT", UIParent, -70 - floor(Minimap:GetWidth() + 0.5), floor(UIParent:GetHeight() + 0.5) - floor(Minimap:GetHeight() + 0.5) - 62)
-	end
-end
-
-------------------------------------------------------------------------
-
-function PhanxDebuffFrame:PostUpdateAuraButton(button, isShown)
-	if isShown then
-		local color = DebuffTypeColor[button.dispelType]
-		if color then
-			button:SetBorderColor(color[1], color[2], color[3], 1)
-			if ENABLE_COLORBLIND_MODE == "0" then
-				button.symbol:Hide()
-			else
-				button.symbol:SetText(DebuffTypeSymbol[button.dispelType])
-				button.symbol:Show()
-			end
-		else
-			button:SetBorderColor(1, 0, 0, 1)
-			button.symbol:Hide()
-		end
-	else
-		button:SetBorderColor(1, 0, 0, 1)
-		button.symbol:Hide()
-		button.symbol:SetText()
 	end
 end
