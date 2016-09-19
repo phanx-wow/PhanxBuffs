@@ -152,7 +152,7 @@ end
 
 local function AuraButton_OnClick(self)
 	if self.name and IsAltKeyDown() and IsShiftKeyDown() then
-		ignore[self.name] = true
+		self.owner.ignoreList[self.name] = true
 		print("|cffffcc00PhanxBuffs:|r", format(ns.L["Now ignoring debuff:"], self.name))
 		self.owner:Update()
 	end

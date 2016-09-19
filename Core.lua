@@ -463,6 +463,17 @@ local function AuraFrame_Update(self)
 		button.icon:SetTexture(aura.icon)
 		button.count:SetText(aura.count > 1 and aura.count or nil)
 
+		if button:IsMouseOver() then
+			local OnLeave = button:GetScript("OnLeave")
+			if OnLeave then
+				OnLeave(button)
+			end
+			local OnEnter = button:GetScript("OnEnter")
+			if OnEnter then
+				OnEnter(button)
+			end
+		end
+
 		if self.PostUpdateAuraButton then
 			self:PostUpdateAuraButton(button, true)
 		end
@@ -473,6 +484,11 @@ local function AuraFrame_Update(self)
 	if #buttons > #auras then
 		for i = #auras + 1, #buttons do
 			local button = buttons[i]
+
+			local OnLeave = button:GetScript("OnLeave")
+			if OnLeave and button:IsMouseOver() then
+				OnLeave(button)
+			end
 
 			button:Hide()
 			button.icon:SetTexture("")

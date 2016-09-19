@@ -166,7 +166,7 @@ ns.optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDON_N
 
 	function fontFace:OnValueChanged(value)
 		db.fontFace = value
-		for i = 1, ns.auraFrames do
+		for i = 1, #ns.auraFrames do
 			ns.SetButtonFonts(ns.auraFrames[i], value)
 		end
 	end
@@ -185,7 +185,7 @@ ns.optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDON_N
 
 	function fontOutline:OnValueChanged(value, text)
 		db.fontOutline = value
-		for i = 1, ns.auraFrames do
+		for i = 1, #ns.auraFrames do
 			ns.SetButtonFonts(ns.auraFrames[i], nil, value)
 		end
 	end
