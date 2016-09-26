@@ -1,3 +1,7 @@
+### Version 7.0.3.4
+
+- Fixed an error when moving the frames
+
 ### Version 7.0.3.3
 
 - Fixed an error when ignoring buffs with alt-shift-right-click

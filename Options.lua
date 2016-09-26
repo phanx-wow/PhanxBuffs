@@ -275,6 +275,7 @@ do
 		local dx = hhalf == "RIGHT" and floor(self:GetRight() + 0.5) - w or floor(self:GetLeft() + 0.5)
 		local dy = vhalf == "TOP" and floor(self:GetTop() + 0.5) - h or floor(self:GetBottom() + 0.5)
 
+		local db = PhanxBuffsDB
 		if self:GetName() == "PhanxDebuffFrame" then
 			db.debuffPoint, db.debuffX, db.debuffY = vhalf..hhalf, dx, dy
 		else
