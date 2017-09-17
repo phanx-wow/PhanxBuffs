@@ -1,10 +1,10 @@
 --[[--------------------------------------------------------------------
 	PhanxBuffs
 	Replacement player buff, debuff, and temporary enchant frames.
-	Copyright (c) 2010-2016 Phanx <addons@phanx.net>. All rights reserved.
+	Copyright (c) 2010-2017 Phanx <addons@phanx.net>. All rights reserved.
 	https://github.com/Phanx/PhanxBuffs
-	http://mods.curse.com/addons/wow/phanxbuffs
-	http://www.wowinterface.com/downloads/info16874-PhanxBuffs.html
+	https://mods.curse.com/addons/wow/phanxbuffs
+	https://www.wowinterface.com/downloads/info16874-PhanxBuffs.html
 ----------------------------------------------------------------------]]
 
 local _, ns = ...
@@ -145,7 +145,7 @@ local function AuraButton_OnEnter(self)
 	if not InCombatLockdown() and (PhanxBuffsCancelButton.owner ~= self) then
 		local macro = GetDispelMacro and GetDispelMacro(self.dispelType)
 		if macro then
-			PhanxBuffsCancelButton:SetMacro(self, self.icon, macro)
+			PhanxBuffsCancelButton:SetMacro(self, macro)
 		end
 	end
 end

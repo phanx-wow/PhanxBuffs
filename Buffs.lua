@@ -1,8 +1,8 @@
 --[[--------------------------------------------------------------------
 	PhanxBuffs
 	Replacement player buff, debuff, and temporary enchant frames.
-	Copyright (c) 2010-2015 Phanx <addons@phanx.net>. All rights reserved.
-	http://www.wowinterface.com/downloads/info16874-PhanxBuffs.html
+	Copyright (c) 2010-2017 Phanx <addons@phanx.net>. All rights reserved.
+	https://www.wowinterface.com/downloads/info16874-PhanxBuffs.html
 	https://mods.curse.com/addons/wow/phanxbuffs
 	https://github.com/Phanx/PhanxBuffs
 ----------------------------------------------------------------------]]
