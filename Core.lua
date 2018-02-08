@@ -206,7 +206,7 @@ function cancelButton:Setup()
 	self:SetScript("PreClick", function(self, button)
 		self.owner:Click(button)
 	end)
-	
+
 	self:SetScript("PostClick", function(self, button)
 		return not InCombatLockdown() and self:Hide()
 	end)
@@ -397,7 +397,7 @@ local function AuraFrame_OnUpdate(self, elapsed)
 				button.timer:SetFormattedText("%d", remaining + 0.5)
 			end
 		else
-			button.timer:SetText()
+			button.timer:SetText("")
 		end
 	end
 end
@@ -505,8 +505,13 @@ local function AuraFrame_Update(self)
 			end
 		end
 	end
-	
-	self:SetScript("OnUpdate", numDisplayedAuras > 0 and AuraFrame_OnUpdate or nil)
+
+	if numDisplayedAuras > 0 then
+		self:SetScript("OnUpdate", AuraFrame_OnUpdate)
+		AuraFrame_OnUpdate(self, 1000)
+	else
+		self:SetScript("OnUpdate", nil)
+	end
 
 	self.updating = nil
 end
