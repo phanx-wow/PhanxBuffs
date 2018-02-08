@@ -1,3 +1,7 @@
+### Version 7.3.5.0
+
+* Fixed debuff timers sometimes failing to appear (#11)
+
 ### Version 7.3.0.0
 
 * Updated for WoW 7.3
