@@ -7,6 +7,8 @@
 	https://www.wowinterface.com/downloads/info16874-PhanxBuffs.html
 ----------------------------------------------------------------------]]
 
+local IS_WOW_8 = GetBuildInfo():match("^8")
+
 local ADDON_NAME, ns = ...
 local L = ns.L
 local db
@@ -416,7 +418,13 @@ local function AuraFrame_Update(self)
 	local numDisplayedAuras = 0
 
 	for i = 1, self.max do
-		local name, _, icon, count, dispelType, duration, expires, caster, _, _, spellID = UnitAura(self.unit, i, self.filter)
+		local name, icon, count, dispelType, duration, expires, caster, spellID, _
+		if IS_WOW_8 then
+			-- arg2 (rank) removed, rest shifted left
+			name, icon, count, dispelType, duration, expires, caster, _, _, spellID = UnitAura(self.unit, i, self.filter)
+		else
+			name, _, icon, count, dispelType, duration, expires, caster, _, _, spellID = UnitAura(self.unit, i, self.filter)
+		end
 		if not icon or icon == "" then
 			break
 		end
