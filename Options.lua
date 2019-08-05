@@ -203,7 +203,7 @@ ns.optionsPanel = LibStub("PhanxConfig-OptionsPanel").CreateOptionsPanel(ADDON_N
 
 	---------------------------------------------------------------------
 
-	local maxTimer = self:CreateSlider(L["Max Timer Duration"], L["Adjust the maximum remaining duration, in seconds, to show the timer text for a buff or debuff."], 0, 600, 30)
+	local maxTimer = self:CreateSlider(L["Max Timer Duration"], L["Adjust the maximum remaining duration, in seconds, to show the timer text for a buff or debuff."], 0, 3600, 30)
 	maxTimer:SetPoint("TOPLEFT", debuffAnchorV, "BOTTOMLEFT", 0, -32)
 	maxTimer:SetPoint("TOPRIGHT", debuffAnchorH, "BOTTOMRIGHT", 0, -32)
 
